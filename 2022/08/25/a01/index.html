@@ -4,15 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>浏览器多进程与多线程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="首先先要区分什么是多进程，什么是多线程。 举个例子： 123456789- 进程是一个工厂，工厂有它的独立资源 - 工厂之间相互独立 - 线程是工厂中的工人，多个工人协作完成任务 - 工厂内有一个或多个工人 - 工人之间共享空间  再完善一下： 123456789- 工厂的资源 -&gt; 系统分配的内存（独立的一块内存） - 工厂之间的相互独立 -&gt; 进程之间相互独立 - 多个工人协作完成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器多进程与多线程">
+<meta property="og:url" content="http://example.com/2022/08/25/a01/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先先要区分什么是多进程，什么是多线程。 举个例子： 123456789- 进程是一个工厂，工厂有它的独立资源 - 工厂之间相互独立 - 线程是工厂中的工人，多个工人协作完成任务 - 工厂内有一个或多个工人 - 工人之间共享空间  再完善一下： 123456789- 工厂的资源 -&gt; 系统分配的内存（独立的一块内存） - 工厂之间的相互独立 -&gt; 进程之间相互独立 - 多个工人协作完成">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/27ef73c788c36244ed3297806b079988.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/9220e31c5c46876806e02f1d32436558.png">
+<meta property="article:published_time" content="2022-08-25T11:21:38.000Z">
+<meta property="article:modified_time" content="2022-08-26T01:17:19.588Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/27ef73c788c36244ed3297806b079988.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,86 +76,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-HelloWorld" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/08/25/HelloWorld/" class="article-date">
-  <time class="dt-published" datetime="2022-08-25T11:21:38.000Z" itemprop="datePublished">2022-08-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/25/HelloWorld/">变量类型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在<code>JavaScript</code>中，我们可以分成两种类型：</p>
-<ul>
-<li>基本类型</li>
-<li>复杂类型</li>
-</ul>
-<p>两种类型的区别是：存储位置不同</p>
-<p>一、基本类型</p>
-<p>基本类型主要为以下6种：</p>
-<ul>
-<li>Number</li>
-<li>String</li>
-<li>Boolean</li>
-<li>Undefined</li>
-<li>null</li>
-<li>symbol</li>
-</ul>
-<p>复杂类型统称为<code>Object</code>，我们这里主要讲述下面三种：</p>
-<ul>
-<li><p>Object</p>
-</li>
-<li><p>Array</p>
-</li>
-<li><p>Function</p>
-<p>除了上述说的三种之外，还包括<code>Date</code>、<code>RegExp</code>、<code>Map</code>、<code>Set</code>等</p>
-</li>
-</ul>
-<p>不同：</p>
-<ul>
-<li>声明变量时不同的内存地址分配：<ul>
-<li>简单类型的值存放在栈中，在栈中存放的是对应的值</li>
-<li>引用类型对应的值存储在堆中，在栈中存放的是指向堆内存的地址</li>
-</ul>
-</li>
-<li>不同的类型数据导致赋值变量时的不同：<ul>
-<li>简单类型赋值，是生成相同的值，两个对象对应不同的地址</li>
-<li>复杂类型赋值，是将保存对象的内存地址赋值给另一个变量。也就是两个变量指向堆内存中同一个对象</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/25/HelloWorld/" data-id="cl78yo1aq0000a0unawh89kqn" data-title="变量类型" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-a01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-a01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/08/25/a01/" class="article-date">
   <time class="dt-published" datetime="2022-08-25T11:21:38.000Z" itemprop="datePublished">2022-08-25</time>
@@ -161,8 +89,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/25/a01/">浏览器多进程与多线程</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      浏览器多进程与多线程
     </h1>
   
 
@@ -267,62 +195,28 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/08/25/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-08-25T08:55:49.341Z" itemprop="datePublished">2022-08-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2022/08/25/HelloWorld/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          变量类型
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/25/hello-world/">Hello World</a>
-    </h1>
   
+    <a href="/2022/08/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/25/hello-world/" data-id="cl78tbmdl0000ocun39i6gcd6" data-title="Hello World" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
