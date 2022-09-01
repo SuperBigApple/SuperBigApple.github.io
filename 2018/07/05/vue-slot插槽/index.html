@@ -4,15 +4,22 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>vue-slot插槽 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="一、slot是什么在HTML中 slot 元素 ，作为 Web Components 技术套件的一部分，是Web组件内的一个占位符 该占位符可以在后期使用自己的标记语言填充 举个栗子 123456789&lt;template id&#x3D;&quot;element-details-template&quot;&gt;  &lt;slot name&#x3D;&quot;element-name&quot;&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-slot插槽">
+<meta property="og:url" content="http://example.com/2018/07/05/vue-slot%E6%8F%92%E6%A7%BD/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、slot是什么在HTML中 slot 元素 ，作为 Web Components 技术套件的一部分，是Web组件内的一个占位符 该占位符可以在后期使用自己的标记语言填充 举个栗子 123456789&lt;template id&#x3D;&quot;element-details-template&quot;&gt;  &lt;slot name&#x3D;&quot;element-name&quot;&amp;gt">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://static.vue-js.com/63c0dff0-3dbd-11eb-85f6-6fac77c0c9b3.png">
+<meta property="article:published_time" content="2018-07-05T12:17:48.000Z">
+<meta property="article:modified_time" content="2022-06-06T10:37:46.000Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="vue">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.vue-js.com/63c0dff0-3dbd-11eb-85f6-6fac77c0c9b3.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -69,315 +76,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-Js基本数据类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="article-date">
-  <time class="dt-published" datetime="2022-08-25T11:21:38.000Z" itemprop="datePublished">2022-08-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">变量类型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在<code>JavaScript</code>中，我们可以分成两种类型：</p>
-<ul>
-<li>基本类型</li>
-<li>复杂类型</li>
-</ul>
-<p>两种类型的区别是：存储位置不同</p>
-<p>一、基本类型</p>
-<p>基本类型主要为以下6种：</p>
-<ul>
-<li>Number</li>
-<li>String</li>
-<li>Boolean</li>
-<li>Undefined</li>
-<li>null</li>
-<li>symbol</li>
-</ul>
-<p>复杂类型统称为<code>Object</code>，我们这里主要讲述下面三种：</p>
-<ul>
-<li><p>Object</p>
-</li>
-<li><p>Array</p>
-</li>
-<li><p>Function</p>
-<p>除了上述说的三种之外，还包括<code>Date</code>、<code>RegExp</code>、<code>Map</code>、<code>Set</code>等</p>
-</li>
-</ul>
-<p>不同：</p>
-<ul>
-<li>声明变量时不同的内存地址分配：<ul>
-<li>简单类型的值存放在栈中，在栈中存放的是对应的值</li>
-<li>引用类型对应的值存储在堆中，在栈中存放的是指向堆内存的地址</li>
-</ul>
-</li>
-<li>不同的类型数据导致赋值变量时的不同：<ul>
-<li>简单类型赋值，是生成相同的值，两个对象对应不同的地址</li>
-<li>复杂类型赋值，是将保存对象的内存地址赋值给另一个变量。也就是两个变量指向堆内存中同一个对象</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" data-id="cl7ibm46h0000igun6nz05eb5" data-title="变量类型" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/08/25/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-08-25T08:55:49.341Z" itemprop="datePublished">2022-08-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/25/hello-world/" data-id="cl78tbmdl0000ocun39i6gcd6" data-title="Hello World" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-bug/echarts图标自适应方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2021-07-15T04:21:38.000Z" itemprop="datePublished">2021-07-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/">echarts图标自适应方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在使用echarts是，当放大缩放屏幕时，会出现echarts图形因未自适应而导致溢出div的情况</p>
-<p>面对此问题，可以使用resize监听来实现效果，核心代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;resize&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">     <span class="variable constant_">XXX</span>.<span class="title function_">resize</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<p>实例：</p>
-<p>标签写法：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-row</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-col</span> <span class="attr">:xs</span>=<span class="string">&quot;24&quot;</span> <span class="attr">:sm</span>=<span class="string">&quot;24&quot;</span> <span class="attr">:lg</span>=<span class="string">&quot;24&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;chart-wrapper&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;testBottom&quot;</span> <span class="attr">class</span>=<span class="string">&quot;chart-wrapper&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width: 100%; height: 600px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-col</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-row</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>生命周期中调用生成echarts图表的方法，该方法具体如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测试用</span></span><br><span class="line"><span class="title function_">getTest</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> chartDom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;testBottom&#x27;</span>);	<span class="comment">//找到目标对应节点</span></span><br><span class="line">    <span class="keyword">var</span> myChart = echarts.<span class="title function_">init</span>(chartDom);		<span class="comment">//处理一下</span></span><br><span class="line">    <span class="keyword">var</span> option = &#123;</span><br><span class="line">        <span class="attr">xAxis</span>: &#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;category&#x27;</span>,</span><br><span class="line">            <span class="attr">boundaryGap</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">data</span>: [<span class="string">&#x27;Mon&#x27;</span>, <span class="string">&#x27;Tue&#x27;</span>, <span class="string">&#x27;Wed&#x27;</span>, <span class="string">&#x27;Thu&#x27;</span>, <span class="string">&#x27;Fri&#x27;</span>, <span class="string">&#x27;Sat&#x27;</span>, <span class="string">&#x27;Sun&#x27;</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">yAxis</span>: &#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;value&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">series</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">data</span>: [<span class="number">820</span>, <span class="number">932</span>, <span class="number">901</span>, <span class="number">934</span>, <span class="number">1290</span>, <span class="number">1330</span>, <span class="number">1320</span>],</span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;line&#x27;</span>,</span><br><span class="line">                <span class="attr">areaStyle</span>: &#123;&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">    option &amp;&amp; myChart.<span class="title function_">setOption</span>(option)		</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;resize&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;		<span class="comment">//对该对象进行处理，设置resize</span></span><br><span class="line">        myChart.<span class="title function_">resize</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p>这样，效果就实现了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/" data-id="cl7ibm46r0005igunb77l6gks" data-title="echarts图标自适应方法" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-bug/a01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/02/25/bug/a01/" class="article-date">
-  <time class="dt-published" datetime="2019-02-25T01:05:18.000Z" itemprop="datePublished">2019-02-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/02/25/bug/a01/">浏览器多进程与多线程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>首先先要区分什么是多进程，什么是多线程。</p>
-<p>举个例子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- 进程是一个工厂，工厂有它的独立资源</span><br><span class="line"> </span><br><span class="line">- 工厂之间相互独立</span><br><span class="line"> </span><br><span class="line">- 线程是工厂中的工人，多个工人协作完成任务</span><br><span class="line"> </span><br><span class="line">- 工厂内有一个或多个工人</span><br><span class="line"> </span><br><span class="line">- 工人之间共享空间</span><br></pre></td></tr></table></figure>
-
-<p>再完善一下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- 工厂的资源 -&gt; 系统分配的内存（独立的一块内存）</span><br><span class="line"> </span><br><span class="line">- 工厂之间的相互独立 -&gt; 进程之间相互独立</span><br><span class="line"> </span><br><span class="line">- 多个工人协作完成任务 -&gt; 多个线程在进程中协作完成任务</span><br><span class="line"> </span><br><span class="line">- 工厂内有一个或多个工人 -&gt; 一个进程由一个或多个线程组成</span><br><span class="line"> </span><br><span class="line">- 工人之间共享空间 -&gt; 同一进程下的各个线程之间共享程序的内存空间（包括代码段、数据集、堆等）</span><br></pre></td></tr></table></figure>
-
-<p>最后，再用较为官方的术语描述一遍：</p>
-<ul>
-<li>进程是cpu资源分配的最小单位（是能拥有资源和独立运行的最小单位）</li>
-<li>线程是cpu调度的最小单位（线程是建立在进程的基础上的一次程序运行单位，一个进程中可以有多个线程）</li>
-</ul>
-<h2 id="浏览器是多进程的"><a href="#浏览器是多进程的" class="headerlink" title="浏览器是多进程的"></a>浏览器是多进程的</h2><p>理解了进程与线程了区别后，接下来对浏览器进行一定程度上的认识：（先看下简化理解）</p>
-<ul>
-<li>浏览器是多进程的</li>
-<li>浏览器之所以能够运行，是因为系统给它的进程分配了资源（cpu、内存）</li>
-<li>简单点理解，每打开一个Tab页，就相当于创建了一个独立的浏览器进程。</li>
-</ul>
-<p>关于以上几点的验证，请再第一张图：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/27ef73c788c36244ed3297806b079988.png" alt="27ef73c788c36244ed3297806b079988.png (732×438) (csdnimg.cn)"></p>
-<p>图中打开了<code>Chrome</code>浏览器的多个标签页，然后可以在<code>Chrome的任务管理器</code>中看到有多个进程（分别是每一个Tab页面有一个独立的进程，以及一个主进程）。感兴趣的可以自行尝试下，如果再多打开一个Tab页，进程正常会+1以上</p>
-<p>注意：在这里浏览器应该也有自己的优化机制，有时候打开多个tab页后，可以在Chrome任务管理器中看到，有些进程被合并了 （所以每一个Tab标签对应一个进程并不一定是绝对的）</p>
-<h3 id="浏览器都包含哪些进程？"><a href="#浏览器都包含哪些进程？" class="headerlink" title="浏览器都包含哪些进程？"></a>浏览器都包含哪些进程？</h3><p>知道了浏览器是多进程后，再来看看它到底包含哪些进程：（为了简化理解，仅列举主要进程）</p>
-<ol>
-<li>Browser进程：浏览器的主进程（负责协调、主控），只有一个。作用有</li>
-</ol>
-<ul>
-<li>负责浏览器界面显示，与用户交互。如前进，后退等</li>
-<li>负责各个页面的管理，创建和销毁其他进程</li>
-<li>将Renderer进程得到的内存中的Bitmap，绘制到用户界面上</li>
-<li>网络资源的管理，下载等</li>
-</ul>
-<p>2.第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建</p>
-<p>3.GPU进程：最多一个，用于3D绘制等</p>
-<p>4.浏览器渲染进程（浏览器内核）（Renderer进程，内部是多线程的）：默认每个Tab页面一个进程，互不影响。主要作用为</p>
-<ul>
-<li>页面渲染，脚本执行，事件处理等</li>
-</ul>
-<p>强化记忆：在浏览器中打开一个网页相当于新起了一个进程（进程内有自己的多线程）</p>
-<p>当然，浏览器有时会将多个进程合并（譬如打开多个空白标签页后，会发现多个空白标签页被合并成了一个进程</p>
-<h3 id="浏览器多进程的优势"><a href="#浏览器多进程的优势" class="headerlink" title="浏览器多进程的优势"></a>浏览器多进程的优势</h3><p>相比于单进程浏览器，多进程有如下优点：</p>
-<ul>
-<li>避免单个page crash影响整个浏览器</li>
-<li>避免第三方插件crash影响整个浏览器</li>
-<li>多进程充分利用多核优势</li>
-<li>方便使用沙盒模型隔离插件等进程，提高浏览器稳定性</li>
-</ul>
-<p>简单点理解：如果浏览器是单进程，那么某个Tab页崩溃了，就影响了整个浏览器，体验有多差；同理如果是单进程，插件崩溃了也会影响整个浏览器；而且多进程还有其它的诸多优势。。。</p>
-<p>当然，内存等资源消耗也会更大，有点空间换时间的意思。</p>
-<h3 id="重点是浏览器内核（渲染进程）"><a href="#重点是浏览器内核（渲染进程）" class="headerlink" title="重点是浏览器内核（渲染进程）"></a>重点是浏览器内核（渲染进程）</h3><p>对于普通的前端操作来说，最终要的是什么呢？答案是渲染进程</p>
-<p>可以这样理解，页面的渲染，JS的执行，事件的循环，都在这个进程内进行。接下来重点分析这个进程。</p>
-<ol>
-<li>GUI渲染线程</li>
-</ol>
-<ul>
-<li>负责渲染浏览器界面，解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</li>
-<li>当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行</li>
-<li>注意，GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</li>
-</ul>
-<p>2.JS引擎线程</p>
-<ul>
-<li>也称为JS内核，负责处理Javascript脚本程序。（例如V8引擎）</li>
-<li>JS引擎线程负责解析Javascript脚本，运行代码。</li>
-<li>JS引擎一直等待着任务队列中任务的到来，然后加以处理，一个Tab页（renderer进程）中无论什么时候都只有一个JS线程在运行JS程序</li>
-<li>同样注意，GUI渲染线程与JS引擎线程是互斥的，所以如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。</li>
-</ul>
-<p>3.事件触发线程</p>
-<ul>
-<li>归属于浏览器而不是JS引擎，用来控制事件循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）</li>
-<li>当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中</li>
-<li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理</li>
-<li>注意，由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）</li>
-</ul>
-<p>4.定时触发器线程</p>
-<ul>
-<li>传说中的<code>setInterval</code>与<code>setTimeout</code>所在线程</li>
-<li>浏览器定时计数器并不是由JavaScript引擎计数的,（因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确）</li>
-<li>因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待JS引擎空闲后执行）</li>
-<li>注意，W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。</li>
-</ul>
-<p>5.异步http请求线程</p>
-<ul>
-<li>在XMLHttpRequest在连接后是通过浏览器新开一个线程请求</li>
-<li>将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中。再由JavaScript引擎执行。</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9220e31c5c46876806e02f1d32436558.png" alt="9220e31c5c46876806e02f1d32436558.png (287×577) (csdnimg.cn)"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2019/02/25/bug/a01/" data-id="cl7ibm46n0002igun7esq7t43" data-title="浏览器多进程与多线程" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-vue-slot插槽" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-vue-slot插槽" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/07/05/vue-slot%E6%8F%92%E6%A7%BD/" class="article-date">
   <time class="dt-published" datetime="2018-07-05T12:17:48.000Z" itemprop="datePublished">2018-07-05</time>
@@ -394,8 +93,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/05/vue-slot%E6%8F%92%E6%A7%BD/">vue-slot插槽</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      vue-slot插槽
     </h1>
   
 
@@ -491,11 +190,23 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/25/bug/a01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          浏览器多进程与多线程
+        
+      </div>
+    </a>
+  
+  
+</nav>
 
   
+</article>
 
 
 </section>
