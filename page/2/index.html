@@ -2187,274 +2187,6 @@
 
 
   
-    <article id="post-浏览器/浅谈PWA(Progressive Web App)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/06/12/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%85%E8%B0%88PWA(Progressive%20Web%20App)/" class="article-date">
-  <time class="dt-published" datetime="2021-06-12T08:27:05.000Z" itemprop="datePublished">2021-06-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/06/12/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%85%E8%B0%88PWA(Progressive%20Web%20App)/">浅谈PWA(Progressive Web App)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="一、初识PWA"><a href="#一、初识PWA" class="headerlink" title="一、初识PWA"></a>一、初识PWA</h1><blockquote>
-<ul>
-<li><code>PWA</code>，即<code>Progressive Web App</code>, 是提升 <code>Web App</code> 的体验的一种新方法，能给用户原生应用的体验。</li>
-<li>一个 <code>PWA</code> 应用首先是一个网页, 可以通过 <code>Web</code> 技术编写出一个网页应用. 随后添加上 <code>App Manifest</code> 和 <code>Service Worker</code> 来实现<code>PWA</code> 的安装和离线等功能</li>
-</ul>
-</blockquote>
-<h2 id="1-1-PWA中的一些技术"><a href="#1-1-PWA中的一些技术" class="headerlink" title="1.1 PWA中的一些技术"></a>1.1 PWA中的一些技术</h2><blockquote>
-<p><code>PWA</code>本身其实是一个概念集合，它不是指某一项技术，而是通过一系列的<code>Web</code>技术与<code>Web</code>标准来优化<code>Web App</code>的安全、性能和体验。其中涉及到的一些技术概念包括了</p>
-</blockquote>
-<ul>
-<li><code>Web App Manifest</code></li>
-<li><code>Service Worker</code></li>
-<li><code>Cache API</code> 缓存</li>
-<li><code>Push、Notification</code> 推送与通知</li>
-<li><code>Background Sync</code>后台同步</li>
-<li>响应式设计</li>
-</ul>
-<h2 id="1-2-解决了哪些问题"><a href="#1-2-解决了哪些问题" class="headerlink" title="1.2 解决了哪些问题"></a>1.2 解决了哪些问题</h2><ul>
-<li>可以添加至主屏幕，点击主屏幕图标可以实现启动动画以及隐藏地址栏</li>
-<li>实现离线缓存功能，即使用户手机没有网络，依然可以使用一些离线功能</li>
-<li>实现了消息推送</li>
-</ul>
-<h2 id="1-3-PWA存在的问题"><a href="#1-3-PWA存在的问题" class="headerlink" title="1.3 PWA存在的问题"></a>1.3 PWA存在的问题</h2><ul>
-<li>支持率不高:现在<code>ios</code>手机端不支持<code>pwa</code>，<code>IE</code>也暂时不支持<br><code>Chrome</code>在中国桌面版占有率还是不错的，安卓移动端上的占有率却很低</li>
-<li>各大厂商还未明确支持<code>pwa</code></li>
-<li>依赖的<code>GCM</code>服务在国内无法使用</li>
-<li>微信小程序的竞争</li>
-</ul>
-<blockquote>
-<p>尽管有上述的一些缺点，PWA技术仍然有很多可以使用的点。</p>
-</blockquote>
-<ul>
-<li><code>service worker</code>技术实现离线缓存，可以将一些不经常更改的静态文件放到缓存中，提升用户体验。</li>
-<li><code>service worker</code>实现消息推送，使用浏览器推送功能，吸引用户<br>渐进式开发，尽管一些浏览器暂时不支持，可以利用上述技术给使用支持浏览器的用户带来更好的体验</li>
-</ul>
-<h1 id="二、PWA的实现"><a href="#二、PWA的实现" class="headerlink" title="二、PWA的实现"></a>二、PWA的实现</h1><h2 id="2-1-Manifest实现添加至主屏幕"><a href="#2-1-Manifest实现添加至主屏幕" class="headerlink" title="2.1 Manifest实现添加至主屏幕"></a>2.1 Manifest实现添加至主屏幕</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index.html--&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;Minimal PWA&lt;/title&gt;</span><br><span class="line">  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no&quot; /&gt;</span><br><span class="line">  &lt;link rel=&quot;manifest&quot; href=&quot;manifest.json&quot; /&gt;</span><br><span class="line">  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;main.css&quot;&gt;</span><br><span class="line">  &lt;link rel=&quot;icon&quot; href=&quot;/e.png&quot; type=&quot;image/png&quot; /&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">// manifest.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;Minimal PWA&quot;, // 必填 显示的插件名称</span><br><span class="line">  &quot;short_name&quot;: &quot;PWA Demo&quot;, // 可选  在APP launcher和新的tab页显示，如果没有设置，则使用name</span><br><span class="line">  &quot;description&quot;: &quot;The app that helps you understand PWA&quot;, //用于描述应用</span><br><span class="line">  &quot;display&quot;: &quot;standalone&quot;, // 定义开发人员对Web应用程序的首选显示模式。standalone模式会有单独的</span><br><span class="line">  &quot;start_url&quot;: &quot;/&quot;, // 应用启动时的url</span><br><span class="line">  &quot;theme_color&quot;: &quot;#313131&quot;, // 桌面图标的背景色</span><br><span class="line">  &quot;background_color&quot;: &quot;#313131&quot;, // 为web应用程序预定义的背景颜色。在启动web应用程序和加载应用程序的内容之间创建了一个平滑的过渡。</span><br><span class="line">  &quot;icons&quot;: [ // 桌面图标，是一个数组</span><br><span class="line">    &#123;</span><br><span class="line">    &quot;src&quot;: &quot;icon/lowres.webp&quot;,</span><br><span class="line">    &quot;sizes&quot;: &quot;48x48&quot;,  // 以空格分隔的图片尺寸</span><br><span class="line">    &quot;type&quot;: &quot;image/webp&quot;  // 帮助userAgent快速排除不支持的类型</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;src&quot;: &quot;icon/lowres&quot;,</span><br><span class="line">    &quot;sizes&quot;: &quot;48x48&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;src&quot;: &quot;icon/hd_hi.ico&quot;,</span><br><span class="line">    &quot;sizes&quot;: &quot;72x72 96x96 128x128 256x256&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;src&quot;: &quot;icon/hd_hi.svg&quot;,</span><br><span class="line">    &quot;sizes&quot;: &quot;72x72&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<ul>
-<li><code>Manifest</code>参考文档：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Manifest">https://developer.mozilla.org/zh-CN/docs/Web/Manifest</a></li>
-<li>如果用的是安卓手机，可以下载chrome浏览器自己操作看看</li>
-</ul>
-</blockquote>
-<h2 id="2-2-service-worker实现离线缓存"><a href="#2-2-service-worker实现离线缓存" class="headerlink" title="2.2 service worker实现离线缓存"></a>2.2 service worker实现离线缓存</h2><h3 id="2-2-1-什么是service-worker"><a href="#2-2-1-什么是service-worker" class="headerlink" title="2.2.1 什么是service worker"></a>2.2.1 什么是service worker</h3><blockquote>
-<p><code>Service Worker</code> 是 Chrome 团队提出和力推的一个 WEB API，用于给 web 应用提供高级的可持续的后台处理能力</p>
-</blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/401.png" alt="img"></p>
-<blockquote>
-<p><code>Service Workers</code> 就像介于服务器和网页之间的拦截器，能够拦截进出的HTTP 请求，从而完全控制你的网站</p>
-</blockquote>
-<h3 id="2-2-2-最主要的特点"><a href="#2-2-2-最主要的特点" class="headerlink" title="2.2.2 最主要的特点"></a>2.2.2 最主要的特点</h3><ul>
-<li>在页面中注册并安装成功后，运行于浏览器后台，不受页面刷新的影响，可以监听和截拦作用域范围内所有页面的 <code>HTTP</code> 请求。</li>
-<li>网站必须使用 <code>HTTPS</code>。除了使用本地开发环境调试时(如域名使用 <code>localhost</code>)</li>
-<li>运行于浏览器后台，可以控制打开的作用域范围下所有的页面请求</li>
-<li>单独的作用域范围，单独的运行环境和执行线程</li>
-<li>不能操作页面 <code>DOM</code>。但可以通过事件机制来处理</li>
-<li>事件驱动型服务线程</li>
-</ul>
-<blockquote>
-<p>为什么要求网站必须是<code>HTTPS</code>的，大概是因为<code>service worker</code>权限太大能拦截所有页面的请求，如果<code>http</code>的网站安装<code>service worker</code>很容易被攻击</p>
-</blockquote>
-<h3 id="2-2-3-生命周期"><a href="#2-2-3-生命周期" class="headerlink" title="2.2.3 生命周期"></a>2.2.3 生命周期</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/402.png" alt="img"></p>
-<blockquote>
-<p>当用户首次导航至 URL 时，服务器会返回响应的网页。</p>
-</blockquote>
-<ul>
-<li>第1步:当你调用 <code>register()</code> 函数时， <code>Service Worker</code>开始下载。</li>
-<li>第2步:在注册过程中，浏览器会下载、解析并执行 <code>Service Worker ()</code>。如果在此步骤中出现任何错误，<code>register()</code>返回的 <code>promise</code> 都会执行 <code>reject</code>操作，并且 <code>Service Worker</code> 会被废弃。</li>
-<li>第3步:一旦 <code>Service Worker</code> 成功执行了，<code>install</code> 事件就会激活</li>
-<li>第4步:安装完成，<code>Service Worker</code> 便会激活，并控制在其范围内的一切。如果生命周期中的所有事件都成功了，<code>Service Worker</code>便已准备就绪，随时可以使用了！</li>
-</ul>
-<blockquote>
-<p><code>chrome://serviceworker-internals</code> 来了解当前浏览器中所有已安装<code>Service Worker</code>的详细情况</p>
-</blockquote>
-<h3 id="2-2-4-实现离线缓存"><a href="#2-2-4-实现离线缓存" class="headerlink" title="2.2.4 实现离线缓存"></a>2.2.4 实现离线缓存</h3><p><strong>HTTP缓存</strong></p>
-<ul>
-<li><code>Web</code> 服务器可以使用 <code>Expires</code> 首部来通知 <code>Web</code>客户端，它可以使用资源的当前副本，直到指定的“过期时间”。反过来，浏览器可以缓存此资源，并且只有在有效期满后才会再次检查新版本。使用 <code>HTTP</code> 缓存意味着你要依赖服务器来告诉你何时缓存资源和何时过期</li>
-</ul>
-<p><strong>service worker缓存</strong></p>
-<ul>
-<li><code>Service Workers</code>的强大在于它们拦截 HTTP 请求的能力<br>进入任何传入的<code>HTTP</code> 请求，并决定想要如何响应。在你的 <code>Service Worker</code> 中，可以编写逻辑来决定想要缓存的资源，以及需要满足什么条件和资源需要缓存多久。一切尽归你掌控！</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index.html--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Hello Caching World!&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;!-- Image --&gt;</span><br><span class="line">    &lt;img src=&quot;/images/hello.png&quot; /&gt;                 </span><br><span class="line">    &lt;!-- JavaScript --&gt;</span><br><span class="line">    &lt;script async src=&quot;/js/script.js&quot;&gt;&lt;/script&gt;     </span><br><span class="line">    &lt;script&gt;</span><br><span class="line">      // 注册 service worker</span><br><span class="line">      if (&#x27;serviceWorker&#x27; in navigator) &#123;           </span><br><span class="line">        navigator.serviceWorker.register(&#x27;/service-worker.js&#x27;, &#123;scope: &#x27;/&#x27;&#125;).then(function (registration) &#123;</span><br><span class="line">          // 注册成功</span><br><span class="line">          console.log(&#x27;ServiceWorker registration successful with scope: &#x27;, registration.scope);</span><br><span class="line">        &#125;).catch(function (err) &#123;                   </span><br><span class="line">          // 注册失败 :(</span><br><span class="line">          console.log(&#x27;ServiceWorker registration failed: &#x27;, err);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>注：<code>Service Worker</code>的注册路径决定了其 <code>scope</code>默认作用页面的范围。</li>
-<li>如果 <code>service-worker.js</code>是在 <code>/sw/</code> 页面路径下，这使得该 <code>Service Worker</code> 默认只会收到 页面<code>/sw/</code> 路径下的 fetch 事件。</li>
-<li>如果存放在网站的根路径下，则将会收到该网站的所有 <code>fetch</code>事件。</li>
-<li>如果希望改变它的作用域，可在第二个参数设置 <code>scope</code> 范围。示例中将其改为了根目录，即对整个站点生效。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">// service-worker.js</span><br><span class="line"></span><br><span class="line">var cacheName = &#x27;helloWorld&#x27;;     // 缓存的名称  </span><br><span class="line">// install 事件，它发生在浏览器安装并注册 Service Worker 时        </span><br><span class="line">self.addEventListener(&#x27;install&#x27;, event =&gt; &#123; </span><br><span class="line">/* event.waitUtil 用于在安装成功之前执行一些预装逻辑</span><br><span class="line"> 但是建议只做一些轻量级和非常重要资源的缓存，减少安装失败的概率</span><br><span class="line"> 安装成功后 ServiceWorker 状态会从 installing 变为 installed */</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    caches.open(cacheName)                  </span><br><span class="line">    .then(cache =&gt; cache.addAll([    // 如果所有的文件都成功缓存了，便会安装完成。如果任何文件下载失败了，那么安装过程也会随之失败。        </span><br><span class="line">      &#x27;/js/script.js&#x27;,</span><br><span class="line">      &#x27;/images/hello.png&#x27;</span><br><span class="line">    ]))</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br><span class="line">  </span><br><span class="line">/**</span><br><span class="line">为 fetch 事件添加一个事件监听器。接下来，使用 caches.match() 函数来检查传入的请求 URL 是否匹配当前缓存中存在的任何内容。如果存在的话，返回缓存的资源。</span><br><span class="line">如果资源并不存在于缓存当中，通过网络来获取资源，并将获取到的资源添加到缓存中。</span><br><span class="line">*/</span><br><span class="line">self.addEventListener(&#x27;fetch&#x27;, function (event) &#123;</span><br><span class="line">  event.respondWith(</span><br><span class="line">    caches.match(event.request)                  </span><br><span class="line">    .then(function (response) &#123;</span><br><span class="line">      if (response) &#123;                            </span><br><span class="line">        return response;                         </span><br><span class="line">      &#125;</span><br><span class="line">      var requestToCache = event.request.clone();  //          </span><br><span class="line">      return fetch(requestToCache).then(                   </span><br><span class="line">        function (response) &#123;</span><br><span class="line">          if (!response || response.status !== 200) &#123;      </span><br><span class="line">            return response;</span><br><span class="line">          &#125;</span><br><span class="line">          var responseToCache = response.clone();          </span><br><span class="line">          caches.open(cacheName)                           </span><br><span class="line">            .then(function (cache) &#123;</span><br><span class="line">              cache.put(requestToCache, responseToCache);  </span><br><span class="line">            &#125;);</span><br><span class="line">          return response;             </span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：为什么用<code>request.clone()</code>和<code>response.clone()</code><br>需要这么做是因为<code>request</code>和<code>response</code>是一个流，它只能消耗一次。因为我们已经通过缓存消耗了一次，然后发起 <code>HTTP</code> 请求还要再消耗一次，所以我们需要在此时克隆请求<br>Clone the request—a request is a stream and can only be consumed once</p>
-</blockquote>
-<h3 id="2-2-5-调试相关"><a href="#2-2-5-调试相关" class="headerlink" title="2.2.5 调试相关"></a>2.2.5 调试相关</h3><blockquote>
-<p>chrome浏览器打开<code>https://googlechrome.github.io/samples/service-worker/basic/index.html</code>，这是一个实现了<code>service worker</code>离线缓存功能的网站，打开调试工具</p>
-</blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/403.png" alt="img"></p>
-<ul>
-<li>勾选可以模拟网站离线情况，勾选后<code>network</code>会有一个黄色警告图标，该网站已经离线。此时刷新页面，页面仍然能够正常显示</li>
-<li>当前<code>service worker</code>的<code>scope</code>。它能够拦截<code>https://googlechrome.github.i</code>…，同样也能够拦截<code>https://googlechrome.github.i.</code>..<em>&#x2F;</em>.html下的请求</li>
-</ul>
-<blockquote>
-<p>调试面板具体代表的什么参看 <code>https://x5.tencent.com/tbs/guide/serviceworker.html</code>的第三部分</p>
-</blockquote>
-<h2 id="2-3-serice-worker实现消息推送"><a href="#2-3-serice-worker实现消息推送" class="headerlink" title="2.3 serice worker实现消息推送"></a>2.3 serice worker实现消息推送</h2><p><img src="https://poetries1.gitee.io/img-repo/2019/10/404.png" alt="img"></p>
-<ul>
-<li>步骤一、提示用户并获得他们的订阅详细信息</li>
-<li>步骤二、将这些详细信息保存在服务器上</li>
-<li>步骤三、在需要时发送任何消息</li>
-</ul>
-<blockquote>
-<p>不同浏览器需要用不同的推送消息服务器。以 Chrome 上使用 <code>Google Cloud Messaging</code> 作为推送服务为例，第一步是注册 <code>applicationServerKey</code>(通过 GCM 注册获取)，并在页面上进行订阅或发起订阅。每一个会话会有一个独立的端点（<code>endpoint</code>），订阅对象的属性(<code>PushSubscription.endpoint</code>) 即为端点值。将端点发送给服务器后，服务器用这一值来发送消息给会话的激活的 Service Worker （通过 GCM 与浏览器客户端沟通</p>
-</blockquote>
-<p><strong>步骤一和步骤二</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--index.html--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;Progressive Times&lt;/title&gt;</span><br><span class="line">    &lt;link rel=&quot;manifest&quot; href=&quot;/manifest.json&quot;&gt;                                      </span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">      var endpoint;</span><br><span class="line">      var key;</span><br><span class="line">      var authSecret;</span><br><span class="line">      var vapidPublicKey = &#x27;BAyb_WgaR0L0pODaR7wWkxJi__tWbM1MPBymyRDFEGjtDCWeRYS9EF7yGoCHLdHJi6hikYdg4MuYaK0XoD0qnoY&#x27;;</span><br><span class="line">      // 方法很复杂，但是可以不用具体看，知识用来转化vapidPublicKey用</span><br><span class="line">      function urlBase64ToUint8Array(base64String) &#123;                                  </span><br><span class="line">        const padding = &#x27;=&#x27;.repeat((4 - base64String.length % 4) % 4);</span><br><span class="line">        const base64 = (base64String + padding)</span><br><span class="line">          .replace(/\-/g, &#x27;+&#x27;)</span><br><span class="line">          .replace(/_/g, &#x27;/&#x27;);</span><br><span class="line">        const rawData = window.atob(base64);</span><br><span class="line">        const outputArray = new Uint8Array(rawData.length);</span><br><span class="line">        for (let i = 0; i &lt; rawData.length; ++i) &#123;</span><br><span class="line">          outputArray[i] = rawData.charCodeAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        return outputArray;</span><br><span class="line">      &#125;</span><br><span class="line">      if (&#x27;serviceWorker&#x27; in navigator) &#123;</span><br><span class="line">        navigator.serviceWorker.register(&#x27;sw.js&#x27;).then(function (registration) &#123;</span><br><span class="line">          return registration.pushManager.getSubscription()                            </span><br><span class="line">            .then(function (subscription) &#123;</span><br><span class="line">              if (subscription) &#123;                                                      </span><br><span class="line">                return;</span><br><span class="line">              &#125;</span><br><span class="line">              return registration.pushManager.subscribe(&#123;                              </span><br><span class="line">                  userVisibleOnly: true,</span><br><span class="line">                  applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)</span><br><span class="line">                &#125;)</span><br><span class="line">                .then(function (subscription) &#123;</span><br><span class="line">                  var rawKey = subscription.getKey ? subscription.getKey(&#x27;p256dh&#x27;) : &#x27;&#x27;;</span><br><span class="line">                  key = rawKey ? btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) : &#x27;&#x27;;</span><br><span class="line">                  var rawAuthSecret = subscription.getKey ? subscription.getKey(&#x27;auth&#x27;) : &#x27;&#x27;;</span><br><span class="line">                  authSecret = rawAuthSecret ?</span><br><span class="line">                    btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) : &#x27;&#x27;;</span><br><span class="line">                  endpoint = subscription.endpoint;</span><br><span class="line">                  return fetch(&#x27;./register&#x27;, &#123;                                         </span><br><span class="line">                    method: &#x27;post&#x27;,</span><br><span class="line">                    headers: new Headers(&#123;</span><br><span class="line">                      &#x27;content-type&#x27;: &#x27;application/json&#x27;</span><br><span class="line">                    &#125;),</span><br><span class="line">                    body: JSON.stringify(&#123;</span><br><span class="line">                      endpoint: subscription.endpoint,</span><br><span class="line">                      key: key,</span><br><span class="line">                      authSecret: authSecret,</span><br><span class="line">                    &#125;),</span><br><span class="line">                  &#125;);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;).catch(function (err) &#123;</span><br><span class="line">          // 注册失败 :(</span><br><span class="line">          console.log(&#x27;ServiceWorker registration failed: &#x27;, err);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>步骤三 服务器发送消息给service worker</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// app.js</span><br><span class="line"></span><br><span class="line">const webpush = require(&#x27;web-push&#x27;);                 </span><br><span class="line">const express = require(&#x27;express&#x27;);</span><br><span class="line">var bodyParser = require(&#x27;body-parser&#x27;);</span><br><span class="line">const app = express();</span><br><span class="line">webpush.setVapidDetails(                             </span><br><span class="line">  &#x27;mailto:contact@deanhume.com&#x27;,</span><br><span class="line">  &#x27;BAyb_WgaR0L0pODaR7wWkxJi__tWbM1MPBymyRDFEGjtDCWeRYS9EF7yGoCHLdHJi6hikYdg4MuYaK0XoD0qnoY&#x27;,</span><br><span class="line">  &#x27;p6YVD7t8HkABoez1CvVJ5bl7BnEdKUu5bSyVjyxMBh0&#x27;</span><br><span class="line">);</span><br><span class="line">app.post(&#x27;/register&#x27;, function (req, res) &#123;           </span><br><span class="line">  var endpoint = req.body.endpoint;</span><br><span class="line">  saveRegistrationDetails(endpoint, key, authSecret); </span><br><span class="line">  const pushSubscription = &#123;                          </span><br><span class="line">    endpoint: req.body.endpoint,</span><br><span class="line">    keys: &#123;</span><br><span class="line">      auth: req.body.authSecret,</span><br><span class="line">      p256dh: req.body.key</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  var body = &#x27;Thank you for registering&#x27;;</span><br><span class="line">  var iconUrl = &#x27;https://example.com/images/homescreen.png&#x27;;</span><br><span class="line">  // 发送 Web 推送消息</span><br><span class="line">  webpush.sendNotification(pushSubscription,          </span><br><span class="line">      JSON.stringify(&#123;</span><br><span class="line">        msg: body,</span><br><span class="line">        url: &#x27;http://localhost:3111/&#x27;,</span><br><span class="line">        icon: iconUrl</span><br><span class="line">      &#125;))</span><br><span class="line">    .then(result =&gt; res.sendStatus(201))</span><br><span class="line">    .catch(err =&gt; &#123;</span><br><span class="line">      console.log(err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">app.listen(3111, function () &#123;</span><br><span class="line">  console.log(&#x27;Web push app listening on port 3111!&#x27;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>service worker</code>监听push事件，将通知详情推送给用户</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// service-worker.js</span><br><span class="line"></span><br><span class="line">self.addEventListener(&#x27;push&#x27;, function (event) &#123;</span><br><span class="line"> // 检查服务端是否发来了任何有效载荷数据</span><br><span class="line">  var payload = event.data ? JSON.parse(event.data.text()) : &#x27;no payload&#x27;;</span><br><span class="line">  var title = &#x27;Progressive Times&#x27;;</span><br><span class="line">  event.waitUntil(</span><br><span class="line">    // 使用提供的信息来显示 Web 推送通知</span><br><span class="line">    self.registration.showNotification(title, &#123;                           </span><br><span class="line">      body: payload.msg,</span><br><span class="line">      url: payload.url,</span><br><span class="line">      icon: payload.icon</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h1 id="三、参考"><a href="#三、参考" class="headerlink" title="三、参考"></a>三、参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://lzw.me/a/pwa-service-worker.html#3.3">网站渐进式增强体验(PWA)改造：Service Worker 应用详解</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/SangKa/PWA-Book-CN">PWA实战：面向下一代的Progressive Web APP</a></li>
-<li><a target="_blank" rel="noopener" href="https://x5.tencent.com/tbs/guide/serviceworker.html">Service Worker最佳实践</a></li>
-<li><a target="_blank" rel="noopener" href="https://fed.renren.com/2017/10/04/service-worker/">使用 Service Worker 做一个 PWA 离线网页应用</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28461857">理解Service Worker</a></li>
-<li><a target="_blank" rel="noopener" href="http://obkoro1.com/web_accumulate/accumulate/JS/webWorker%E4%B8%8A%E6%89%8B.html">前端er来学习一下 WebWorker</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5bf3f656e51d45338e084044?utm_source=gold_browser_extension">Service Worker学习与实践（二）——PWA简介</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5bf3f6b2e51d45360069e527?utm_source=gold_browser_extension">Service Worker学习与实践（三）——消息推送</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/nicejade/nice-front-end-tutorial/blob/master/tutorial/pwa-tutorial.md">pwa-tutoria</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/06/12/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%85%E8%B0%88PWA(Progressive%20Web%20App)/" data-id="cl7icg7bf00y2ugundppuh6kq" data-title="浅谈PWA(Progressive Web App)" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-浏览器/浏览器组成与架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BB%84%E6%88%90%E4%B8%8E%E6%9E%B6%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2021-05-27T07:31:26.000Z" itemprop="datePublished">2021-05-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BB%84%E6%88%90%E4%B8%8E%E6%9E%B6%E6%9E%84/">浏览器组成与架构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h1><p>​        浏览器由shell（用户界面、网络、UI后端、JavaScript解释器、XML解析器、数据存储）和内核（浏览器引擎、渲染引擎）组成，内核是浏览器的核心。不同的浏览器有不同的内核，ie 浏览器是 Trident，Firefox 浏览器是 Geoko（Mozilla自主研发的渲染引擎），Safari 和 Chrome 使用的是 webkit （后来 Chrome 推出了 Blink）。</p>
-<h2 id="用户界面（User-Interface）"><a href="#用户界面（User-Interface）" class="headerlink" title="用户界面（User Interface）"></a>用户界面（User Interface）</h2><pre><code>    用户界面主要包括工具栏、地址栏、前进/后退按钮、书签菜单、可视化页面加载进度、智能下载处理、首选项、打印等。除了浏览器主窗口显示请求的页面之外，其他显示的部分都属于用户界面。
-
-    用户界面还可以与桌面环境集成，以提供浏览器会话管理或与其他桌面应用程序的通信。
-</code></pre>
-<h2 id="网络（Networking）"><a href="#网络（Networking）" class="headerlink" title="网络（Networking）"></a>网络（Networking）</h2><pre><code>    网络系统实现HTTP和FTP等文件传输协议。 网络系统可以在不同的字符集之间进行转换，为文件解析MIME媒体类型。 网络系统可以实现最近检索资源的缓存功能。
-</code></pre>
-<h2 id="UI后端（Display-Backend）"><a href="#UI后端（Display-Backend）" class="headerlink" title="UI后端（Display Backend）"></a>UI后端（Display Backend）</h2><pre><code>    UI后端提供绘图和窗口原语，包括：用户界面控件集合、字体集合。
-</code></pre>
-<h2 id="JavaScript解释器（JavaScript-Interpreter）"><a href="#JavaScript解释器（JavaScript-Interpreter）" class="headerlink" title="JavaScript解释器（JavaScript Interpreter）"></a>JavaScript解释器（JavaScript Interpreter）</h2><pre><code>    JavaScript解释器能够解释并执行嵌入在网页中的JavaScript（又称ECMAScript）代码。 为了安全起见，浏览器引擎或渲染引擎可能会禁用某些JavaScript功能，如弹出窗口的打开。
-</code></pre>
-<h2 id="XML解析器（XML-Parser）"><a href="#XML解析器（XML-Parser）" class="headerlink" title="XML解析器（XML Parser）"></a>XML解析器（XML Parser）</h2><pre><code>    XML解析器可以将XML文档解析成文档对象模型（Document Object Model，DOM）树。 XML解析器是浏览器架构中复用最多的子系统之一，几乎所有的浏览器实现都利用现有的XML解析器，而不是从头开始创建自己的XML解析器。
-</code></pre>
-<h2 id="数据存储（Data-Persistence）"><a href="#数据存储（Data-Persistence）" class="headerlink" title="数据存储（Data Persistence）"></a>数据存储（Data Persistence）</h2><pre><code>    数据存储将与浏览会话相关联的各种数据存储在硬盘上。 这些数据可能是诸如：书签、工具栏设置等这样的高级数据，也可能是诸如：Cookie，安全证书、缓存等这样的低级数据。
-</code></pre>
-<h2 id="浏览器引擎（Browser-Engine）"><a href="#浏览器引擎（Browser-Engine）" class="headerlink" title="浏览器引擎（Browser Engine）"></a>浏览器引擎（Browser Engine）</h2><pre><code>    浏览器引擎是一个可嵌入的组件，其为渲染引擎提供高级接口。浏览器引擎可以加载一个给定的URI，并支持诸如：前进/后退/重新加载等浏览操作。浏览器引擎提供查看浏览会话的各个方面的挂钩，例如：当前页面加载进度、JavaScript alert。浏览器引擎还允许查询/修改渲染引擎设置。
-</code></pre>
-<h2 id="渲染引擎（Rendering-Engine-或-layout-engineer）"><a href="#渲染引擎（Rendering-Engine-或-layout-engineer）" class="headerlink" title="渲染引擎（Rendering Engine 或 layout engineer）"></a>渲染引擎（Rendering Engine 或 layout engineer）</h2><pre><code>    渲染引擎负责取得网页的内容（HTML、XML、图像等等）、整理讯息（例如加入CSS等），以及计算网页的显示方式，然后会输出至显示器或打印机。渲染引擎能够显示HTML和XML文档，可选择CSS样式，以及嵌入式内容（如图片）。渲染引擎能够准确计算页面布局，可使用“回流”算法逐步调整页面元素的位置。渲染引擎内部包含HTML解析器。
-</code></pre>
-<h1 id="软件构造"><a href="#软件构造" class="headerlink" title="软件构造"></a>软件构造</h1><p>​        不同的浏览器软件架构也不一样，好的软件都是支持多进程和多线程，进程与进程相互独立，不同的进程之间通过IPC（Inter Process Communication）进行通信。</p>
-<pre><code>    以 Chrome 浏览器为例，它的架构模式由浏览器进程（Browser Process）、渲染进程（Renderer Process）、插件进程（Plugin Process）、GPU进程（GPU Process）、网络进程（NetWork Process）和其他进程组成，每个进程都有自己核心的职责，它们相互配合完成浏览器的整体功能，每个进程中又包含多个线程，一个进程内的多个线程也会协同工作，配合完成所在进程的职责。和大多数浏览器不同，Chrome 浏览器的每个标签页都分别对应一个渲染引擎实例。每个标签页都是一个独立的进程，当标签页的数量足够多时（40个页面以上），会与之前的标签页共用同一个进程。
-</code></pre>
-<h2 id="浏览器进程（Browser-Process）"><a href="#浏览器进程（Browser-Process）" class="headerlink" title="浏览器进程（Browser Process）"></a>浏览器进程（Browser Process）</h2><pre><code>    主要负责界面显示、用户交互、子进程管理，同时提供存储等功能。控制应用程序的 chrome 部分，包括地址栏、书签、后退和前进等按钮，还处理Web浏览器的隐形、底层操作，例如网络请求和文件访问。 
-</code></pre>
-<h2 id="渲染进程（Renderer-Process）"><a href="#渲染进程（Renderer-Process）" class="headerlink" title="渲染进程（Renderer Process）"></a>渲染进程（Renderer Process）</h2><pre><code>    核心任务是将 HTML、CSS 和 JavaScript 转换为用户可以与之交互的网页，渲染引擎 Blink 和 JavaScript 引擎 V8 都是运行在该进程中，默认情况下，Chrome 会为每个 Tab 标签创建一个渲染进程。
-</code></pre>
-<h2 id="GPU-进程（GPU-Process）"><a href="#GPU-进程（GPU-Process）" class="headerlink" title="GPU 进程（GPU Process）"></a>GPU 进程（GPU Process）</h2><pre><code>    GPU 进程的使用初衷是为了实现 3D CSS 的效果，随后网页、Chrome 的 UI 界面都选择采用 GPU 来绘制。
-</code></pre>
-<h2 id="网络进程（NetWork-Process）"><a href="#网络进程（NetWork-Process）" class="headerlink" title="网络进程（NetWork Process）"></a>网络进程（NetWork Process）</h2><pre><code>    主要负责页面的网络资源加载。
-</code></pre>
-<h2 id="插件进程（Plugin-Process）"><a href="#插件进程（Plugin-Process）" class="headerlink" title="插件进程（Plugin Process）"></a>插件进程（Plugin Process）</h2><pre><code>    主要是负责插件的运行，因插件易崩溃，所以需要通过插件进程来隔离，以保证插件进程崩溃不会对浏览器和页面造成影响。
-</code></pre>
-<h2 id="utility进程（Utility-Process）"><a href="#utility进程（Utility-Process）" class="headerlink" title="utility进程（Utility Process）"></a>utility进程（Utility Process）</h2><pre><code>    有时候浏览器主进程需要做一些“危险”的事情，比如图片解码、文件解压缩。如果这些“危险”的操作发生了失败，会导致整个主进程发生异常崩溃，这是我们不愿意看到的。因此Chromium设计出了一个utility进程的机制。主进程临时需要做一些不方便的任务的情况下，可以启动一个utility进程来代替主进程执行，主进程与utility进程之间通过IPC消息来通信。
-</code></pre>
-<h2 id="其他进程"><a href="#其他进程" class="headerlink" title="其他进程"></a>其他进程</h2><pre><code>    UI进程、存储进程、备进程、Audio进程、Video进程、Profile进程等等。
-</code></pre>
-<p>面向服务架构<br>        面向服务架构（Services Oriented Architecture，简称 SOA），后端技术开发中比较火热的微服务架构就是 SOA 的一种变体，Chrome 官方团队将原来的各种模块重构成独立的服务（Service），访问服务（Service）必须使用定义好的接口，通过 IPC 来通信，每个服务（Service）都可以在独立的进程中运行，并且可以轻松拆分为不同的进程或聚合为一个进程。当Chrome在功能强大的硬件上运行时，它可能会将每个服务拆分为不同的进程以提供更高的稳定性，但是如果是在资源受限的设备上，Chrome 会将服务整合到一个进程中以节省内存。</p>
-<pre><code>    在最新的 Chrome 浏览器中，可以在设置中打开更多工具，找到任务管理器并打开。
-
-
-
-     可以看到有部分的 Chrome Service 与进程同时在运行，Chrome 仍在努力的完善面向服务架构。
-</code></pre>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BB%84%E6%88%90%E4%B8%8E%E6%9E%B6%E6%9E%84/" data-id="cl7icg7bq00yaugun0rdjaxjs" data-title="浏览器组成与架构" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-html+css+js+ts/await 在 forEach 中不生效解决方案" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/05/24/html+css+js+ts/await%20%E5%9C%A8%20forEach%20%E4%B8%AD%E4%B8%8D%E7%94%9F%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="article-date">
@@ -2526,14 +2258,14 @@
 
 
   
-    <article id="post-浏览器/浏览器渲染原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-html+css+js+ts/4-装饰器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/05/19/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2021-05-19T06:18:26.000Z" itemprop="datePublished">2021-05-19</time>
+    <a href="/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-04-17T15:43:42.000Z" itemprop="datePublished">2021-04-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
   </div>
 
   </div>
@@ -2544,7 +2276,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/05/19/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86/">浏览器渲染原理</a>
+      <a class="p-name article-title" href="/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/">ES6 装饰器</a>
     </h1>
   
 
@@ -2552,198 +2284,508 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="一、浏览器如何渲染网页"><a href="#一、浏览器如何渲染网页" class="headerlink" title="一、浏览器如何渲染网页"></a>一、浏览器如何渲染网页</h2><p><strong>概述：浏览器渲染一共有五步</strong></p>
-<ol>
-<li>处理 <code>HTML</code> 并构建 <code>DOM</code> 树。</li>
-<li>处理 <code>CSS</code>构建 <code>CSSOM</code> 树。</li>
-<li>将 <code>DOM</code> 与 <code>CSSOM</code> 合并成一个渲染树。</li>
-<li>根据渲染树来布局，计算每个节点的位置。</li>
-<li>调用 <code>GPU</code> 绘制，合成图层，显示在屏幕上</li>
-</ol>
-<blockquote>
-<p>第四步和第五步是最耗时的部分，这两步合起来，就是我们通常所说的渲染</p>
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><blockquote>
+<p>装饰器依赖于 <code>ES5</code> 的 <code>Object.defineProperty</code> 方法</p>
 </blockquote>
-<p>具体如下图过程如下图所示</p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/19.png" alt="img"></p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/20.png" alt="img"></p>
-<p><strong>渲染</strong></p>
-<ul>
-<li>网页生成的时候，至少会渲染一次</li>
-<li>在用户访问的过程中，还会不断重新渲染</li>
+<h3 id="1-1-Object-defineProperty"><a href="#1-1-Object-defineProperty" class="headerlink" title="1.1 Object.defineProperty"></a>1.1 Object.defineProperty</h3><ul>
+<li><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象</li>
+<li>该方法允许精确添加或修改对象的属性。通过赋值来添加的普通属性会创建在属性枚举期间显示的属性（<code>for...in</code>或 <code>Object.keys</code> 方法）， 这些值可以被改变，也可以被删除。这种方法允许这些额外的细节从默认值改变。默认情况下，使用 <code>Object.defineProperty()</code> 添加的属性值是不可变的</li>
 </ul>
-<blockquote>
-<p>重新渲染需要重复之前的第四步(重新生成布局)+第五步(重新绘制)或者只有第五个步(重新绘制)</p>
-</blockquote>
-<ul>
-<li>在构建 <code>CSSOM</code> 树时，会阻塞渲染，直至 <code>CSSOM</code>树构建完成。并且构建 <code>CSSOM</code> 树是一个十分消耗性能的过程，所以应该尽量保证层级扁平，减少过度层叠，越是具体的 <code>CSS</code> 选择器，执行速度越慢</li>
-<li>当 <code>HTML</code> 解析到 <code>script</code> 标签时，会暂停构建 <code>DOM</code>，完成后才会从暂停的地方重新开始。也就是说，如果你想首屏渲染的越快，就越不应该在首屏就加载 <code>JS</code> 文件。并且<code>CSS</code>也会影响 <code>JS</code> 的执行，只有当解析完样式表才会执行 <code>JS</code>，所以也可以认为这种情况下，<code>CSS</code> 也会暂停构建 <code>DOM</code></li>
-</ul>
-<h2 id="二、浏览器渲染五个阶段"><a href="#二、浏览器渲染五个阶段" class="headerlink" title="二、浏览器渲染五个阶段"></a>二、浏览器渲染五个阶段</h2><h3 id="2-1-第一步：解析HTML标签，构建DOM树"><a href="#2-1-第一步：解析HTML标签，构建DOM树" class="headerlink" title="2.1 第一步：解析HTML标签，构建DOM树"></a>2.1 第一步：解析HTML标签，构建DOM树</h3><blockquote>
-<p>在这个阶段，引擎开始解析<code>html</code>，解析出来的结果会成为一棵<code>dom</code>树<br><code>dom</code>的目的至少有<code>2</code>个</p>
-</blockquote>
-<ul>
-<li>作为下个阶段渲染树状图的输入</li>
-<li>成为网页和脚本的交互界面。(最常用的就是<code>getElementById</code>等等)</li>
-</ul>
-<p><strong>当解析器到达script标签的时候，发生下面四件事情</strong></p>
-<ol>
-<li><code>html</code>解析器停止解析,</li>
-<li>如果是外部脚本，就从外部网络获取脚本代码</li>
-<li>将控制权交给<code>js</code>引擎，执行<code>js</code>代码</li>
-<li>恢复<code>html</code>解析器的控制权</li>
-</ol>
-<blockquote>
-<p>由此可以得到第一个结论1</p>
-</blockquote>
-<ul>
-<li>由于&#96;&#96;标签是阻塞解析的，将脚本放在网页尾部会加速代码渲染。</li>
-<li><code>defer</code>和<code>async</code>属性也能有助于加载外部脚本。</li>
-<li><code>defer</code>使得脚本会在<code>dom</code>完整构建之后执行；</li>
-<li><code>async</code>标签使得脚本只有在完全<code>available</code>才执行，并且是以非阻塞的方式进行的</li>
-</ul>
-<h3 id="2-2-第二步：解析CSS标签，构建CSSOM树"><a href="#2-2-第二步：解析CSS标签，构建CSSOM树" class="headerlink" title="2.2 第二步：解析CSS标签，构建CSSOM树"></a>2.2 第二步：解析CSS标签，构建CSSOM树</h3><ul>
-<li>我们已经看到<code>html</code>解析器碰到脚本后会做的事情，接下来我们看下<code>html</code>解析器碰到样式表会发生的情况</li>
-<li><code>js</code>会阻塞解析，因为它会修改文档(<code>document</code>)。<code>css</code>不会修改文档的结构，如果这样的话，似乎看起来<code>css</code>样式不会阻塞浏览器<code>html</code>解析。但是事实上 <code>css</code>样式表是阻塞的。阻塞是指当<code>cssom</code>树建立好之后才会进行下一步的解析渲染</li>
-</ul>
-<p><strong>通过以下手段可以减轻cssom带来的影响</strong></p>
-<ul>
-<li>将<code>script</code>脚本放在页面底部</li>
-<li>尽可能快的加载<code>css</code>样式表</li>
-<li>将样式表按照<code>media type</code>和<code>media query</code>区分，这样有助于我们将<code>css</code>资源标记成非阻塞渲染的资源。</li>
-<li>非阻塞的资源还是会被浏览器下载，只是优先级较低</li>
-</ul>
-<h3 id="2-3-第三步：把DOM和CSSOM组合成渲染树（render-tree）"><a href="#2-3-第三步：把DOM和CSSOM组合成渲染树（render-tree）" class="headerlink" title="2.3 第三步：把DOM和CSSOM组合成渲染树（render tree）"></a>2.3 第三步：把DOM和CSSOM组合成渲染树（render tree）</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/21.png" alt="img"></p>
-<h3 id="2-4-第四步：在渲染树的基础上进行布局，计算每个节点的几何结构"><a href="#2-4-第四步：在渲染树的基础上进行布局，计算每个节点的几何结构" class="headerlink" title="2.4 第四步：在渲染树的基础上进行布局，计算每个节点的几何结构"></a>2.4 第四步：在渲染树的基础上进行布局，计算每个节点的几何结构</h3><blockquote>
-<p>布局(<code>layout</code>)：定位坐标和大小，是否换行，各种<code>position</code>, <code>overflow</code>, <code>z-index</code>属性</p>
-</blockquote>
-<h3 id="2-5-调用-GPU-绘制，合成图层，显示在屏幕上"><a href="#2-5-调用-GPU-绘制，合成图层，显示在屏幕上" class="headerlink" title="2.5 调用 GPU 绘制，合成图层，显示在屏幕上"></a>2.5 调用 GPU 绘制，合成图层，显示在屏幕上</h3><blockquote>
-<p>将渲染树的各个节点绘制到屏幕上，这一步被称为绘制<code>painting</code></p>
-</blockquote>
-<h2 id="三、渲染优化相关"><a href="#三、渲染优化相关" class="headerlink" title="三、渲染优化相关"></a>三、渲染优化相关</h2><h3 id="3-1-Load-和-DOMContentLoaded-区别"><a href="#3-1-Load-和-DOMContentLoaded-区别" class="headerlink" title="3.1 Load 和 DOMContentLoaded 区别"></a>3.1 Load 和 DOMContentLoaded 区别</h3><ul>
-<li><code>Load</code> 事件触发代表页面中的 <code>DOM</code>，<code>CSS</code>，<code>JS</code>，图片已经全部加载完毕。</li>
-<li><code>DOMContentLoaded</code> 事件触发代表初始的 <code>HTML</code> 被完全加载和解析，不需要等待 <code>CSS</code>，<code>JS</code>，图片加载</li>
-</ul>
-<h3 id="3-2-图层"><a href="#3-2-图层" class="headerlink" title="3.2 图层"></a>3.2 图层</h3><blockquote>
-<p>一般来说，可以把普通文档流看成一个图层。特定的属性可以生成一个新的图层。不同的图层渲染互不影响，所以对于某些频繁需要渲染的建议单独生成一个新图层，提高性能。但也不能生成过多的图层，会引起反作用。</p>
-</blockquote>
-<p><strong>通过以下几个常用属性可以生成新图层</strong></p>
-<ul>
-<li><code>3D</code> 变换：<code>translate3d</code>、<code>translateZ</code></li>
-<li><code>will-change</code></li>
-<li><code>video</code>、<code>iframe</code> 标签</li>
-<li>通过动画实现的 <code>opacity</code> 动画转换</li>
-<li><code>position: fixed</code></li>
-</ul>
-<h3 id="3-3-重绘（Repaint）和回流（Reflow）"><a href="#3-3-重绘（Repaint）和回流（Reflow）" class="headerlink" title="3.3 重绘（Repaint）和回流（Reflow）"></a>3.3 重绘（Repaint）和回流（Reflow）</h3><blockquote>
-<p>重绘和回流是渲染步骤中的一小节，但是这两个步骤对于性能影响很大</p>
-</blockquote>
-<ul>
-<li>重绘是当节点需要更改外观而不会影响布局的，比如改变 <code>color</code> 就叫称为重绘</li>
-<li>回流是布局或者几何属性需要改变就称为回流。</li>
-</ul>
-<blockquote>
-<p>回流必定会发生重绘，重绘不一定会引发回流。回流所需的成本比重绘高的多，改变深层次的节点很可能导致父节点的一系列回流</p>
-</blockquote>
-<p><strong>以下几个动作可能会导致性能问题</strong></p>
-<ul>
-<li>改变 <code>window</code> 大小</li>
-<li>改变字体</li>
-<li>添加或删除样式</li>
-<li>文字改变</li>
-<li>定位或者浮动</li>
-<li>盒模型</li>
-</ul>
-<p><strong>很多人不知道的是，重绘和回流其实和 Event loop 有关</strong></p>
-<ul>
-<li>当 <code>Event loop</code> 执行完<code>Microtasks</code> 后，会判断 <code>document</code> 是否需要更新。因为浏览器是 <code>60Hz</code> 的刷新率，每 <code>16ms</code> 才会更新一次。</li>
-<li>然后判断是否有 <code>resize</code> 或者 <code>scroll</code> ，有的话会去触发事件，所以 <code>resize</code> 和 <code>scroll</code> 事件也是至少 <code>16ms</code>才会触发一次，并且自带节流功能。</li>
-<li>判断是否触发了 <code>media query</code></li>
-<li>更新动画并且发送事件</li>
-<li>判断是否有全屏操作事件</li>
-<li>执行 <code>requestAnimationFrame</code> 回调</li>
-<li>执行 <code>IntersectionObserver</code> 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好</li>
-<li>更新界面</li>
-<li>以上就是一帧中可能会做的事情。如果在一帧中有空闲时间，就会去执行 <code>requestIdleCallback</code> 回调</li>
-</ul>
-<p><strong>常见的引起重绘的属性</strong></p>
-<ul>
-<li><code>color</code></li>
-<li><code>border-style</code></li>
-<li><code>visibility</code></li>
-<li><code>background</code></li>
-<li><code>text-decoration</code></li>
-<li><code>background-image</code></li>
-<li><code>background-position</code></li>
-<li><code>background-repeat</code></li>
-<li><code>outline-color</code></li>
-<li><code>outline</code></li>
-<li><code>outline-style</code></li>
-<li><code>border-radius</code></li>
-<li><code>outline-width</code></li>
-<li><code>box-shadow</code></li>
-<li><code>background-size</code></li>
-</ul>
-<h3 id="3-4-常见引起回流属性和方法"><a href="#3-4-常见引起回流属性和方法" class="headerlink" title="3.4 常见引起回流属性和方法"></a>3.4 常见引起回流属性和方法</h3><blockquote>
-<p>任何会改变元素几何信息(元素的位置和尺寸大小)的操作，都会触发重排，下面列一些栗子</p>
-</blockquote>
-<ul>
-<li>添加或者删除可见的<code>DOM</code>元素；</li>
-<li>元素尺寸改变——边距、填充、边框、宽度和高度</li>
-<li>内容变化，比如用户在<code>input</code>框中输入文字</li>
-<li>浏览器窗口尺寸改变——<code>resize</code>事件发生时</li>
-<li>计算 <code>offsetWidth</code> 和 <code>offsetHeight</code> 属性</li>
-<li>设置 <code>style</code> 属性的值</li>
-</ul>
-<p><strong>回流影响的范围</strong></p>
-<blockquote>
-<p>由于浏览器渲染界面是基于流失布局模型的，所以触发重排时会对周围DOM重新排列，影响的范围有两种</p>
-</blockquote>
-<ul>
-<li>全局范围：从根节点<code>html</code>开始对整个渲染树进行重新布局。</li>
-<li>局部范围：对渲染树的某部分或某一个渲染对象进行重新布局</li>
-</ul>
-<p><strong>全局范围回流</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;hello&quot;&gt;</span><br><span class="line">    &lt;h4&gt;hello&lt;/h4&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt;BDing&lt;/p&gt;</span><br><span class="line">    &lt;h5&gt;male&lt;/h5&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line">      &lt;li&gt;coding&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;loving&lt;/li&gt;</span><br><span class="line">    &lt;/ol&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>当<code>p</code>节点上发生<code>reflow</code>时，<code>hello</code>和<code>body</code>也会重新渲染，甚至<code>h5</code>和<code>ol</code>都会收到影响</p>
-</blockquote>
-<p><strong>局部范围回流</strong></p>
-<blockquote>
-<p>用局部布局来解释这种现象：把一个<code>dom</code>的宽高之类的几何信息定死，然后在<code>dom</code>内部触发重排，就只会重新渲染该<code>dom</code>内部的元素，而不会影响到外界</p>
-</blockquote>
-<h3 id="3-5-减少重绘和回流"><a href="#3-5-减少重绘和回流" class="headerlink" title="3.5 减少重绘和回流"></a>3.5 减少重绘和回流</h3><blockquote>
-<p>使用 <code>translate</code> 替代 <code>top</code></p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;test&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .test &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        top: 10px;</span><br><span class="line">        width: 100px;</span><br><span class="line">        height: 100px;</span><br><span class="line">        background: red;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        // 引起回流</span><br><span class="line">        document.querySelector(&#x27;.test&#x27;).style.top = &#x27;100px&#x27;</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(obj, prop, descriptor)</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>使用 <code>visibility</code> 替换 <code>display: none</code> ，因为前者只会引起重绘，后者会引发回流（改变了布局）</li>
-<li>把 <code>DOM</code> 离线后修改，比如：先把 <code>DOM</code> 给 <code>display:none</code> (有一次 <code>Reflow)</code>，然后你修改<code>100</code>次，然后再把它显示出来</li>
-<li>不要把 <code>DOM</code> 结点的属性值放在一个循环里当成循环里的变量</li>
+<li><code>obj</code>：要在其上定义属性的对象。</li>
+<li><code>prop</code>：要定义或修改的属性的名称。</li>
+<li><code>descriptor</code>：将被定义或修改的属性描述符。</li>
+<li>返回值：被传递给函数的对象。</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for(let i = 0; i &lt; 1000; i++) &#123;</span><br><span class="line">    // 获取 offsetTop 会导致回流，因为需要去获取正确的值</span><br><span class="line">    console.log(document.querySelector(&#x27;.test&#x27;).style.offsetTop)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在<code>ES6</code>中，由于 <code>Symbol</code>类型 的特殊性，用 <code>Symbol</code>类型 的值来做对象的<code>key</code>与常规的定义或修改不同，而<code>Object.defineProperty</code> 是定义 <code>key</code>为 <code>Symbol</code> 的属性的方法之一</p>
+</blockquote>
+<p><strong>descriptor属性描述符</strong></p>
+<blockquote>
+<p>对象里目前存在的属性描述符有两种主要形式：数据描述符和存取描述符</p>
+</blockquote>
+<ul>
+<li>数据描述符是一个具有值的属性，该值可能是可写的，也可能不是可写的。</li>
+<li>存取描述符是由 <code>getter-setter</code> 函数对描述的属性。</li>
+</ul>
+<p><strong>configurable</strong></p>
+<blockquote>
+<p>当且仅当该属性的 <code>configurable</code> 为 <code>true</code> 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 <code>false</code></p>
+</blockquote>
+<p><strong>enumerable</strong></p>
+<ul>
+<li><code>enumerable</code>定义了对象的属性是否可以在 <code>for...in</code>循环和 <code>Object.keys()</code> 中被枚举。</li>
+<li>当且仅当该属性的 <code>enumerable</code> 为 <code>true</code> 时，该属性才能够出现在对象的枚举属性中。默认为 <code>false</code>。</li>
+</ul>
+<h2 id="二、Babel"><a href="#二、Babel" class="headerlink" title="二、Babel"></a>二、Babel</h2><p><strong>安装编译</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/core @babel/cli</span><br><span class="line"></span><br><span class="line">npm install --save-dev @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新建 <code>.babelrc</code> 文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    [&quot;@babel/plugin-proposal-decorators&quot;, &#123; &quot;legacy&quot;: true &#125;],</span><br><span class="line">    [&quot;@babel/plugin-proposal-class-properties&quot;, &#123;&quot;loose&quot;: true&#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再编译指定的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">babel decorator.js --out-file decorator-compiled.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、用法"><a href="#三、用法" class="headerlink" title="三、用法"></a>三、用法</h2><p><strong>装饰器主要用于</strong></p>
+<ul>
+<li>装饰类</li>
+<li>装饰方法或属性</li>
+</ul>
+<h3 id="3-1-类的装饰"><a href="#3-1-类的装饰" class="headerlink" title="3.1 类的装饰"></a>3.1 类的装饰</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@testable</span><br><span class="line">class MyTestableClass &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function testable(target) &#123;</span><br><span class="line">  target.isTestable = true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyTestableClass.isTestable // true</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中，<code>@testable</code> 就是一个装饰器。它修改了 <code>MyTestableClass</code>这 个类的行为，为它加上了静态属性<code>isTestable</code>。<code>testable</code> 函数的参数 <code>target</code> 是 <code>MyTestableClass</code> 类本身</p>
+</blockquote>
+<p>基本上，装饰器的行为就是下面这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@decorator</span><br><span class="line">class A &#123;&#125;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line"></span><br><span class="line">class A &#123;&#125;</span><br><span class="line">A = decorator(A) || A;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>也就是说，装饰器是一个对类进行处理的函数。装饰器函数的第一个参数，就是所要装饰的目标类</p>
+</blockquote>
+<p>如果觉得一个参数不够用，可以在装饰器外面再封装一层函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function testable(isTestable) &#123;</span><br><span class="line">  return function(target) &#123;</span><br><span class="line">    target.isTestable = isTestable;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable(true)</span><br><span class="line">class MyTestableClass &#123;&#125;</span><br><span class="line">MyTestableClass.isTestable // true</span><br><span class="line"></span><br><span class="line">@testable(false)</span><br><span class="line">class MyClass &#123;&#125;</span><br><span class="line">MyClass.isTestable // false</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中，装饰器 <code>testable</code> 可以接受参数，这就等于可以修改装饰器的行为</p>
+</blockquote>
+<p><strong>注意</strong>，装饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，装饰器能在编译阶段运行代码。也就是说，装饰器本质就是编译时执行的函数。</p>
+<blockquote>
+<p>前面的例子是为类添加一个静态属性，如果想添加实例属性，可以通过目标类的 <code>prototype</code> 对象操作</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// mixins.js</span><br><span class="line">export function mixins(...list) &#123;</span><br><span class="line">  return function (target) &#123;</span><br><span class="line">    Object.assign(target.prototype, ...list)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// main.js</span><br><span class="line">import &#123; mixins &#125; from &#x27;./mixins&#x27;</span><br><span class="line"></span><br><span class="line">const Foo = &#123;</span><br><span class="line">  foo() &#123; console.log(&#x27;foo&#x27;) &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line">class MyClass &#123;&#125;</span><br><span class="line"></span><br><span class="line">let obj = new MyClass();</span><br><span class="line">obj.foo() // &#x27;foo&#x27;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码通过装饰器 <code>mixins</code>，把<code>Foo</code>对象的方法添加到了 <code>MyClass</code>的实例上面</p>
+</blockquote>
+<h3 id="3-2-方法的装饰"><a href="#3-2-方法的装饰" class="headerlink" title="3.2 方法的装饰"></a>3.2 方法的装饰</h3><blockquote>
+<p>装饰器不仅可以装饰类，还可以装饰类的属性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">// 装饰器 readonly 用来装饰“类”的name方法。</span><br><span class="line">  @readonly</span><br><span class="line">  name() &#123; return `$&#123;this.first&#125; $&#123;this.last&#125;` &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>装饰器函数 <code>readonly</code> 一共可以接受三个参数。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function readonly(target, name, descriptor)&#123;</span><br><span class="line">  // descriptor对象原来的值如下</span><br><span class="line">  // &#123;</span><br><span class="line">  //   value: specifiedFunction,</span><br><span class="line">  //   enumerable: false,</span><br><span class="line">  //   configurable: true,</span><br><span class="line">  //   writable: true</span><br><span class="line">  // &#125;;</span><br><span class="line">  descriptor.writable = false;</span><br><span class="line">  return descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly(Person.prototype, &#x27;name&#x27;, descriptor);</span><br><span class="line">// 类似于</span><br><span class="line">Object.defineProperty(Person.prototype, &#x27;name&#x27;, descriptor);</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>不要使用 <code>table</code> 布局，可能很小的一个小改动会造成整个 <code>table</code> 的重新布局</li>
-<li>动画实现的速度的选择，动画速度越快，回流次数越多，也可以选择使用 <code>requestAnimationFrame</code></li>
-<li><code>CSS</code>选择符从右往左匹配查找，避免 <code>DOM</code>深度过深</li>
-<li>将频繁运行的动画变为图层，图层能够阻止该节点回流影响别的元素。比如对于 <code>video</code>标签，浏览器会自动将该节点变为图层。</li>
+<li>第一个参数是类的原型对象，上例是 <code>Person.prototype</code>，装饰器的本意是要“装饰”类的实例，但是这个时候实例还没生成，所以只能去装饰原型（这不同于类的装饰，那种情况时<code>target</code>参数指的是类本身）</li>
+<li>第二个参数是 所要装饰的属性名</li>
+<li>第三个参数是 该属性的描述对象</li>
 </ul>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/22.png" alt="img"></p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/23.png" alt="img"></p>
+<h3 id="3-3-函数方法的装饰"><a href="#3-3-函数方法的装饰" class="headerlink" title="3.3 函数方法的装饰"></a>3.3 函数方法的装饰</h3><ul>
+<li>装饰器只能用于类和类的方法，不能用于函数，因为存在函数提升</li>
+<li>另一方面，如果一定要装饰函数，可以采用高阶函数的形式直接执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function doSomething(name) &#123;</span><br><span class="line">  console.log(&#x27;Hello, &#x27; + name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function loggingDecorator(wrapped) &#123;</span><br><span class="line">  return function() &#123;</span><br><span class="line">    console.log(&#x27;Starting&#x27;);</span><br><span class="line">    const result = wrapped.apply(this, arguments);</span><br><span class="line">    console.log(&#x27;Finished&#x27;);</span><br><span class="line">    return result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const wrapped = loggingDecorator(doSomething);</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、使用场景"><a href="#四、使用场景" class="headerlink" title="四、使用场景"></a>四、使用场景</h2><h3 id="4-1-装饰器有注释的作用"><a href="#4-1-装饰器有注释的作用" class="headerlink" title="4.1 装饰器有注释的作用"></a>4.1 装饰器有注释的作用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@testable</span><br><span class="line">class Person &#123;</span><br><span class="line">  @readonly</span><br><span class="line">  @nonenumerable</span><br><span class="line">  name() &#123; return `$&#123;this.first&#125; $&#123;this.last&#125;` &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p><a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/01/12/fed-performance-optimization/#%E5%85%AD%E3%80%81%E9%87%8D%E7%BB%98%E4%B8%8E%E5%9B%9E%E6%B5%81">重绘与回流</a></p>
+<p>从上面代码中，我们一眼就能看出，<code>Person</code>类是可测试的，而<code>name</code>方法是只读和不可枚举的</p>
 </blockquote>
+<h3 id="4-2-React-的-connect"><a href="#4-2-React-的-connect" class="headerlink" title="4.2 React 的 connect"></a>4.2 React 的 connect</h3><blockquote>
+<p>实际开发中，React 与 Redux 库结合使用时，常常需要写成下面这样</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class MyReactComponent extends React.Component &#123;&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps, mapDispatchToProps)(MyReactComponent);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有了装饰器，就可以改写上面的代码。装饰</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@connect(mapStateToProps, mapDispatchToProps)</span><br><span class="line">export default class MyReactComponent extends React.Component &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-loading"><a href="#4-3-loading" class="headerlink" title="4.3 loading"></a>4.3 loading</h3><blockquote>
+<p>在 <code>React</code> 项目中，我们可能需要在向后台请求数据时，页面出现 <code>loading</code> 动画。这个时候，你就可以使用装饰器，优雅地实现功能。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@autobind</span><br><span class="line">@loadingWrap(true)</span><br><span class="line">async handleSelect(params) &#123;</span><br><span class="line">  await this.props.dispatch(&#123;</span><br><span class="line">    type: &#x27;product_list/setQuerypParams&#x27;,</span><br><span class="line">    querypParams: params</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>loadingWrap 函数如下：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export function loadingWrap(needHide) &#123;</span><br><span class="line"></span><br><span class="line">  const defaultLoading = (</span><br><span class="line">    &lt;div className=&quot;toast-loading&quot;&gt;</span><br><span class="line">      &lt;Loading className=&quot;loading-icon&quot;/&gt;</span><br><span class="line">      &lt;div&gt;加载中...&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  return function (target, property, descriptor) &#123;</span><br><span class="line">    const raw = descriptor.value;</span><br><span class="line">    </span><br><span class="line">    descriptor.value = function (...args) &#123;</span><br><span class="line">      Toast.info(text || defaultLoading, 0, null, true);</span><br><span class="line">      const res = raw.apply(this, args);</span><br><span class="line">      </span><br><span class="line">      if (needHide) &#123;</span><br><span class="line">        if (get(&#x27;finally&#x27;)(res)) &#123;</span><br><span class="line">          res.finally(() =&gt; &#123;</span><br><span class="line">            Toast.hide();</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          Toast.hide();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    return descriptor;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-log"><a href="#4-4-log" class="headerlink" title="4.4 log"></a>4.4 log</h3><blockquote>
+<p>为一个方法添加 log 函数，检查输入的参数：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Math &#123;</span><br><span class="line">  @log</span><br><span class="line">  add(a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let log = (type) =&gt; &#123;</span><br><span class="line">  return (target, name, descriptor) =&gt; &#123;</span><br><span class="line">    const method = descriptor.value;</span><br><span class="line">    descriptor.value =  (...args) =&gt; &#123;</span><br><span class="line">      console.info(`($&#123;type&#125;) 正在执行: $&#123;name&#125;($&#123;args&#125;) = ?`);</span><br><span class="line">      let ret;</span><br><span class="line">      try &#123;</span><br><span class="line">        ret = method.apply(target, args);</span><br><span class="line">        console.info(`($&#123;type&#125;) 成功 : $&#123;name&#125;($&#123;args&#125;) =&gt; $&#123;ret&#125;`);</span><br><span class="line">      &#125; catch (error) &#123;</span><br><span class="line">        console.error(`($&#123;type&#125;) 失败: $&#123;name&#125;($&#123;args&#125;) =&gt; $&#123;error&#125;`);</span><br><span class="line">      &#125;</span><br><span class="line">      return ret;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const math = new Math();</span><br><span class="line"></span><br><span class="line">// Calling add with [2, 4]</span><br><span class="line">math.add(2, 4);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-autobind"><a href="#4-5-autobind" class="headerlink" title="4.5 autobind"></a>4.5 autobind</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">  @autobind</span><br><span class="line">  getPerson() &#123;</span><br><span class="line">      return this;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person = new Person();</span><br><span class="line">let &#123; getPerson &#125; = person;</span><br><span class="line"></span><br><span class="line">getPerson() === person;</span><br><span class="line">// true</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们很容易想到的一个场景是 React 绑定事件的时候</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Toggle extends React.Component &#123;</span><br><span class="line"></span><br><span class="line">  @autobind</span><br><span class="line">  handleClick() &#123;</span><br><span class="line">      console.log(this)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">        button</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们来写这样一个 <code>autobind</code>函数：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">const &#123; defineProperty, getPrototypeOf&#125; = Object;</span><br><span class="line"></span><br><span class="line">function bind(fn, context) &#123;</span><br><span class="line">  if (fn.bind) &#123;</span><br><span class="line">    return fn.bind(context);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return function __autobind__() &#123;</span><br><span class="line">      return fn.apply(context, arguments);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function createDefaultSetter(key) &#123;</span><br><span class="line">  return function set(newValue) &#123;</span><br><span class="line">    Object.defineProperty(this, key, &#123;</span><br><span class="line">      configurable: true,</span><br><span class="line">      writable: true,</span><br><span class="line">      enumerable: true,</span><br><span class="line">      value: newValue</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return newValue;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function autobind(target, key, &#123; value: fn, configurable, enumerable &#125;) &#123;</span><br><span class="line">  if (typeof fn !== &#x27;function&#x27;) &#123;</span><br><span class="line">    throw new SyntaxError(`@autobind can only be used on functions, not: $&#123;fn&#125;`);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const &#123; constructor &#125; = target;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    configurable,</span><br><span class="line">    enumerable,</span><br><span class="line"></span><br><span class="line">    get() &#123;</span><br><span class="line"></span><br><span class="line">      /**</span><br><span class="line">       * 使用这种方式相当于替换了这个函数，所以当比如</span><br><span class="line">       * Class.prototype.hasOwnProperty(key) 的时候，为了正确返回</span><br><span class="line">       * 所以这里做了 this 的判断</span><br><span class="line">       */</span><br><span class="line">      if (this === target) &#123;</span><br><span class="line">        return fn;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      const boundFn = bind(fn, this);</span><br><span class="line"></span><br><span class="line">      defineProperty(this, key, &#123;</span><br><span class="line">        configurable: true,</span><br><span class="line">        writable: true,</span><br><span class="line">        enumerable: false,</span><br><span class="line">        value: boundFn</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      return boundFn;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: createDefaultSetter(key)</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-6-debounce"><a href="#4-6-debounce" class="headerlink" title="4.6 debounce"></a>4.6 debounce</h3><blockquote>
+<p>有的时候，我们需要对执行的方法进行防抖处理:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">class Toggle extends React.Component &#123;</span><br><span class="line"></span><br><span class="line">  @debounce(500, true)</span><br><span class="line">  handleClick() &#123;</span><br><span class="line">    console.log(&#x27;toggle&#x27;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">        button</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">function _debounce(func, wait, immediate) &#123;</span><br><span class="line"></span><br><span class="line">    var timeout;</span><br><span class="line"></span><br><span class="line">    return function () &#123;</span><br><span class="line">        var context = this;</span><br><span class="line">        var args = arguments;</span><br><span class="line"></span><br><span class="line">        if (timeout) clearTimeout(timeout);</span><br><span class="line">        if (immediate) &#123;</span><br><span class="line">            var callNow = !timeout;</span><br><span class="line">            timeout = setTimeout(function()&#123;</span><br><span class="line">                timeout = null;</span><br><span class="line">            &#125;, wait)</span><br><span class="line">            if (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            timeout = setTimeout(function()&#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function debounce(wait, immediate) &#123;</span><br><span class="line">  return function handleDescriptor(target, key, descriptor) &#123;</span><br><span class="line">    const callback = descriptor.value;</span><br><span class="line"></span><br><span class="line">    if (typeof callback !== &#x27;function&#x27;) &#123;</span><br><span class="line">      throw new SyntaxError(&#x27;Only functions can be debounced&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var fn = _debounce(callback, wait, immediate)</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      ...descriptor,</span><br><span class="line">      value() &#123;</span><br><span class="line">        fn()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-7-time"><a href="#4-7-time" class="headerlink" title="4.7 time"></a>4.7 time</h3><blockquote>
+<p>用于统计方法执行的时间:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function time(prefix) &#123;</span><br><span class="line">  let count = 0;</span><br><span class="line">  return function handleDescriptor(target, key, descriptor) &#123;</span><br><span class="line"></span><br><span class="line">    const fn = descriptor.value;</span><br><span class="line"></span><br><span class="line">    if (prefix == null) &#123;</span><br><span class="line">      prefix = `$&#123;target.constructor.name&#125;.$&#123;key&#125;`;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (typeof fn !== &#x27;function&#x27;) &#123;</span><br><span class="line">      throw new SyntaxError(`@time can only be used on functions, not: $&#123;fn&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      ...descriptor,</span><br><span class="line">      value() &#123;</span><br><span class="line">        const label = `$&#123;prefix&#125;-$&#123;count&#125;`;</span><br><span class="line">        count++;</span><br><span class="line">        console.time(label);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">          return fn.apply(this, arguments);</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">          console.timeEnd(label);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-8-mixin"><a href="#4-8-mixin" class="headerlink" title="4.8 mixin"></a>4.8 mixin</h3><blockquote>
+<p>用于将对象的方法混入<code>Class</code> 中</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const SingerMixin = &#123;</span><br><span class="line">  sing(sound) &#123;</span><br><span class="line">    alert(sound);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const FlyMixin = &#123;</span><br><span class="line">  // All types of property descriptors are supported</span><br><span class="line">  get speed() &#123;&#125;,</span><br><span class="line">  fly() &#123;&#125;,</span><br><span class="line">  land() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixin(SingerMixin, FlyMixin)</span><br><span class="line">class Bird &#123;</span><br><span class="line">  singMatingCall() &#123;</span><br><span class="line">    this.sing(&#x27;tweet tweet&#x27;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var bird = new Bird();</span><br><span class="line">bird.singMatingCall();</span><br><span class="line">// alerts &quot;tweet tweet&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>mixin</code> 的一个简单实现如下</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function mixin(...mixins) &#123;</span><br><span class="line">  return target =&gt; &#123;</span><br><span class="line">    if (!mixins.length) &#123;</span><br><span class="line">      throw new SyntaxError(`@mixin() class $&#123;target.name&#125; requires at least one mixin as an argument`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let i = 0, l = mixins.length; i &lt; l; i++) &#123;</span><br><span class="line">      const descs = Object.getOwnPropertyDescriptors(mixins[i]);</span><br><span class="line">      const keys = Object.getOwnPropertyNames(descs);</span><br><span class="line"></span><br><span class="line">      for (let j = 0, k = keys.length; j &lt; k; j++) &#123;</span><br><span class="line">        const key = keys[j];</span><br><span class="line"></span><br><span class="line">        if (!target.prototype.hasOwnProperty(key)) &#123;</span><br><span class="line">          Object.defineProperty(target.prototype, key, descs[key]);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" data-id="cl7ibzolc0087ugundl7v13z1" data-title="ES6 装饰器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/" rel="tag">es6</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-性能优化/图解前端性能优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/30/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%9B%BE%E8%A7%A3%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2021-03-30T08:35:48.000Z" itemprop="datePublished">2021-03-30</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/30/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%9B%BE%E8%A7%A3%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">图解前端性能优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、css和js的装载与执行"><a href="#一、css和js的装载与执行" class="headerlink" title="一、css和js的装载与执行"></a>一、css和js的装载与执行</h2><h3 id="1-1-HTML-页面加载渲染的过程"><a href="#1-1-HTML-页面加载渲染的过程" class="headerlink" title="1.1 HTML 页面加载渲染的过程"></a>1.1 HTML 页面加载渲染的过程</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/119.png" alt="img"></p>
+<h3 id="1-2-HTML渲染过程的一些特点"><a href="#1-2-HTML渲染过程的一些特点" class="headerlink" title="1.2 HTML渲染过程的一些特点"></a>1.2 HTML渲染过程的一些特点</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/120.png" alt="img"></p>
+<h3 id="1-3-css-阻塞和-js-阻塞"><a href="#1-3-css-阻塞和-js-阻塞" class="headerlink" title="1.3 css 阻塞和 js 阻塞"></a>1.3 css 阻塞和 js 阻塞</h3><h4 id="1-3-1-CSS阻塞"><a href="#1-3-1-CSS阻塞" class="headerlink" title="1.3.1 CSS阻塞"></a>1.3.1 CSS阻塞</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/121.png" alt="img"></p>
+<h4 id="1-3-2-JS阻塞"><a href="#1-3-2-JS阻塞" class="headerlink" title="1.3.2 JS阻塞"></a>1.3.2 JS阻塞</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/122.png" alt="img"></p>
+<h2 id="二、资源的压缩与合并"><a href="#二、资源的压缩与合并" class="headerlink" title="二、资源的压缩与合并"></a>二、资源的压缩与合并</h2><h3 id="2-1-文件合并"><a href="#2-1-文件合并" class="headerlink" title="2.1 文件合并"></a>2.1 文件合并</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/123.png" alt="img"></p>
+<h3 id="2-2-css、js-及-HTML压缩"><a href="#2-2-css、js-及-HTML压缩" class="headerlink" title="2.2 css、js 及 HTML压缩"></a>2.2 css、js 及 HTML压缩</h3><h4 id="2-2-1-CSS压缩"><a href="#2-2-1-CSS压缩" class="headerlink" title="2.2.1 CSS压缩"></a>2.2.1 CSS压缩</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/124.png" alt="img"></p>
+<h4 id="2-2-2-JS压缩"><a href="#2-2-2-JS压缩" class="headerlink" title="2.2.2 JS压缩"></a>2.2.2 JS压缩</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/125.png" alt="img"></p>
+<h4 id="2-2-3-HTML压缩"><a href="#2-2-3-HTML压缩" class="headerlink" title="2.2.3 HTML压缩"></a>2.2.3 HTML压缩</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/126.png" alt="img"></p>
+<h3 id="2-3-http-清求的过程及潜在的性能优化点"><a href="#2-3-http-清求的过程及潜在的性能优化点" class="headerlink" title="2.3 http 清求的过程及潜在的性能优化点"></a>2.3 http 清求的过程及潜在的性能优化点</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/127.png" alt="img"></p>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/128.png" alt="img"></p>
+<h2 id="三、图片相关的优化"><a href="#三、图片相关的优化" class="headerlink" title="三、图片相关的优化"></a>三、图片相关的优化</h2><h3 id="3-1-不同格式图片常用的业务场景"><a href="#3-1-不同格式图片常用的业务场景" class="headerlink" title="3.1 不同格式图片常用的业务场景"></a>3.1 不同格式图片常用的业务场景</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/129.png" alt="img"></p>
+<h3 id="3-2-图片压缩几种方法-雪碧图、Image-inline"><a href="#3-2-图片压缩几种方法-雪碧图、Image-inline" class="headerlink" title="3.2 图片压缩几种方法-雪碧图、Image inline"></a>3.2 图片压缩几种方法-雪碧图、Image inline</h3><h4 id="3-2-1-使用矢量图"><a href="#3-2-1-使用矢量图" class="headerlink" title="3.2.1 使用矢量图"></a>3.2.1 使用矢量图</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/130.png" alt="img"></p>
+<h4 id="3-2-2-在安卓下使用webp"><a href="#3-2-2-在安卓下使用webp" class="headerlink" title="3.2.2 在安卓下使用webp"></a>3.2.2 在安卓下使用webp</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/131.png" alt="img"></p>
+<h2 id="四、-懒加载与预加载"><a href="#四、-懒加载与预加载" class="headerlink" title="四、 懒加载与预加载"></a>四、 懒加载与预加载</h2><h3 id="4-1-懒加载原理"><a href="#4-1-懒加载原理" class="headerlink" title="4.1 懒加载原理"></a>4.1 懒加载原理</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/132.png" alt="img"></p>
+<h3 id="4-2-预加载原理"><a href="#4-2-预加载原理" class="headerlink" title="4.2 预加载原理"></a>4.2 预加载原理</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/133.png" alt="img"></p>
+<h3 id="4-3-懒加载、预加载使用场景"><a href="#4-3-懒加载、预加载使用场景" class="headerlink" title="4.3 懒加载、预加载使用场景"></a>4.3 懒加载、预加载使用场景</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/134.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/135.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/136.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/137.png" alt="img"></p>
+<h3 id="4-4-预加载原生-js-和-PreloadJS-实现"><a href="#4-4-预加载原生-js-和-PreloadJS-实现" class="headerlink" title="4.4 预加载原生 js 和 PreloadJS 实现"></a>4.4 预加载原生 js 和 PreloadJS 实现</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/138.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/139.png" alt="img"></p>
+<h2 id="五、缓存"><a href="#五、缓存" class="headerlink" title="五、缓存"></a>五、缓存</h2><p><img src="https://poetries1.gitee.io/img-repo/2019/10/140.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/141.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/142.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/143.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/144.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/145.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/146.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/147.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/148.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/149.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/150.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/151.png" alt="img"></p>
+<h2 id="六、重绘与回流"><a href="#六、重绘与回流" class="headerlink" title="六、重绘与回流"></a>六、重绘与回流</h2><h3 id="6-1-什么是重绘与回流"><a href="#6-1-什么是重绘与回流" class="headerlink" title="6.1 什么是重绘与回流"></a>6.1 什么是重绘与回流</h3><h4 id="6-1-1-重绘"><a href="#6-1-1-重绘" class="headerlink" title="6.1.1 重绘"></a>6.1.1 重绘</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/152.png" alt="img"></p>
+<h4 id="6-1-2-回流"><a href="#6-1-2-回流" class="headerlink" title="6.1.2 回流"></a>6.1.2 回流</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/153.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/154.png" alt="img"></p>
+<h3 id="6-2-避免重绘回流的两种方法"><a href="#6-2-避免重绘回流的两种方法" class="headerlink" title="6.2 避免重绘回流的两种方法"></a>6.2 避免重绘回流的两种方法</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/155.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/156.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/157.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/158.png" alt="img"></p>
+<h3 id="6-3-css-性能让-Javacript-变慢？"><a href="#6-3-css-性能让-Javacript-变慢？" class="headerlink" title="6.3 css 性能让 Javacript 变慢？"></a>6.3 css 性能让 Javacript 变慢？</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/159.png" alt="img"></p>
+<h3 id="6-4-案例解析-重绘、回流及图层"><a href="#6-4-案例解析-重绘、回流及图层" class="headerlink" title="6.4 案例解析-重绘、回流及图层"></a>6.4 案例解析-重绘、回流及图层</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/160.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/161.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/162.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/163.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/164.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/165.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/166.png" alt="img"></p>
+<h3 id="6-5-实战优化点总结"><a href="#6-5-实战优化点总结" class="headerlink" title="6.5 实战优化点总结"></a>6.5 实战优化点总结</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/167.png" alt="img"></p>
+<h2 id="七、浏览器存储"><a href="#七、浏览器存储" class="headerlink" title="七、浏览器存储"></a>七、浏览器存储</h2><h3 id="7-1-cookies"><a href="#7-1-cookies" class="headerlink" title="7.1 cookies"></a>7.1 cookies</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/168.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/169.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/170.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/171.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/172.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/173.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/174.png" alt="img"></p>
+<h3 id="7-2-LocalStorage、SessionStorage"><a href="#7-2-LocalStorage、SessionStorage" class="headerlink" title="7.2 LocalStorage、SessionStorage"></a>7.2 LocalStorage、SessionStorage</h3><h4 id="7-2-1-LocalStorage"><a href="#7-2-1-LocalStorage" class="headerlink" title="7.2.1 LocalStorage"></a>7.2.1 LocalStorage</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/175.png" alt="img"></p>
+<h4 id="7-2-2-SessionStorage"><a href="#7-2-2-SessionStorage" class="headerlink" title="7.2.2 SessionStorage"></a>7.2.2 SessionStorage</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/176.png" alt="img"></p>
+<h3 id="7-3-IndexedDB"><a href="#7-3-IndexedDB" class="headerlink" title="7.3 IndexedDB"></a>7.3 IndexedDB</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/177.png" alt="img"></p>
+<h3 id="7-4-案例解析"><a href="#7-4-案例解析" class="headerlink" title="7.4 案例解析"></a>7.4 案例解析</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/178.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/179.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/180.png" alt="img"></p>
+<h3 id="7-5-PWA与Service-Workers"><a href="#7-5-PWA与Service-Workers" class="headerlink" title="7.5 PWA与Service Workers"></a>7.5 PWA与Service Workers</h3><h4 id="7-5-1-PWA"><a href="#7-5-1-PWA" class="headerlink" title="7.5.1 PWA"></a>7.5.1 PWA</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/181.png" alt="img"></p>
+<h4 id="7-5-2-Service-Workers"><a href="#7-5-2-Service-Workers" class="headerlink" title="7.5.2 Service Workers"></a>7.5.2 Service Workers</h4><p><img src="https://poetries1.gitee.io/img-repo/2019/10/182.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/183.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/184.png" alt="img"></p>
+<h3 id="7-6-Service-Workers-离线应用"><a href="#7-6-Service-Workers-离线应用" class="headerlink" title="7.6 Service Workers-离线应用"></a>7.6 Service Workers-离线应用</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/185.png" alt="img"><br><img src="https://poetries1.gitee.io/img-repo/2019/10/186.png" alt="img"></p>
+<h2 id="八、移动H5前端性能优化指南"><a href="#八、移动H5前端性能优化指南" class="headerlink" title="八、移动H5前端性能优化指南"></a>八、移动H5前端性能优化指南</h2><p><img src="https://camo.githubusercontent.com/db045941b5adebe26eae1202b9286fe8c39e5fa2/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f3934383631342d313735326635633839393363633161302e6a7065673f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970253743696d61676556696577322f322f772f31323430" alt="img"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/05/19/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86/" data-id="cl7icg7br00ycugunaog74qdn" data-title="浏览器渲染原理" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/30/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%9B%BE%E8%A7%A3%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" data-id="cl7icg7dq012kugunh3k2d8ft" data-title="图解前端性能优化" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-性能优化/前端页面性能优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/22/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2021-03-22T11:16:27.000Z" itemprop="datePublished">2021-03-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/22/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端页面性能优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、调试工具"><a href="#一、调试工具" class="headerlink" title="一、调试工具"></a>一、调试工具</h2><h3 id="1、Network"><a href="#1、Network" class="headerlink" title="1、Network"></a>1、Network</h3><p><img src="https://blog.poetries.top/img/static/images/image-20210208102537169.png" alt="image-20210208102537169"></p>
+<p>这里可以看到资源加载详情，初步评估影响<code>页面性能</code>的因素。鼠标右键可以自定义选项卡，页面底部是当前加载资源的一个概览。<code>DOMContentLoaded</code> DOM渲染完成的时间，<code>Load</code>：当前页面所有资源加载完成的时间</p>
+<p><strong>思考：如何判断哪些资源对当前页面加载无用，做对应优化？</strong></p>
+<p><strong>shift + cmd + P 调出控制台的扩展工具，添加规则</strong></p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208102549961.png" alt="image-20210208102549961"></p>
+<p><strong>监控页面性能变化</strong></p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208102650825.png" alt="image-20210208102650825"></p>
+<h4 id="瀑布流waterfal"><a href="#瀑布流waterfal" class="headerlink" title="瀑布流waterfal"></a>瀑布流waterfal</h4><p><img src="https://blog.poetries.top/img/static/images/image-20210208102723253.png" alt="image-20210208102723253"></p>
+<ul>
+<li><code>Queueing</code> 浏览器将资源放入队列时间</li>
+<li><code>Stalled</code> 因放入队列时间而发生的停滞时间</li>
+<li><code>DNS Lookup</code> DNS解析时间</li>
+<li><code>Initial connection</code> 建立HTTP连接的时间</li>
+<li><code>SSL</code> 浏览器与服务器建立安全性连接的时间</li>
+<li><code>TTFB</code> 等待服务端返回数据的时间</li>
+<li><code>Content Download</code> 浏览器下载资源的时间</li>
+</ul>
+<h3 id="2、Lighthouse"><a href="#2、Lighthouse" class="headerlink" title="2、Lighthouse"></a>2、Lighthouse</h3><p><img src="https://blog.poetries.top/img/static/images/image-20210208102851752.png" alt="image-20210208102851752"></p>
+<ul>
+<li><code>First Contentful Paint</code> 首屏渲染时间，1s以内绿色</li>
+<li><code>Speed Index</code> 速度指数，4s以内绿色</li>
+<li><code>Time to Interactive</code> 到页面可交换的时间</li>
+</ul>
+<blockquote>
+<p>根据chrome的一些策略自动对网站做一个质量评估，并且会给出一些优化的建议</p>
+</blockquote>
+<h3 id="3、Peformance"><a href="#3、Peformance" class="headerlink" title="3、Peformance"></a>3、Peformance</h3><p><img src="https://blog.poetries.top/img/static/images/image-20210208102949596.png" alt="image-20210208102949596"></p>
+<p>对网站最专业的分析</p>
+<h3 id="4、webPageTest"><a href="#4、webPageTest" class="headerlink" title="4、webPageTest"></a>4、webPageTest</h3><blockquote>
+<p>可以模拟不同场景下访问的情况，比如模拟不同浏览器、不同国家等等，在线测试地址：<a target="_blank" rel="noopener" href="https://www.webpagetest.org/">webPageTest</a></p>
+</blockquote>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208103032419.png" alt="image-20210208103032419"></p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208103054016.png" alt="image-20210208103054016"></p>
+<h3 id="5、资源打包分析"><a href="#5、资源打包分析" class="headerlink" title="5、资源打包分析"></a>5、资源打包分析</h3><h4 id="webpack-bundle-analyzer"><a href="#webpack-bundle-analyzer" class="headerlink" title="webpack-bundle-analyzer"></a>webpack-bundle-analyzer</h4><p><img src="https://blog.poetries.top/img/static/images/image-20210208103127992.png" alt="image-20210208103127992"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-bundle-analyzer</span><br><span class="line">// webpack.config.js 文件</span><br><span class="line">const BundleAnalyzerPlugin = require(&#x27;webpack-bundle-analyzer&#x27;).BundleAnalyzerPlugin</span><br><span class="line">module.exports=&#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    new BundleAnalyzerPlugin(&#123;</span><br><span class="line">          analyzerMode: &#x27;server&#x27;,</span><br><span class="line">          analyzerHost: &#x27;127.0.0.1&#x27;,</span><br><span class="line">          analyzerPort: 8889,</span><br><span class="line">          reportFilename: &#x27;report.html&#x27;,</span><br><span class="line">          defaultSizes: &#x27;parsed&#x27;,</span><br><span class="line">          openAnalyzer: true,</span><br><span class="line">          generateStatsFile: false,</span><br><span class="line">          statsFilename: &#x27;stats.json&#x27;,</span><br><span class="line">          statsOptions: null,</span><br><span class="line">          logLevel: &#x27;info&#x27;</span><br><span class="line">        &#125;),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// package.json</span><br><span class="line">&quot;analyz&quot;: &quot;NODE_ENV=production npm_config_report=true npm run build&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="开启source-map"><a href="#开启source-map" class="headerlink" title="开启source-map"></a>开启source-map</h4><blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack.config.js</span><br></pre></td></tr></table></figure>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    mode: &#x27;production&#x27;,</span><br><span class="line">    devtool: &#x27;hidden-source-map&#x27;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>package.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;analyze&quot;: &quot;source-map-explorer &#x27;build/*.js&#x27;&quot;,</span><br></pre></td></tr></table></figure>
+
+<p>npm run analyze</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208103321371.png" alt="image-20210208103321371"></p>
+<h2 id="二、WEB-API"><a href="#二、WEB-API" class="headerlink" title="二、WEB API"></a>二、WEB API</h2><p>工欲善其事，必先利其器。浏览器提供的一些分析API<code>至关重要</code></p>
+<h3 id="1、监听视窗激活状态"><a href="#1、监听视窗激活状态" class="headerlink" title="1、监听视窗激活状态"></a>1、监听视窗激活状态</h3><p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b7ab11fc7b94fcf8c79bd3b28706b2c~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 窗口激活状态监听</span><br><span class="line">let vEvent = &#x27;visibilitychange&#x27;;</span><br><span class="line">if (document.webkitHidden != undefined) &#123;</span><br><span class="line">    vEvent = &#x27;webkitvisibilitychange&#x27;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function visibilityChanged() &#123;</span><br><span class="line">    if (document.hidden || document.webkitHidden) &#123;</span><br><span class="line">        document.title = &#x27;客官，别走啊~&#x27;</span><br><span class="line">        console.log(&quot;Web page is hidden.&quot;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        document.title = &#x27;客官，你又回来了呢~&#x27;</span><br><span class="line">        console.log(&quot;Web page is visible.&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">document.addEventListener(vEvent, visibilityChanged, false);</span><br></pre></td></tr></table></figure>
+
+<p>其实有很多隐藏的api，这里大家有兴趣的可以去试试看：</p>
+<h3 id="2、观察长任务（performance-中Task）"><a href="#2、观察长任务（performance-中Task）" class="headerlink" title="2、观察长任务（performance 中Task）"></a>2、观察长任务（performance 中Task）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const observer = new PerformanceObserver((list) =&gt; &#123;</span><br><span class="line">    for (const entry of list.getEntries()) &#123;</span><br><span class="line">        console.log(entry)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">observer.observe(&#123;entryTypes: [&#x27;longtask&#x27;]&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、监听网络变化"><a href="#3、监听网络变化" class="headerlink" title="3、监听网络变化"></a>3、监听网络变化</h3><p>网络变化时给用户反馈网络问题，有时候看直播的时候自己的网络卡顿，直播平台也会提醒你或者自动给你切换清晰度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;</span><br><span class="line">var type = connection.effectiveType;</span><br><span class="line"></span><br><span class="line">function updateConnectionStatus() &#123;</span><br><span class="line">  console.log(&quot;Connection type changed from &quot; + type + &quot; to &quot; + connection.effectiveType);</span><br><span class="line">  type = connection.effectiveType;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">connection.addEventListener(&#x27;change&#x27;, updateConnectionStatus);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、计算DOMContentLoaded时间"><a href="#4、计算DOMContentLoaded时间" class="headerlink" title="4、计算DOMContentLoaded时间"></a>4、计算DOMContentLoaded时间</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&#x27;DOMContentLoaded&#x27;, (event) =&gt; &#123;</span><br><span class="line">    let timing = performance.getEntriesByType(&#x27;navigation&#x27;)[0];</span><br><span class="line">    console.log(timing.domInteractive);</span><br><span class="line">    console.log(timing.fetchStart);</span><br><span class="line">    let diff = timing.domInteractive - timing.fetchStart;</span><br><span class="line">    console.log(&quot;TTI: &quot; + diff);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、更多计算规则"><a href="#5、更多计算规则" class="headerlink" title="5、更多计算规则"></a>5、更多计算规则</h3><ul>
+<li><code>DNS</code> 解析耗时: <code>domainLookupEnd - domainLookupStart</code></li>
+<li><code>TCP</code> 连接耗时: <code>connectEnd - connectStart</code></li>
+<li><code>SSL</code> 安全连接耗时: <code>connectEnd - secureConnectionStart</code></li>
+<li>网络请求耗时 (<code>TTFB</code>): <code>responseStart - requestStart</code></li>
+<li>数据传输耗时: <code>responseEnd - responseStart</code></li>
+<li><code>DOM</code> 解析耗时: <code>domInteractive - responseEnd</code></li>
+<li>资源加载耗时:<code>loadEventStart - domContentLoadedEventEnd</code></li>
+<li><code>First Byte</code>时间: <code>responseStart - domainLookupStart</code></li>
+<li>白屏时间: <code>responseEnd - fetchStart</code></li>
+<li>首次可交互时间: <code>domInteractive - fetchStart</code></li>
+<li><code>DOM Ready</code> 时间: <code>domContentLoadEventEnd - fetchStart</code></li>
+<li>页面完全加载时间: <code>loadEventStart - fetchStart</code></li>
+<li><code>http</code> 头部大小： <code>transferSize - encodedBodySize</code></li>
+<li>重定向次数：<code>performance.navigation.redirectCount</code></li>
+<li>重定向耗时: <code>redirectEnd - redirectStart</code></li>
+</ul>
+<h2 id="三、雅虎军规"><a href="#三、雅虎军规" class="headerlink" title="三、雅虎军规"></a>三、雅虎军规</h2><p>关于雅虎军规，你知道的有多少条，平时写用到的又有哪些？针对以下规则，我们可以做很多优化工作</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208103918197.png" alt="image-20210208103918197"></p>
+<h3 id="1、减少cookie传输"><a href="#1、减少cookie传输" class="headerlink" title="1、减少cookie传输"></a>1、减少cookie传输</h3><blockquote>
+<p><code>cookie</code>传输会造成带宽浪费，可以：</p>
+</blockquote>
+<ul>
+<li>减少<code>cookie</code>中存储的东西</li>
+<li>静态资源不需要<code>cookie</code>，可以采用其他的域名，不会主动带上<code>cookie</code></li>
+</ul>
+<h3 id="2、避免过多的回流与重绘"><a href="#2、避免过多的回流与重绘" class="headerlink" title="2、避免过多的回流与重绘"></a>2、避免过多的回流与重绘</h3><p>连续触发页面回流操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let cards = document.getElementsByClassName(&quot;MuiPaper-rounded&quot;);</span><br><span class="line">const update = (timestamp) =&gt; &#123;</span><br><span class="line">  for (let i = 0; i &lt;cards.length; i++) &#123;</span><br><span class="line">    let top = cards[i].offsetTop;</span><br><span class="line">    cards[i].style.width = ((Math.sin(cards[i].offsetTop + timestamp / 100 + 1) * 500) + &#x27;px&#x27;)</span><br><span class="line">  &#125;</span><br><span class="line">  window.requestAnimationFrame(update)</span><br><span class="line">&#125;</span><br><span class="line">update(1000);</span><br></pre></td></tr></table></figure>
+
+<p>看下效果，很明显的卡顿</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7618dea1a4774c8685e9926b08d67fdd~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<blockquote>
+<p><code>performance</code>分析结果，<code>load</code>事件之后存在大量的回流，并且<code>chrome</code>都给标记了红色</p>
+</blockquote>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b543d68fab7445da1dedb72bb224f69~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<blockquote>
+<p>使用<code>fastDom</code>进行优化，将对dom的<code>读和写</code>分离，合并</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let cards = document.getElementsByClassName(&quot;MuiPaper-rounded&quot;);</span><br><span class="line">  const update = (timestamp) =&gt; &#123;</span><br><span class="line">    for (let i = 0; i &lt; cards.length; i++) &#123;</span><br><span class="line">      fastdom.measure(() =&gt; &#123;</span><br><span class="line">        let top = cards[i].offsetTop;</span><br><span class="line">        fastdom.mutate(() =&gt; &#123;</span><br><span class="line">          cards[i].style.width =</span><br><span class="line">            Math.sin(top + timestamp / 100 + 1) * 500 + &quot;px&quot;;</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    window.requestAnimationFrame(update)</span><br><span class="line">  &#125;</span><br><span class="line">  update(1000);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1df5c32c30494c13b3402305f866b327~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<blockquote>
+<p><code>performance</code>分析结果，load事件之后也没有了那么多的红色标记</p>
+</blockquote>
+<p>感兴趣的可以去了解一下fastDom：<a target="_blank" rel="noopener" href="https://github.com/wilsonpage/fastdom">github fastdom</a> 在线预览：<a target="_blank" rel="noopener" href="http://wilsonpage.github.io/fastdom/examples/animation.html">fastdom demo</a></p>
+<p>关于任务拆分与组合的思想，<code>react fiber</code>架构做的很牛逼，有兴趣的可以去了解一下调度算法在fiber中的实践</p>
+<h2 id="四、压缩"><a href="#四、压缩" class="headerlink" title="四、压缩"></a>四、压缩</h2><h3 id="1、Gzip"><a href="#1、Gzip" class="headerlink" title="1、Gzip"></a>1、Gzip</h3><p>开启方式可参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903605187641357">nginx开启gzip</a></p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208104535672.png" alt="image-20210208104535672"></p>
+<blockquote>
+<p>还有一种方式：打包的时候生成gz文件，上传到服务器端，这样就不需要nginx来压缩了，可以降低服务器压力。 可参考：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000020976930">gzip压缩文件&amp;webPack配置Compression-webpack-plugin</a></p>
+</blockquote>
+<h3 id="2、服务端压缩"><a href="#2、服务端压缩" class="headerlink" title="2、服务端压缩"></a>2、服务端压缩</h3><p>server.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&#x27;express&#x27;);</span><br><span class="line">const app = express();</span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line">const compression = require(&#x27;compression&#x27;);</span><br><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.use(compression());</span><br><span class="line">app.use(express.static(&#x27;build&#x27;));</span><br><span class="line"></span><br><span class="line">app.get(&#x27;*&#x27;, (req,res) =&gt;&#123;</span><br><span class="line">    res.sendFile(path.join(__dirname+&#x27;/build/index.html&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">const listener = app.listen(process.env.PORT || 3000, function () &#123;</span><br><span class="line">    console.log(`Listening on port $&#123;listener.address().port&#125;`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>package.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;start&quot;: &quot;npm run build &amp;&amp; node server.js&quot;,</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208104641677.png" alt="image-20210208104641677"></p>
+<h3 id="3、JavaScript、Css、Html压缩"><a href="#3、JavaScript、Css、Html压缩" class="headerlink" title="3、JavaScript、Css、Html压缩"></a>3、JavaScript、Css、Html压缩</h3><p>工程化项目中直接使用对应的插件即可，webpack的主要有下面三个：</p>
+<ul>
+<li><code>UglifyJS</code></li>
+<li><code>webpack-parallel-uglify-plugin</code></li>
+<li><code>terser-webpack-plugin</code></li>
+</ul>
+<blockquote>
+<p>具体优缺点可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24147051/article/details/103557728">webpack常用的三种JS压缩插件</a>。<code>压缩原理</code>简单的讲就是去除一些空格、换行、注释，借助es6模块化的功能，做了一些<code>tree-shaking</code>的优化。同时做了一些代码混淆，一方面是为了更小的体积，另一方面也是为了源码的安全性。</p>
+</blockquote>
+<p>css压缩主要是<code>mini-css-extract-plugin</code>，当然前面的js压缩插件也会给你做好css压缩。使用姿势</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev mini-css-extract-plugin</span><br><span class="line">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);</span><br><span class="line">plugins:[</span><br><span class="line"> new MiniCssExtractPlugin(&#123;</span><br><span class="line">       filename: &quot;[name].css&quot;,</span><br><span class="line">       chunkFilename: &quot;[id].css&quot;</span><br><span class="line">   &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>html压缩可以用<code>HtmlWebpackPlugin</code>，单页项目就一个index.html,性能提升微乎其微~</p>
+<h3 id="4、http2首部压缩"><a href="#4、http2首部压缩" class="headerlink" title="4、http2首部压缩"></a>4、http2首部压缩</h3><p><strong>http2的特点</strong></p>
+<ul>
+<li>二进制分帧</li>
+<li>首部压缩</li>
+<li>流量控制</li>
+<li>多路复用</li>
+<li>请求优先级</li>
+<li>服务器推送<code>http2_push: &#39;xxx.jpg&#39;</code></li>
+</ul>
+<p>具体升级方式也很简单，修改一下<code>nginx</code>配置，方法请自行<code>Google</code></p>
+<h2 id="五、webpack优化"><a href="#五、webpack优化" class="headerlink" title="五、webpack优化"></a>五、webpack优化</h2><p>上文中也提到了部分webpack插件，下面我再来看看还有哪些~</p>
+<h3 id="1、DllPlugin-提升构建速度"><a href="#1、DllPlugin-提升构建速度" class="headerlink" title="1、DllPlugin 提升构建速度"></a>1、DllPlugin 提升构建速度</h3><blockquote>
+<p>通过<code>DllPlugin</code>插件，将一些比较大的，基本很少升级的包拆分出来，生成<code>xx.dll.js</code>文件,通过<code>manifest.json</code>引用</p>
+</blockquote>
+<p>webpack.dll.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&quot;path&quot;);</span><br><span class="line">const webpack = require(&quot;webpack&quot;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode: &quot;production&quot;,</span><br><span class="line">    entry: &#123;</span><br><span class="line">        react: [&quot;react&quot;, &quot;react-dom&quot;],</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &quot;[name].dll.js&quot;,</span><br><span class="line">        path: path.resolve(__dirname, &quot;dll&quot;),</span><br><span class="line">        library: &quot;[name]&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        new webpack.DllPlugin(&#123;</span><br><span class="line">            name: &quot;[name]&quot;,</span><br><span class="line">            path: path.resolve(__dirname, &quot;dll/[name].manifest.json&quot;)</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>package.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dll-build&quot;: &quot;NODE_ENV=production webpack --config webpack.dll.config.js&quot;,</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>webpack4不需要配置dll了，因为webpack4打包性能已经足够优化，vue-cli3都已经移除<code>dll</code></p>
+</blockquote>
+<h3 id="2、splitChunks-拆包"><a href="#2、splitChunks-拆包" class="headerlink" title="2、splitChunks 拆包"></a>2、splitChunks 拆包</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">        splitChunks: &#123;</span><br><span class="line">            cacheGroups: &#123;</span><br><span class="line">                vendor: &#123;</span><br><span class="line">                    name: &#x27;vendor&#x27;,</span><br><span class="line">                    test: /[\\/]node_modules[\\/]/,</span><br><span class="line">                    minSize: 0,</span><br><span class="line">                    minChunks: 1,</span><br><span class="line">                    priority: 10,</span><br><span class="line">                    chunks: &#x27;initial&#x27;</span><br><span class="line">                &#125;,</span><br><span class="line">                common: &#123;</span><br><span class="line">                    name: &#x27;common&#x27;,</span><br><span class="line">                    test: /[\\/]src[\\/]/,</span><br><span class="line">                    chunks: &#x27;all&#x27;,</span><br><span class="line">                    minSize: 0,</span><br><span class="line">                    minChunks: 2</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、骨架屏"><a href="#六、骨架屏" class="headerlink" title="六、骨架屏"></a>六、骨架屏</h2><blockquote>
+<p>用css提前占好位置，当资源加载完成即可填充，减少页面的回流与重绘，同时还能给用户最直接的反馈。 图中使用插件：<a target="_blank" rel="noopener" href="https://github.com/buildo/react-placeholder">react-placeholder</a></p>
+</blockquote>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3666ae07b9eb4d839f7a893b89d83f47~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<p>关于实现骨架屏还有很多种方案，用<code>Puppeteer</code>服务端渲染的挺多的</p>
+<p>使用css伪类：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000020437426">只要css就能实现的骨架屏方案</a></p>
+<h2 id="七、窗口化"><a href="#七、窗口化" class="headerlink" title="七、窗口化"></a>七、窗口化</h2><blockquote>
+<p>原理：只加载当前窗口能显示的DOM元素，当视图变化时，删除隐藏的，添加要显示的DOM就可以保证页面上存在的dom元素数量永远不多，页面就不会卡顿</p>
+</blockquote>
+<p>图中使用的插件：<a target="_blank" rel="noopener" href="https://github.com/bvaughn/react-window">react-window</a></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1a459cc811844b7793aff6c9878d19ad~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<p>安装：<code>npm i react-window</code></p>
+<p>引入：<code>import &#123; FixedSizeList as List &#125; from &#39;react-window&#39;;</code></p>
+<p>使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const Row = (&#123; index, style &#125;) =&gt; (</span><br><span class="line">  &lt;div style=&#123;style&#125;&gt;Row &#123;index&#125;&lt;/div&gt;</span><br><span class="line">);</span><br><span class="line"> </span><br><span class="line">const Example = () =&gt; (</span><br><span class="line">  &lt;List</span><br><span class="line">    height=&#123;150&#125;</span><br><span class="line">    itemCount=&#123;1000&#125;</span><br><span class="line">    itemSize=&#123;35&#125;</span><br><span class="line">    width=&#123;300&#125;</span><br><span class="line">  &gt;</span><br><span class="line">    &#123;Row&#125;</span><br><span class="line">  &lt;/List&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、缓存"><a href="#八、缓存" class="headerlink" title="八、缓存"></a>八、缓存</h2><h3 id="1、http缓存"><a href="#1、http缓存" class="headerlink" title="1、http缓存"></a>1、http缓存</h3><h4 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h4><p>判断是否开启：看<code>response headers</code>中有没有<code>Connection: keep-alive</code> 。开启以后，看<code>network</code>的瀑布流中就没有 <code>Initial connection</code>耗时了</p>
+<p><code>nginx</code>设置<code>keep-alive</code>（默认开启）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 0 为关闭</span><br><span class="line">#keepalive_timeout 0;</span><br><span class="line"># 65s无连接 关闭</span><br><span class="line">keepalive_timeout 65;</span><br><span class="line"># 连接数，达到100断开</span><br><span class="line">keepalive_requests 100;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Cache-Control-x2F-Expires-x2F-Max-Age"><a href="#Cache-Control-x2F-Expires-x2F-Max-Age" class="headerlink" title="Cache-Control &#x2F; Expires &#x2F; Max-Age"></a>Cache-Control &#x2F; Expires &#x2F; Max-Age</h4><p>设置资源是否缓存，以及缓存时间</p>
+<h4 id="Etag-x2F-If-None-Match"><a href="#Etag-x2F-If-None-Match" class="headerlink" title="Etag &#x2F; If-None-Match"></a>Etag &#x2F; If-None-Match</h4><p>资源唯一标识作对比，如果有变化，从服务器拉取资源。如果没变化则取缓存资源，状态码304，也就是协商缓存</p>
+<h4 id="Last-Modified-x2F-If-Modified-Since"><a href="#Last-Modified-x2F-If-Modified-Since" class="headerlink" title="Last-Modified &#x2F; If-Modified-Since"></a>Last-Modified &#x2F; If-Modified-Since</h4><p>通过对比时间的差异来觉得要不要从服务器获取资源</p>
+<p>更多HTTP缓存参数可参考：<a target="_blank" rel="noopener" href="https://harttle.land/2017/04/04/using-http-cache.html">使用 HTTP 缓存：Etag, Last-Modified 与 Cache-Control</a></p>
+<h3 id="2、Service-Worker"><a href="#2、Service-Worker" class="headerlink" title="2、Service Worker"></a>2、Service Worker</h3><blockquote>
+<p>借助webpack插件<code>WorkboxWebpackPlugin</code>和<code>ManifestPlugin</code>,加载serviceWorker.js,通过<code>serviceWorker.register()</code>注册</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">new WorkboxWebpackPlugin.GenerateSW(&#123;</span><br><span class="line">    clientsClaim: true,</span><br><span class="line">    exclude: [/\.map$/, /asset-manifest\.json$/],</span><br><span class="line">    importWorkboxFrom: &#x27;cdn&#x27;,</span><br><span class="line">    navigateFallback: paths.publicUrlOrPath + &#x27;index.html&#x27;,</span><br><span class="line">    navigateFallbackBlacklist: [</span><br><span class="line">        new RegExp(&#x27;^/_&#x27;),</span><br><span class="line">        new RegExp(&#x27;/[^/?]+\\.[^/]+$&#x27;),</span><br><span class="line">    ],</span><br><span class="line">&#125;),</span><br><span class="line"></span><br><span class="line">new ManifestPlugin(&#123;</span><br><span class="line">    fileName: &#x27;asset-manifest.json&#x27;,</span><br><span class="line">    publicPath: paths.publicUrlOrPath,</span><br><span class="line">    generate: (seed, files, entrypoints) =&gt; &#123;</span><br><span class="line">        const manifestFiles = files.reduce((manifest, file) =&gt; &#123;</span><br><span class="line">            manifest[file.name] = file.path;</span><br><span class="line">            return manifest;</span><br><span class="line">        &#125;, seed);</span><br><span class="line">        const entrypointFiles = entrypoints.app.filter(</span><br><span class="line">            fileName =&gt; !fileName.endsWith(&#x27;.map&#x27;)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        return &#123;</span><br><span class="line">            files: manifestFiles,</span><br><span class="line">            entrypoints: entrypointFiles,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105415279.png" alt="image-20210208105415279"></p>
+<h2 id="九、预加载-amp-amp-懒加载"><a href="#九、预加载-amp-amp-懒加载" class="headerlink" title="九、预加载 &amp;&amp; 懒加载"></a>九、预加载 &amp;&amp; 懒加载</h2><h3 id="1、preload"><a href="#1、preload" class="headerlink" title="1、preload"></a>1、preload</h3><p>就拿demo中的字体举例，正常情况下的加载顺序是这样的：</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105446451.png" alt="image-20210208105446451"></p>
+<p>加入preload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;preload&quot; href=&quot;https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.119.woff2&quot; as=&quot;font&quot; crossorigin=&quot;anonymous&quot;/&gt; </span><br><span class="line">&lt;link rel=&quot;preload&quot; href=&quot;https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.118.woff2&quot; as=&quot;font&quot; crossorigin=&quot;anonymous&quot;/&gt; </span><br><span class="line">&lt;link rel=&quot;preload&quot; href=&quot;https://fonts.gstatic.com/s/longcang/v5/LYjAdGP8kkgoTec8zkRgqHAtXN-dRp6ohF_hzzTtOcBgYoCKmPpHHEBiM6LIGv3EnKLjtw.116.woff2&quot; as=&quot;font&quot; crossorigin=&quot;anonymous&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105522277.png" alt="image-20210208105522277"></p>
+<h3 id="2、prefetch"><a href="#2、prefetch" class="headerlink" title="2、prefetch"></a>2、prefetch</h3><blockquote>
+<p>场景：首页不需要这样的字体文件，下个页面需要：首页会以最低优先级<code>Lowest</code>来提前加载</p>
+</blockquote>
+<p>加入<code>prefetch</code>：</p>
+<p>需要的页面，从<code>prefetch cache</code>中取</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105625448.png" alt="image-20210208105625448"></p>
+<p>webpack也是支持这两个属性的:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/skychx/p/webpack-webpackChunkName-webpackPreload-webpackPreload.html">webpackPrefetch 和 webpackPreload</a></p>
+<h3 id="3、懒加载"><a href="#3、懒加载" class="headerlink" title="3、懒加载"></a>3、懒加载</h3><h4 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h4><p>机械图片</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105717958.png" alt="image-20210208105717958"></p>
+<p><code>渐进式图片（类似高斯模糊）</code> 需要UI小姐姐出稿的时候指定这种格式</p>
+<p><img src="https://blog.poetries.top/img/static/images/image-20210208105747314.png" alt="image-20210208105747314"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">响应式图片</span><br></pre></td></tr></table></figure>
+
+<p>原生模式：&#96;&#96;</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7427e9243791461b8ffa49f47981cfba~tplv-k3u1fbpfcp-watermark.image?imageslim" alt="img"></p>
+<h4 id="路由懒加载"><a href="#路由懒加载" class="headerlink" title="路由懒加载"></a>路由懒加载</h4><p>通过<code>函数 + import</code>实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const Page404 = () =&gt; import(/* webpackChunkName: &quot;error&quot; */&#x27;@views/errorPage/404&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="十、ssr-amp-amp-react-snap"><a href="#十、ssr-amp-amp-react-snap" class="headerlink" title="十、ssr &amp;&amp; react-snap"></a>十、ssr &amp;&amp; react-snap</h2><ul>
+<li>服务端渲染<code>SSR</code>，vue使用<code>nuxt.js</code>，<code>react</code>使用<code>next.js</code></li>
+<li><code>react-snap</code>可以借助<code>Puppeteer</code>实现先渲染单页，然后保留<code>DOM</code>，发送到客户端</li>
+</ul>
+<h2 id="十一、体验优化"><a href="#十一、体验优化" class="headerlink" title="十一、体验优化"></a>十一、体验优化</h2><h3 id="白屏loading"><a href="#白屏loading" class="headerlink" title="白屏loading"></a>白屏loading</h3><p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/41557f3a361c4cf899a4eab3bde79154~tplv-k3u1fbpfcp-watermark.image" alt="img"></p>
+<p><strong>loading.html</strong> 需要自取哦，还有种方式，使用<code>webpack</code>插件<code>HtmlWebpackPlugin</code>将loading资源插入到页面中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot; /&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;</span><br><span class="line">    &lt;title&gt;Loading&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">      body &#123;</span><br><span class="line">        margin: 0;</span><br><span class="line">      &#125;</span><br><span class="line">      #loadding &#123;</span><br><span class="line">        position: fixed;</span><br><span class="line">        top: 0;</span><br><span class="line">        bottom: 0;</span><br><span class="line">        display: flex;</span><br><span class="line">        width: 100%;</span><br><span class="line">        align-items: center;</span><br><span class="line">        justify-content: center;</span><br><span class="line">      &#125;</span><br><span class="line">      #loadding &gt; span &#123;</span><br><span class="line">        display: inline-block;</span><br><span class="line">        width: 8px;</span><br><span class="line">        height: 100%;</span><br><span class="line">        margin-right: 5px;</span><br><span class="line">        border-radius: 4px;</span><br><span class="line">        -webkit-animation: load 1.04s ease infinite;</span><br><span class="line">        animation: load 1.04s ease infinite;</span><br><span class="line">      &#125;</span><br><span class="line">      @keyframes load &#123;</span><br><span class="line">        0%,</span><br><span class="line">        100% &#123;</span><br><span class="line">          height: 40px;</span><br><span class="line">          background: #98beff;</span><br><span class="line">        &#125;</span><br><span class="line">        50% &#123;</span><br><span class="line">          height: 60px;</span><br><span class="line">          margin-top: -20px;</span><br><span class="line">          background: #3e7fee;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line"></span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div id=&quot;loadding&quot;&gt;</span><br><span class="line">      &lt;span&gt;&lt;/span&gt;</span><br><span class="line">      &lt;span style=&quot;animation-delay: 0.13s&quot;&gt;&lt;/span&gt;</span><br><span class="line">      &lt;span style=&quot;animation-delay: 0.26s&quot;&gt;&lt;/span&gt;</span><br><span class="line">      &lt;span style=&quot;animation-delay: 0.39s&quot;&gt;&lt;/span&gt;</span><br><span class="line">      &lt;span style=&quot;animation-delay: 0.52s&quot;&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    window.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; &#123;</span><br><span class="line">      const $loadding = document.getElementById(&quot;loadding&quot;);</span><br><span class="line">      if (!$loadding) &#123;</span><br><span class="line">        return;</span><br><span class="line">      &#125;</span><br><span class="line">      $loadding.style.display = &quot;none&quot;;</span><br><span class="line">      $loadding.parentNode.removeChild($loadding);</span><br><span class="line">    &#125;);</span><br><span class="line">  &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/22/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" data-id="cl7icg7ds012nugunh6od91f7" data-title="前端页面性能优化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
 
     </footer>
   </div>
@@ -2757,7 +2799,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -2768,7 +2810,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -2778,7 +2820,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -2788,7 +2830,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
     </div>
   </div>
 
@@ -2797,7 +2839,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
     </div>
   </div>
 
@@ -2814,7 +2856,7 @@
           </li>
         
           <li>
-            <a href="/2022/08/25/hello-world/">Hello World</a>
+            <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/">DNS协议</a>
           </li>
         
           <li>
