@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>发布订阅、观察者模式（观察者模式） | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一、观察者模式观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新 观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯  例如生活中，我们可以用报纸期刊的订阅来形象的说明，当你订阅了一份报纸，每天都会有一份最新的报纸送到你手上，有多少人订阅报纸，报社就会发多少份报纸 报社和订报纸的客户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发布订阅、观察者模式（观察者模式）">
+<meta property="og:url" content="http://example.com/2019/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E3%80%81%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、观察者模式观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新 观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯  例如生活中，我们可以用报纸期刊的订阅来形象的说明，当你订阅了一份报纸，每天都会有一份最新的报纸送到你手上，有多少人订阅报纸，报社就会发多少份报纸 报社和订报纸的客户">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://static.vue-js.com/d3a80020-3f7c-11ec-a752-75723a64e8f5.png">
+<meta property="og:image" content="https://static.vue-js.com/e24d3cd0-3f7c-11ec-8e64-91fdec0f05a1.png">
+<meta property="og:image" content="https://files.mdnice.com/user/155/9141682c-7386-4f12-8412-fb17a1cd4bf6.png">
+<meta property="article:published_time" content="2019-03-08T07:23:19.000Z">
+<meta property="article:modified_time" content="2022-06-06T12:03:22.000Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="设计模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.vue-js.com/d3a80020-3f7c-11ec-a752-75723a64e8f5.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-设计模式/发布订阅、观察者模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E3%80%81%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time class="dt-published" datetime="2019-03-08T07:23:19.000Z" itemprop="datePublished">2019-03-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      发布订阅、观察者模式（观察者模式）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、观察者模式"><a href="#一、观察者模式" class="headerlink" title="一、观察者模式"></a>一、观察者模式</h2><p>观察者模式定义了对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新</p>
+<p>观察者模式属于行为型模式，行为型模式关注的是对象之间的通讯，观察者模式就是观察者和被观察者之间的通讯</p>
+<p><img src="https://static.vue-js.com/d3a80020-3f7c-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p>例如生活中，我们可以用报纸期刊的订阅来形象的说明，当你订阅了一份报纸，每天都会有一份最新的报纸送到你手上，有多少人订阅报纸，报社就会发多少份报纸</p>
+<p>报社和订报纸的客户就形成了一对多的依赖关系</p>
+<p>实现代码如下：</p>
+<p>被观察者模式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observerList</span> = [];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">addObserver</span>(<span class="params">observer</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">push</span>(observer);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">removeObserver</span>(<span class="params">observer</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> index = <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">findIndex</span>(<span class="function"><span class="params">o</span> =&gt;</span> o.<span class="property">name</span> === observer.<span class="property">name</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">observerList</span>.<span class="title function_">splice</span>(index, <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">notifyObservers</span>(<span class="params">message</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> observers = <span class="variable language_">this</span>.<span class="property">observeList</span>;</span><br><span class="line">    observers.<span class="title function_">forEach</span>(<span class="function"><span class="params">observer</span> =&gt;</span> observer.<span class="title function_">notified</span>(message));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>观察者：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Observer &#123;</span><br><span class="line"></span><br><span class="line">  constructor(name, subject) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    if (subject) &#123;</span><br><span class="line">      subject.addObserver(this);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notified(message) &#123;</span><br><span class="line">    console.log(this.name, &#x27;got message&#x27;, message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> subject = <span class="keyword">new</span> <span class="title class_">Subject</span>();</span><br><span class="line"><span class="keyword">const</span> observerA = <span class="keyword">new</span> <span class="title class_">Observer</span>(<span class="string">&#x27;observerA&#x27;</span>, subject);</span><br><span class="line"><span class="keyword">const</span> observerB = <span class="keyword">new</span> <span class="title class_">Observer</span>(<span class="string">&#x27;observerB&#x27;</span>);</span><br><span class="line">subject.<span class="title function_">addObserver</span>(observerB);</span><br><span class="line">subject.<span class="title function_">notifyObservers</span>(<span class="string">&#x27;Hello from subject&#x27;</span>);</span><br><span class="line">subject.<span class="title function_">removeObserver</span>(observerA);</span><br><span class="line">subject.<span class="title function_">notifyObservers</span>(<span class="string">&#x27;Hello again&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，观察者主动申请加入被观察者的列表，被观察者主动将观察者加入列表</p>
+<h2 id="二、发布订阅模式"><a href="#二、发布订阅模式" class="headerlink" title="二、发布订阅模式"></a>二、发布订阅模式</h2><p>发布-订阅是一种消息范式，消息的发送者（称为发布者）不会将消息直接发送给特定的接收者（称为订阅者）。而是将发布的消息分为不同的类别，无需了解哪些订阅者（如果有的话）可能存在</p>
+<p>同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者存在</p>
+<p><img src="https://static.vue-js.com/e24d3cd0-3f7c-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PubSub</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">messages</span> = &#123;&#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">listeners</span> = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 添加发布者</span></span><br><span class="line">  <span class="title function_">publish</span>(<span class="params">type, content</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> existContent = <span class="variable language_">this</span>.<span class="property">messages</span>[type];</span><br><span class="line">    <span class="keyword">if</span> (!existContent) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">messages</span>[type] = [];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">messages</span>[type].<span class="title function_">push</span>(content);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 添加订阅者</span></span><br><span class="line">  <span class="title function_">subscribe</span>(<span class="params">type, cb</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> existListener = <span class="variable language_">this</span>.<span class="property">listeners</span>[type];</span><br><span class="line">    <span class="keyword">if</span> (!existListener) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">listeners</span>[type] = [];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">listeners</span>[type].<span class="title function_">push</span>(cb);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 通知</span></span><br><span class="line">  <span class="title function_">notify</span>(<span class="params">type</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> messages = <span class="variable language_">this</span>.<span class="property">messages</span>[type];</span><br><span class="line">    <span class="keyword">const</span> subscribers = <span class="variable language_">this</span>.<span class="property">listeners</span>[type] || [];</span><br><span class="line">    subscribers.<span class="title function_">forEach</span>(<span class="function">(<span class="params">cb, index</span>) =&gt;</span> <span class="title function_">cb</span>(messages[index]));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发布者代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Publisher</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name, context</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">context</span> = context;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">publish</span>(<span class="params">type, content</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">context</span>.<span class="title function_">publish</span>(type, content);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>订阅者代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Subscriber</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">name, context</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">context</span> = context;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">subscribe</span>(<span class="params">type, cb</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">context</span>.<span class="title function_">subscribe</span>(type, cb);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">TYPE_A</span> = <span class="string">&#x27;music&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">TYPE_B</span> = <span class="string">&#x27;movie&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">TYPE_C</span> = <span class="string">&#x27;novel&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pubsub = <span class="keyword">new</span> <span class="title class_">PubSub</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> publisherA = <span class="keyword">new</span> <span class="title class_">Publisher</span>(<span class="string">&#x27;publisherA&#x27;</span>, pubsub);</span><br><span class="line">publisherA.<span class="title function_">publish</span>(<span class="variable constant_">TYPE_A</span>, <span class="string">&#x27;we are young&#x27;</span>);</span><br><span class="line">publisherA.<span class="title function_">publish</span>(<span class="variable constant_">TYPE_B</span>, <span class="string">&#x27;the silicon valley&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> publisherB = <span class="keyword">new</span> <span class="title class_">Publisher</span>(<span class="string">&#x27;publisherB&#x27;</span>, pubsub);</span><br><span class="line">publisherB.<span class="title function_">publish</span>(<span class="variable constant_">TYPE_A</span>, <span class="string">&#x27;stronger&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> publisherC = <span class="keyword">new</span> <span class="title class_">Publisher</span>(<span class="string">&#x27;publisherC&#x27;</span>, pubsub);</span><br><span class="line">publisherC.<span class="title function_">publish</span>(<span class="variable constant_">TYPE_C</span>, <span class="string">&#x27;a brief history of time&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> subscriberA = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&#x27;subscriberA&#x27;</span>, pubsub);</span><br><span class="line">subscriberA.<span class="title function_">subscribe</span>(<span class="variable constant_">TYPE_A</span>, <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;subscriberA received&#x27;</span>, res)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> subscriberB = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&#x27;subscriberB&#x27;</span>, pubsub);</span><br><span class="line">subscriberB.<span class="title function_">subscribe</span>(<span class="variable constant_">TYPE_C</span>, <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;subscriberB received&#x27;</span>, res)</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">const</span> subscriberC = <span class="keyword">new</span> <span class="title class_">Subscriber</span>(<span class="string">&#x27;subscriberC&#x27;</span>, pubsub);</span><br><span class="line">subscriberC.<span class="title function_">subscribe</span>(<span class="variable constant_">TYPE_B</span>, <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;subscriberC received&#x27;</span>, res)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">pubsub.<span class="title function_">notify</span>(<span class="variable constant_">TYPE_A</span>);</span><br><span class="line">pubsub.<span class="title function_">notify</span>(<span class="variable constant_">TYPE_B</span>);</span><br><span class="line">pubsub.<span class="title function_">notify</span>(<span class="variable constant_">TYPE_C</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码，发布者和订阅者需要通过发布订阅中心进行关联，发布者的发布动作和订阅者的订阅动作相互独立，无需关注对方，消息派发由发布订阅中心负责</p>
+<h2 id="三、区别"><a href="#三、区别" class="headerlink" title="三、区别"></a>三、区别</h2><p>两种设计模式思路是一样的，举个生活例子：</p>
+<ul>
+<li>观察者模式：某公司给自己员工发月饼发粽子，是由公司的行政部门发送的，这件事不适合交给第三方，原因是“公司”和“员工”是一个整体</li>
+<li>发布-订阅模式：某公司要给其他人发各种快递，因为“公司”和“其他人”是独立的，其唯一的桥梁是“快递”，所以这件事适合交给第三方快递公司解决</li>
+</ul>
+<p>上述过程中，如果公司自己去管理快递的配送，那公司就会变成一个快递公司，业务繁杂难以管理，影响公司自身的主营业务，因此使用何种模式需要考虑什么情况两者是需要耦合的</p>
+<p>两者区别如下图：</p>
+<p><img src="https://files.mdnice.com/user/155/9141682c-7386-4f12-8412-fb17a1cd4bf6.png" alt="img"></p>
+<ul>
+<li>在观察者模式中，观察者是知道Subject的，Subject一直保持对观察者进行记录。然而，在发布订阅模式中，发布者和订阅者不知道对方的存在。它们只有通过消息代理进行通信。</li>
+<li>在发布订阅模式中，组件是松散耦合的，正好和观察者模式相反。</li>
+<li>观察者模式大多数时候是同步的，比如当事件触发，Subject就会去调用观察者的方法。而发布-订阅模式大多数时候是异步的（使用消息队列）</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/03/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E3%80%81%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" data-id="cl7icg7c700yzugun5yke827d" data-title="发布订阅、观察者模式（观察者模式）" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/03/15/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          mysql
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/25/bug/a01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">浏览器多进程与多线程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/">原理</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Loop/" rel="tag">Event Loop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Event-Loop/" style="font-size: 10px;">Event Loop</a> <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15.83px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 19.17px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 18.33px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">变量类型</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/25/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/12/%E5%B7%A5%E5%85%B7/git-stach/">git-stach</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/16/Vue/vue3%E4%BC%98%E5%8C%96/">vue3优化</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/11/Vue/Vue3-%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87%E3%80%81%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96/">Vue3-设计目标、做了哪些优化</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
