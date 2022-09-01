@@ -71,94 +71,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-html+css+js+ts/3-js-原生JS与jQuery操作DOM对比" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/03/08/html+css+js+ts/3-js-%E5%8E%9F%E7%94%9FJS%E4%B8%8EjQuery%E6%93%8D%E4%BD%9CDOM%E5%AF%B9%E6%AF%94/" class="article-date">
-  <time class="dt-published" datetime="2018-03-07T22:46:34.000Z" itemprop="datePublished">2018-03-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/03/08/html+css+js+ts/3-js-%E5%8E%9F%E7%94%9FJS%E4%B8%8EjQuery%E6%93%8D%E4%BD%9CDOM%E5%AF%B9%E6%AF%94/">js 原生js与jquery操作dom的对比</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="一、创建元素节点"><a href="#一、创建元素节点" class="headerlink" title="一、创建元素节点"></a>一、创建元素节点</h3><hr>
-<h4 id="1-1-原生JS创建元素节点"><a href="#1-1-原生JS创建元素节点" class="headerlink" title="1.1 原生JS创建元素节点"></a>1.1 原生<code>JS</code>创建元素节点</h4><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.createElement(&quot;p&quot;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2-jQuery创建元素节点"><a href="#1-2-jQuery创建元素节点" class="headerlink" title="1.2 jQuery创建元素节点"></a>1.2 <code>jQuery</code>创建元素节点</h4><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&#x27;&lt;p&gt;&lt;/p&gt;&#x27;);`</span><br></pre></td></tr></table></figure>
-
-<h3 id="二、创建并添加文本节点"><a href="#二、创建并添加文本节点" class="headerlink" title="二、创建并添加文本节点"></a>二、创建并添加文本节点</h3><hr>
-<h4 id="2-1-原生JS创建文本节点"><a href="#2-1-原生JS创建文本节点" class="headerlink" title="2.1 原生JS创建文本节点"></a>2.1 原生JS创建文本节点</h4><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`document.createTextNode(&quot;Text Content&quot;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>通常创建文本节点和创建元素节点配合使用，比如：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var textEl = document.createTextNode(&quot;Hello World.&quot;);</span><br><span class="line">var pEl = document.createElement(&quot;p&quot;);</span><br><span class="line">pEl.appendChild(textEl);</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-jQuery创建并添加文本节点："><a href="#2-2-jQuery创建并添加文本节点：" class="headerlink" title="2.2 jQuery创建并添加文本节点："></a>2.2 <code>jQuery</code>创建并添加文本节点：</h4><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var $p = $(&#x27;&lt;p&gt;Hello World.&lt;/p&gt;&#x27;);</span><br></pre></td></tr></table></figure>
-
-<h3 id="三、复制节点"><a href="#三、复制节点" class="headerlink" title="三、复制节点"></a>三、复制节点</h3><hr>
-<h4 id="3-1-原生JS复制节点"><a href="#3-1-原生JS复制节点" class="headerlink" title="3.1 原生JS复制节点:"></a>3.1 原生<code>JS</code>复制节点:</h4><hr>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var newEl = pEl.cloneNode(true);  `</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>&#96;&#96;&#96;<br>true和false的区别：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - `true` ：克隆整个`&#x27;Hello World.&#x27;`节点</span><br><span class="line">  - `false`：只克隆`&#x27;&#x27;` ，不克隆文本`Hello World.&#x27;`</span><br><span class="line"></span><br><span class="line">#### 3.2 `jQuery`复制节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$newEl &#x3D; $(‘#pEl’).clone(true);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 注意：克隆节点要避免`ID重复</span><br><span class="line"></span><br><span class="line">### 四、 插入节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 4.1 原生JS向子节点列表的末尾添加新的子节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-El.appendChild(newNode);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 原生JS在节点的已有子节点之前插入一个新的子节点：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-El.insertBefore(newNode, targetNode);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 4.2 在jQuery中，插入节点的方法比原生JS多的多</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 在匹配元素子节点列表结尾添加内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘#El’).append(‘<p>Hello World.</p>‘);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 把匹配元素添加到目标元素子节点列表结尾</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘<p>Hello World.</p>‘).appendTo(‘#El’);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 在匹配元素子节点列表开头添加内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘#El’).prepend(‘<p>Hello World.</p>‘);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 把匹配元素添加到目标元素子节点列表开头</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘<p>Hello World.</p>‘).prependTo(‘#El’);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 在匹配元素之前添加目标内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘#El’).before(‘<p>Hello World.</p>‘);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 把匹配元素添加到目标元素之前</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘<p>Hello World.</p>‘).insertBefore(‘#El’);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 在匹配元素之后添加目标内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘#El’).after(‘<p>Hello World.</p>‘);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 把匹配元素添加到目标元素之后</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘<p>Hello World.</p>‘).insertAfter(‘#El’);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 五、删除节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 5.1 原生JS删除节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-El.parentNode.removeChild(El);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 5.2 jQuery删除节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘#El’).remove();<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 六、替换节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 6.1 原生JS替换节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-El.repalceChild(newNode, oldNode);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 注意：`oldNode`必须是`parentEl`真实存在的一个子节点</span><br><span class="line"></span><br><span class="line">#### 6.2 jQuery替换节点</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(‘p’).replaceWith(‘<p>Hello World.</p>‘);<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 七、设置属性/获取属性</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 7.1 原生JS设置属性/获取属性</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-imgEl.setAttribute(“title”, “logo”);<br>imgEl.getAttribute(“title”);<br>checkboxEl.checked &#x3D; true;<br>checkboxEl.checked;<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 7.2 jQuery设置属性/获取属性:</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-$(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title”);<br>$(“#checkbox”).prop({“checked”: true});<br>$(“#checkbox”).prop(“checked”);</li>
-</ul>
-<p>&#96;&#96;&#96;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/03/08/html+css+js+ts/3-js-%E5%8E%9F%E7%94%9FJS%E4%B8%8EjQuery%E6%93%8D%E4%BD%9CDOM%E5%AF%B9%E6%AF%94/" data-id="cl7ibzogy003pugun3hwq5x60" data-title="js 原生js与jquery操作dom的对比" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-html+css+js+ts/3-js异步处理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/03/06/html+css+js+ts/3-js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" class="article-date">
@@ -1494,10 +1406,10 @@ $(&quot;#testTest&quot;).load(&quot;test.html&quot;,function(responseText,textSt
 
 
   
-    <article id="post-html+css+js+ts/3-js-事件绑定、事件监听、事件委托" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-html+css+js+ts/3-js内存泄漏和垃圾回收机制" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2018/02/13/html+css+js+ts/3-js-%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E3%80%81%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E3%80%81%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/" class="article-date">
-  <time class="dt-published" datetime="2018-02-13T01:45:35.000Z" itemprop="datePublished">2018-02-13</time>
+    <a href="/2018/02/09/html+css+js+ts/3-js%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time class="dt-published" datetime="2018-02-09T02:16:24.000Z" itemprop="datePublished">2018-02-09</time>
 </a>
     
   <div class="article-category">
@@ -1512,7 +1424,7 @@ $(&quot;#testTest&quot;).load(&quot;test.html&quot;,function(responseText,textSt
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/13/html+css+js+ts/3-js-%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E3%80%81%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E3%80%81%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/">js事件绑定、事件监听、事件委托</a>
+      <a class="p-name article-title" href="/2018/02/09/html+css+js+ts/3-js%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">3-js内存泄漏和垃圾回收机制</a>
     </h1>
   
 
@@ -1520,78 +1432,201 @@ $(&quot;#testTest&quot;).load(&quot;test.html&quot;,function(responseText,textSt
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><blockquote>
-<p>事件流是一个事件沿着特定数据结构传播的过程。冒泡和捕获是事件流在<code>DOM</code>中两种不同的传播方法</p>
-</blockquote>
-<p><strong>事件流有三个阶段</strong></p>
-<ul>
-<li>事件捕获阶段</li>
-<li>处于目标阶段</li>
-<li>事件冒泡阶段</li>
+        <h2 id="什么是内存泄漏？"><a href="#什么是内存泄漏？" class="headerlink" title="什么是内存泄漏？"></a>什么是内存泄漏？</h2><ul>
+<li>程序的运行需要内存，只要程序提出要求，操作系统或者运行是就必须供给内存</li>
+<li>对于持续运行的服务进程，必须及时释放内存，否则，内存占用越来越高，轻则影响系统性能，重则导致进程崩溃</li>
+<li>不再用到的内存，没有及时释放，就叫做内存泄漏。</li>
+<li>有些语言（比如c语言）必须手动释放内存，程序员负责内存管理</li>
+<li>这很麻烦，所以大多数语言提供自动内存管理，减轻程序员的负担，这被称为”垃圾回收机制”。</li>
 </ul>
-<p><strong>事件捕获</strong></p>
 <blockquote>
-<p>事件捕获（<code>event capturing</code>）：通俗的理解就是，当鼠标点击或者触发<code>dom</code>事件时，浏览器会从根节点开始由外到内进行事件传播，即点击了子元素，如果父元素通过事件捕获方式注册了对应的事件的话，会先触发父元素绑定的事件</p>
+<p>javascript垃圾回收机制原理：解决内存的泄露，垃圾回收机制会定期（周期性）找出那些不再用到的内存（变量），然后释放其内存。</p>
 </blockquote>
-<p><strong>事件冒泡</strong></p>
-<blockquote>
-<p>事件冒泡（dubbed bubbling）：与事件捕获恰恰相反，事件冒泡顺序是由内到外进行事件传播，直到根节点</p>
+<h2 id="垃圾回收的必要性"><a href="#垃圾回收的必要性" class="headerlink" title="垃圾回收的必要性"></a>垃圾回收的必要性</h2><blockquote>
+<p>由于字符串、对象和数组没有固定大小，所有当他们的大小已知时，才能对他们进行动态的存储分配。JavaScript程序每次创建字符串、数组或对象时，解释器都必须分配内存来存储那个实体。只要像这样动态地分配了内存，最终都要释放这些内存以便他们能够被再用，否则，JavaScript的解释器将会消耗完系统中所有可用的内存，造成系统崩溃</p>
 </blockquote>
-<p>无论是事件捕获还是事件冒泡，它们都有一个共同的行为，就是事件传播</p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/319.png" alt="img"></p>
-<h2 id="二、捕获和冒泡"><a href="#二、捕获和冒泡" class="headerlink" title="二、捕获和冒泡"></a>二、捕获和冒泡</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;div1&quot;&gt;</span><br><span class="line">  &lt;div id=&quot;div2&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    let div1 = document.getElementById(&#x27;div1&#x27;);</span><br><span class="line">    let div2 = document.getElementById(&#x27;div2&#x27;);</span><br><span class="line">    </span><br><span class="line">    div1.onClick = function()&#123;</span><br><span class="line">        alert(&#x27;1&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    div2.onClick = function()&#123;</span><br><span class="line">        alert(&#x27;2&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这段话解释了为什么需要系统需要垃圾回收，JS不像C&#x2F;C++，他有自己的一套垃圾回收机制（Garbage Collection）。JavaScript的解释器可以检测到何时程序不再使用一个对象了，当他确定了一个对象是无用的时候，他就知道不再需要这个对象，可以把它所占用的内存释放掉了。例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = &quot;before&quot;;</span><br><span class="line">var b = &quot;override a&quot;;</span><br><span class="line">var a = b; //重写a</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>当点击 <code>div2</code>时，会弹出两个弹出框。在 <code>ie8/9/10</code>、<code>chrome</code>浏览器，会先弹出”2”再弹出“1”，这就是事件冒泡：事件从最底层的节点向上冒泡传播。事件捕获则跟事件冒泡相反</p>
+<p>这段代码运行之后，“before”这个字符串失去了引用（之前是被a引用），系统检测到这个事实之后，就会释放该字符串的存储空间以便这些空间可以被再利用。</p>
 </blockquote>
-<blockquote>
-<p>W3C的标准是先捕获再冒泡， <code>addEventListener</code>的第三个参数决定把事件注册在捕获（<code>true</code>）还是冒泡(<code>false</code>)</p>
+<h2 id="垃圾回收原理"><a href="#垃圾回收原理" class="headerlink" title="垃圾回收原理"></a>垃圾回收原理</h2><blockquote>
+<p>现在各大浏览器通常用采用的垃圾回收有两种方法：<strong>标记清除</strong>、<strong>引用计数</strong></p>
 </blockquote>
-<h2 id="三、事件对象"><a href="#三、事件对象" class="headerlink" title="三、事件对象"></a>三、事件对象</h2><p><img src="https://poetries1.gitee.io/img-repo/2019/10/320.png" alt="img"></p>
-<h2 id="四、事件流阻止"><a href="#四、事件流阻止" class="headerlink" title="四、事件流阻止"></a>四、事件流阻止</h2><blockquote>
-<p>在一些情况下需要阻止事件流的传播，阻止默认动作的发生</p>
+<h3 id="策略1：标记清除"><a href="#策略1：标记清除" class="headerlink" title="策略1：标记清除"></a>策略1：标记清除</h3><blockquote>
+<p>这是javascript中最常用的垃圾回收方式。当变量进入执行环境是，就标记这个变量为“进入环境”。从逻辑上讲，永远不能释放进入环境的变量所占用的内存，因为只要执行流进入相应的环境，就可能会用到他们。当变量离开环境时，则将其标记为“离开环境”。</p>
 </blockquote>
+<p>垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记。然后，它会去掉环境中的变量以及被环境中的变量引用的标记。而在此之后再被加上标记的变量将被视为准备删除的变量，原因是环境中的变量已经无法访问到这些变量了。最后。垃圾收集器完成内存清除工作，销毁那些带标记的值，并回收他们所占用的内存空间</p>
 <ul>
-<li><code>event.preventDefault()</code>：取消事件对象的默认动作以及继续传播。</li>
-<li><code>event.stopPropagation()/ event.cancelBubble = true</code>：阻止事件冒泡。</li>
+<li>垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记</li>
+<li>去掉环境中的变量以及被环境中的变量引用的变量的标记</li>
+<li>此后再被加上标记的变量将被视为准备删除的变量，因为环境中的变量已经无法访问到这些变量了</li>
 </ul>
-<p><strong>事件的阻止在不同浏览器有不同处理</strong></p>
-<ul>
-<li>在<code>IE</code>下使用 <code>event.returnValue= false</code>，</li>
-<li>在非<code>IE</code>下则使用 <code>event.preventDefault()</code>进行阻止</li>
-</ul>
-<p><strong>preventDefault与stopPropagation的区别</strong></p>
-<ul>
-<li><code>preventDefault</code>告诉浏览器不用执行与事件相关联的默认动作（如表单提交）</li>
-<li><code>stopPropagation</code>是停止事件继续冒泡，但是对IE9以下的浏览器无效</li>
-</ul>
-<h2 id="五、事件注册"><a href="#五、事件注册" class="headerlink" title="五、事件注册"></a>五、事件注册</h2><ul>
-<li>通常我们使用 <code>addEventListener</code> 注册事件，该函数的第三个参数可以是布尔值，也可以是对象。对于布尔值 <code>useCapture</code> 参数来说，该参数默认值为 <code>false</code>。<code>useCapture</code> 决定了注册的事件是捕获事件还是冒泡事件</li>
-<li>一般来说，我们只希望事件只触发在目标上，这时候可以使用 <code>stopPropagation</code> 来阻止事件的进一步传播。通常我们认为 <code>stopPropagation</code> 是用来阻止事件冒泡的，其实该函数也可以阻止捕获事件。<code>stopImmediatePropagation</code> 同样也能实现阻止事件，但是还能阻止该事件目标执行别的注册事件</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node.addEventListener(&#x27;click&#x27;,(event) =&gt;&#123;</span><br><span class="line">	event.stopImmediatePropagation()</span><br><span class="line">	console.log(&#x27;冒泡&#x27;)</span><br><span class="line">&#125;,false);</span><br><span class="line">// 点击 node 只会执行上面的函数，该函数不会执行</span><br><span class="line">node.addEventListener(&#x27;click&#x27;,(event) =&gt; &#123;</span><br><span class="line">	console.log(&#x27;捕获 &#x27;)</span><br><span class="line">&#125;,true)</span><br></pre></td></tr></table></figure>
+<h3 id="策略2：引用计数"><a href="#策略2：引用计数" class="headerlink" title="策略2：引用计数"></a>策略2：引用计数</h3><blockquote>
+<p>语言引擎有一张”引用表”，保存了内存里面所有资源（通常是各种值）的引用次数。如果一个值的引用次数是0，就表示这个值不再用到了，因此可以将这块内存释放。</p>
+</blockquote>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2017/bg2017041703.png" alt="img"></p>
+<p>上图中，左下角的两个值，没有任何引用，所以可以释放</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const arr = [1,2,3,4];</span><br><span class="line">console.log(&quot;hello world&quot;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="六、事件委托"><a href="#六、事件委托" class="headerlink" title="六、事件委托"></a>六、事件委托</h2><ul>
-<li>在<code>js</code>中性能优化的其中一个主要思想是减少<code>dom</code>操作。</li>
-<li>事件委托就是利用冒泡的原理，把事件加到父元素或祖先元素上，触发执行效果</li>
-<li>提高JavaScript性能。事件委托可以显著的提高事件的处理速度，减少内存的占用</li>
+<blockquote>
+<p>上面的代码中，数组<code>[1,2,3,4]</code>是一个值，会占用内存。变量arr是仅有的对这个值的引用，因此引用次数为1。尽管后面的代码没有用到arr，它是会持续占用内存</p>
+</blockquote>
+<p>如果增加一行代码，解除arr对<code>[1,2,3,4]</code>引用，这块内存就可以被垃圾回收机制释放了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,2,3,4];</span><br><span class="line">console.log(&quot;hello world&quot;);</span><br><span class="line">arr = null;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中，arr重置为null，就解除了对<code>[1，2，3，4]</code>的引用，引用次数变成了0，内存就可以释放出来了。</p>
+</blockquote>
+<blockquote>
+<p>因此，并不是说有了垃圾回收机制，程序员就轻松了。你还是需要关注内存占用：那些很占空间的值，一旦不再用到，你必须检查是否还存在对它们的引用。如果是的话，就必须手动解除引用</p>
+</blockquote>
+<p>再来下面来看看代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function problem() &#123;</span><br><span class="line">    var objA = new Object();</span><br><span class="line">    var objB = new Object();</span><br><span class="line"></span><br><span class="line">    objA.someOtherObject = objB;</span><br><span class="line">    objB.anotherObject = objA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在这个例子中，objA和objB通过各自的属性相互引用；也就是说这两个对象的引用次数都是2。在采用引用计数的策略中，由于函数执行之后，这两个对象都离开了作用域，函数执行完成之后，objA和objB还将会继续存在，因为他们的引用次数永远不会是0。这样的相互引用如果说很大量的存在就会导致大量的内存泄露</p>
+</blockquote>
+<p>不过上面的问题也不是不能解决，我们可以手动切断他们的循环引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myObj.element = null;</span><br><span class="line">element.someObject =null;</span><br></pre></td></tr></table></figure>
+
+<p>这样写代码的话就可以解决循环引用的问题了，也就防止了内存泄露的问题。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><blockquote>
+<p>如果存在循环引用的情况，那么这个引用值占的空间就永远不会被回收。</p>
+</blockquote>
+<h2 id="面试回答"><a href="#面试回答" class="headerlink" title="面试回答"></a>面试回答</h2><h3 id="什么是垃圾"><a href="#什么是垃圾" class="headerlink" title="什么是垃圾"></a>什么是垃圾</h3><blockquote>
+<p>一般来说没有被引用的对象就是垃圾，就是要被清除，有个例外如果几个对象引用形成一个环，互相引用，但根访问不到它们，这几个对象也是垃圾，也要被清除。</p>
+</blockquote>
+<h3 id="如何检垃圾"><a href="#如何检垃圾" class="headerlink" title="如何检垃圾"></a>如何检垃圾</h3><ul>
+<li>一种算法是标记 标记-清除 算法</li>
 </ul>
-<blockquote>
-<p>假设有<code>100</code>个<code>li</code>，每个<code>li</code>有相同的点击事件。如果为每<code>个Li</code>都添加事件，则会造成<code>dom</code>访问次数过多，引起浏览器重绘与重排的次数过多，性能则会降低。<br>使用事件委托则可以解决这样的问题</p>
-</blockquote>
-<p><strong>原理</strong></p>
-<blockquote>
-<p>实现事件委托是利用了事件的冒泡原理实现的。当我们为最外层的节点添加点击事件，那么里面的<code>ul</code>、<code>li</code>、<code>a</code>的点击事件都会冒泡到最外层节点上，委托它代为执行事件</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul id=&quot;ul&quot;&gt;</span><br><span class="line">    &lt;li&gt;1&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;2&lt;/li&gt;</span><br><span class="line">    &lt;li&gt;3&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line">window.onload = function()&#123;</span><br><span class="line">    var ulEle = document.getElementById(&#x27;ul&#x27;);</span><br><span class="line">    ul.onclick = function(ev)&#123;</span><br><span class="line">        //兼容IE</span><br><span class="line">        ev = ev || window.event;</span><br><span class="line">        var target = ev.target || ev.srcElement;</span><br><span class="line">        </span><br><span class="line">        if(target.nodeName.toLowerCase() == &#x27;li&#x27;)&#123;</span><br><span class="line">            alert( target.innerHTML);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2018/02/13/html+css+js+ts/3-js-%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E3%80%81%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E3%80%81%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98/" data-id="cl7ibzogz003wugun0ihmdmet" data-title="js事件绑定、事件监听、事件委托" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2018/02/09/html+css+js+ts/3-js%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%92%8C%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" data-id="cl7ibzoih0048ugun2frqfby3" data-title="3-js内存泄漏和垃圾回收机制" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-html+css+js+ts/1-移动端适配" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/07/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" class="article-date">
+  <time class="dt-published" datetime="2018-02-07T14:33:28.000Z" itemprop="datePublished">2018-02-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/07/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">移动端像素比调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>物理像素:移动端设备的分辨率</li>
+<li>独立像素:css的像素 320 375</li>
+<li>像素比 &#x3D; 物理像素&#x2F;独立像素</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>width=device-width</code> 设备宽度 <code>640px</code>(低版本的安卓手机不支持数字) 这个属性在不支持<code>IE</code></li>
+<li><code>initial-scale=1.0</code>(初始缩放比),能够起到和<code>width=device-width</code>相同的效果(把理想的视窗设置为设备的宽度) 两个配合使用就能够很好的解决移动端各设备的适配问题</li>
+<li><code>maximum-scale=1.0</code>最大缩放比例</li>
+<li><code>user-scalable=0</code>禁止缩放</li>
+<li><code>minimum-scale=1.0</code> 最小缩放比例</li>
+</ul>
+<h3 id="移动端布局方法"><a href="#移动端布局方法" class="headerlink" title="移动端布局方法"></a>移动端布局方法</h3><hr>
+<ul>
+<li>1、流式布局 与设备等宽 做自适应 100%或者具体的像素值</li>
+<li>2、<code>rem</code>做盒子的宽度，viewport缩放</li>
+<li>3、固定宽度 <code>viewport</code>缩放<code>content=&quot;width=640, initial-scale=0.5, maximum-scale=0.5, user-scalable=0&quot;</code>（用的比较少）</li>
+<li>4、<code>vw/vh</code> 相对于viewport理想视窗(设备)的比例(兼容性不好)<br><code>1vw = 10%</code>设备宽 <code>10vw</code></li>
+</ul>
+<h3 id="meta标签属性设置"><a href="#meta标签属性设置" class="headerlink" title="meta标签属性设置"></a>meta标签属性设置</h3><hr>
+<meta http-equiv="X-UA-Compatible" content="IE=edge chrome=1">
+
+<ul>
+<li>IE8<code>浏览器的显示方式:</code>IE&#x3D;edge<code>以</code>IE&#96;最高版本显示</li>
+<li>chrome&#x3D;1 以谷歌浏览器模式渲染(GCF(Google Chrome Frame))</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;referrer&quot; content=&quot;never&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>referrer 告诉浏览器链接来源于哪里(计算网页上链接的访问量)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no,email=no,adress=no&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>格式检测:（数字、邮箱、地址） no不识别为电话号码、邮箱、地址</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除默认的苹果工具栏、菜单栏(全屏显示)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-touch-fullscreen&quot; =&quot;yes&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>全屏显示</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置app应用下状态条的颜色</li>
+<li>默认值default (白色) black（黑色）</li>
+<li><code>black-translucent</code>（灰色半透明）若果设置为这个值会占据页面的<code>px</code>位置浮在页面上方<code>20px</code>高度 <code>iphone4</code>是<code>40px</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>360</code>模式固定为极速模式</li>
+</ul>
+<h3 id="常见的meta属性"><a href="#常见的meta属性" class="headerlink" title="常见的meta属性"></a>常见的meta属性</h3><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0，minimum-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="link-扩展"><a href="#link-扩展" class="headerlink" title="link 扩展"></a>link 扩展</h3><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;xxx.com&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>预解析技术，当浏览网页时，浏览器会在加载页面的时对页面中的域名进行解析缓存，当我们点击这些网页的链接时就不需要再进行DNS的解析，减少用户的等待时间，提高用户的体验度</p>
+</blockquote>
+<ul>
+<li><code>rem</code> 根目录 <code>html</code> 的<code>font-size</code>尺寸默认为<code>16px</code> <code>1rem = 16px;</code></li>
+<li><code>1rem = html</code>的<code>font-size</code>的尺寸大小</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/02/07/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/" data-id="cl7ibzoe6001dugungkj75amu" data-title="移动端像素比调试" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li></ul>
 
     </footer>
   </div>
@@ -1636,7 +1671,7 @@ $(&quot;#testTest&quot;).load(&quot;test.html&quot;,function(responseText,textSt
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Event-Loop/" style="font-size: 10px;">Event Loop</a> <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15.83px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 19.17px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 18.33px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+      <a href="/tags/Event-Loop/" style="font-size: 10px;">Event Loop</a> <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15.83px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
     </div>
   </div>
 
