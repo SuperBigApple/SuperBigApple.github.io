@@ -71,6 +71,418 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-性能优化/02性能优化模型RAIL测量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/" class="article-date">
+  <time class="dt-published" datetime="2021-03-02T12:49:27.000Z" itemprop="datePublished">2021-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/">前端性能优化-02</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是RAIL："><a href="#什么是RAIL：" class="headerlink" title="什么是RAIL："></a>什么是RAIL：</h2><p>缩写每一个字母表示一个性能指标</p>
+<p>Response：响应  对用户而言用户点击有没有即使访问</p>
+<p>Animation：动画 给用户的体验好。会不会出现卡顿</p>
+<p>Idie：空闲 有足够的空闲时间才能够进行响应交互   不让他始终处于繁忙的时间，不然无法处理其他请求</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427100359004.png" alt="image-20220427100359004"></p>
+<p>Load：加载 资源网络加载的时间</p>
+<p><strong>RAIL目标</strong></p>
+<p><strong>评估指标</strong></p>
+<p>响应：处理时间应在50ms以内完成</p>
+<p>动画：没10ms产生一帧</p>
+<p>空闲：尽可能增加空闲时间</p>
+<p>加载：在5s内完成内容加载并可以交互</p>
+<p>逐步发现问题解决问题</p>
+<p>性能测量工具</p>
+<p>Chrome DevTools 开发者调试工具，性能评测</p>
+<p>Lighthouse 网站整体质量评估</p>
+<p>WebPageTest 多测量地点、全面行能报告（通过 它的问斩对自己的网站就行进行评估）</p>
+<h2 id="WenPageTest"><a href="#WenPageTest" class="headerlink" title="WenPageTest"></a><strong>WenPageTest</strong></h2><p>webpagetest.org</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101136898.png" alt="image-20220427101136898"></p>
+<p>用户首次方位  第二次访问  （第一次对一些静态资源做缓存）</p>
+<p>录视频</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101340209.png" alt="image-20220427101340209"></p>
+<p>测试结果：</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101426225.png" alt="image-20220427101426225"></p>
+<p>第一次加载，首屏渲染，</p>
+<p>speed 速度指数等</p>
+<p>图片并行加载  时间有加载最长时间决定</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103510108.png" alt="image-20220427103510108"></p>
+<p>高亮（重定向了）  可以优化  直接去访问重定向后的位置</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103527654.png" alt="image-20220427103527654"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103716493.png" alt="image-20220427103716493"></p>
+<p>前提：docker</p>
+<p>docker pull webpagetest&#x2F;server</p>
+<p>docker pull webpagetest&#x2F;a</p>
+<p>docker run -d -p 4000:80 webpagetest&#x2F;server</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103841249.png" alt="image-20220427103841249"></p>
+<p>自定义镜像</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103951183.png" alt="image-20220427103951183"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103923723.png" alt="image-20220427103923723"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103940202.png" alt="image-20220427103940202"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104025309.png" alt="image-20220427104025309"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104016148.png" alt="image-20220427104016148"></p>
+<p>打包</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104104578.png" alt="image-20220427104104578"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104110269.png" alt="image-20220427104110269"></p>
+<p>这样就可以本地测试了。</p>
+<h2 id="Lighthouse"><a href="#Lighthouse" class="headerlink" title="Lighthouse"></a>Lighthouse</h2><p>npm install -g lighthouse</p>
+<p>lighthouse 测试网站地址</p>
+<p>自动打开一个浏览器窗口</p>
+<p>生成而是报告到本地</p>
+<p>打开即可查看</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104412546.png" alt="image-20220427104412546"></p>
+<p>第一个有意义的内容</p>
+<p>什么时候用户可以交互了</p>
+<p>用户访问过程截屏。</p>
+<p>Opportunity：告诉我们还可以做些什么做到了可以提升那些多长时间</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104938078.png" alt="image-20220427104938078"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427105002256.png" alt="image-20220427105002256"></p>
+<p>可以指定什么样的资源不进行加载。</p>
+<h2 id="Chrome-devtool调试"><a href="#Chrome-devtool调试" class="headerlink" title="Chrome devtool调试"></a>Chrome devtool调试</h2><p>Network：</p>
+<p>资源名称  大小   耗时</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427133838888.png" alt="image-20220427133838888"></p>
+<p>对请求资源进行压缩在返回前端</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134024090.png" alt="image-20220427134024090"></p>
+<p>实际大小 parse  1.4MB   网络传输（index）55kb</p>
+<p>Performance：</p>
+<p>开始出现性能分析：可以定位出导致长任务（耗费时间长）的方法。</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134236511.png" alt="image-20220427134236511"></p>
+<p>主线程任务。</p>
+<p>Disabel cache缓存。 Online：选择网络</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134610044.png" alt="image-20220427134610044"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134719082.png" alt="image-20220427134719082"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134737203.png" alt="image-20220427134737203"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/" data-id="cl7icg7dn012buguna21hbpbe" data-title="前端性能优化-02" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-性能优化/01项目性能优化概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-02-26T03:07:23.000Z" itemprop="datePublished">2021-02-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/">前端性能优化-01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><strong>平凡程序员和大牛程序员、架构师的分水岭</strong></p>
+<p><strong>怎样做出高性能的工程，达到大厂产品水平</strong></p>
+<p><strong>只是储配，动手实战</strong></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093826921.png" alt="image-20220427093826921"></p>
+<p><strong>优化标准“</strong></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093854500.png" alt="image-20220427093854500"></p>
+<p><strong>学习体系</strong></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093906855.png" alt="image-20220427093906855"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094119486.png" alt="image-20220427094119486"></p>
+<p>一、为什么要进行性能优化</p>
+<p>性能-web网站和应用的支柱</p>
+<p>网站性能对用户很重要</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094359679.png" alt="image-20220427094359679"></p>
+<p><strong>寻找性能瓶颈</strong></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094506838.png" alt="image-20220427094506838"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094612815.png" alt="image-20220427094612815"></p>
+<p><strong>性能指标和性能优化</strong></p>
+<p>性能指标：</p>
+<p>Network  (页面清空缓存 ，重新加载，查看)</p>
+<p>请求数量  资源量   Dom加载时间   混合资源加载时间</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094837633.png" alt="image-20220427094837633"></p>
+<p>瀑布图：</p>
+<p>请求前资源排队，dns解析，连接，SSL协商</p>
+<p>发送：TTFB（用户体验和他有大多数关系）   下载（资源大小）  资源进行并行加载（不阻塞）</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094932008.png" alt="image-20220427094932008"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095003259.png" alt="image-20220427095003259"></p>
+<p>右键下载查看  进行性能分析</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095231244.png" alt="image-20220427095231244"></p>
+<p>性能测量工具：</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095256620.png" alt="image-20220427095256620"></p>
+<p>first C …：页面出现数据的时间</p>
+<p>Speed Index：速度指数（标准为4s）</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095310577.png"></p>
+<p>交互性：</p>
+<p>画面流畅（帧数问题）</p>
+<p>查看查看帧数变化工具：最后一项</p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095707388.png" alt="image-20220427095707388"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095839003.png" alt="image-20220427095839003"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095911447.png" alt="image-20220427095911447"></p>
+<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095937536.png" alt="image-20220427095937536"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/" data-id="cl7icg7dm0128ugun0j24bybs" data-title="前端性能优化-01" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpack/webpack与其他打包工具的区别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
+  <time class="dt-published" datetime="2020-12-12T02:43:28.000Z" itemprop="datePublished">2020-12-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/">webpack与其他打包工具的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、模块化工具"><a href="#一、模块化工具" class="headerlink" title="一、模块化工具"></a>一、模块化工具</h2><p>模块化是一种处理复杂系统分解为更好的可管理模块的方式</p>
+<p>可以用来分割，组织和打包应用。每个模块完成一个特定的子功能，所有的模块按某种方法组装起来，成为一个整体(<code>bundle</code>)</p>
+<p>在前端领域中，并非只有<code>webpack</code>这一款优秀的模块打包工具，还有其他类似的工具，例如<code>Rollup</code>、<code>Parcel</code>、<code>snowpack</code>，以及最近风头无两的<code>Vite</code></p>
+<p>通过这些模块打包工具，能够提高我们的开发效率，减少开发成本</p>
+<p>这里没有提及<code>gulp</code>、<code>grunt</code>是因为它们只是定义为构建工具，不能类比</p>
+<h3 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h3><p><code>Rollup</code> 是一款 <code>ES Modules</code> 打包器，从作用上来看，<code>Rollup</code> 与 <code>Webpack</code> 非常类似。不过相比于 <code>Webpack</code>，<code>Rollup</code>要小巧的多</p>
+<p>现在很多我们熟知的库都都使用它进行打包，比如：<code>Vue</code>、<code>React</code>和<code>three.js</code>等</p>
+<p>举个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/messages.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">hi</span>: <span class="string">&#x27;Hey Guys, I am zce~&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ./src/logger.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">log</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;---------- INFO ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;--------------------------&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">error</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;---------- ERROR ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(msg)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;---------------------------&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ./src/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; log &#125; <span class="keyword">from</span> <span class="string">&#x27;./logger&#x27;</span></span><br><span class="line"><span class="keyword">import</span> messages <span class="keyword">from</span> <span class="string">&#x27;./messages&#x27;</span></span><br><span class="line"><span class="title function_">log</span>(messages.<span class="property">hi</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后通过<code>rollup</code>进行打包</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx rollup ./src/index.<span class="property">js</span> --file ./dist/bundle.<span class="property">js</span></span><br></pre></td></tr></table></figure>
+
+<p>打包结果如下图<img src="https://static.vue-js.com/8fe07830-b143-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>可以看到，代码非常简洁，完成不像<code>webpack</code>那样存在大量引导代码和模块函数</p>
+<p>并且<code>error</code>方法由于没有被使用，输出的结果中并无<code>error</code>方法，可以看到，<code>rollup</code>默认开始<code>Tree-shaking</code> 优化输出结果</p>
+<p>因此，可以看到<code>Rollup</code>的优点：</p>
+<ul>
+<li>代码效率更简洁、效率更高</li>
+<li>默认支持 Tree-shaking</li>
+</ul>
+<p>但缺点也十分明显，加载其他类型的资源文件或者支持导入 <code>CommonJS</code> 模块，又或是编译 <code>ES</code> 新特性，这些额外的需求 <code>Rollup</code>需要使用插件去完成</p>
+<p>综合来看，<code>rollup</code>并不适合开发应用使用，因为需要使用第三方模块，而目前第三方模块大多数使用<code>CommonJs</code>方式导出成员，并且<code>rollup</code>不支持<code>HMR</code>，使开发效率降低</p>
+<p>但是在用于打包<code>JavaScript</code> 库时，<code>rollup</code>比 <code>webpack</code> 更有优势，因为其打包出来的代码更小、更快，其存在的缺点可以忽略</p>
+<h3 id="Parcel"><a href="#Parcel" class="headerlink" title="Parcel"></a>Parcel</h3><p>Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序</p>
+<p><code>Parcel</code> 跟 <code>Webpack</code> 一样都支持以任意类型文件作为打包入口，但建议使用<code>HTML</code>文件作为入口，该<code>HTML</code>文件像平时一样正常编写代码、引用资源。如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- ./src/index.<span class="property">html</span> --&gt;</span><br><span class="line">&lt;!<span class="variable constant_">DOCTYPE</span> html&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Parcel Tutorials<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>main.js文件通过<code>ES Moudle</code>方法导入其他模块成员</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/main.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; log &#125; <span class="keyword">from</span> <span class="string">&#x27;./logger&#x27;</span></span><br><span class="line"><span class="title function_">log</span>(<span class="string">&#x27;hello parcel&#x27;</span>)</span><br><span class="line"><span class="comment">// ./src/logger.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">log</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;---------- INFO ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行之后，使用命令打包</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx parcel src/index.html</span><br></pre></td></tr></table></figure>
+
+<p>执行命令后，<code>Parcel</code>不仅打包了应用，同时也启动了一个开发服务器，跟<code>webpack Dev Server</code>一样</p>
+<p>跟<code>webpack</code>类似，也支持模块热替换，但用法更简单</p>
+<p>同时，<code>Parcel</code>有个十分好用的功能：支持自动安装依赖，像<code>webpack</code>开发阶段突然使用安装某个第三方依赖，必然会终止<code>dev server</code>然后安装再启动。而<code>Parcel</code>则免了这繁琐的工作流程</p>
+<p>同时，<code>Parcel</code>能够零配置加载其他类型的资源文件，无须像<code>webpack</code>那样配置对应的<code>loader</code></p>
+<p>打包命令如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx parcel src/index.html</span><br></pre></td></tr></table></figure>
+
+<p>由于打包过程是多进程同时工作，构建速度会比<code>Webpack</code> 快，输出文件也会被压缩，并且样式代码也会被单独提取到单个文件中</p>
+<p><img src="https://static.vue-js.com/ec17e7a0-b1a2-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>可以感受到，<code>Parcel</code>给开发者一种很大的自由度，只管去实现业务代码，其他事情用<code>Parcel</code>解决</p>
+<h3 id="Snowpack"><a href="#Snowpack" class="headerlink" title="Snowpack"></a>Snowpack</h3><p>Snowpack，是一种闪电般快速的前端构建工具，专为现代<code>Web</code>设计，较复杂的打包工具（如<code>Webpack</code>或<code>Parcel</code>）的替代方案，利用<code>JavaScript</code>的本机模块系统，避免不必要的工作并保持流畅的开发体验</p>
+<p>开发阶段，每次保存单个文件时，<code>Webpack</code>和<code>Parcel</code>都需要重新构建和重新打包应用程序的整个<code>bundle</code>。而<code>Snowpack</code>为你的应用程序每个文件构建一次，就可以永久缓存，文件更改时，<code>Snowpack</code>会重新构建该单个文件</p>
+<p>下图给出<code>webpack</code>与<code>snowpack</code>打包区别：</p>
+<p><img src="https://static.vue-js.com/79197830-b1a3-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>在重新构建每次变更时没有任何的时间浪费，只需要在浏览器中进行HMR更新</p>
+<h3 id="Vite"><a href="#Vite" class="headerlink" title="Vite"></a>Vite</h3><p>vite ，是一种新型前端构建工具，能够显著提升前端开发体验</p>
+<p>它主要由两部分组成：</p>
+<ul>
+<li>一个开发服务器，它基于 原生 ES 模块 提供了丰富的内建功能，如速度快到惊人的 [模块热更新HMR</li>
+<li>一套构建指令，它使用 Rollup打包你的代码，并且它是预配置的，可以输出用于生产环境的优化过的静态资源</li>
+</ul>
+<p>其作用类似<code>webpack</code>+ <code>webpack-dev-server</code>，其特点如下：</p>
+<ul>
+<li>快速的冷启动</li>
+<li>即时的模块热更新</li>
+<li>真正的按需编译</li>
+</ul>
+<p><code>vite</code>会直接启动开发服务器，不需要进行打包操作，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快</p>
+<p>利用现代浏览器支持<code>ES Module</code>的特性，当浏览器请求某个模块的时候，再根据需要对模块的内容进行编译，这种方式大大缩短了编译时间</p>
+<p>原理图如下所示：</p>
+<p><img src="https://static.vue-js.com/9f2eed30-b143-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>在热模块<code>HMR</code>方面，当修改一个模块的时候，仅需让浏览器重新请求该模块即可，无须像<code>webpack</code>那样需要把该模块的相关依赖模块全部编译一次，效率更高</p>
+<h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><p>相比上述的模块化工具，<code>webpack</code>大而全，很多常用的功能做到开箱即用。有两大最核心的特点：<strong>一切皆模块</strong>和<strong>按需加载</strong></p>
+<p>与其他构建工具相比，有如下优势：</p>
+<ul>
+<li>智能解析：对 CommonJS 、 AMD 、ES6 的语法做了兼容</li>
+<li>万物模块：对 js、css、图片等资源文件都支持打包</li>
+<li>开箱即用：HRM、Tree-shaking等功能</li>
+<li>代码分割：可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间</li>
+<li>插件系统，具有强大的 Plugin 接口，具有更好的灵活性和扩展性</li>
+<li>易于调试：支持 SourceUrls 和 SourceMaps</li>
+<li>快速运行：webpack 使用异步 IO 并具有多级缓存，这使得 webpack 很快且在增量编译上更加快</li>
+<li>生态环境好：社区更丰富，出现的问题更容易解决</li>
+</ul>
+<ol>
+<li>除了Webpack外，你还了解哪些模块管理工具<br> webpack:<br> 就目前而言，webpack已是最常用的打包工具，webpack是基于入口的。webpack会自动地递归解析入口所需要加载的所有资源文件，然后用不同的Loader来处理不同的文件，用Plugin来扩展webpack功能。<br> gulp：<br> gulp是一个前端自动化构建工具，强调的是前端开发的工作流程，可以通过配置一系列的task，第一task处理的事情（如代码压缩，合并，编译以及浏览器实时更新等）。然后定义这些执行顺序，来让glup执行这些task，从而构建项目的整个开发流程。自动化构建工具并不能把所有的模块打包到一起，也不能构建不同模块之间的依赖关系。</li>
+</ol>
+<p>  grunt：<br>  是基于任务和流（Task、Stream）的。类似jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个web的构建流程。<br>  Rollup</p>
+<ol start="2">
+<li>Rollup 是一款 ES Modules 打包器， 从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup要小巧的多<br> 现在很多我们熟知的库都都使用它进行打包，比如：Vue、React和three.js等<br> Parcel<br> Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序<br> Parcel 跟 Webpack 一样都支持以任意类型文件作为打包入口，但建议使用		HTML文件作为入口，该HTML文件像平时一样正常编写代码、引用资源。<br> 模块化是一种处理复杂系统分解为更好的可管理模块的方式。可以用来分割、组织和打包应用。每个模块完成一个特定的子功能，所有的模块按某种方法组装起来，成为一个整体。<br> 在前端领域中，除了Webpack外，比较流行的模块打包工具还包括Rollup、Parcel、snowpack和最近风靡的Vite。</li>
+</ol>
+<p>  2.1. Rollup<br>  Rollup 是一款 ES Modules 打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup 要小巧的多。现在很多苦都使用它进行打包，比如：Vue、React和three.js等。<br>  使用之前，可以使用npm install –global rollup 命令进行安装。Rollup 可以通过命令行接口(command line interface)配合可选配置文件(optional configuration file)来调用，或者可以通过 JavaScript API来调用。运行 rollup –help 可以查看可用的选项和参数。<br>  2.2. Parcel<br>  Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序。<br>  2.3.  Vite<br>  Vite是Vue的作者尤雨溪开发的Web开发构建工具，它是一个基于浏览器原生ES模块导入的开发服务器，在开发环境下，利用浏览器去解析import，在服务器端按需编译返回，完全跳过了打包这个概念，服务器随启随用。同时不仅对Vue文件提供了支持，还支持热更新，而且热更新的速度不会随着模块增多而变慢。<br>  Vite具有以下特点： - 快速的冷启动 - 即时热模块更新（HMR，Hot Module Replacement） - 真正按需编译<br>  Vite由两部分组成： - 一个开发服务器，它基于 原生 ES 模块 提供了丰富的内建功能，如速度快到惊人的 [模块热更新HMR。 - 一套构建指令，它使用 Rollup打包你的代码，并且它是预配置的，可以输出用于生产环境的优化过的静态资源。<br>  Vite在开发阶段可以直接启动开发服务器，不需要进行打包操作，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快。当浏览器请求某个模块的时候，根据需要对模块的内容进行编译，大大缩短了编译时间。工作原理如下图所示。<br>  在热模块HMR方面，当修改一个模块的时候，仅需让浏览器重新请求该模块即可，无须像Webpack那样需要把该模块的相关依赖模块全部编译一次，因此效率也更高。<br>3. webpack，rollup，parcel优劣？(了解)<br>    对比</p>
+<p>  Webpack<br>  Rollup<br>  Parcel<br>  功能</p>
+<p>为处理资源管理和分割代码而生，可以用来处理任何类型的文件，灵活，插件多。<br>    用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>    用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>配置<br>    webpack需要配config文件，指明entry, output, plugin，transformations。<br>    rollup需要配config文件，指明entry, output, plugin，transformations。rollup 有对import&#x2F;export所做的node polyfills，webpack没有。rollup支持相对路径，而webpack没有，所以得使用</p>
+<pre><code>parcel则是完全开箱可用的，不用配置。
+</code></pre>
+<p>入口文件<br>    webpack只支持js文件作为入口文件，如果要以其他格式的文件作为入口，比如html文件为入口，如要加第三方Plugin。<br>    rollup可以用html作为入口文件，但也需要plugin，比如rollup-plugin-html-entry。<br>    parcel可以用index.html作为入口文件，而且它会通过看index.html的script tag里包含的什么自己找到要打包生成哪些js文件。<br>transformations<br>    transformations指的是把其他文件转化成js文件的过程，需要经过transformation才能够被打包。webpack使用Loaders来处理。<br>    rollup使用plugins来处理。<br>    parcel会自动去转换，当找到配置文件比如.babelrc, .postcssrc后就会自动转。<br>摇树优化<br>    摇树优化是webpack的一大特性。需要1，用import&#x2F;export语法，2，在package.json中加副作用的入口，3，加上支持去除死代码的缩小器（uglifyjsplugin）。<br>    rollup会统计引入的代码并排除掉那些没有被用到的。这使您可以在现有工具和模块的基础上构建，而无需添加额外的依赖项或膨胀项目的大小。<br>    parcel不支持摇树优化。<br>dev server<br>    webpack用webpack-dev-server。<br>rollup用rollup-plugin-serve和rollup-plugin-livereload共同作用。<br>    parcel内置的有dev server<br>热更新<br>    webpack的 wepack-dev-server支持hot模式。<br>    rollup不支持hmr。<br>    parcel有内置的hmr。<br>代码分割<br>    webpack通过在entry中手动设置，使用CommonsChunkPlugin，和模块内的内联函数动态引入来做代码分割。<br>    rollup有实验性的代码分割特性。它是用es模块在浏览器中的模块加载机制本身来分割代码的。需要把experimentalCodeSplitting 和 experimentalDynamicImport 设为true。<br>    parcel支持0配置的代码分割。主要是通过动态improt。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7icg7a300v9ugun8ft3gg15" data-title="webpack与其他打包工具的区别" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpack/webpack模块联邦" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" class="article-date">
+  <time class="dt-published" datetime="2020-12-07T07:24:58.000Z" itemprop="datePublished">2020-12-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/">webpack模块联邦</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。<br>这通常被称作微前端，但并不仅限于此。<br>Webpack5 模块联邦可以让 Webpack 达到了线上 Runtime 的效果，让代码直接在项目间利用 CDN 直接共享，不再需要本地安装 Npm 包、构建再发布了！<br>我们知道 Webpack 可以通过 DLL 或者 Externals 做代码共享时 Common Chunk，但不同应用和项目间这个任务就变得困难了，我们几乎无法在项目之间做到按需热插拔。</p>
+<p>早期NPM方式共享模块   代码的共享是将依赖作为library安装到我们的项目里进行webpack打包并且构建上线<br>对于项目 Home 与 Search，需要共享一个模块时，最常见的办法就是将其抽成通用依赖并分别安装在各自项目中。虽然 Monorepo 可以一定程度解决重复安装和修改困难的问题，但依然需要走本地编译。</p>
+<p>真正 Runtime 的方式可能是 UMD 方式共享代码模块，即将模块用 Webpack UMD模式打包，并输出到其他项目中。这是非常普遍的模块共享方式：<br>对于项目 Home 与 Search，直接利用 UMD 包复用一个模块。但这种技术方案问题也很明显，就是包体积无法达到本地编译时的优化效果，且库之间容易冲突。</p>
+<p>微前端：micro-frontends (MFE) 也是最近比较火的模块共享管理方式，微前端就是要解决多项目并存问题，多项目并存的最大问题就是模块共享，模块之间是不能有冲突。  对于微前端我们还要考虑样式冲突，声明周期管理冲突等问题，我们先不考虑这些   想把问题聚焦在资源加载的方式上   微前端一般有两种打包方式：1.子应用独立打包，模块实现解耦，但这种方式无法抽取公共的依赖，2.整体应用打一个打包 很好的解决我们上面第一种方式的问题，但是打包效率速度实在是太慢了。不具备水平的扩展能力。<br>由于微前端还要考虑样式冲突、生命周期管理，所以本文只聚焦在资源加载方式上。微前端一般有两种打包方式：</p>
+<ol>
+<li>子应用独立打包，模块更解耦，但无法抽取公共依赖等。</li>
+<li>整体应用一起打包，很好解决上面的问题，但打包速度实在是太慢了，不具备水平扩展能力。</li>
+</ol>
+<p>终于提到本文的主角了，模块联邦方式作为 Webpack5 内置核心特性之一的 FederatedModule：<br>这个方案是直接将一个应用的包应用于另一个应用，同时具备整体应用一起打包的公共依赖抽取能力。  比如：我们直接可以在Search应用里直接使用已经发布到线上的Home应用的组件。</p>
+<p><strong>应用案例</strong><br>本案例模拟三个应用： Nav 、 Search 及 Home 。每个应用都是独立的，又通过模块邦联系到了一起。<br>比如Home需要使用Nav组件共享出来的header，Search可能要使用Header和Home组件构建出来的HomeList。<br>模块联邦将他们共享的模块暴露出来进行引用。<br>1、Nav 导航<br>src&#x2F;header.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const Header = () =&gt; &#123;</span><br><span class="line"> const header = document.createElement(&#x27;h1&#x27;)</span><br><span class="line"> header.textContent = &#x27;公共头部内容&#x27;</span><br><span class="line"> return header</span><br><span class="line">&#125;</span><br><span class="line">export default Header</span><br></pre></td></tr></table></figure>
+<p>src&#x2F;index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import Header from &#x27;./Header&#x27;</span><br><span class="line">const div = document.createElement(&#x27;div&#x27;)</span><br><span class="line">div.appendChild(Header())</span><br><span class="line">document.body.appendChild(div)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   // 模块联邦名字</span><br><span class="line">   name: &#x27;nav&#x27;,</span><br><span class="line">   // 外部访问的资源名字</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   // 引用的外部资源列表</span><br><span class="line">   remotes: &#123;&#125;,</span><br><span class="line">   // 暴露给外部资源列表</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./Header&#x27;: &#x27;./src/Header.js&#x27;,   // 暴露 Header组件  key：可以定义成./Header 这个./Header并不代表是我当前引用下的某个路径   而是将来在别人用的时候基于这个路径来拼接url，值是正真的我们本地项目的应用</span><br><span class="line">  &#125;,</span><br><span class="line">   // 共享模块，如lodash</span><br><span class="line">   shared: &#123;&#125;,   // 如果我们的 header模块里有共享的第三方模块比如：lodash等，我们可以把他放到这里在打包的时候可以把第三方的共享的模块打到单独的一个包里。</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3003</span><br></pre></td></tr></table></figure>
+
+<p>2、Home 首页<br>src&#x2F;HomeList</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const HomeList = (num) =&gt; &#123;</span><br><span class="line"> let str = &#x27;&lt;ul&gt;&#x27;</span><br><span class="line"> for (let i = 0; i &lt; num; i++) &#123;</span><br><span class="line">  str += &#x27;&lt;li&gt;item &#x27; + i + &#x27;&lt;/li&gt;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"> str += &#x27;&lt;/ul&gt;&#x27;</span><br><span class="line"> return str</span><br><span class="line">&#125;</span><br><span class="line">export default HomeList</span><br></pre></td></tr></table></figure>
+<p>src&#x2F;index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import HomeList from &#x27;./HomeList&#x27;</span><br><span class="line">remotes: &#123;</span><br><span class="line">    nav</span><br><span class="line">	(&#x27;nav/Header&#x27;)：remotes: &#123; nav &#125;Header    exposes: &#123;./Header&#x27;:&#x27;&#x27;&#125;</span><br><span class="line">import(&#x27;nav/Header&#x27;).then((Header) =&gt; &#123;  //引用模块联邦的组件  这样导入别人组件的时候需要通过异步的方式因为 网络共享或者是模块载入 是由延迟的，所以要通过promise的方式（异步模块加载的形式）去引用它。</span><br><span class="line"> const body = document.createElement(&#x27;div&#x27;)</span><br><span class="line"> body.appendChild(Header.default())</span><br><span class="line"> document.body.appendChild(body)</span><br><span class="line"> document.body.innerHTML += HomeList(5)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &quot;home&quot;,</span><br><span class="line">   filename: &quot;remoteEntry.js&quot;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,    // 引用第三方或别人写好的应用的路径。远端的服务路径</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./HomeList&#x27;: &#x27;./src/HomeList.js&#x27;,</span><br><span class="line">  &#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3001</span><br></pre></td></tr></table></figure>
+
+<p>3、search 搜索<br>src&#x2F;index</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Promise.all([import(&#x27;nav/Header&#x27;), import(&#x27;home/HomeList&#x27;)])</span><br><span class="line">.then(([&#123;</span><br><span class="line">  default: Header</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  default: HomeList</span><br><span class="line">&#125;]) =&gt; &#123;</span><br><span class="line">  document.body.appendChild(Header())</span><br><span class="line">  document.body.innerHTML += HomeList(4)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &#x27;search&#x27;,</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,</span><br><span class="line">    home: &quot;home@http://localhost:3001/remoteEntry.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;&#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3002</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" data-id="cl7icg7a900vrugun6uvy3cqo" data-title="webpack模块联邦" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-webpack/webpack面试题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/12/03/webpack/webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
@@ -303,6 +715,214 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-html+css+js+ts/1-音视频" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" class="article-date">
+  <time class="dt-published" datetime="2020-11-28T07:53:12.000Z" itemprop="datePublished">2020-11-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/">html-原生音视频</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、video"><a href="#一、video" class="headerlink" title="一、video"></a>一、video</h2><hr>
+<h3 id="1-1-video支持视频格式"><a href="#1-1-video支持视频格式" class="headerlink" title="1.1 video支持视频格式"></a>1.1 video支持视频格式</h3><hr>
+<ul>
+<li><p>常见的视频格式</p>
+<ul>
+<li>视频的组成部分：画面、音频、编码格式</li>
+<li>视频编码：<code>H.264</code>、<code>Theora</code>、<code>VP8(google开源)</code></li>
+</ul>
+</li>
+<li><p><code>HTML5</code>支持的视频格式：</p>
+<ul>
+<li><pre><code>Ogg
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 带有</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  Theora
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">视频编码+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  Vorbis
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">音频编码的</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  Ogg
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    文件</span><br><span class="line"></span><br><span class="line">    - 支持的浏览器:`F`、`C`、`O`</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  MEPG4</span><br></pre></td></tr></table></figure>
+
+- 带有`H.264`视频编码+`AAC`音频编码的`MPEG4`文件
+- 支持的浏览器: `S`、`C`
+</code></pre>
+</li>
+<li><p>&#96;&#96;&#96;<br>WebM</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    - 带有`VP8`视频编码+`Vorbis`音频编码的`WebM`格式</span><br><span class="line">    - 支持的浏览器: `I`、`F`、`C`、`O`</span><br><span class="line">    - 劣势：视频少、转码器几乎没有，不好转码</span><br><span class="line"></span><br><span class="line">- 想要`video`能自动填充慢父div的大小，只要给`video`标签加上`style=&quot;width= 100%; height=100%; object-fit: fill&quot;`即可</span><br><span class="line"></span><br><span class="line">### 1.2 标签原型</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 指定一种视频格式，不能播就提示</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<p><video id="media" src="examp.mp4" width="500" 
+poster="examp1.jpg" >您的浏览器不支持video</video></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 给定多种视频格式，浏览器根据自身支持程度选择播放哪一种</span><br><span class="line">- 注意：多个`source`标签，浏览器会从第一个开始识别，如果第一个不被识别，则会继续识别第二个；如果第一个识别成功，则会直接播放第一种格式视频</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<video controls = “controls”>
+
+   <source src=”1.mp4” type=”video/mp4” />  //src属性写到source标签中，要指定视频的type类型，例如MP4的即为type=“video/mp4”
+
+   <source src = “2.ogg” type=”video/ogg” />  //ogg格式
+
+   <source src=”3.webm” type=”video/webm” />   //webm格式
+
+</video>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 1.3 重要的video标签属性</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">| 属性(常用)     | 值            | 功能描述                                       |</span><br><span class="line">| :------------- | :------------ | :--------------------------------------------- |</span><br><span class="line">| **controls**   | controls      | 是否显示播放控件                               |</span><br><span class="line">| **autoplay**   | autoplay      | 设置是否打开浏览器后自动播放                   |</span><br><span class="line">| **width**      | Pilex（像素） | 设置播放器的宽度                               |</span><br><span class="line">| **height**     | Pilex（像素） | 设置播放器的高度                               |</span><br><span class="line">| **loop**       | loop          | 设置视频是否循环播放（即播放完后继续重新播放） |</span><br><span class="line">| **preload**    | preload       | 设置是否等加载完再播放                         |</span><br><span class="line">| **src**        | url           | 设置要播放视频的url地址                        |</span><br><span class="line">| **poster**     | imgurl        | 设置播放器初始默认显示图片                     |</span><br><span class="line">| **autobuffer** | autobuffer    | 设置为浏览器缓冲方式，不设置autoply才有效      |</span><br><span class="line"></span><br><span class="line">- API 属性</span><br><span class="line"></span><br><span class="line">| 属性                | 描述                                                       |</span><br><span class="line">| :------------------ | :--------------------------------------------------------- |</span><br><span class="line">| audioTracks         | 返回表示可用音轨的 AudioTrackList 对象                     |</span><br><span class="line">| buffered            | 返回表示音频/视频已缓冲部分的 TimeRanges 对象              |</span><br><span class="line">| controller          | 返回表示音频/视频当前媒体控制器的 MediaController 对象     |</span><br><span class="line">| crossOrigin         | 设置或返回音频/视频的 CORS 设置                            |</span><br><span class="line">| currentSrc          | 返回当前音频/视频的 URL                                    |</span><br><span class="line">| currentTime         | 设置或返回音频/视频中的当前播放位置（以秒计）              |</span><br><span class="line">| defaultMuted        | 设置或返回音频/视频默认是否静音                            |</span><br><span class="line">| defaultPlaybackRate | 设置或返回音频/视频的默认播放速度                          |</span><br><span class="line">| duration            | 返回当前音频/视频的长度（以秒计）                          |</span><br><span class="line">| ended               | 返回音频/视频的播放是否已结束                              |</span><br><span class="line">| error               | 返回表示音频/视频错误状态的 MediaError 对象                |</span><br><span class="line">| mediaGroup          | 设置或返回音频/视频所属的组合（用于连接多个音频/视频元素） |</span><br><span class="line">| muted               | 设置或返回音频/视频是否静音                                |</span><br><span class="line">| networkState        | 返回音频/视频的当前网络状态                                |</span><br><span class="line">| paused              | 设置或返回音频/视频是否暂停                                |</span><br><span class="line">| playbackRate        | 设置或返回音频/视频播放的速度                              |</span><br><span class="line">| played              | 返回表示音频/视频已播放部分的 TimeRanges 对象              |</span><br><span class="line">| readyState          | 返回音频/视频当前的就绪状态                                |</span><br><span class="line">| seekable            | 返回表示音频/视频可寻址部分的 TimeRanges 对象              |</span><br><span class="line">| seeking             | 返回用户是否正在音频/视频中进行查找                        |</span><br><span class="line">| startDate           | 返回表示当前时间偏移的 Date 对象                           |</span><br><span class="line">| textTracks          | 返回表示可用文本轨道的 TextTrackList 对象                  |</span><br><span class="line">| videoTracks         | 返回表示可用视频轨道的 VideoTrackList 对象                 |</span><br><span class="line">| volume              | 设置或返回音频/视频的音量                                  |</span><br><span class="line"></span><br><span class="line">- 常用API属性</span><br><span class="line"></span><br><span class="line">  - `duration`：返回当前音频/视频的长度（以秒计）</span><br><span class="line">  - `paused`：设置或返回音频/视频是否暂停</span><br><span class="line">  - `currentTime`：设置或返回音频/视频中的当前播放位置（以秒计）</span><br><span class="line">  - `ended`：返回音频/视频的播放是否已结束</span><br><span class="line"></span><br><span class="line">  ### 1.4 Video API</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 1.4.1 Video 方法</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">| API             | 事件说明                                                     |</span><br><span class="line">| :-------------- | :----------------------------------------------------------- |</span><br><span class="line">| **play**        | video.play(); 播放视频                                       |</span><br><span class="line">| **pause**       | video.pause(); 暂停播放视频                                  |</span><br><span class="line">| **load**        | video.load(); 将全部属性回复默认值，视频恢复重新开始状态     |</span><br><span class="line">| **canPlayType** | var support = videoid.canPlayType(‘video/mp4′);   判断浏览器是否支持当前类型的视频格式  返回值：     空字符串：不支持Maybe：可能支持Probably：完全支持 |</span><br><span class="line"></span><br><span class="line">- 常用方法</span><br><span class="line">  - `play()`：开始播放音频/视频</span><br><span class="line">  - `pause()`：暂停当前播放的音频/视频</span><br><span class="line"></span><br><span class="line">#### 1.4.2网络状态</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 获取video对象</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  Media = document.getElementById("media");
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- Media.currentSrc</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 返回当前资源的URL</span><br><span class="line"></span><br><span class="line">- Media.src = value</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 返回或设置当前资源的URL</span><br><span class="line"></span><br><span class="line">- Media.canPlayType(type)</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否能播放某种格式的资源</span><br><span class="line"></span><br><span class="line">- Media.networkState</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 0.此元素未初始化</span><br><span class="line">  - 1.正常但没有使用网络</span><br><span class="line">  - 2.正在下载数据</span><br><span class="line">  - 3.没有找到资源</span><br><span class="line"></span><br><span class="line">- Media.load()</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 重新加载src指定的资源</span><br><span class="line"></span><br><span class="line">- Media.buffered</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 返回已缓冲区域，TimeRanges</span><br><span class="line"></span><br><span class="line">- Media.preload</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - none:不预载</span><br><span class="line">  - metadata:预载资源信息</span><br><span class="line">  - auto:</span><br><span class="line"></span><br><span class="line">#### 1.4.3 准备状态</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- **Media.readyState**</span><br><span class="line"></span><br><span class="line">- Media.seeking</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否正在seeking</span><br><span class="line"></span><br><span class="line">#### 1.4.4 回放状态</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- Media.currentTime = value</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 当前播放的位置，赋值可改变位置</span><br><span class="line"></span><br><span class="line">- Media.startTime;</span><br><span class="line"></span><br><span class="line">  - 一般为0，如果为流媒体或者不从0开始的资源，则不为0</span><br><span class="line"></span><br><span class="line">- Media.duration</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 当前资源长度 流返回无限</span><br><span class="line"></span><br><span class="line">- Media.paused</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否暂停</span><br><span class="line"></span><br><span class="line">- Media.defaultPlaybackRate = value</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 默认的回放速度，可以设置</span><br><span class="line"></span><br><span class="line">- Media.playbackRate = value</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 当前播放速度，设置后马上改变</span><br><span class="line"></span><br><span class="line">- Media.played</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 返回已经播放的区域，TimeRanges，关于此对象见下文</span><br><span class="line"></span><br><span class="line">- Media.seekable</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 返回可以seek的区域 TimeRanges</span><br><span class="line"></span><br><span class="line">- Media.ended</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否结束</span><br><span class="line"></span><br><span class="line">- Media.autoPlay</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否自动播放</span><br><span class="line"></span><br><span class="line">- Media.loop</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 是否循环播放</span><br><span class="line"></span><br><span class="line">- Media.play()</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 播放</span><br><span class="line"></span><br><span class="line">- Media.pause()</span><br><span class="line"></span><br><span class="line">  ;</span><br><span class="line"></span><br><span class="line">  - 暂停</span><br><span class="line"></span><br><span class="line">#### 1.4.5 视频控制</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- Media.controls;//是否有默认控制条</span><br><span class="line">- Media.volume = value; //音量</span><br><span class="line">- Media.muted = value; //静音</span><br><span class="line">- TimeRanges(区域)对象</span><br><span class="line">- TimeRanges.length; //区域段数</span><br><span class="line">- TimeRanges.start(index) //第index段区域的开始位置</span><br><span class="line">- TimeRanges.end(index) //第index段区域的结束位置</span><br><span class="line"></span><br><span class="line">#### 1.4.6 相关事件</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 首先绑定事件的话可以通过js中的addEventListener方法来绑定事件</span><br><span class="line"></span><br><span class="line">| 事件               | 说明                                   |</span><br><span class="line">| :----------------- | :------------------------------------- |</span><br><span class="line">| **loadstart**      | 客户端开始请求数据                     |</span><br><span class="line">| **progress**       | 客户端正在请求数据                     |</span><br><span class="line">| **suspend**        | 延迟下载                               |</span><br><span class="line">| **abort**          | 客户端主动终止下载（不是因为错误引起） |</span><br><span class="line">| **loadstart**      | 客户端开始请求数据                     |</span><br><span class="line">| **progress**       | 客户端正在请求数据                     |</span><br><span class="line">| **error**          | 请求数据时遇到错误                     |</span><br><span class="line">| **stalled**        | 网速失速                               |</span><br><span class="line">| **play**           | play()和autoplay开始播放时触发         |</span><br><span class="line">| **pause**          | pause()触发                            |</span><br><span class="line">| **loadedmetadata** | 成功获取资源长度                       |</span><br><span class="line">| **loadeddata**     | -                                      |</span><br><span class="line">| **waiting**        | 等待数据，并非错误                     |</span><br><span class="line">| **playing**        | 开始回放                               |</span><br><span class="line">| **canplay**        | 可以播放，但中途可能因为加载而暂停     |</span><br><span class="line">| **canplaythrough** | 可以播放，歌曲全部加载完毕             |</span><br><span class="line">| **seeking**        | 寻找中                                 |</span><br><span class="line">| **seeked**         | 寻找完毕                               |</span><br><span class="line">| **timeupdate**     | 播放时间改变                           |</span><br><span class="line">| **ended**          | 播放结束                               |</span><br><span class="line">| **ratechange**     | 播放速率改变                           |</span><br><span class="line">| **durationchange** | 资源长度改变                           |</span><br><span class="line">| **volumechange**   | 音量改变                               |</span><br><span class="line"></span><br><span class="line">- 常用事件</span><br><span class="line">  - `oncanplay`：当文件就绪可以开始播放时运行的脚本（缓冲已足够开始时）。</span><br><span class="line">  - `ontimeupdate`： 当播放位置改变时（比如当用户快进到媒介中一个不同的位置时）运行的脚本。</span><br><span class="line">  - `onended`：当媒介已到达结尾时运行的脚本（可发送类似“感谢观看”之类的消息）。</span><br><span class="line"></span><br><span class="line">#### 1.4.7 其他</span><br><span class="line"></span><br><span class="line">- 全屏:</span><br><span class="line">  - `element.webkitRequestFullScreen();`( webkit)</span><br><span class="line">  - `element.mozRequestFullScreen();` (Firefox )</span><br><span class="line">  - `element.requestFullscreen();` (W3C )</span><br><span class="line">- 退出全屏：</span><br><span class="line">  - `document.webkitCancelFullScreen()`; (webkit )</span><br><span class="line">  - `document.mozCancelFullScreen()`; (Firefox)</span><br><span class="line">  - `document.exitFullscreen();` (W3C)</span><br><span class="line"></span><br><span class="line">## 二、audio</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">### 2.1 audio格式</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 常见的音频格式</span><br><span class="line">  - 音频编码：`ACC`、`MP3`、`Vorbis`</span><br><span class="line">- HTML5支持的音频格式：</span><br><span class="line">  - `Ogg` 免费 支持的浏览器:`C`、`F`、`O`</span><br><span class="line">  - `MP3` 收费 支持的浏览器: `I`、`C`、`S`</span><br><span class="line">  - `Wav` 收费 支持的浏览器: `F`、`O`、`S`</span><br><span class="line"></span><br><span class="line">### 2.2 audio标签中的一些常用属性</span><br><span class="line"></span><br><span class="line">| 属性         | 属性值   | 注释                                                         |</span><br><span class="line">| :----------- | :------- | :----------------------------------------------------------- |</span><br><span class="line">| **src**      | url      | 播放的音乐的url地址（火狐只支持ogg的音乐，而IE9只支持MP3格式的音乐。chrome貌似全支持） |</span><br><span class="line">| **preload**  | preload  | 预加载（在页面被加载时进行加载或者说缓冲音频），如果使用了autoplay的话那么该属性失效。 |</span><br><span class="line">| **loop**     | loop     | 循环播放                                                     |</span><br><span class="line">| **controls** | controls | 是否显示默认控制条（控制按钮）                               |</span><br><span class="line">| **autoplay** | autoplay | 自动播放                                                     |</span><br><span class="line"></span><br><span class="line">- 对于音乐格式的支持</span><br><span class="line"></span><br><span class="line">| 音频格式 | Chrome | Firefox | IE9    | Opera  | Safari |</span><br><span class="line">| :------- | :----- | :------ | :----- | :----- | :----- |</span><br><span class="line">| OGG      | 支持   | 支持    | 支持   | 不支持 | 不支持 |</span><br><span class="line">| MP3      | 支持   | 不支持  | 支持   | 不支持 | 支持   |</span><br><span class="line">| WAV      | 不支持 | 支持    | 不支持 | 支持   | 不支持 |</span><br><span class="line"></span><br><span class="line">- audio可通过new来创建。也可以通过用document来获取</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+//通过new关键字来创建Audio对象
+var Music = new Audio("test.mp3");
+
+<p>&#x2F;&#x2F;通过document来获取已经存在的Audio对象<br>var Music &#x3D; document.getElementById(“audio”);<br>&#x2F;&#x2F;当然这里也可以使用document.getElementsByClassName(‘className’)等其他的方法来获取。</p>
+<p>&#96;&#96;&#96;</p>
+<h3 id="2-3-api所提供的对audio标签操作的一些属性和方法"><a href="#2-3-api所提供的对audio标签操作的一些属性和方法" class="headerlink" title="2.3 api所提供的对audio标签操作的一些属性和方法"></a>2.3 api所提供的对audio标签操作的一些属性和方法</h3><hr>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>duration</strong></td>
+<td align="left">获取媒体文件的总时长，以s为单位，如果无法获取，返回NaN</td>
+</tr>
+<tr>
+<td align="left"><strong>paused</strong></td>
+<td align="left">如果媒体文件被暂停，那么paused属性返回true，反之则返回false</td>
+</tr>
+<tr>
+<td align="left"><strong>ended</strong></td>
+<td align="left">如果媒体文件播放完毕返回true</td>
+</tr>
+<tr>
+<td align="left"><strong>muted</strong></td>
+<td align="left">用来获取或设置静音状态。值为boolean</td>
+</tr>
+<tr>
+<td align="left"><strong>volume</strong></td>
+<td align="left">控制音量的属性值为0-1;0为音量最小，1为音量最大</td>
+</tr>
+<tr>
+<td align="left"><strong>startTime</strong></td>
+<td align="left">返回起始播放时间</td>
+</tr>
+<tr>
+<td align="left"><strong>error</strong></td>
+<td align="left">返回错误代码，为uull的时候为正常。否则可以通过Music.error.code来获取</td>
+</tr>
+<tr>
+<td align="left"><strong>currentTime</strong></td>
+<td align="left">用来获取或控制当前播放的时间，单位为s。</td>
+</tr>
+<tr>
+<td align="left"><strong>currentSrc</strong></td>
+<td align="left">以字符串形式返回正在播放或已加载的文件</td>
+</tr>
+</tbody></table>
+<h3 id="2-4-常用的控制用的函数"><a href="#2-4-常用的控制用的函数" class="headerlink" title="2.4 常用的控制用的函数"></a>2.4 常用的控制用的函数</h3><hr>
+<table>
+<thead>
+<tr>
+<th align="left">函数</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>load()</strong></td>
+<td align="left">加载音频、视频软件</td>
+</tr>
+<tr>
+<td align="left"><strong>play()</strong></td>
+<td align="left">加载并播放音频、视频文件或重新播放暂停的的音频、视频</td>
+</tr>
+<tr>
+<td align="left"><strong>pause()</strong></td>
+<td align="left">暂停出于播放状态的音频、视频文件</td>
+</tr>
+<tr>
+<td align="left"><strong>canPlayType(obj)</strong></td>
+<td align="left">测试是否支持给定的Mini类型的文件</td>
+</tr>
+</tbody></table>
+<h3 id="2-5-audio标签API中的常用事件"><a href="#2-5-audio标签API中的常用事件" class="headerlink" title="2.5 audio标签API中的常用事件"></a>2.5 audio标签API中的常用事件</h3><hr>
+<ul>
+<li>首先绑定事件的话可以通过js中的addEventListener方法来绑定事件</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">事件名称</th>
+<th align="left">事件作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>loadstart</strong></td>
+<td align="left">客户端开始请求数据</td>
+</tr>
+<tr>
+<td align="left"><strong>progress</strong></td>
+<td align="left">客户端正在请求数据（或者说正在缓冲）</td>
+</tr>
+<tr>
+<td align="left"><strong>play</strong></td>
+<td align="left">play()和autoplay播放时</td>
+</tr>
+<tr>
+<td align="left"><strong>pause</strong></td>
+<td align="left">pause()方法促发时</td>
+</tr>
+<tr>
+<td align="left"><strong>ended</strong></td>
+<td align="left">当前播放结束</td>
+</tr>
+<tr>
+<td align="left"><strong>timeupdate</strong></td>
+<td align="left">当前播放时间发生改变的时候。播放中常用的时间处理</td>
+</tr>
+<tr>
+<td align="left"><strong>canplaythrough</strong></td>
+<td align="left">歌曲已经载入完全完成</td>
+</tr>
+<tr>
+<td align="left"><strong>canplay</strong></td>
+<td align="left">缓冲至目前可播放状态。</td>
+</tr>
+</tbody></table>
+<p>其实<code>video</code>的<code>api</code>和<code>audio</code>几乎一致。稍稍有点不同。所以基本上会了一个其他的也就都会了s</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" data-id="cl7ibzoec001iugunbu9bcjvr" data-title="html-原生音视频" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li></ul>
 
     </footer>
   </div>
@@ -950,429 +1570,11 @@
 
 
   
-    <article id="post-webpack/webpack多页面应用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/11/09/webpack/webpack%E5%A4%9A%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8/" class="article-date">
-  <time class="dt-published" datetime="2020-11-09T15:48:17.000Z" itemprop="datePublished">2020-11-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/09/webpack/webpack%E5%A4%9A%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8/">webpack多页面应用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>entry配置</strong><br>在实际项目的开发中一个完整的系统不会将所有的功能都放在一个网页上，因为这样会导致网页的性能不佳，实际可以按照功能模块划分多个单页应用每个单页应用又生处一个html文件并且随着业务的发展更多的单页应用可以被逐渐的加入到这个项目里。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">entry: [&#x27;./src/file_1.js&#x27;, &#x27;./src/file_2.js&#x27;，&#x27;node_modules里的模块 lodash&#x27;],</span><br><span class="line">entry:&#123;</span><br><span class="line">	main:[&#x27;./src/file_1.js&#x27;, &#x27;./src/file_2.js&#x27;],    //这里使用lodash  还会打包在这里打包一遍</span><br><span class="line">	lodash:&#x27;lodash&#x27;,</span><br><span class="line">&#125;</span><br><span class="line">entry:&#123;</span><br><span class="line">	main:&#123;</span><br><span class="line">	import :[&#x27;./src/file_1.js&#x27;, &#x27;./src/file_2.js&#x27;],  //这两个文件可能依赖于lodash，而lodash单独打包了，所以dependOn这个依赖可以把公共的lodash给抽离出来            lodash  就不会在打包一遍了</span><br><span class="line">	dependOn:&#x27;lodash&#x27;,           // 做依赖  这里的lodash  是下面的对应名  可以随意起</span><br><span class="line">	&#125;,    //这里使用lodash  还会打包在这里打包一遍</span><br><span class="line">	lodash:&#x27;lodash&#x27;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对象语法会比较繁琐。然而，这是应用程序中定义入口的最可扩展的方式。<br>描述入口的对象：<br>用于描述入口的对象。你可以使用如下属性：<br>dependOn : 当前入口所依赖的入口。它们必须在该入口被加载前被加载。<br>filename : 指定要输出的文件名称。<br>import : 启动时需加载的模块。<br>library : 指定 library 选项，为当前 entry 构建一个 library。<br>runtime : 运行时 chunk 的名字。如果设置了，就会创建一个新的运行时<br>chunk。在 webpack 5.43.0 之后可将其设为 false 以避免一个新的运行时<br>chunk。<br>publicPath : 当该入口的输出文件在浏览器中被引用时，为它们指定一个公共<br>URL 地址。请查看 output.publicPath。<br>webpack.config.js<br>runtime 和 dependOn 不应在同一个入口上同时使用，所以如下配置无效，并且会<br>抛出错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line">  a2: &#x27;dependingfile.js&#x27;,</span><br><span class="line">  b2: &#123;</span><br><span class="line">   dependOn: &#x27;a2&#x27;,</span><br><span class="line">   import: &#x27;./src/app.js&#x27;,</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line">  a2: &#x27;./a&#x27;,</span><br><span class="line">  b2: &#123;</span><br><span class="line">   runtime: &#x27;x2&#x27;,</span><br><span class="line">   dependOn: &#x27;a2&#x27;,</span><br><span class="line">   import: &#x27;./b&#x27;,</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>确保 runtime 不能指向已存在的入口名称，例如下面配置会抛出一个错误：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line">  a1: &#x27;./a&#x27;,</span><br><span class="line">  b1: &#123;</span><br><span class="line">   runtime: &#x27;a1&#x27;,</span><br><span class="line">   import: &#x27;./b&#x27;,</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>另外 dependOn 不能是循环引用的，下面的例子也会出现错误</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line">  a3: &#123;</span><br><span class="line">   import: &#x27;./a&#x27;,</span><br><span class="line">   dependOn: &#x27;b3&#x27;,</span><br><span class="line"> &#125;,</span><br><span class="line">  b3: &#123;</span><br><span class="line">   import: &#x27;./b&#x27;,</span><br><span class="line">   dependOn: &#x27;a3&#x27;,</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>配置index.html模板</strong><br>要生成多个HTML文件，请在插件数组中多次声明插件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line"> 	main:&#123;</span><br><span class="line">		import :[],</span><br><span class="line">		dependOn:&#x27;lodash2&#x27;,</span><br><span class="line">		filename:&#x27;chanel1.[name].js&#x27;</span><br><span class="line">	&#125;,</span><br><span class="line">	lodash2:&#123;</span><br><span class="line">		import :&#x27;lodash&#x27;,</span><br><span class="line">		filename:&#x27;common/[name].js&#x27;</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(), // Generates default index.html</span><br><span class="line">  new HtmlWebpackPlugin(&#123;  // Also generate a test.html</span><br><span class="line">   title:   &#x27;ejs&#x27;,     //在页面可以使用ejs模板语法获取数据</span><br><span class="line">   filename: &#x27;chanel1/test.html&#x27;,                      //执行打包后的页面文件     输出的文件名</span><br><span class="line">   template: &#x27;src/assets/test.html&#x27;       //指定模板的路径</span><br><span class="line">   inject:&#x27;body/head&#x27;,                       // 定义当前所生成的script标签的位置</span><br><span class="line">   chunks:[&#x27;自定义那个入口  如：main.js&#x27;]，              //规定当前页面到底打包那些chunk   如何实现多个页面去载入不同的chunk   chunk就是我们在路口配置的项    每一项就是一个chunk  默认会把所有chunk都放进去</span><br><span class="line">   publicPash:&#x27;http://www.a.com/&#x27;        //包的前缀</span><br><span class="line"> &#125;)</span><br><span class="line"> ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;title&gt;&lt;%= htmlWebpackPlugin.options.title  %&gt;&lt;/title&gt;  options.就是我们在HtmlWebpackPlugin定制的选项</span><br><span class="line">index.html</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"> &lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;/&gt;</span><br><span class="line">  &lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;</span><br><span class="line"> &lt;/head&gt;</span><br><span class="line"> &lt;body&gt;</span><br><span class="line"> &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>多页面应用</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#123;</span><br><span class="line">  pageOne: &#x27;./src/pageOne/index.js&#x27;,</span><br><span class="line">  pageTwo: &#x27;./src/pageTwo/index.js&#x27;,</span><br><span class="line">  pageThree: &#x27;./src/pageThree/index.js&#x27;,</span><br><span class="line">&#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这是什么？ 我们告诉 webpack 需要三个独立分离的依赖图（如上面的示例）</p>
-<p>为什么？ 在多页面应用程序中，server 会拉取一个新的 HTML 文档给你的客户端。<br>页面重新加载此新文档，并且资源被重新下载。然而，这给了我们特殊的机会去做很<br>多事，例如使用 optimization.splitChunks 为页面间共享的应用程序代码创建<br>bundle。由于入口起点数量的增多，多页应用能够复用多个入口起点之间的大量代<br>码&#x2F;模块，从而可以极大地从这些技术中受益。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/11/09/webpack/webpack%E5%A4%9A%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8/" data-id="cl7icg7a600vfugunewtc9o0b" data-title="webpack多页面应用" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack的理解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
-  <time class="dt-published" datetime="2020-11-01T02:06:57.000Z" itemprop="datePublished">2020-11-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/">webpack的理解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p><code>Webpack</code> 最初的目标是实现前端项目的模块化，旨在更高效地管理和维护项目中的每一个资源</p>
-<h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><p>最早的时候，我们会通过文件划分的形式实现模块化，也就是将每个功能及其相关状态数据各自单独放到不同的<code>JS</code> 文件中</p>
-<p>约定每个文件是一个独立的模块，然后再将这些<code>js</code>文件引入到页面，一个<code>script</code>标签对应一个模块，然后调用模块化的成员</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;module-a.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;module-b.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但这种模块弊端十分的明显，模块都是在全局中工作，大量模块成员污染了环境，模块与模块之间并没有依赖关系、维护困难、没有私有空间等问题</p>
-<p>项目一旦变大，上述问题会尤其明显</p>
-<p>随后，就出现了命名空间方式，规定每个模块只暴露一个全局对象，然后模块的内容都挂载到这个对象中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">moduleA</span> = &#123;</span><br><span class="line">  <span class="attr">method1</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;moduleA#method1&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这种方式也并没有解决第一种方式的依赖等问题</p>
-<p>再后来，我们使用立即执行函数为模块提供私有空间，通过参数的形式作为依赖声明，如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js</span></span><br><span class="line">(<span class="keyword">function</span> (<span class="params">$</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&#x27;module-a&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">method1</span> () &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(name + <span class="string">&#x27;#method1&#x27;</span>)</span><br><span class="line">    $(<span class="string">&#x27;body&#x27;</span>).<span class="title function_">animate</span>(&#123; <span class="attr">margin</span>: <span class="string">&#x27;200px&#x27;</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">window</span>.<span class="property">moduleA</span> = &#123;</span><br><span class="line">    <span class="attr">method1</span>: method1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(jQuery)</span><br></pre></td></tr></table></figure>
-
-<p>上述的方式都是早期解决模块的方式，但是仍然存在一些没有解决的问题。例如，我们是用过<code>script</code>标签在页面引入这些模块的，这些模块的加载并不受代码的控制，时间一久维护起来也十分的麻烦</p>
-<p>理想的解决方式是，在页面中引入一个<code>JS</code>入口文件，其余用到的模块可以通过代码控制，按需加载进来</p>
-<p>除了模块加载的问题以外，还需要规定模块化的规范，如今流行的则是<code>CommonJS</code>、<code>ES Modules</code></p>
-<h2 id="二、问题"><a href="#二、问题" class="headerlink" title="二、问题"></a>二、问题</h2><p>从后端渲染的<code>JSP</code>、<code>PHP</code>，到前端原生<code>JavaScript</code>，再到<code>jQuery</code>开发，再到目前的三大框架<code>Vue</code>、<code>React</code>、<code>Angular</code></p>
-<p>开发方式，也从<code>javascript</code>到后面的<code>es5</code>、<code>es6、7、8、9、10</code>，再到<code>typescript</code>，包括编写<code>CSS</code>的预处理器<code>less</code>、<code>scss</code>等</p>
-<p>现代前端开发已经变得十分的复杂，所以我们开发过程中会遇到如下的问题：</p>
-<ul>
-<li>需要通过模块化的方式来开发</li>
-<li>使用一些高级的特性来加快我们的开发效率或者安全性，比如通过ES6+、TypeScript开发脚本逻辑，通过sass、less等方式来编写css样式代码</li>
-<li>监听文件的变化来并且反映到浏览器上，提高开发的效率</li>
-<li>JavaScript 代码需要模块化，HTML 和 CSS 这些资源文件也会面临需要被模块化的问题</li>
-<li>开发完成后我们还需要将代码进行压缩、合并以及其他相关的优化</li>
-</ul>
-<p>而<code>webpack</code>恰巧可以解决以上问题</p>
-<h2 id="三、是什么"><a href="#三、是什么" class="headerlink" title="三、是什么"></a>三、是什么</h2><p><code>webpack</code> 是一个用于现代<code>JavaScript</code>应用程序的静态模块打包工具</p>
-<ul>
-<li>静态模块</li>
-</ul>
-<p>这里的静态模块指的是开发阶段，可以被 <code>webpack</code> 直接引用的资源（可以直接被获取打包进<code>bundle.js</code>的资源）</p>
-<p>当 <code>webpack</code>处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块（不再局限<code>js</code>文件），并生成一个或多个 <code>bundle</code></p>
-<p><img src="https://static.vue-js.com/9ce194a0-a578-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<h4 id="webpack的能力："><a href="#webpack的能力：" class="headerlink" title="webpack的能力："></a><code>webpack</code>的能力：</h4><p><strong>编译代码能力</strong>，提高效率，解决浏览器兼容问题 <img src="https://static.vue-js.com/c5c2d360-a592-11eb-ab90-d9ae814b240d.png" alt="img"><strong>模块整合能力</strong>，提高性能，可维护性，解决浏览器频繁请求文件的问题 <img src="https://static.vue-js.com/d306d260-a592-11eb-ab90-d9ae814b240d.png" alt="img"><strong>万物皆可模块能力</strong>，项目维护性增强，支持不同种类的前端模块类型，统一的模块化方案，所有资源文件的加载都可以通过代码控制 <img src="https://static.vue-js.com/e3c5a040-a592-11eb-ab90-d9ae814b240d.png" alt="img"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="cl7icg7aa00vuugun0f2k9soq" data-title="webpack的理解" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack创建library" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/" class="article-date">
-  <time class="dt-published" datetime="2020-10-31T06:21:26.000Z" itemprop="datePublished">2020-10-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/">webpack创建library</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>除了打包应用程序，webpack 还可以用于打包 JavaScript library。<br>例如：当我们想要自己开发一个组件库工具或者框架的时候也就是说我们自己造一个轮子给别人用的时候我们免不了要开发很多的模块，最终都可以请webpack来帮我们打包。</p>
-<p><strong>创建一个 library</strong><br>假设我们正在编写一个名为 webpack-numbers 的小的 library，可以将数字 1 到 5转换为文本表示，反之亦然，例如将 2 转换为 ‘two’。<br>使用 npm 初始化项目，然后安装 webpack ， webpack-cli 和 lodash ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli lodash -D</span><br></pre></td></tr></table></figure>
-<p>我们将 lodash 安装为 devDependencies 而不是 dependencies ，因为我们不需要将其打包到我们的库中，否则我们的库体积很容易变大。</p>
-<p>src&#x2F;ref.json</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 1,</span><br><span class="line">  &quot;word&quot;: &quot;One&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 2,</span><br><span class="line">  &quot;word&quot;: &quot;Two&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 3,</span><br><span class="line">  &quot;word&quot;: &quot;Three&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 4,</span><br><span class="line">  &quot;word&quot;: &quot;Four&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 5,</span><br><span class="line">  &quot;word&quot;: &quot;Five&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 0,</span><br><span class="line">  &quot;word&quot;: &quot;Zero&quot;</span><br><span class="line">&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>src&#x2F;index.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import _ from &#x27;lodash&#x27;;</span><br><span class="line">import numRef from &#x27;./ref.json&#x27;;</span><br><span class="line">export function numToWord(num) &#123;</span><br><span class="line"> return _.reduce(</span><br><span class="line">  numRef,</span><br><span class="line"> (accum, ref) =&gt; &#123;</span><br><span class="line">   return ref.num === num ? ref.word : accum;</span><br><span class="line"> &#125;,</span><br><span class="line">  &#x27;&#x27;</span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line">export function wordToNum(word) &#123;</span><br><span class="line"> return _.reduce(</span><br><span class="line">  numRef,</span><br><span class="line"> (accum, ref) =&gt; &#123;</span><br><span class="line">   return ref.word === word &amp;&amp; word.toLowerCase() ? ref.num :</span><br><span class="line">accum;</span><br><span class="line"> &#125;,</span><br><span class="line">  -1</span><br><span class="line">);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode:&#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> output: &#123;</span><br><span class="line">  path: path.resolve(__dirname, &#x27;dist&#x27;),</span><br><span class="line">  filename: &#x27;webpack-numbers.js&#x27;,</span><br><span class="line">  library:&#123;</span><br><span class="line">    name:&#x27;webpackNumbers&#x27;,</span><br><span class="line">	type&#x27;umd&#x27;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalObject:&#x27;globalThis&#x27;</span><br><span class="line">&#125;,</span><br><span class="line"> externals:&#123;</span><br><span class="line"> 	lodash:&#123;   lodash  引入包的名字</span><br><span class="line">		commonjs:&#x27;lodash&#x27;,   //  兼容引入形式</span><br><span class="line">		commonjs2:&#x27;lodash&#x27;,</span><br><span class="line">		amd:&#x27;lodash&#x27;,</span><br><span class="line">		root:&#x27;_&#x27;</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>发布到线上</strong><br>拥有npm账号<br>npm config get registry   &#x2F;&#x2F; 一定要保证本地的registry的地址是<a target="_blank" rel="noopener" href="https://registry.npmjs.org/">https://registry.npmjs.org/</a>    因为这样的话才是真正的连接到npm官网的地址上   有些人可能是淘宝  那么就访问不上去了<br>npm adduser  &#x2F;&#x2F;添加用户   输入用户名密码<br>包的名字必须是全球唯一的。   npm publish    上传时package.json中的main入口必须对应：dist&#x2F;文件名   因为别人通过 require去载入包的时候  会读取 这个main这是的暴露的包的名字<br>npm install 包名就可以下载了</p>
-<p><strong>Webpack 配置</strong></p>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output:&#123;</span><br><span class="line">	path:&#x27;&#x27;,</span><br><span class="line">	filname:&#x27;&#x27;,</span><br><span class="line">	library:&#x27;&#x27;,    //我们只是定义了导出 并且没有使用它  所以webpack认为这个代码是没有用的。   如何让他作为一个library来进行一个对外的打包   让代码不被 Webpack Tree shaking   配置 library:&#x27;包的名字&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>到目前为止，一切都应该与打包应用程序一样，这里是不同的部分 - 我们需要通过output.library 配置项暴露从入口导出的内容。<br>我们暴露了 webpackNumbers ，以便用户可以通过 script 标签使用。	</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://example.org/webpack-numbers.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"> window.webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>然而它只能通过被 script 标签引用而发挥作用，它不能运行在 CommonJS、AMD、Node.js 等环境中。<br>作为一个库作者，我们希望它能够兼容不同的环境，也就是说，用户应该能够通过以下方式使用打包后的库：<br>CommonJS module require:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const webpackNumbers = require(&#x27;webpack-numbers&#x27;);</span><br><span class="line">// ...</span><br><span class="line">webpackNumbers.wordToNum(&#x27;Two&#x27;);</span><br></pre></td></tr></table></figure>
-<p>AMD module require:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require([&#x27;webpackNumbers&#x27;], function (webpackNumbers) &#123;</span><br><span class="line"> // ...</span><br><span class="line"> webpackNumbers.wordToNum(&#x27;Two&#x27;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>script tag:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">...</span><br><span class="line"> &lt;script src=&quot;https://example.org/webpack-numbers.js&quot;&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> &lt;script&gt;</span><br><span class="line">  // ...</span><br><span class="line">  // Global variable</span><br><span class="line">  webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">  // Property in the window object</span><br><span class="line">  window.webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">  // ...</span><br><span class="line"> &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>我们更新 output.library 配置项，将其 type 设置为 ‘umd’ ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> output: &#123;</span><br><span class="line">  path: path.resolve(__dirname, &#x27;dist&#x27;),</span><br><span class="line">  filename: &#x27;webpack-numbers.js&#x27;,</span><br><span class="line">  library: &#123;</span><br><span class="line">   name: &#x27;webpackNumbers&#x27;,</span><br><span class="line">   type: &#x27;umd&#x27;,   //  window&#x27;(es module)   &#x27;commonjs&#x27;   &#x27;module&#x27; 它在experiments:&#123;outputModule:true&#125;才能使用，他是一个实验性的功能，就不需要这个name了。&lt;script type=&quot;module&quot;&gt;    &#x27;umd&#x27;支持所有的类型。  esmodule 有问题</span><br><span class="line">  &#125;,</span><br><span class="line">  globalObject:&#x27;globalThis&#x27;    //需要全局的this来去  代替self   否则浏览器会self  undefined报错</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>现在 webpack 将打包一个库，其可以与 CommonJS、AMD 以及 script 标签使用</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/" data-id="cl7icg7a400vcugun8wvi8ivl" data-title="webpack创建library" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack-proxy工作原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2020-10-26T01:57:46.000Z" itemprop="datePublished">2020-10-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">webpack proxy工作原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p><code>webpack proxy</code>，即<code>webpack</code>提供的代理服务</p>
-<p>基本行为就是接收客户端发送的请求后转发给其他服务器</p>
-<p>其目的是为了便于开发者在开发模式下解决跨域问题（浏览器安全策略限制）</p>
-<p>想要实现代理首先需要一个中间服务器，<code>webpack</code>中提供服务器的工具为<code>webpack-dev-server</code></p>
-<h4 id="webpack-dev-server"><a href="#webpack-dev-server" class="headerlink" title="webpack-dev-server"></a>webpack-dev-server</h4><p><code>webpack-dev-server</code>是 <code>webpack</code> 官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能全部集成在了一起</p>
-<p>目的是为了提高开发者日常的开发效率，<strong>只适用在开发阶段</strong></p>
-<p>关于配置方面，在<code>webpack</code>配置对象属性中通过<code>devServer</code>属性提供，如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">contentBase</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">        <span class="attr">compress</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">port</span>: <span class="number">9000</span>,</span><br><span class="line">        <span class="attr">proxy</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">                <span class="attr">target</span>: <span class="string">&#x27;https://api.github.com&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>devServetr</code>里面<code>proxy</code>则是关于代理的配置，该属性为对象的形式，对象中每一个属性就是一个代理的规则匹配</p>
-<p>属性的名称是需要被代理的请求路径前缀，一般为了辨别都会设置前缀为<code>/api</code>，值为对应的代理匹配规则，对应如下：</p>
-<ul>
-<li>target：表示的是代理到的目标地址</li>
-<li>pathRewrite：默认情况下，我们的 &#x2F;api-hy 也会被写入到URL中，如果希望删除，可以使用pathRewrite</li>
-<li>secure：默认情况下不接收转发到https的服务器上，如果希望支持，可以设置为false</li>
-<li>changeOrigin：它表示是否更新代理后请求的 headers 中host地址</li>
-</ul>
-<h2 id="二、工作原理"><a href="#二、工作原理" class="headerlink" title="二、工作原理"></a>二、工作原理</h2><p><code>proxy</code>工作原理实质上是利用<code>http-proxy-middleware</code> 这个<code>http</code>代理中间件，实现请求转发给其他服务器</p>
-<p>举个例子：</p>
-<p>在开发阶段，本地地址为<code>http://localhost:3000</code>，该浏览器发送一个前缀带有<code>/api</code>标识的请求到服务端获取数据，但响应这个请求的服务器只是将请求转发到另一台服务器中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">&#x27;http-proxy-middleware&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&#x27;/api&#x27;</span>, <span class="title function_">proxy</span>(&#123;<span class="attr">target</span>: <span class="string">&#x27;http://www.example.org&#x27;</span>, <span class="attr">changeOrigin</span>: <span class="literal">true</span>&#125;));</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://localhost:3000/api/foo/bar -&gt; http://www.example.org/api/foo/bar</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="三、跨域"><a href="#三、跨域" class="headerlink" title="三、跨域"></a>三、跨域</h2><p>在开发阶段， <code>webpack-dev-server</code> 会启动一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 <code>localhost</code>的一个端口上，而后端服务又是运行在另外一个地址上</p>
-<p>所以在开发阶段中，由于浏览器同源策略的原因，当本地访问后端就会出现跨域请求的问题</p>
-<p>通过设置<code>webpack proxy</code>实现代理请求后，相当于浏览器与服务端中添加一个代理者</p>
-<p>当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终再由代理服务器将数据响应给本地</p>
-<p><img src="https://static.vue-js.com/65b5e5c0-ace5-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>在代理服务器传递数据给本地浏览器的过程中，两者同源，并不存在跨域行为，这时候浏览器就能正常接收数据</p>
-<p>注意：<strong>服务器与服务器之间请求数据并不会存在跨域行为，跨域行为是浏览器安全策略限制</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" data-id="cl7icg7a100v0ugun8kde8asd" data-title="webpack proxy工作原理" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpackdll预编译提高webpack打包速度" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" class="article-date">
-  <time class="dt-published" datetime="2020-10-21T03:49:18.000Z" itemprop="datePublished">2020-10-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/">webpackdll预编译提高webpack打包速度</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>博客链接 <a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/11/23/webpack-dll">http://blog.poetries.top/2018/11/23/webpack-dll</a></p>
-</blockquote>
-<h2 id="一、webpack的dll功能"><a href="#一、webpack的dll功能" class="headerlink" title="一、webpack的dll功能"></a>一、webpack的dll功能</h2><blockquote>
-<p>基于<code>webpack3</code>构建</p>
-</blockquote>
-<h3 id="1-1-dll介绍"><a href="#1-1-dll介绍" class="headerlink" title="1.1 dll介绍"></a>1.1 dll介绍</h3><blockquote>
-<p>我们构建前端项目的时候，往往希望第三方库（<code>vendors</code>）和自己写的代码可以分开打包，因为第三方库往往不需要经常打包更新。对此<code>Webpack</code>的文档建议用<code>CommonsChunkPlugin</code>来单独打包第三方库</p>
-</blockquote>
-<ul>
-<li>我们这里的<code>dll.js</code> 是提前打包好了的，而不是在每次<code>build</code>的时候去打包输出的；这样才能做到依赖包一次构建，无限次使用</li>
-<li><code>webpack</code>输出的文件名都带有<code>hash</code>值； 而用<code>dll</code>构建后输出的文件名是固定的</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">  vendor: [&quot;jquery&quot;, &quot;other-lib&quot;],</span><br><span class="line">  app: &quot;./entry&quot;</span><br><span class="line">&#125;</span><br><span class="line">new CommonsChunkPlugin(&#123;</span><br><span class="line">  name: &quot;vendor&quot;,</span><br><span class="line"></span><br><span class="line">  // filename: &quot;vendor.js&quot;</span><br><span class="line">  // (Give the chunk a different name)</span><br><span class="line"></span><br><span class="line">  minChunks: Infinity,</span><br><span class="line">  // (with more entries, this ensures that no other module</span><br><span class="line">  //  goes into the vendor chunk)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>通常为了对抗缓存，我们会给售出文件的文件名中加入<code>hash</code>的后缀——但是——我们编辑了<code>app</code>部分的代码后，重新打包，发现<code>vendor</code>的<code>hash</code>也变化了</p>
-</blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/639.png" alt="img"></p>
-<blockquote>
-<p>这么一来，意味着每次发布版本的时候，vendor代码都要刷新，即使我并没有修改其中的代码。这样并不符合我们分开打包的初衷</p>
-</blockquote>
-<ul>
-<li><code>Dll</code>是<code>Webpack</code>最近新加的功能</li>
-<li><code>Dll</code>这个概念应该是借鉴了<code>Windows</code>系统的<code>dll</code>。一个<code>dll</code>包，就是一个纯纯的依赖库，它本身不能运行，是用来给你的<code>app</code>引用的</li>
-<li>打包<code>dll</code>的时候，<code>Webpack</code>会将所有包含的库做一个索引，写在一个<code>manifest</code>文件中，而引用<code>dll</code>的代码（<code>dll user</code>）在打包的时候，只需要读取这个<code>manifest</code>文件，就可以了。</li>
-</ul>
-<p><strong>优势</strong></p>
-<ul>
-<li><code>Dll</code>打包以后是独立存在的，只要其包含的库没有增减、升级，<code>hash</code>也不会变化，因此线上的<code>dll</code>代码不需要随着版本发布频繁更新</li>
-<li><code>App</code>部分代码修改后，只需要编译<code>app</code>部分的代码，<code>dll</code>部分，只要包含的库没有增减、升级，就不需要重新打包。这样也大大提高了每次编译的速度</li>
-<li>假设你有多个项目，使用了相同的一些依赖库，它们就可以共用一个<code>dll</code></li>
-</ul>
-<h3 id="1-2-dll使用"><a href="#1-2-dll使用" class="headerlink" title="1.2 dll使用"></a>1.2 dll使用</h3><blockquote>
-<p>首先要先建立一个<code>dll</code>的配置文件，<code>entry</code>只包含第三方库</p>
-</blockquote>
-<p><strong>第一步：新建webpack.dll.conf.js</strong></p>
-<ul>
-<li><code>webpack.DllPlugin</code>的选项中，<code>path</code>是<code>manifest</code>文件的输出路径；<code>name</code>是<code>dll</code>暴露的对象名，要跟<code>output.library</code>保持一致</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.dll.conf.js</span><br><span class="line"></span><br><span class="line">const path = require(&#x27;path&#x27;)</span><br><span class="line">const webpack = require(&#x27;webpack&#x27;)</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    // 把这些资源打包成dll，提高编译速度</span><br><span class="line">    react: [&#x27;react&#x27;,&#x27;react-router-dom&#x27;,&#x27;redux&#x27;,&#x27;redux-immutable&#x27;,&#x27;immutable&#x27;,&#x27;react-redux&#x27;,&#x27;react-router&#x27;,&#x27;redux-logger&#x27;,&#x27;redux-thunk&#x27;,&#x27;styled-components&#x27;],</span><br><span class="line">    ui: [&#x27;antd-mobile&#x27;,&#x27;antd&#x27;],</span><br><span class="line">    others: [&#x27;react-icons&#x27;,&#x27;axios&#x27;,&#x27;clipboard&#x27;,&#x27;humps&#x27;,&#x27;lodash&#x27;,&#x27;md5&#x27;,&#x27;moment&#x27;,&#x27;normalizr&#x27;]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, &quot;../dist/static/js&quot;),</span><br><span class="line">    filename: `[name].dll.js`,</span><br><span class="line">    library: &#x27;[name]_library&#x27;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line"> ...Object.keys([&#x27;react&#x27;,&#x27;ui&#x27;,&#x27;others&#x27;]).map(name =&gt; &#123;</span><br><span class="line">      return new webpack.DllReferencePlugin(&#123;</span><br><span class="line">        context: &#x27;.&#x27;,</span><br><span class="line">        manifest: require(`../static/$&#123;name&#125;.manifest.json`),</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.optimize.UglifyJsPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第二步：加一个命令</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;dll&quot;: &quot;webpack --config config/webpack.dll.conf.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>执行<code>npm run dll</code></p>
-</blockquote>
-<ul>
-<li>运行<code>Webpack</code>，会输出两个文件一个是打包好的<code>vendor.js</code>，一个就是<code>manifest.json</code>，长这样</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;vendor_ac51ba426d4f259b8b18&quot;,</span><br><span class="line">  &quot;content&quot;: &#123;</span><br><span class="line">    &quot;./node_modules/antd/dist/antd.js&quot;: 1,</span><br><span class="line">    &quot;./node_modules/react/react.js&quot;: 2,</span><br><span class="line">    &quot;./node_modules/react/lib/React.js&quot;: 3,</span><br><span class="line">    &quot;./node_modules/react/node_modules/object-assign/index.js&quot;: 4,</span><br><span class="line">    &quot;./node_modules/react/lib/ReactChildren.js&quot;: 5,</span><br><span class="line">    &quot;./node_modules/react/lib/PooledClass.js&quot;: 6,</span><br><span class="line">    &quot;./node_modules/react/lib/reactProdInvariant.js&quot;: 7,</span><br><span class="line">    &quot;./node_modules/fbjs/lib/invariant.js&quot;: 8,</span><br><span class="line">    &quot;./node_modules/react/lib/ReactElement.js&quot;: 9,</span><br><span class="line">    </span><br><span class="line">    ............</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><code>Webpack</code>将每个库都进行了编号索引，之后的<code>dll user</code>可以读取这个文件，直接用<code>id</code>来引用</p>
-</blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/640.png" alt="img"></p>
-<p><strong>第三步： 在plugins中增加配置</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.prod.conf.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">   plugins: [</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/react-manifest.json&#x27;)</span><br><span class="line">        &#125;),</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/ui-manifest.json&#x27;)</span><br><span class="line">        &#125;),</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/others-manifest.json&#x27;)</span><br><span class="line">        &#125;)</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>再次执行<code>npm run build</code></p>
-</blockquote>
-<p>之前<br><img src="https://poetries1.gitee.io/img-repo/2019/10/641.png" alt="img"></p>
-<p>之后<br><img src="https://poetries1.gitee.io/img-repo/2019/10/642.png" alt="img"></p>
-<h2 id="二、happypack-多线程打包"><a href="#二、happypack-多线程打包" class="headerlink" title="二、happypack 多线程打包"></a>二、happypack 多线程打包</h2><blockquote>
-<p>一般情况下，js是单线程执行的，但<code>node</code>不是。利用<code>node</code>提供的多线程环境，<code>happypack</code>是可以多线程打包的。基本上打开官网看了一下readme就可以配置了，特别是我只针对js的编译进行优化，配置还是比较简单的。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/happypack">https://www.npmjs.com/package/happypack</a></p>
-<ul>
-<li><code>happyPack</code>把所有串行的东西并行处理,使得<code>loader</code>并行处理，较少文件处理时间</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.prod.conf.js</span><br><span class="line"></span><br><span class="line">// @file: webpack.config.js</span><br><span class="line">const HappyPack = require(&#x27;happypack&#x27;);</span><br><span class="line"> </span><br><span class="line">exports.module = &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: /.js$/,</span><br><span class="line">      // 1) replace your original list of loaders with &quot;happypack/loader&quot;:</span><br><span class="line">      // loaders: [ &#x27;babel-loader?presets[]=es2015&#x27; ],</span><br><span class="line">      use: &#x27;happypack/loader&#x27;,</span><br><span class="line">      include: [ /* ... */ ],</span><br><span class="line">      exclude: [ /* ... */ ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  plugins: [</span><br><span class="line">     // 2) create the plugin:</span><br><span class="line">    new HappyPack(&#123;</span><br><span class="line">        // 3) re-add the loaders you replaced above in #1:</span><br><span class="line">        loaders: [ &#x27;babel-loader?presets[]=es2015&#x27; ]</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这时的编译时间也减小了一些</p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/643.png" alt="img"></p>
-<blockquote>
-<p>更多详情 <a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/11/21/webpack-review/#6-1-%E5%88%86%E6%9E%90%E6%89%93%E5%8C%85%E7%BB%93%E6%9E%9C">http://blog.poetries.top/2018/11/21/webpack-review/#6-1-%E5%88%86%E6%9E%90%E6%89%93%E5%8C%85%E7%BB%93%E6%9E%9C</a></p>
-</blockquote>
-<h2 id="三、更多参考"><a href="#三、更多参考" class="headerlink" title="三、更多参考"></a>三、更多参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.jeffjade.com/2017/08/06/124-webpack-packge-optimization-for-volume/">Webpack 打包优化之体积篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jeffjade.com/2017/08/12/125-webpack-package-optimization-for-speed/">Webpack 打包优化之速度篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007104372">预打包Dll，实现webpack音速编译</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5a4f031b518825733e6040c0">利用DllPlugin分割你的第三方库</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/p2227/p2227.github.io/issues/21">提高webpack的打包速度：happypack和dll打包</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" data-id="cl7icg7a200v6ugun6y3yca0l" data-title="webpackdll预编译提高webpack打包速度" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -1383,7 +1585,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/">原理</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -1403,7 +1605,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
     </div>
   </div>
 
@@ -1433,15 +1635,15 @@
           </li>
         
           <li>
+            <a href="/2022/01/18/React/React-%E6%8F%90%E9%AB%98%E7%BB%84%E4%BB%B6%E6%95%88%E7%8E%87%20%20%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84render/">React-提高组件效率  避免不必要的render</a>
+          </li>
+        
+          <li>
             <a href="/2022/01/12/%E5%B7%A5%E5%85%B7/git-stach/">git-stach</a>
           </li>
         
           <li>
             <a href="/2021/10/16/Vue/vue3%E4%BC%98%E5%8C%96/">vue3优化</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/11/Vue/Vue3-%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87%E3%80%81%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96/">Vue3-设计目标、做了哪些优化</a>
           </li>
         
       </ul>

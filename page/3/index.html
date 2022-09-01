@@ -71,6 +71,215 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-浏览器/浏览器缓存原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/05/07/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2021-05-07T01:33:18.000Z" itemprop="datePublished">2021-05-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/05/07/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E5%8E%9F%E7%90%86/">浏览器缓存原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="一、浏览器缓存基本认识"><a href="#一、浏览器缓存基本认识" class="headerlink" title="一、浏览器缓存基本认识"></a>一、浏览器缓存基本认识</h1><p><strong>分为强缓存和协商缓存</strong></p>
+<ol>
+<li>浏览器在加载资源时，先根据这个资源的一些<code>http header</code>判断它是否命中强缓存，强缓存如果命中，浏览器直接从自己的缓存中读取资源，不会发请求到服务器。比如某个<code>css</code>文件，如果浏览器在加载它所在的网页时，这个<code>css</code>文件的缓存配置命中了强缓存，浏览器就直接从缓存中加载这个<code>css</code>，连请求都不会发送到网页所在服务器</li>
+<li>当强缓存没有命中的时候，浏览器一定会发送一个请求到服务器，通过服务器端依据资源的另外一些<code>http header</code>验证这个资源是否命中协商缓存，如果协商缓存命中，服务器会将这个请求返回，但是不会返回这个资源的数据，而是告诉客户端可以直接从缓存中加载这个资源，于是浏览器就又会从自己的缓存中去加载这个资源</li>
+<li><strong>强缓存与协商缓存的共同点是</strong>：如果命中，都是从客户端缓存中加载资源，而不是从服务器加载资源数据；区别是：<strong>强缓存不发请求到服务器</strong>，协商缓存会发请求到服务器</li>
+<li>当协商缓存也没有命中的时候，浏览器直接从服务器加载资源数据</li>
+</ol>
+<h1 id="二、强缓存的原理"><a href="#二、强缓存的原理" class="headerlink" title="二、强缓存的原理"></a>二、强缓存的原理</h1><h2 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h2><blockquote>
+<p>当浏览器对某个资源的请求命中了强缓存时，返回的<code>http</code>状态为<code>200</code>，在<code>chrome</code>的开发者工具的<code>network</code>里面<code>size</code>会显示为<code>from cache</code>，比如京东的首页里就有很多静态资源配置了强缓存，用<code>chrome</code>打开几次，再用<code>f12</code>查看<code>network</code>，可以看到有不少请求就是从缓存中加载的</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/1.png" alt="img"></p>
+<ul>
+<li>强缓存是利用<code>Expires</code>或者<code>Cache-Control</code>这两个<code>http response header</code>实现的，它们都用来表示资源在客户端缓存的有效期。</li>
+</ul>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires`是`http1.0`提出的一个表示资源过期时间的`header`，它描述的是一个绝对时间，由服务器返回，用`GMT`格式的字符串表示，如：`Expires:Thu, 31 Dec 2037 23:55:55 GMT</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="2-2-Expires缓存原理"><a href="#2-2-Expires缓存原理" class="headerlink" title="2.2 Expires缓存原理"></a>2.2 Expires缓存原理</h2><ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在<code>respone</code>的<code>header</code>加上<code>Expires</code>，如</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/2.png" alt="img"></p>
+<ol>
+<li>浏览器在接收到这个资源后，会把这个资源连同所有<code>response header</code>一起缓存下来（所以缓存命中的请求返回的<code>header</code>并不是来自服务器，而是来自之前缓存的<code>header</code>）</li>
+<li>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，拿出它的<code>Expires</code>跟当前的请求时间比较，如果请求时间在<code>Expires</code>指定的时间之前，就能命中缓存，否则就不行</li>
+<li>如果缓存没有命中，浏览器直接从服务器加载资源时，<code>Expires Header</code>在重新加载的时候会被更新</li>
+</ol>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Expires`是较老的强缓存管理`header`，由于它是服务器返回的一个绝对时间，在服务器时间与客户端时间相差较大时，缓存管理容易出现问题，比如随意修改下客户端时间，就能影响缓存命中的结果。所以在`http1.1`的时候，提出了一个新的`header`，就是`Cache-Control`，这是一个相对时间，在配置缓存的时候，以秒为单位，用数值表示，如：`Cache-Control:max-age=315360000</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="2-3-Cache-Control缓存原理"><a href="#2-3-Cache-Control缓存原理" class="headerlink" title="2.3 Cache-Control缓存原理"></a>2.3 Cache-Control缓存原理</h2><ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在<code>respone</code>的<code>header</code>加上<code>Cache-Control</code>，如：</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/3.png" alt="img"></p>
+<ol>
+<li>浏览器在接收到这个资源后，会把这个资源连同所有<code>response header</code>一起缓存下来</li>
+<li>浏览器再请求这个资源时，先从缓存中寻找，找到这个资源后，根据它第一次的请求时间和<code>Cache-Control</code>设定的有效期，计算出一个资源过期时间，再拿这个过期时间跟当前的请求时间比较，如果请求时间在过期时间之前，就能命中缓存，否则就不行</li>
+<li>如果缓存没有命中，浏览器直接从服务器加载资源时，<code>Cache-Control Header</code>在重新加载的时候会被更新</li>
+</ol>
+<ul>
+<li><code>Cache-Control</code>描述的是一个相对时间，在进行缓存命中的时候，都是利用客户端时间进行判断，所以相比较<code>Expires</code>，<code>Cache-Control</code>的缓存管理更有效，安全一些。</li>
+<li>这两个<code>header</code>可以只启用一个，也可以同时启用，当<code>response header</code>中，<code>Expires</code>和<code>Cache-Control</code>同时存在时，<code>Cache-Control</code>优先级高于<code>Expires</code>：</li>
+</ul>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/4.png" alt="img"></p>
+<h1 id="三、强缓存的管理"><a href="#三、强缓存的管理" class="headerlink" title="三、强缓存的管理"></a>三、强缓存的管理</h1><blockquote>
+<p>前面介绍的是强缓存的原理，在实际应用中我们会碰到需要强缓存的场景和不需要强缓存的场景，通常有2种方式来设置是否启用强缓存</p>
+</blockquote>
+<ol>
+<li>通过代码的方式，在<code>web</code>服务器返回的响应中添加<code>Expires</code>和<code>Cache-Control Header</code></li>
+<li>通过配置<code>web</code>服务器的方式，让<code>web</code>服务器在响应资源的时候统一添加<code>Expires</code>和<code>Cache-Control Header</code></li>
+</ol>
+<blockquote>
+<p>比如在javaweb里面，我们可以使用类似下面的代码设置强缓存</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.util.Date date = new java.util.Date();    </span><br><span class="line">response.setDateHeader(&quot;Expires&quot;,date.getTime()+20000); //Expires:过时期限值 </span><br><span class="line">response.setHeader(&quot;Cache-Control&quot;, &quot;public&quot;); //Cache-Control来控制页面的缓存与否,public:浏览器和缓存服务器都可以缓存页面信息；</span><br><span class="line">response.setHeader(&quot;Pragma&quot;, &quot;Pragma&quot;); //Pragma:设置页面是否缓存，为Pragma则缓存，no-cache则不缓存</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>还可以通过类似下面的<code>java</code>代码设置不启用强缓存</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader( &quot;Pragma&quot;, &quot;no-cache&quot; );   </span><br><span class="line">response.setDateHeader(&quot;Expires&quot;, 0);   </span><br><span class="line">response.addHeader( &quot;Cache-Control&quot;, &quot;no-cache&quot; );//浏览器和缓存服务器都不应该缓存页面信息</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>nginx</code>和<code>apache</code>作为专业的<code>web</code>服务器，都有专门的配置文件，可以配置<code>expires</code>和<code>cache-control</code>，这方面的知识，如果你对运维感兴趣的话，可以在百度上搜索<code>nginx</code> 设置 <code>expires cache-control</code>或 <code>apache 设置 expires cache-control</code> 都能找到不少相关的文章。</li>
+<li>由于在开发的时候不会专门去配置强缓存，而浏览器又默认会缓存图片，<code>css</code>和<code>js</code>等静态资源，所以开发环境下经常会因为强缓存导致资源没有及时更新而看不到最新的效果，解决这个问题的方法有很多，常用的有以下几种</li>
+</ul>
+<p><strong>处理缓存带来的问题</strong></p>
+<ol>
+<li>直接<code>ctrl+f5</code>，这个办法能解决页面直接引用的资源更新的问题</li>
+<li>使用浏览器的隐私模式开发</li>
+<li>如果用的是<code>chrome</code>，可以<code>f12</code>在<code>network</code>那里把缓存给禁掉（这是个非常有效的方法）</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/5.png" alt="img"></p>
+<ol>
+<li>在开发阶段，给资源加上一个动态的参数，如<code>css/index.css?v=0.0001</code>，由于每次资源的修改都要更新引用的位置，同时修改参数的值，所以操作起来不是很方便，除非你是在动态页面比如jsp里开发就可以用服务器变量来解决（<code>v=$&#123;sysRnd&#125;</code>），或者你能用一些前端的构建工具来处理这个参数修改的问题</li>
+<li>如果资源引用的页面，被嵌入到了一个<code>iframe</code>里面，可以在<code>iframe</code>的区域右键单击重新加载该页面，以<code>chrome</code>为例</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/6.png" alt="img"></p>
+<ol>
+<li>如果缓存问题出现在<code>ajax</code>请求中，最有效的解决办法就是<code>ajax</code>的请求地址追加随机数</li>
+<li>还有一种情况就是动态设置<code>iframe</code>的<code>src</code>时，有可能也会因为缓存问题，导致看不到最新的效果，这时候在要设置的<code>src</code>后面添加随机数也能解决问题</li>
+<li>如果你用的是<code>grunt</code>和<code>gulp</code>、<code>webpack</code>这种前端工具开发，通过它们的插件比如<code>grunt-contrib-connect</code>来启动一个静态服务器，则完全不用担心开发阶段的资源更新问题，因为在这个静态服务器下的所有资源返回的<code>respone header</code>中，<code>cache-control</code>始终被设置为不缓存</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/7.png" alt="img"></p>
+<h1 id="四、强缓存的应用"><a href="#四、强缓存的应用" class="headerlink" title="四、强缓存的应用"></a>四、强缓存的应用</h1><blockquote>
+<p>强缓存是前端性能优化最有力的工具，没有之一，对于有大量静态资源的网页，一定要利用强缓存，提高响应速度。通常的做法是，为这些静态资源全部配置一个超时时间超长的<code>Expires</code>或<code>Cache-Control</code>，这样用户在访问网页时，只会在第一次加载时从服务器请求静态资源，其它时候只要缓存没有失效并且用户没有强制刷新的条件下都会从自己的缓存中加载，比如前面提到过的京东首页缓存的资源，它的缓存过期时间都设置到了<code>2026</code>年</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/8.png" alt="img"></p>
+<blockquote>
+<p>然而这种缓存配置方式会带来一个新的问题，就是发布时资源更新的问题，比如某一张图片，在用户访问第一个版本的时候已经缓存到了用户的电脑上，当网站发布新版本，替换了这个图片时，已经访问过第一个版本的用户由于缓存的设置，导致在默认的情况下不会请求服务器最新的图片资源，除非他清掉或禁用缓存或者强制刷新，否则就看不到最新的图片效果</p>
+</blockquote>
+<p>这个问题已经有成熟的解决方案，具体内容可阅读知乎这篇文章详细了解：<a target="_blank" rel="noopener" href="http://www.zhihu.com/question/20790576">http://www.zhihu.com/question/20790576</a></p>
+<p>文章提到的东西都属于理论上的解决方案，不过现在已经有很多前端工具能够实际地解决这个问题，由于每个工具涉及到的内容细节都有很多，本文没有办法一一深入介绍。有兴趣的可以去了解下<code>grunt</code> <code>gulp</code> <code>webpack</code> <code>fis</code>还有edp这几个工具，基于这几个工具都能解决这个问题，尤其是<code>fis</code>和<code>edp</code>是百度推出的前端开发平台，有现成的文档可以参考：</p>
+<p><a target="_blank" rel="noopener" href="http://fis.baidu.com/fis3/api/index.html">http://fis.baidu.com/fis3/api/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://ecomfe.github.io/edp/doc/initialization/install/">http://ecomfe.github.io/edp/doc/initialization/install/</a></p>
+<blockquote>
+<p>强缓存还有一点需要注意的是，通常都是针对静态资源使用，动态资源需要慎用，除了服务端页面可以看作动态资源外，那些引用静态资源的<code>html</code>也可以看作是动态资源，如果这种<code>html</code>也被缓存，当这些<code>html</code>更新之后，可能就没有机制能够通知浏览器这些html有更新，尤其是前后端分离的应用里，页面都是纯<code>html</code>页面，每个访问地址可能都是直接访问<code>html</code>页面，这些页面通常不加强缓存，以保证浏览器访问这些页面时始终请求服务器最新的资源</p>
+</blockquote>
+<h1 id="五、协商缓存的原理"><a href="#五、协商缓存的原理" class="headerlink" title="五、协商缓存的原理"></a>五、协商缓存的原理</h1><h2 id="5-1-介绍"><a href="#5-1-介绍" class="headerlink" title="5.1 介绍"></a>5.1 介绍</h2><blockquote>
+<p>当浏览器对某个资源的请求没有命中强缓存，就会发一个请求到服务器，验证协商缓存是否命中，如果协商缓存命中，请求响应返回的<code>http</code>状态为<code>304</code>并且会显示一个<code>Not Modified</code>的字符串，比如你打开京东的首页，按<code>f12</code>打开开发者工具，再按<code>f5</code>刷新页面，查看<code>network</code>，可以看到有不少请求就是命中了协商缓存的</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/9.png" alt="img"></p>
+<blockquote>
+<p>查看单个请求的<code>Response Header</code>，也能看到<code>304</code>的状态码和<code>Not Modified</code>的字符串，只要看到这个就可说明这个资源是命中了协商缓存，然后从客户端缓存中加载的，而不是服务器最新的资源</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/10.png" alt="img"></p>
+<h2 id="5-2-Last-Modified，If-Modified-Since控制协商缓存"><a href="#5-2-Last-Modified，If-Modified-Since控制协商缓存" class="headerlink" title="5.2 Last-Modified，If-Modified-Since控制协商缓存"></a>5.2 Last-Modified，If-Modified-Since控制协商缓存</h2><ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在<code>respone</code>的<code>header</code>加上<code>Last-Modified</code>的<code>header</code>，这个<code>header</code>表示这个资源在服务器上的最后修改时间</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/11.png" alt="img"></p>
+<ol>
+<li>浏览器再次跟服务器请求这个资源时，在<code>request</code>的<code>header</code>上加上<code>If-Modified-Since</code>的<code>header</code>，这个<code>header</code>的值就是上一次请求时返回的<code>Last-Modified</code>的值</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/12.png" alt="img"></p>
+<ol>
+<li>服务器再次收到资源请求时，根据浏览器传过来<code>If-Modified-Since</code>和资源在服务器上的最后修改时间判断资源是否有变化，如果没有变化则返回<code>304 Not Modified</code>，但是不会返回资源内容；如果有变化，就正常返回资源内容。当服务器返回<code>304 Not Modified</code>的响应时，<code>response header</code>中不会再添加<code>Last-Modified</code>的<code>header</code>，因为既然资源没有变化，那么<code>Last-Modified</code>也就不会改变，这是服务器返回<code>304</code>时的<code>response header</code></li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/13.png" alt="img"></p>
+<ol>
+<li>浏览器收到<code>304</code>的响应后，就会从缓存中加载资源</li>
+<li>如果协商缓存没有命中，浏览器直接从服务器加载资源时，<code>Last-Modified</code> <code>Header</code>在重新加载的时候会被更新，下次请求时，<code>If-Modified-Since</code>会启用上次返回的<code>Last-Modified</code>值</li>
+</ol>
+<blockquote>
+<p>【<code>Last-Modified</code>，<code>If-Modified-Since</code>】都是根据服务器时间返回的<code>header</code>，一般来说，在没有调整服务器时间和篡改客户端缓存的情况下，这两个<code>header</code>配合起来管理协商缓存是非常可靠的，但是有时候也会服务器上资源其实有变化，但是最后修改时间却没有变化的情况，而这种问题又很不容易被定位出来，而当这种情况出现的时候，就会影响协商缓存的可靠性。所以就有了另外一对<code>header</code>来管理协商缓存，这对<code>header</code>就是【<code>ETag</code>、<code>If-None-Match</code>】。它们的缓存管理的方式是</p>
+</blockquote>
+<h2 id="5-3-ETag、If-None-Match控制协商缓存"><a href="#5-3-ETag、If-None-Match控制协商缓存" class="headerlink" title="5.3 ETag、If-None-Match控制协商缓存"></a>5.3 ETag、If-None-Match控制协商缓存</h2><ol>
+<li>浏览器第一次跟服务器请求一个资源，服务器在返回这个资源的同时，在<code>respone</code>的<code>header</code>加上<code>ETag</code>的<code>header</code>，这个<code>header</code>是服务器根据当前请求的资源生成的一个唯一标识，这个唯一标识是一个字符串，只要资源有变化这个串就不同，跟最后修改时间没有关系，所以能很好的补充<code>Last-Modified</code>的问题</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/14.png" alt="img"></p>
+<ol>
+<li>浏览器再次跟服务器请求这个资源时，在<code>request</code>的<code>header</code>上加上<code>If-None-Match</code>的<code>header</code>，这个<code>header</code>的值就是上一次请求时返回的<code>ETag</code>的值</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/15.png" alt="img"></p>
+<ol>
+<li>服务器再次收到资源请求时，根据浏览器传过来<code>If-None-Match</code>和然后再根据资源生成一个新的<code>ETag</code>，如果这两个值相同就说明资源没有变化，否则就是有变化；如果没有变化则返回<code>304 Not Modified</code>，但是不会返回资源内容；如果有变化，就正常返回资源内容。与<code>Last-Modified</code>不一样的是，当服务器返回<code>304 Not Modified</code>的响应时，由于<code>ETag</code>重新生成过，<code>response header</code>中还会把这个<code>ETag</code>返回，即使这个<code>ETag</code>跟之前的没有变化</li>
+</ol>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/16.png" alt="img"></p>
+<ol>
+<li>浏览器收到<code>304</code>的响应后，就会从缓存中加载资源。</li>
+</ol>
+<h1 id="六、协商缓存的管理"><a href="#六、协商缓存的管理" class="headerlink" title="六、协商缓存的管理"></a>六、协商缓存的管理</h1><blockquote>
+<p>协商缓存跟强缓存不一样，强缓存不发请求到服务器，所以有时候资源更新了浏览器还不知道，但是协商缓存会发请求到服务器，所以资源是否更新，服务器肯定知道。大部分<code>web</code>服务器都默认开启协商缓存，而且是同时启用【<code>Last-Modified</code>，<code>If-Modified-Since</code>】和【<code>ETag</code>、<code>If-None-Match</code>】，比如<code>apache</code>:</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/17.png" alt="img"></p>
+<blockquote>
+<p>如果没有协商缓存，每个到服务器的请求，就都得返回资源内容，这样服务器的性能会极差。</p>
+</blockquote>
+<ul>
+<li>【<code>Last-Modified</code>，<code>If-Modified-Since</code>】和【<code>ETag</code>、<code>If-None-Match</code>】一般都是同时启用，这是为了处理<code>Last-Modified</code>不可靠的情况。</li>
+</ul>
+<p><strong>有一种场景需要注意</strong></p>
+<ul>
+<li>分布式系统里多台机器间文件的<code>Last-Modified</code>必须保持一致，以免负载均衡到不同机器导致比对失败；</li>
+<li>分布式系统尽量关闭掉<code>ETag</code>(每台机器生成的<code>ETag</code>都会不一样）；</li>
+<li>京东页面的资源请求，返回的<code>repsones header</code>就只有<code>Last-Modified</code>，没有<code>ETag</code>：</li>
+</ul>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/18.png" alt="img"></p>
+<blockquote>
+<p>协商缓存需要配合强缓存使用，你看前面这个截图中，除了<code>Last-Modified</code>这个<code>header</code>，还有强缓存的相关<code>header</code>，因为如果不启用强缓存的话，协商缓存根本没有意义</p>
+</blockquote>
+<h1 id="七、相关浏览器行为对缓存的影响"><a href="#七、相关浏览器行为对缓存的影响" class="headerlink" title="七、相关浏览器行为对缓存的影响"></a>七、相关浏览器行为对缓存的影响</h1><blockquote>
+<p>如果资源已经被浏览器缓存下来，在缓存失效之前，再次请求时，默认会先检查是否命中强缓存，如果强缓存命中则直接读取缓存，如果强缓存没有命中则发请求到服务器检查是否命中协商缓存，如果协商缓存命中，则告诉浏览器还是可以从缓存读取，否则才从服务器返回最新的资源。这是默认的处理方式，这个方式可能被浏览器的行为改变：</p>
+</blockquote>
+<ul>
+<li>当<code>ctrl+f5</code>强制刷新网页时，直接从服务器加载，跳过强缓存和协商缓存；</li>
+<li>当<code>f5</code>刷新网页时，跳过强缓存，但是会检查协商缓存</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/05/07/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E5%8E%9F%E7%90%86/" data-id="cl7icg7bs00yeugun3lv52au1" data-title="浏览器缓存原理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-浏览器/浏览器安全插箱跨域" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/04/29/%E6%B5%8F%E8%A7%88%E5%99%A8/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8%E6%8F%92%E7%AE%B1%E8%B7%A8%E5%9F%9F/" class="article-date">
@@ -265,6 +474,208 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-html+css+js+ts/4-装饰器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-04-17T15:43:42.000Z" itemprop="datePublished">2021-04-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/">ES6 装饰器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><blockquote>
+<p>装饰器依赖于 <code>ES5</code> 的 <code>Object.defineProperty</code> 方法</p>
+</blockquote>
+<h3 id="1-1-Object-defineProperty"><a href="#1-1-Object-defineProperty" class="headerlink" title="1.1 Object.defineProperty"></a>1.1 Object.defineProperty</h3><ul>
+<li><code>Object.defineProperty()</code> 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象</li>
+<li>该方法允许精确添加或修改对象的属性。通过赋值来添加的普通属性会创建在属性枚举期间显示的属性（<code>for...in</code>或 <code>Object.keys</code> 方法）， 这些值可以被改变，也可以被删除。这种方法允许这些额外的细节从默认值改变。默认情况下，使用 <code>Object.defineProperty()</code> 添加的属性值是不可变的</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(obj, prop, descriptor)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>obj</code>：要在其上定义属性的对象。</li>
+<li><code>prop</code>：要定义或修改的属性的名称。</li>
+<li><code>descriptor</code>：将被定义或修改的属性描述符。</li>
+<li>返回值：被传递给函数的对象。</li>
+</ul>
+<blockquote>
+<p>在<code>ES6</code>中，由于 <code>Symbol</code>类型 的特殊性，用 <code>Symbol</code>类型 的值来做对象的<code>key</code>与常规的定义或修改不同，而<code>Object.defineProperty</code> 是定义 <code>key</code>为 <code>Symbol</code> 的属性的方法之一</p>
+</blockquote>
+<p><strong>descriptor属性描述符</strong></p>
+<blockquote>
+<p>对象里目前存在的属性描述符有两种主要形式：数据描述符和存取描述符</p>
+</blockquote>
+<ul>
+<li>数据描述符是一个具有值的属性，该值可能是可写的，也可能不是可写的。</li>
+<li>存取描述符是由 <code>getter-setter</code> 函数对描述的属性。</li>
+</ul>
+<p><strong>configurable</strong></p>
+<blockquote>
+<p>当且仅当该属性的 <code>configurable</code> 为 <code>true</code> 时，该属性描述符才能够被改变，同时该属性也能从对应的对象上被删除。默认为 <code>false</code></p>
+</blockquote>
+<p><strong>enumerable</strong></p>
+<ul>
+<li><code>enumerable</code>定义了对象的属性是否可以在 <code>for...in</code>循环和 <code>Object.keys()</code> 中被枚举。</li>
+<li>当且仅当该属性的 <code>enumerable</code> 为 <code>true</code> 时，该属性才能够出现在对象的枚举属性中。默认为 <code>false</code>。</li>
+</ul>
+<h2 id="二、Babel"><a href="#二、Babel" class="headerlink" title="二、Babel"></a>二、Babel</h2><p><strong>安装编译</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/core @babel/cli</span><br><span class="line"></span><br><span class="line">npm install --save-dev @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新建 <code>.babelrc</code> 文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    [&quot;@babel/plugin-proposal-decorators&quot;, &#123; &quot;legacy&quot;: true &#125;],</span><br><span class="line">    [&quot;@babel/plugin-proposal-class-properties&quot;, &#123;&quot;loose&quot;: true&#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再编译指定的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">babel decorator.js --out-file decorator-compiled.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、用法"><a href="#三、用法" class="headerlink" title="三、用法"></a>三、用法</h2><p><strong>装饰器主要用于</strong></p>
+<ul>
+<li>装饰类</li>
+<li>装饰方法或属性</li>
+</ul>
+<h3 id="3-1-类的装饰"><a href="#3-1-类的装饰" class="headerlink" title="3.1 类的装饰"></a>3.1 类的装饰</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@testable</span><br><span class="line">class MyTestableClass &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function testable(target) &#123;</span><br><span class="line">  target.isTestable = true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyTestableClass.isTestable // true</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中，<code>@testable</code> 就是一个装饰器。它修改了 <code>MyTestableClass</code>这 个类的行为，为它加上了静态属性<code>isTestable</code>。<code>testable</code> 函数的参数 <code>target</code> 是 <code>MyTestableClass</code> 类本身</p>
+</blockquote>
+<p>基本上，装饰器的行为就是下面这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@decorator</span><br><span class="line">class A &#123;&#125;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line"></span><br><span class="line">class A &#123;&#125;</span><br><span class="line">A = decorator(A) || A;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>也就是说，装饰器是一个对类进行处理的函数。装饰器函数的第一个参数，就是所要装饰的目标类</p>
+</blockquote>
+<p>如果觉得一个参数不够用，可以在装饰器外面再封装一层函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function testable(isTestable) &#123;</span><br><span class="line">  return function(target) &#123;</span><br><span class="line">    target.isTestable = isTestable;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@testable(true)</span><br><span class="line">class MyTestableClass &#123;&#125;</span><br><span class="line">MyTestableClass.isTestable // true</span><br><span class="line"></span><br><span class="line">@testable(false)</span><br><span class="line">class MyClass &#123;&#125;</span><br><span class="line">MyClass.isTestable // false</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码中，装饰器 <code>testable</code> 可以接受参数，这就等于可以修改装饰器的行为</p>
+</blockquote>
+<p><strong>注意</strong>，装饰器对类的行为的改变，是代码编译时发生的，而不是在运行时。这意味着，装饰器能在编译阶段运行代码。也就是说，装饰器本质就是编译时执行的函数。</p>
+<blockquote>
+<p>前面的例子是为类添加一个静态属性，如果想添加实例属性，可以通过目标类的 <code>prototype</code> 对象操作</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// mixins.js</span><br><span class="line">export function mixins(...list) &#123;</span><br><span class="line">  return function (target) &#123;</span><br><span class="line">    Object.assign(target.prototype, ...list)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// main.js</span><br><span class="line">import &#123; mixins &#125; from &#x27;./mixins&#x27;</span><br><span class="line"></span><br><span class="line">const Foo = &#123;</span><br><span class="line">  foo() &#123; console.log(&#x27;foo&#x27;) &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line">class MyClass &#123;&#125;</span><br><span class="line"></span><br><span class="line">let obj = new MyClass();</span><br><span class="line">obj.foo() // &#x27;foo&#x27;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上面代码通过装饰器 <code>mixins</code>，把<code>Foo</code>对象的方法添加到了 <code>MyClass</code>的实例上面</p>
+</blockquote>
+<h3 id="3-2-方法的装饰"><a href="#3-2-方法的装饰" class="headerlink" title="3.2 方法的装饰"></a>3.2 方法的装饰</h3><blockquote>
+<p>装饰器不仅可以装饰类，还可以装饰类的属性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">// 装饰器 readonly 用来装饰“类”的name方法。</span><br><span class="line">  @readonly</span><br><span class="line">  name() &#123; return `$&#123;this.first&#125; $&#123;this.last&#125;` &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>装饰器函数 <code>readonly</code> 一共可以接受三个参数。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function readonly(target, name, descriptor)&#123;</span><br><span class="line">  // descriptor对象原来的值如下</span><br><span class="line">  // &#123;</span><br><span class="line">  //   value: specifiedFunction,</span><br><span class="line">  //   enumerable: false,</span><br><span class="line">  //   configurable: true,</span><br><span class="line">  //   writable: true</span><br><span class="line">  // &#125;;</span><br><span class="line">  descriptor.writable = false;</span><br><span class="line">  return descriptor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readonly(Person.prototype, &#x27;name&#x27;, descriptor);</span><br><span class="line">// 类似于</span><br><span class="line">Object.defineProperty(Person.prototype, &#x27;name&#x27;, descriptor);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一个参数是类的原型对象，上例是 <code>Person.prototype</code>，装饰器的本意是要“装饰”类的实例，但是这个时候实例还没生成，所以只能去装饰原型（这不同于类的装饰，那种情况时<code>target</code>参数指的是类本身）</li>
+<li>第二个参数是 所要装饰的属性名</li>
+<li>第三个参数是 该属性的描述对象</li>
+</ul>
+<h3 id="3-3-函数方法的装饰"><a href="#3-3-函数方法的装饰" class="headerlink" title="3.3 函数方法的装饰"></a>3.3 函数方法的装饰</h3><ul>
+<li>装饰器只能用于类和类的方法，不能用于函数，因为存在函数提升</li>
+<li>另一方面，如果一定要装饰函数，可以采用高阶函数的形式直接执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function doSomething(name) &#123;</span><br><span class="line">  console.log(&#x27;Hello, &#x27; + name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function loggingDecorator(wrapped) &#123;</span><br><span class="line">  return function() &#123;</span><br><span class="line">    console.log(&#x27;Starting&#x27;);</span><br><span class="line">    const result = wrapped.apply(this, arguments);</span><br><span class="line">    console.log(&#x27;Finished&#x27;);</span><br><span class="line">    return result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const wrapped = loggingDecorator(doSomething);</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、使用场景"><a href="#四、使用场景" class="headerlink" title="四、使用场景"></a>四、使用场景</h2><h3 id="4-1-装饰器有注释的作用"><a href="#4-1-装饰器有注释的作用" class="headerlink" title="4.1 装饰器有注释的作用"></a>4.1 装饰器有注释的作用</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@testable</span><br><span class="line">class Person &#123;</span><br><span class="line">  @readonly</span><br><span class="line">  @nonenumerable</span><br><span class="line">  name() &#123; return `$&#123;this.first&#125; $&#123;this.last&#125;` &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>从上面代码中，我们一眼就能看出，<code>Person</code>类是可测试的，而<code>name</code>方法是只读和不可枚举的</p>
+</blockquote>
+<h3 id="4-2-React-的-connect"><a href="#4-2-React-的-connect" class="headerlink" title="4.2 React 的 connect"></a>4.2 React 的 connect</h3><blockquote>
+<p>实际开发中，React 与 Redux 库结合使用时，常常需要写成下面这样</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class MyReactComponent extends React.Component &#123;&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps, mapDispatchToProps)(MyReactComponent);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有了装饰器，就可以改写上面的代码。装饰</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@connect(mapStateToProps, mapDispatchToProps)</span><br><span class="line">export default class MyReactComponent extends React.Component &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-3-loading"><a href="#4-3-loading" class="headerlink" title="4.3 loading"></a>4.3 loading</h3><blockquote>
+<p>在 <code>React</code> 项目中，我们可能需要在向后台请求数据时，页面出现 <code>loading</code> 动画。这个时候，你就可以使用装饰器，优雅地实现功能。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@autobind</span><br><span class="line">@loadingWrap(true)</span><br><span class="line">async handleSelect(params) &#123;</span><br><span class="line">  await this.props.dispatch(&#123;</span><br><span class="line">    type: &#x27;product_list/setQuerypParams&#x27;,</span><br><span class="line">    querypParams: params</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>loadingWrap 函数如下：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export function loadingWrap(needHide) &#123;</span><br><span class="line"></span><br><span class="line">  const defaultLoading = (</span><br><span class="line">    &lt;div className=&quot;toast-loading&quot;&gt;</span><br><span class="line">      &lt;Loading className=&quot;loading-icon&quot;/&gt;</span><br><span class="line">      &lt;div&gt;加载中...&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  return function (target, property, descriptor) &#123;</span><br><span class="line">    const raw = descriptor.value;</span><br><span class="line">    </span><br><span class="line">    descriptor.value = function (...args) &#123;</span><br><span class="line">      Toast.info(text || defaultLoading, 0, null, true);</span><br><span class="line">      const res = raw.apply(this, args);</span><br><span class="line">      </span><br><span class="line">      if (needHide) &#123;</span><br><span class="line">        if (get(&#x27;finally&#x27;)(res)) &#123;</span><br><span class="line">          res.finally(() =&gt; &#123;</span><br><span class="line">            Toast.hide();</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          Toast.hide();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    return descriptor;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-4-log"><a href="#4-4-log" class="headerlink" title="4.4 log"></a>4.4 log</h3><blockquote>
+<p>为一个方法添加 log 函数，检查输入的参数：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Math &#123;</span><br><span class="line">  @log</span><br><span class="line">  add(a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let log = (type) =&gt; &#123;</span><br><span class="line">  return (target, name, descriptor) =&gt; &#123;</span><br><span class="line">    const method = descriptor.value;</span><br><span class="line">    descriptor.value =  (...args) =&gt; &#123;</span><br><span class="line">      console.info(`($&#123;type&#125;) 正在执行: $&#123;name&#125;($&#123;args&#125;) = ?`);</span><br><span class="line">      let ret;</span><br><span class="line">      try &#123;</span><br><span class="line">        ret = method.apply(target, args);</span><br><span class="line">        console.info(`($&#123;type&#125;) 成功 : $&#123;name&#125;($&#123;args&#125;) =&gt; $&#123;ret&#125;`);</span><br><span class="line">      &#125; catch (error) &#123;</span><br><span class="line">        console.error(`($&#123;type&#125;) 失败: $&#123;name&#125;($&#123;args&#125;) =&gt; $&#123;error&#125;`);</span><br><span class="line">      &#125;</span><br><span class="line">      return ret;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const math = new Math();</span><br><span class="line"></span><br><span class="line">// Calling add with [2, 4]</span><br><span class="line">math.add(2, 4);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-autobind"><a href="#4-5-autobind" class="headerlink" title="4.5 autobind"></a>4.5 autobind</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">  @autobind</span><br><span class="line">  getPerson() &#123;</span><br><span class="line">      return this;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person = new Person();</span><br><span class="line">let &#123; getPerson &#125; = person;</span><br><span class="line"></span><br><span class="line">getPerson() === person;</span><br><span class="line">// true</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们很容易想到的一个场景是 React 绑定事件的时候</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Toggle extends React.Component &#123;</span><br><span class="line"></span><br><span class="line">  @autobind</span><br><span class="line">  handleClick() &#123;</span><br><span class="line">      console.log(this)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">        button</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们来写这样一个 <code>autobind</code>函数：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">const &#123; defineProperty, getPrototypeOf&#125; = Object;</span><br><span class="line"></span><br><span class="line">function bind(fn, context) &#123;</span><br><span class="line">  if (fn.bind) &#123;</span><br><span class="line">    return fn.bind(context);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return function __autobind__() &#123;</span><br><span class="line">      return fn.apply(context, arguments);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function createDefaultSetter(key) &#123;</span><br><span class="line">  return function set(newValue) &#123;</span><br><span class="line">    Object.defineProperty(this, key, &#123;</span><br><span class="line">      configurable: true,</span><br><span class="line">      writable: true,</span><br><span class="line">      enumerable: true,</span><br><span class="line">      value: newValue</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return newValue;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function autobind(target, key, &#123; value: fn, configurable, enumerable &#125;) &#123;</span><br><span class="line">  if (typeof fn !== &#x27;function&#x27;) &#123;</span><br><span class="line">    throw new SyntaxError(`@autobind can only be used on functions, not: $&#123;fn&#125;`);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const &#123; constructor &#125; = target;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    configurable,</span><br><span class="line">    enumerable,</span><br><span class="line"></span><br><span class="line">    get() &#123;</span><br><span class="line"></span><br><span class="line">      /**</span><br><span class="line">       * 使用这种方式相当于替换了这个函数，所以当比如</span><br><span class="line">       * Class.prototype.hasOwnProperty(key) 的时候，为了正确返回</span><br><span class="line">       * 所以这里做了 this 的判断</span><br><span class="line">       */</span><br><span class="line">      if (this === target) &#123;</span><br><span class="line">        return fn;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      const boundFn = bind(fn, this);</span><br><span class="line"></span><br><span class="line">      defineProperty(this, key, &#123;</span><br><span class="line">        configurable: true,</span><br><span class="line">        writable: true,</span><br><span class="line">        enumerable: false,</span><br><span class="line">        value: boundFn</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      return boundFn;</span><br><span class="line">    &#125;,</span><br><span class="line">    set: createDefaultSetter(key)</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-6-debounce"><a href="#4-6-debounce" class="headerlink" title="4.6 debounce"></a>4.6 debounce</h3><blockquote>
+<p>有的时候，我们需要对执行的方法进行防抖处理:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">class Toggle extends React.Component &#123;</span><br><span class="line"></span><br><span class="line">  @debounce(500, true)</span><br><span class="line">  handleClick() &#123;</span><br><span class="line">    console.log(&#x27;toggle&#x27;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;button onClick=&#123;this.handleClick&#125;&gt;</span><br><span class="line">        button</span><br><span class="line">      &lt;/button&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">function _debounce(func, wait, immediate) &#123;</span><br><span class="line"></span><br><span class="line">    var timeout;</span><br><span class="line"></span><br><span class="line">    return function () &#123;</span><br><span class="line">        var context = this;</span><br><span class="line">        var args = arguments;</span><br><span class="line"></span><br><span class="line">        if (timeout) clearTimeout(timeout);</span><br><span class="line">        if (immediate) &#123;</span><br><span class="line">            var callNow = !timeout;</span><br><span class="line">            timeout = setTimeout(function()&#123;</span><br><span class="line">                timeout = null;</span><br><span class="line">            &#125;, wait)</span><br><span class="line">            if (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            timeout = setTimeout(function()&#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function debounce(wait, immediate) &#123;</span><br><span class="line">  return function handleDescriptor(target, key, descriptor) &#123;</span><br><span class="line">    const callback = descriptor.value;</span><br><span class="line"></span><br><span class="line">    if (typeof callback !== &#x27;function&#x27;) &#123;</span><br><span class="line">      throw new SyntaxError(&#x27;Only functions can be debounced&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var fn = _debounce(callback, wait, immediate)</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      ...descriptor,</span><br><span class="line">      value() &#123;</span><br><span class="line">        fn()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-7-time"><a href="#4-7-time" class="headerlink" title="4.7 time"></a>4.7 time</h3><blockquote>
+<p>用于统计方法执行的时间:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function time(prefix) &#123;</span><br><span class="line">  let count = 0;</span><br><span class="line">  return function handleDescriptor(target, key, descriptor) &#123;</span><br><span class="line"></span><br><span class="line">    const fn = descriptor.value;</span><br><span class="line"></span><br><span class="line">    if (prefix == null) &#123;</span><br><span class="line">      prefix = `$&#123;target.constructor.name&#125;.$&#123;key&#125;`;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (typeof fn !== &#x27;function&#x27;) &#123;</span><br><span class="line">      throw new SyntaxError(`@time can only be used on functions, not: $&#123;fn&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      ...descriptor,</span><br><span class="line">      value() &#123;</span><br><span class="line">        const label = `$&#123;prefix&#125;-$&#123;count&#125;`;</span><br><span class="line">        count++;</span><br><span class="line">        console.time(label);</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">          return fn.apply(this, arguments);</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">          console.timeEnd(label);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-8-mixin"><a href="#4-8-mixin" class="headerlink" title="4.8 mixin"></a>4.8 mixin</h3><blockquote>
+<p>用于将对象的方法混入<code>Class</code> 中</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const SingerMixin = &#123;</span><br><span class="line">  sing(sound) &#123;</span><br><span class="line">    alert(sound);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const FlyMixin = &#123;</span><br><span class="line">  // All types of property descriptors are supported</span><br><span class="line">  get speed() &#123;&#125;,</span><br><span class="line">  fly() &#123;&#125;,</span><br><span class="line">  land() &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@mixin(SingerMixin, FlyMixin)</span><br><span class="line">class Bird &#123;</span><br><span class="line">  singMatingCall() &#123;</span><br><span class="line">    this.sing(&#x27;tweet tweet&#x27;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var bird = new Bird();</span><br><span class="line">bird.singMatingCall();</span><br><span class="line">// alerts &quot;tweet tweet&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>mixin</code> 的一个简单实现如下</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function mixin(...mixins) &#123;</span><br><span class="line">  return target =&gt; &#123;</span><br><span class="line">    if (!mixins.length) &#123;</span><br><span class="line">      throw new SyntaxError(`@mixin() class $&#123;target.name&#125; requires at least one mixin as an argument`);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let i = 0, l = mixins.length; i &lt; l; i++) &#123;</span><br><span class="line">      const descs = Object.getOwnPropertyDescriptors(mixins[i]);</span><br><span class="line">      const keys = Object.getOwnPropertyNames(descs);</span><br><span class="line"></span><br><span class="line">      for (let j = 0, k = keys.length; j &lt; k; j++) &#123;</span><br><span class="line">        const key = keys[j];</span><br><span class="line"></span><br><span class="line">        if (!target.prototype.hasOwnProperty(key)) &#123;</span><br><span class="line">          Object.defineProperty(target.prototype, key, descs[key]);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" data-id="cl7ibzolc0087ugundl7v13z1" data-title="ES6 装饰器" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/" rel="tag">es6</a></li></ul>
 
     </footer>
   </div>
@@ -600,6 +1011,195 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-html+css+js+ts/3-原型链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/03/18/html+css+js+ts/3-%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="article-date">
+  <time class="dt-published" datetime="2021-03-18T12:16:43.000Z" itemprop="datePublished">2021-03-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/03/18/html+css+js+ts/3-%E5%8E%9F%E5%9E%8B%E9%93%BE/">js-原型链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="一、JS内置对象"><a href="#一、JS内置对象" class="headerlink" title="一、JS内置对象"></a>一、JS内置对象</h2><blockquote>
+<p>所谓的内置对象 指的是：<code>JavaScript</code>本身就自己有的对象 可以直接拿来就用。例如<code>Array</code> <code>String</code> 等等。<code>JavaScript</code>一共有12内置对象</p>
+</blockquote>
+<p><strong>函数类型(10个)</strong></p>
+<ul>
+<li><code>String</code></li>
+<li><code>Number</code></li>
+<li><code>Boolean</code></li>
+<li><code>Array</code></li>
+<li><code>Function</code></li>
+<li><code>Date</code></li>
+<li><code>RegExp</code></li>
+<li><code>Error</code></li>
+<li><code>Object</code></li>
+<li><code>Event</code></li>
+</ul>
+<blockquote>
+<p>函数类型 有 <code>__proto__</code>和 <code>prototype</code> 属性</p>
+</blockquote>
+<p><strong>对象类型(2个)</strong></p>
+<ul>
+<li><code>Math</code></li>
+<li><code>JSON</code></li>
+</ul>
+<blockquote>
+<p>对象类型只有<code>__proto__</code>属性</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/1480597-9b6c5ca4a84f967c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h2 id="二、JS原型链"><a href="#二、JS原型链" class="headerlink" title="二、JS原型链"></a>二、JS原型链</h2><h3 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h3><p><img src="https://upload-images.jianshu.io/upload_images/1480597-86427eafb257f868.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<ul>
+<li>每个函数都有 <code>prototype</code> 属性，除了 <code>Function.prototype.bind()</code>，该属性指向原型。</li>
+<li>每个对象都有 <code>__proto__</code> 属性，指向了创建该对象的构造函数的原型。其实这个属性指向了 <code>[[prototype]]</code>，但是 <code>[[prototype]]</code> 是内部属性，我们并不能访问到，所以使用 <code>__proto__</code> 来访问</li>
+<li>对象可以通过 <strong>proto</strong> 来寻找不属于该对象的属性，<code>__proto__</code> 将对象连接起来组成了原型链</li>
+</ul>
+<blockquote>
+<p>打开浏览器的控制面板，随便输入一个<code>JS</code>内置的构造器函数，比如<code>Array</code>，控制台输出的是一个名为<code>Array</code>的函数体，这好像并没有什么稀奇的，但是，当你接着输入<code>Array.prototype</code>，控制面板输出了一堆我们经常用到的<code>Array</code>构造器的方法，把目光转移到最下方，有一个叫<code>__proto__</code>的属性，好奇的点开。列表列出的不是<code>Object</code>构造器的方法么，里边有我们非常熟悉的<code>hasOwnProperty</code>还有<code>toString</code>等方法。如果<code>Array</code>是构造器，那么控制面板输出的<code>Array.prototype</code>的所有属性中<code>constructor</code>又是什么构造器？点开看看，之后就像身处德罗斯特效应中一样，<code>__proto__</code>和<code>constructor</code>，还有<code>Array</code>构造器中常用的方法名不断的出现，一层套一层，一层层展开，没有尽头</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/343.png" alt="img"></p>
+<blockquote>
+<p>拿<code>Array</code>举例，<code>Array.prototype</code>中有一个<code>constructor</code>属性，这个属性的值就是<code>Array</code>构造器自己</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array.prototype.constructor === Array //true</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-prototype"><a href="#2-2-prototype" class="headerlink" title="2.2 prototype"></a>2.2 prototype</h3><blockquote>
+<p>这是一个显式原型属性，只有函数才拥有该属性。基本上所有函数都有这个属性，但是也有一个例外</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let fun = Function.prototype.bind()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果你以上述方法创建一个函数，那么可以发现这个函数是不具有 <code>prototype</code> 属性的</p>
+</blockquote>
+<h4 id="2-2-1-prototype-如何产生的"><a href="#2-2-1-prototype-如何产生的" class="headerlink" title="2.2.1 prototype 如何产生的"></a>2.2.1 prototype 如何产生的</h4><blockquote>
+<p>当我们声明一个函数时，这个属性就被自动创建了</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>并且这个属性的值是一个对象（也就是原型），只有一个属性 <code>constructor</code></p>
+</blockquote>
+<ul>
+<li><code>constructor</code> 对应着构造函数，也就是 <code>Foo</code></li>
+</ul>
+<h4 id="2-2-2-constructor"><a href="#2-2-2-constructor" class="headerlink" title="2.2.2 constructor"></a>2.2.2 constructor</h4><blockquote>
+<p><code>constructor</code>是一个公有且不可枚举的属性。一旦我们改变了函数的 <code>prototype</code> ，那么新对象就没有这个属性了（当然可以通过原型链取到 <code>constructor</code>）</p>
+</blockquote>
+<p>那么你肯定也有一个疑问，这个属性到底有什么用呢？其实这个属性可以说是一个历史遗留问题，在大部分情况下是没用的，在我的理解里，我认为他有两个作用：</p>
+<ul>
+<li>让实例对象知道是什么函数构造了它</li>
+<li>如果想给某些类库中的构造函数增加一些自定义的方法，就可以通过 <code>xx.constructor.method</code> 来扩展</li>
+</ul>
+<h3 id="2-3-proto"><a href="#2-3-proto" class="headerlink" title="2.3 __proto__"></a>2.3 <code>__proto__</code></h3><blockquote>
+<p>这是每个对象都有的隐式原型属性，指向了创建该对象的构造函数的原型。其实这个属性指向了 <code>[[prototype]]</code>，但是 <code>[[prototype]]</code> 是内部属性，我们并不能访问到，所以使用 <code>__proto__</code> 来访问</p>
+</blockquote>
+<ul>
+<li>因为在 <code>JS</code> 中是没有类的概念的，为了实现类似继承的方式，通过 <code>__proto__</code> 将对象和原型联系起来组成原型链，得以让对象可以访问到不属于自己的属性</li>
+</ul>
+<h4 id="2-3-1-实例对象的-proto-如何产生的"><a href="#2-3-1-实例对象的-proto-如何产生的" class="headerlink" title="2.3.1 实例对象的 _proto_ 如何产生的"></a>2.3.1 实例对象的 <code>_proto_</code> 如何产生的</h4><blockquote>
+<p>当我们使用 <code>new</code> 操作符时，生成的实例对象拥有了 <code>__proto__</code>属性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;&#125;</span><br><span class="line">// 这个函数是 Function 的实例对象</span><br><span class="line">// function 就是一个语法糖</span><br><span class="line">// 内部调用了 new Function(...)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>所以可以说，在 <code>new</code> 的过程中，新对象被添加了 <code>__proto__</code> 并且链接到构造函数的原型上</p>
+</blockquote>
+<h4 id="2-3-2-new-的过程"><a href="#2-3-2-new-的过程" class="headerlink" title="2.3.2 new 的过程"></a>2.3.2 new 的过程</h4><ul>
+<li>新生成了一个对象</li>
+<li>链接到原型</li>
+<li>绑定 <code>this</code></li>
+<li>返回新对象</li>
+</ul>
+<blockquote>
+<p>在调用 <code>new</code> 的过程中会发生以上四件事情，我们也可以试着来自己实现一个 <code>new</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function create() &#123;</span><br><span class="line">    // 创建一个空的对象</span><br><span class="line">    let obj = new Object()</span><br><span class="line">    // 获得构造函数</span><br><span class="line">    let Con = [].shift.call(arguments)</span><br><span class="line">    // 链接到原型</span><br><span class="line">	obj.__proto__ = Con.prototype</span><br><span class="line">    // 绑定 this，执行构造函数</span><br><span class="line">    let result = Con.apply(obj, arguments)</span><br><span class="line">    // 确保 new 出来的是个对象</span><br><span class="line">    return typeof result === &#x27;object&#x27; ? result : obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对于实例对象来说，都是通过 <code>new</code> 产生的，无论是 <code>function Foo()</code> 还是 <code>let a = &#123; b : 1 &#125;</code></li>
+<li>对于创建一个对象来说，更推荐使用字面量的方式创建对象。因为你使用 <code>new Object()</code>的方式创建对象需要通过作用域链一层层找到 <code>Object</code>，但是你使用字面量的方式就没这个问题。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// function 就是个语法糖</span><br><span class="line">// 内部等同于 new Function()</span><br><span class="line">let a = &#123; b: 1 &#125;</span><br><span class="line">// 这个字面量内部也是使用了 new Object()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/1480597-e4a91031a78eb153.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<blockquote>
+<p>这里<code>Array</code> 内置对象 且是函数类型。所以<code>Array</code>有<code>__proto__</code>属性 指向的是函数类型 <code>(function（）&#123;&#125;)</code>。所以当我们在输出<code>Array.__proto__.proto__</code>;就会返回对象类型<code>(Object&#123;&#125;)</code>.但是再向上就<code>null</code>。因为<code>Object</code>就是父类了。所有的继承自<code>Object</code>。</p>
+</blockquote>
+<ul>
+<li><code>JS</code>内置构造器其中之一的<code>Array</code>原本就是一个函数，而这个函数就是<code>Function</code>的<code>prototype</code>，所以<code>Function.prototype</code>有的方法，<code>JS</code>内置构造器都有，比如<code>call()</code>、<code>apply()</code>、<code>bind()</code>等（其实我们自定义的函数也是继承自<code>Function.prototype</code>，所以我们自己也可以定义构造器）。而<code>Function.prototype</code>的进化链指针又指向了<code>Object.prototype</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 数组实例的__proto__指向构造器的原型</span><br><span class="line"></span><br><span class="line">[].__proto__ === Array.prototype</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-总结"><a href="#2-4-总结" class="headerlink" title="2.4 总结"></a>2.4 总结</h3><ul>
+<li><code>Object</code> 是所有对象的爸爸，所有对象都可以通过 <code>__proto__</code> 找到它</li>
+<li><code>Function</code> 是所有函数的爸爸，所有函数都可以通过 <code>__proto__</code> 找到它</li>
+<li><code>Function.prototype</code> 和 <code>Object.prototype</code> 是两个特殊的对象，他们由引擎来创建</li>
+<li>除了以上两个特殊对象，其他对象都是通过构造器 <code>new</code> 出来的</li>
+<li>函数的 <code>prototype</code> 是一个对象，也就是原型</li>
+<li>对象的 <code>__proto__</code> 指向原型， <code>__proto__</code>将对象和原型连接起来组成了原型链</li>
+</ul>
+<p><strong>关于原型有3个相关的概</strong>念:</p>
+<ul>
+<li>函数对象的<code>prototype</code>属性, 可以称之为显式原型属性(简称: 显式原型)</li>
+<li>实例对象的<code>__proto__</code>属性, 可以称之为隐式原型属性(简称: 隐式原型)</li>
+<li>原型对象: 也就是<code>prototype</code>属性和<code>_proto__</code>属性指向的对象</li>
+</ul>
+<p><img src="https://github.com/mqyqingfeng/Blog/raw/master/Images/prototype5.png" alt="img"></p>
+<blockquote>
+<p>图中由相互关联的原型组成的链状结构就是原型链，也就是蓝色的这条线</p>
+</blockquote>
+<h2 id="三、JSON和Math"><a href="#三、JSON和Math" class="headerlink" title="三、JSON和Math"></a>三、JSON和Math</h2><blockquote>
+<p><code>JS</code>内置的构造器函数都可以使用<code>new</code>关键字实例化一个对象，我们称实例化后的这个对象就是某某构造器的一个实例</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/344.png" alt="img"></p>
+<blockquote>
+<p>我们试试<code>JSON</code> 和<code>Math</code> 能不能实例化对象</p>
+</blockquote>
+<p><img src="https://poetries1.gitee.io/img-repo/2019/10/345.png" alt="img"></p>
+<blockquote>
+<p><code>JSON</code>和<code>Math</code>不是构造器函数，他们是普通的对象。只有构造器函数才能使用<code>new</code>关键字实例化一个对象，而<code>JSON</code>和<code>Math</code>已经是对象了，所以我们可以不用实例化直接使用<code>JSON</code>和<code>Math</code>中的属性和方法</p>
+</blockquote>
+<ul>
+<li>所以<code>JSON</code>和<code>Math</code>不属于<code>10</code>个构造器函数，但他们<code>12</code>个共同属于<code>Javascript</code>的内置对象</li>
+</ul>
+<h2 id="四、更多参考"><a href="#四、更多参考" class="headerlink" title="四、更多参考"></a>四、更多参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mqyqingfeng/Blog/issues/2">JavaScript深入之从原型到原型链</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/03/18/html+css+js+ts/3-%E5%8E%9F%E5%9E%8B%E9%93%BE/" data-id="cl7ibzokg006zugung4568chv" data-title="js-原型链" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
 
     </footer>
   </div>
@@ -2055,14 +2655,14 @@ $(document).ready(function(){
 
 
   
-    <article id="post-性能优化/02性能优化模型RAIL测量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-html+css+js+ts/3-js异步处理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/" class="article-date">
-  <time class="dt-published" datetime="2021-03-02T12:49:27.000Z" itemprop="datePublished">2021-03-02</time>
+    <a href="/2021/03/06/html+css+js+ts/3-js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2021-03-06T07:35:14.000Z" itemprop="datePublished">2021-03-06</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
   </div>
 
   </div>
@@ -2073,7 +2673,7 @@ $(document).ready(function(){
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/">前端性能优化-02</a>
+      <a class="p-name article-title" href="/2021/03/06/html+css+js+ts/3-js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/">js 异步处理</a>
     </h1>
   
 
@@ -2081,383 +2681,137 @@ $(document).ready(function(){
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="什么是RAIL："><a href="#什么是RAIL：" class="headerlink" title="什么是RAIL："></a>什么是RAIL：</h2><p>缩写每一个字母表示一个性能指标</p>
-<p>Response：响应  对用户而言用户点击有没有即使访问</p>
-<p>Animation：动画 给用户的体验好。会不会出现卡顿</p>
-<p>Idie：空闲 有足够的空闲时间才能够进行响应交互   不让他始终处于繁忙的时间，不然无法处理其他请求</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427100359004.png" alt="image-20220427100359004"></p>
-<p>Load：加载 资源网络加载的时间</p>
-<p><strong>RAIL目标</strong></p>
-<p><strong>评估指标</strong></p>
-<p>响应：处理时间应在50ms以内完成</p>
-<p>动画：没10ms产生一帧</p>
-<p>空闲：尽可能增加空闲时间</p>
-<p>加载：在5s内完成内容加载并可以交互</p>
-<p>逐步发现问题解决问题</p>
-<p>性能测量工具</p>
-<p>Chrome DevTools 开发者调试工具，性能评测</p>
-<p>Lighthouse 网站整体质量评估</p>
-<p>WebPageTest 多测量地点、全面行能报告（通过 它的问斩对自己的网站就行进行评估）</p>
-<h2 id="WenPageTest"><a href="#WenPageTest" class="headerlink" title="WenPageTest"></a><strong>WenPageTest</strong></h2><p>webpagetest.org</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101136898.png" alt="image-20220427101136898"></p>
-<p>用户首次方位  第二次访问  （第一次对一些静态资源做缓存）</p>
-<p>录视频</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101340209.png" alt="image-20220427101340209"></p>
-<p>测试结果：</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427101426225.png" alt="image-20220427101426225"></p>
-<p>第一次加载，首屏渲染，</p>
-<p>speed 速度指数等</p>
-<p>图片并行加载  时间有加载最长时间决定</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103510108.png" alt="image-20220427103510108"></p>
-<p>高亮（重定向了）  可以优化  直接去访问重定向后的位置</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103527654.png" alt="image-20220427103527654"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103716493.png" alt="image-20220427103716493"></p>
-<p>前提：docker</p>
-<p>docker pull webpagetest&#x2F;server</p>
-<p>docker pull webpagetest&#x2F;a</p>
-<p>docker run -d -p 4000:80 webpagetest&#x2F;server</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103841249.png" alt="image-20220427103841249"></p>
-<p>自定义镜像</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103951183.png" alt="image-20220427103951183"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103923723.png" alt="image-20220427103923723"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427103940202.png" alt="image-20220427103940202"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104025309.png" alt="image-20220427104025309"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104016148.png" alt="image-20220427104016148"></p>
-<p>打包</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104104578.png" alt="image-20220427104104578"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104110269.png" alt="image-20220427104110269"></p>
-<p>这样就可以本地测试了。</p>
-<h2 id="Lighthouse"><a href="#Lighthouse" class="headerlink" title="Lighthouse"></a>Lighthouse</h2><p>npm install -g lighthouse</p>
-<p>lighthouse 测试网站地址</p>
-<p>自动打开一个浏览器窗口</p>
-<p>生成而是报告到本地</p>
-<p>打开即可查看</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104412546.png" alt="image-20220427104412546"></p>
-<p>第一个有意义的内容</p>
-<p>什么时候用户可以交互了</p>
-<p>用户访问过程截屏。</p>
-<p>Opportunity：告诉我们还可以做些什么做到了可以提升那些多长时间</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427104938078.png" alt="image-20220427104938078"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427105002256.png" alt="image-20220427105002256"></p>
-<p>可以指定什么样的资源不进行加载。</p>
-<h2 id="Chrome-devtool调试"><a href="#Chrome-devtool调试" class="headerlink" title="Chrome devtool调试"></a>Chrome devtool调试</h2><p>Network：</p>
-<p>资源名称  大小   耗时</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427133838888.png" alt="image-20220427133838888"></p>
-<p>对请求资源进行压缩在返回前端</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134024090.png" alt="image-20220427134024090"></p>
-<p>实际大小 parse  1.4MB   网络传输（index）55kb</p>
-<p>Performance：</p>
-<p>开始出现性能分析：可以定位出导致长任务（耗费时间长）的方法。</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134236511.png" alt="image-20220427134236511"></p>
-<p>主线程任务。</p>
-<p>Disabel cache缓存。 Online：选择网络</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134610044.png" alt="image-20220427134610044"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134719082.png" alt="image-20220427134719082"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427134737203.png" alt="image-20220427134737203"></p>
+        <blockquote>
+<p>整理于互联网</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>在<code>JavaScript</code>的世界中，所有代码都是单线程执行的</li>
+<li>由于这个“缺陷”，导致<code>JavaScript</code>的所有网络操作，浏览器事件，都必须是异步执行。异步执行可以用回调函数实现</li>
+<li>异步操作会在将来的某个时间点触发一个函数调用</li>
+</ul>
+</blockquote>
+<ul>
+<li>主流的异步处理方案主要有：回调函数<code>(CallBack)</code>、<code>Promise</code>、<code>Generator</code>函数、<code>async/await</code>。</li>
+</ul>
+<h2 id="一、回调函数-CallBack"><a href="#一、回调函数-CallBack" class="headerlink" title="一、回调函数(CallBack)"></a>一、回调函数(CallBack)</h2><hr>
+<ul>
+<li>这是异步编程最基本的方法</li>
+<li>假设我们有一个 <code>getData</code> 方法，用于异步获取数据，第一个参数为请求的 <code>url</code> 地址，第二个参数是回调函数，如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function getData (url, callBack) &#123;</span><br><span class="line">    // 模拟发送网络请求</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        // 假设 res 就是返回的数据</span><br><span class="line">        var res = &#123;</span><br><span class="line">            url: url,</span><br><span class="line">            data: Math.random()</span><br><span class="line">        &#125;</span><br><span class="line">        // 执行回调，将数据作为参数传递</span><br><span class="line">        callBack(res)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们预先设定一个场景，假设我们要请求三次服务器，每一次的请求依赖上一次请求的结果，如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">getData(&#x27;/page/1?param=123&#x27;, (res1) =&gt; &#123;</span><br><span class="line">    console.log(res1)</span><br><span class="line">    getData(`/page/2?param=$&#123;res1.data&#125;`, (res2) =&gt; &#123;</span><br><span class="line">        console.log(res2)</span><br><span class="line">        getData(`/page/3?param=$&#123;res2.data&#125;`, (res3) =&gt; &#123;</span><br><span class="line">            console.log(res3)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过上面的代码可以看出，第一次请求的 <code>url</code> 地址为：<code>/page/1?param=123</code>，返回结果为 <code>res1</code>。</li>
+<li>第二个请求的 <code>url</code> 地址为：<code>/page/2?param=$&#123;res1.data&#125;</code>，依赖第<code>一次请求的</code>res1.data<code>，返回结果为</code>res2&#96;。</li>
+<li>第三次请求的 <code>url</code>地址为：<code>/page/3?param=$&#123;res2.data&#125;</code>，依赖第二次请求的 <code>res2.data</code>，返回结果为 <code>res3</code>。</li>
+<li>由于后续请求依赖前一个请求的结果，所以我们只能把下一次请求写到上一次请求的回调函数内部，这样就形成了常说的：回调地狱。</li>
+</ul>
+<h2 id="二、发布-x2F-订阅"><a href="#二、发布-x2F-订阅" class="headerlink" title="二、发布&#x2F;订阅"></a>二、发布&#x2F;订阅</h2><blockquote>
+<p>我们假定，存在一个”信号中心”，某个任务执行完成，就向信号中心”发布”（<code>publish</code>）一个信号，其他任务可以向信号中心”订阅”（<code>subscribe</code>）这个信号，从而知道什么时候自己可以开始执行。这就叫做”发布&#x2F;订阅模式”（publish-subscribe pattern），又称”观察者模式”（observer pattern）</p>
+</blockquote>
+<ul>
+<li>这个模式有多种实现，下面采用的是Ben Alman的<a target="_blank" rel="noopener" href="https://gist.github.com/661855">Tiny Pub&#x2F;Sub</a>，这是<code>jQuery</code>的一个插件</li>
+<li>首先，<code>f2</code>向”信号中心”<code>jQuery</code>订阅”<code>done</code>“信号</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery.subscribe(&quot;done&quot;, f2);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>f1进行如下改写</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function f1()&#123;</span><br><span class="line">　　　　setTimeout(function () &#123;</span><br><span class="line">　　　　　　// f1的任务代码</span><br><span class="line">　　　　　　jQuery.publish(&quot;done&quot;);</span><br><span class="line">　　　　&#125;, 1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>jQuery.publish(&quot;done&quot;)</code>的意思是，<code>f1</code>执行完成后，向”信号中心<code>&quot;jQuery</code>发布<code>&quot;done&quot;</code>信号，从而引发f2的执行。 此外，f2完成执行后，也可以取消订阅（<code>unsubscribe</code>）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery.unsubscribe(&quot;done&quot;, f2);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这种方法的性质与”事件监听”类似，但是明显优于后者。因为我们可以通过查看”消息中心”，了解存在多少信号、每个信号有多少订阅者，从而监控程序的运行。</li>
+</ul>
+<h2 id="三、Promise"><a href="#三、Promise" class="headerlink" title="三、Promise"></a>三、Promise</h2><hr>
+<blockquote>
+<ul>
+<li><code>Promise</code> 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大</li>
+<li>所谓<code>Promise</code>，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，<code>Promise</code> 是一个对象，从它可以获取异步操作的消息。<code>Promise</code> 提供统一的 <code>API</code>，各种异步操作都可以用同样的方法进行处理</li>
+</ul>
+</blockquote>
+<ul>
+<li>简单说，它的思想是，每一个异步任务返回一个<code>Promise</code>对象，该对象有一个<code>then</code>方法，允许指定回调函数。</li>
+<li>现在我们使用 <code>Promise</code> 重新实现上面的案例，首先，我们要把异步请求数据的方法封装成 <code>Promise</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function getDataAsync (url) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            var res = &#123;</span><br><span class="line">                url: url,</span><br><span class="line">                data: Math.random()</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(res)</span><br><span class="line">        &#125;, 1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>那么请求的代码应该这样写</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">getDataAsync(&#x27;/page/1?param=123&#x27;)</span><br><span class="line">    .then(res1 =&gt; &#123;</span><br><span class="line">        console.log(res1)</span><br><span class="line">        return getDataAsync(`/page/2?param=$&#123;res1.data&#125;`)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(res2 =&gt; &#123;</span><br><span class="line">        console.log(res2)</span><br><span class="line">        return getDataAsync(`/page/3?param=$&#123;res2.data&#125;`)</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(res3 =&gt; &#123;</span><br><span class="line">        console.log(res3)</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>then</code> 方法返回一个新的 <code>Promise</code> 对象，<code>then</code> 方法的链式调用避免了 <code>CallBack</code> 回调地狱</li>
+<li>但也并不是完美，比如我们要添加很多 <code>then</code> 语句， 每一个 <code>then</code> 还是要写一个回调。</li>
+<li>如果场景再复杂一点，比如后边的每一个请求依赖前面所有请求的结果，而不仅仅依赖上一次请求的结果，那会更复杂。 为了做的更好，<code>async/await</code> 就应运而生了，来看看使用 <code>async/await</code> 要如何实现</li>
+</ul>
+<h2 id="四、async-x2F-await"><a href="#四、async-x2F-await" class="headerlink" title="四、async&#x2F;await"></a>四、async&#x2F;await</h2><hr>
+<ul>
+<li><p><code>await</code>后面必须是一个<code>Promise</code>对象</p>
+</li>
+<li><p><code>getDataAsync</code> 方法不变，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> function getDataAsync (url) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            var res = &#123;</span><br><span class="line">                url: url,</span><br><span class="line">                data: Math.random()</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(res)</span><br><span class="line">        &#125;, 1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>业务代码如下</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">async function getData () &#123;</span><br><span class="line">    var res1 = await getDataAsync(&#x27;/page/1?param=123&#x27;)</span><br><span class="line">    console.log(res1)</span><br><span class="line">    var res2 = await getDataAsync(`/page/2?param=$&#123;res1.data&#125;`)</span><br><span class="line">    console.log(res2)</span><br><span class="line">    var res3 = await getDataAsync(`/page/2?param=$&#123;res2.data&#125;`)</span><br><span class="line">    console.log(res3)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以看到使用<code>async\await</code>就像写同步代码一样</li>
+<li>对比 <code>Promise</code> 感觉怎么样？是不是非常清晰，但是 <code>async/await</code> 是基于 <code>Promise</code> 的，因为使用 <code>async</code>修饰的方法最终返回一个 <code>Promise</code>， 实际上，<code>async/await</code> 可以看做是使用 <code>Generator</code> 函数处理异步的语法糖，我们来看看如何使用 <code>Generator</code> 函数处理异步</li>
+</ul>
+<h2 id="五、Generator"><a href="#五、Generator" class="headerlink" title="五、Generator"></a>五、Generator</h2><hr>
+<ul>
+<li>首先异步函数依然是</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function getDataAsync (url) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            var res = &#123;</span><br><span class="line">                url: url,</span><br><span class="line">                data: Math.random()</span><br><span class="line">            &#125;</span><br><span class="line">            resolve(res)</span><br><span class="line">        &#125;, 1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 <code>Generator</code> 函数可以这样写</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function * getData () &#123;</span><br><span class="line">    var res1 = yield getDataAsync(&#x27;/page/1?param=123&#x27;)</span><br><span class="line">    console.log(res1)</span><br><span class="line">    var res2 = yield getDataAsync(`/page/2?param=$&#123;res1.data&#125;`)</span><br><span class="line">    console.log(res2)</span><br><span class="line">    var res3 = yield getDataAsync(`/page/2?param=$&#123;res2.data&#125;`)</span><br><span class="line">    console.log(res3))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后我们这样逐步执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var g = getData()</span><br><span class="line">g.next().value.then(res1 =&gt; &#123;</span><br><span class="line">    g.next(res1).value.then(res2 =&gt; &#123;</span><br><span class="line">        g.next(res2).value.then(() =&gt; &#123;</span><br><span class="line">            g.next()</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面的代码，我们逐步调用遍历器的 <code>next()</code> 方法，由于每一个 <code>next()</code> 方法返回值的 <code>value</code> 属性为一个 <code>Promise</code>对象</li>
+<li>所以我们为其添加 <code>then</code> 方法， 在 <code>then</code> 方法里面接着运行 <code>next</code> 方法挪移遍历器指针，直到 <code>Generator</code>函数运行完成，实际上，这个过程我们不必手动完成，可以封装成一个简单的执行器</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function run (gen) &#123;</span><br><span class="line">    var g = gen()</span><br><span class="line"></span><br><span class="line">    function next (data) &#123;</span><br><span class="line">        var res = g.next(data)</span><br><span class="line">        if (res.done) return res.value</span><br><span class="line">        res.value.then((data) =&gt; &#123;</span><br><span class="line">            next(data)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    next()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>run 方法用来自动运行异步的 Generator 函数，其实就是一个递归的过程调用的过程。这样我们就不必手动执行 Generator 函数了。 有了 run 方法，我们只需要这样运行 getData 方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run(getData)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这样，我们就可以把异步操作封装到 <code>Generator</code> 函数内部，使用 <code>run</code> 方法作为 <code>Generator</code> 函数的自执行器，来处理异步。其实我们不难发现， <code>async/await</code> 方法相比于 <code>Generator</code> 处理异步的方式，有很多相似的地方，只不过 <code>async/await</code> 在语义化方面更加明显，同时 <code>async/await</code> 不需要我们手写执行器，其内部已经帮我们封装好了，这就是为什么说 <code>async/await</code> 是 <code>Generator</code> 函数处理异步的语法糖了</p>
+</blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/03/02/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/02%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9E%8BRAIL%E6%B5%8B%E9%87%8F/" data-id="cl7icg7dn012buguna21hbpbe" data-title="前端性能优化-02" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/03/06/html+css+js+ts/3-js%E5%BC%82%E6%AD%A5%E5%A4%84%E7%90%86/" data-id="cl7ibzoiy004pugun61pxe4tb" data-title="js 异步处理" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-性能优化/01项目性能优化概述" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/" class="article-date">
-  <time class="dt-published" datetime="2021-02-26T03:07:23.000Z" itemprop="datePublished">2021-02-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/">前端性能优化-01</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>平凡程序员和大牛程序员、架构师的分水岭</strong></p>
-<p><strong>怎样做出高性能的工程，达到大厂产品水平</strong></p>
-<p><strong>只是储配，动手实战</strong></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093826921.png" alt="image-20220427093826921"></p>
-<p><strong>优化标准“</strong></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093854500.png" alt="image-20220427093854500"></p>
-<p><strong>学习体系</strong></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427093906855.png" alt="image-20220427093906855"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094119486.png" alt="image-20220427094119486"></p>
-<p>一、为什么要进行性能优化</p>
-<p>性能-web网站和应用的支柱</p>
-<p>网站性能对用户很重要</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094359679.png" alt="image-20220427094359679"></p>
-<p><strong>寻找性能瓶颈</strong></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094506838.png" alt="image-20220427094506838"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094612815.png" alt="image-20220427094612815"></p>
-<p><strong>性能指标和性能优化</strong></p>
-<p>性能指标：</p>
-<p>Network  (页面清空缓存 ，重新加载，查看)</p>
-<p>请求数量  资源量   Dom加载时间   混合资源加载时间</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094837633.png" alt="image-20220427094837633"></p>
-<p>瀑布图：</p>
-<p>请求前资源排队，dns解析，连接，SSL协商</p>
-<p>发送：TTFB（用户体验和他有大多数关系）   下载（资源大小）  资源进行并行加载（不阻塞）</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427094932008.png" alt="image-20220427094932008"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095003259.png" alt="image-20220427095003259"></p>
-<p>右键下载查看  进行性能分析</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095231244.png" alt="image-20220427095231244"></p>
-<p>性能测量工具：</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095256620.png" alt="image-20220427095256620"></p>
-<p>first C …：页面出现数据的时间</p>
-<p>Speed Index：速度指数（标准为4s）</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095310577.png"></p>
-<p>交互性：</p>
-<p>画面流畅（帧数问题）</p>
-<p>查看查看帧数变化工具：最后一项</p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095707388.png" alt="image-20220427095707388"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095839003.png" alt="image-20220427095839003"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095911447.png" alt="image-20220427095911447"></p>
-<p><img src="C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220427095937536.png" alt="image-20220427095937536"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/02/26/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/01%E9%A1%B9%E7%9B%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0/" data-id="cl7icg7dm0128ugun0j24bybs" data-title="前端性能优化-01" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack与其他打包工具的区别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time class="dt-published" datetime="2020-12-12T02:43:28.000Z" itemprop="datePublished">2020-12-12</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/">webpack与其他打包工具的区别</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、模块化工具"><a href="#一、模块化工具" class="headerlink" title="一、模块化工具"></a>一、模块化工具</h2><p>模块化是一种处理复杂系统分解为更好的可管理模块的方式</p>
-<p>可以用来分割，组织和打包应用。每个模块完成一个特定的子功能，所有的模块按某种方法组装起来，成为一个整体(<code>bundle</code>)</p>
-<p>在前端领域中，并非只有<code>webpack</code>这一款优秀的模块打包工具，还有其他类似的工具，例如<code>Rollup</code>、<code>Parcel</code>、<code>snowpack</code>，以及最近风头无两的<code>Vite</code></p>
-<p>通过这些模块打包工具，能够提高我们的开发效率，减少开发成本</p>
-<p>这里没有提及<code>gulp</code>、<code>grunt</code>是因为它们只是定义为构建工具，不能类比</p>
-<h3 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h3><p><code>Rollup</code> 是一款 <code>ES Modules</code> 打包器，从作用上来看，<code>Rollup</code> 与 <code>Webpack</code> 非常类似。不过相比于 <code>Webpack</code>，<code>Rollup</code>要小巧的多</p>
-<p>现在很多我们熟知的库都都使用它进行打包，比如：<code>Vue</code>、<code>React</code>和<code>three.js</code>等</p>
-<p>举个例子：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/messages.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">hi</span>: <span class="string">&#x27;Hey Guys, I am zce~&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ./src/logger.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">log</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;---------- INFO ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;--------------------------&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">error</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;---------- ERROR ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(msg)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;---------------------------&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ./src/index.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; log &#125; <span class="keyword">from</span> <span class="string">&#x27;./logger&#x27;</span></span><br><span class="line"><span class="keyword">import</span> messages <span class="keyword">from</span> <span class="string">&#x27;./messages&#x27;</span></span><br><span class="line"><span class="title function_">log</span>(messages.<span class="property">hi</span>)</span><br></pre></td></tr></table></figure>
-
-<p>然后通过<code>rollup</code>进行打包</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx rollup ./src/index.<span class="property">js</span> --file ./dist/bundle.<span class="property">js</span></span><br></pre></td></tr></table></figure>
-
-<p>打包结果如下图<img src="https://static.vue-js.com/8fe07830-b143-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>可以看到，代码非常简洁，完成不像<code>webpack</code>那样存在大量引导代码和模块函数</p>
-<p>并且<code>error</code>方法由于没有被使用，输出的结果中并无<code>error</code>方法，可以看到，<code>rollup</code>默认开始<code>Tree-shaking</code> 优化输出结果</p>
-<p>因此，可以看到<code>Rollup</code>的优点：</p>
-<ul>
-<li>代码效率更简洁、效率更高</li>
-<li>默认支持 Tree-shaking</li>
-</ul>
-<p>但缺点也十分明显，加载其他类型的资源文件或者支持导入 <code>CommonJS</code> 模块，又或是编译 <code>ES</code> 新特性，这些额外的需求 <code>Rollup</code>需要使用插件去完成</p>
-<p>综合来看，<code>rollup</code>并不适合开发应用使用，因为需要使用第三方模块，而目前第三方模块大多数使用<code>CommonJs</code>方式导出成员，并且<code>rollup</code>不支持<code>HMR</code>，使开发效率降低</p>
-<p>但是在用于打包<code>JavaScript</code> 库时，<code>rollup</code>比 <code>webpack</code> 更有优势，因为其打包出来的代码更小、更快，其存在的缺点可以忽略</p>
-<h3 id="Parcel"><a href="#Parcel" class="headerlink" title="Parcel"></a>Parcel</h3><p>Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序</p>
-<p><code>Parcel</code> 跟 <code>Webpack</code> 一样都支持以任意类型文件作为打包入口，但建议使用<code>HTML</code>文件作为入口，该<code>HTML</code>文件像平时一样正常编写代码、引用资源。如下所示：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- ./src/index.<span class="property">html</span> --&gt;</span><br><span class="line">&lt;!<span class="variable constant_">DOCTYPE</span> html&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Parcel Tutorials<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;main.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-<p>main.js文件通过<code>ES Moudle</code>方法导入其他模块成员</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./src/main.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; log &#125; <span class="keyword">from</span> <span class="string">&#x27;./logger&#x27;</span></span><br><span class="line"><span class="title function_">log</span>(<span class="string">&#x27;hello parcel&#x27;</span>)</span><br><span class="line"><span class="comment">// ./src/logger.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">log</span> = msg =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;---------- INFO ----------&#x27;</span>)</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(msg)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行之后，使用命令打包</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx parcel src/index.html</span><br></pre></td></tr></table></figure>
-
-<p>执行命令后，<code>Parcel</code>不仅打包了应用，同时也启动了一个开发服务器，跟<code>webpack Dev Server</code>一样</p>
-<p>跟<code>webpack</code>类似，也支持模块热替换，但用法更简单</p>
-<p>同时，<code>Parcel</code>有个十分好用的功能：支持自动安装依赖，像<code>webpack</code>开发阶段突然使用安装某个第三方依赖，必然会终止<code>dev server</code>然后安装再启动。而<code>Parcel</code>则免了这繁琐的工作流程</p>
-<p>同时，<code>Parcel</code>能够零配置加载其他类型的资源文件，无须像<code>webpack</code>那样配置对应的<code>loader</code></p>
-<p>打包命令如下：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx parcel src/index.html</span><br></pre></td></tr></table></figure>
-
-<p>由于打包过程是多进程同时工作，构建速度会比<code>Webpack</code> 快，输出文件也会被压缩，并且样式代码也会被单独提取到单个文件中</p>
-<p><img src="https://static.vue-js.com/ec17e7a0-b1a2-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>可以感受到，<code>Parcel</code>给开发者一种很大的自由度，只管去实现业务代码，其他事情用<code>Parcel</code>解决</p>
-<h3 id="Snowpack"><a href="#Snowpack" class="headerlink" title="Snowpack"></a>Snowpack</h3><p>Snowpack，是一种闪电般快速的前端构建工具，专为现代<code>Web</code>设计，较复杂的打包工具（如<code>Webpack</code>或<code>Parcel</code>）的替代方案，利用<code>JavaScript</code>的本机模块系统，避免不必要的工作并保持流畅的开发体验</p>
-<p>开发阶段，每次保存单个文件时，<code>Webpack</code>和<code>Parcel</code>都需要重新构建和重新打包应用程序的整个<code>bundle</code>。而<code>Snowpack</code>为你的应用程序每个文件构建一次，就可以永久缓存，文件更改时，<code>Snowpack</code>会重新构建该单个文件</p>
-<p>下图给出<code>webpack</code>与<code>snowpack</code>打包区别：</p>
-<p><img src="https://static.vue-js.com/79197830-b1a3-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>在重新构建每次变更时没有任何的时间浪费，只需要在浏览器中进行HMR更新</p>
-<h3 id="Vite"><a href="#Vite" class="headerlink" title="Vite"></a>Vite</h3><p>vite ，是一种新型前端构建工具，能够显著提升前端开发体验</p>
-<p>它主要由两部分组成：</p>
-<ul>
-<li>一个开发服务器，它基于 原生 ES 模块 提供了丰富的内建功能，如速度快到惊人的 [模块热更新HMR</li>
-<li>一套构建指令，它使用 Rollup打包你的代码，并且它是预配置的，可以输出用于生产环境的优化过的静态资源</li>
-</ul>
-<p>其作用类似<code>webpack</code>+ <code>webpack-dev-server</code>，其特点如下：</p>
-<ul>
-<li>快速的冷启动</li>
-<li>即时的模块热更新</li>
-<li>真正的按需编译</li>
-</ul>
-<p><code>vite</code>会直接启动开发服务器，不需要进行打包操作，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快</p>
-<p>利用现代浏览器支持<code>ES Module</code>的特性，当浏览器请求某个模块的时候，再根据需要对模块的内容进行编译，这种方式大大缩短了编译时间</p>
-<p>原理图如下所示：</p>
-<p><img src="https://static.vue-js.com/9f2eed30-b143-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>在热模块<code>HMR</code>方面，当修改一个模块的时候，仅需让浏览器重新请求该模块即可，无须像<code>webpack</code>那样需要把该模块的相关依赖模块全部编译一次，效率更高</p>
-<h3 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h3><p>相比上述的模块化工具，<code>webpack</code>大而全，很多常用的功能做到开箱即用。有两大最核心的特点：<strong>一切皆模块</strong>和<strong>按需加载</strong></p>
-<p>与其他构建工具相比，有如下优势：</p>
-<ul>
-<li>智能解析：对 CommonJS 、 AMD 、ES6 的语法做了兼容</li>
-<li>万物模块：对 js、css、图片等资源文件都支持打包</li>
-<li>开箱即用：HRM、Tree-shaking等功能</li>
-<li>代码分割：可以将代码切割成不同的 chunk，实现按需加载，降低了初始化时间</li>
-<li>插件系统，具有强大的 Plugin 接口，具有更好的灵活性和扩展性</li>
-<li>易于调试：支持 SourceUrls 和 SourceMaps</li>
-<li>快速运行：webpack 使用异步 IO 并具有多级缓存，这使得 webpack 很快且在增量编译上更加快</li>
-<li>生态环境好：社区更丰富，出现的问题更容易解决</li>
-</ul>
-<ol>
-<li>除了Webpack外，你还了解哪些模块管理工具<br> webpack:<br> 就目前而言，webpack已是最常用的打包工具，webpack是基于入口的。webpack会自动地递归解析入口所需要加载的所有资源文件，然后用不同的Loader来处理不同的文件，用Plugin来扩展webpack功能。<br> gulp：<br> gulp是一个前端自动化构建工具，强调的是前端开发的工作流程，可以通过配置一系列的task，第一task处理的事情（如代码压缩，合并，编译以及浏览器实时更新等）。然后定义这些执行顺序，来让glup执行这些task，从而构建项目的整个开发流程。自动化构建工具并不能把所有的模块打包到一起，也不能构建不同模块之间的依赖关系。</li>
-</ol>
-<p>  grunt：<br>  是基于任务和流（Task、Stream）的。类似jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个web的构建流程。<br>  Rollup</p>
-<ol start="2">
-<li>Rollup 是一款 ES Modules 打包器， 从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup要小巧的多<br> 现在很多我们熟知的库都都使用它进行打包，比如：Vue、React和three.js等<br> Parcel<br> Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序<br> Parcel 跟 Webpack 一样都支持以任意类型文件作为打包入口，但建议使用		HTML文件作为入口，该HTML文件像平时一样正常编写代码、引用资源。<br> 模块化是一种处理复杂系统分解为更好的可管理模块的方式。可以用来分割、组织和打包应用。每个模块完成一个特定的子功能，所有的模块按某种方法组装起来，成为一个整体。<br> 在前端领域中，除了Webpack外，比较流行的模块打包工具还包括Rollup、Parcel、snowpack和最近风靡的Vite。</li>
-</ol>
-<p>  2.1. Rollup<br>  Rollup 是一款 ES Modules 打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup 要小巧的多。现在很多苦都使用它进行打包，比如：Vue、React和three.js等。<br>  使用之前，可以使用npm install –global rollup 命令进行安装。Rollup 可以通过命令行接口(command line interface)配合可选配置文件(optional configuration file)来调用，或者可以通过 JavaScript API来调用。运行 rollup –help 可以查看可用的选项和参数。<br>  2.2. Parcel<br>  Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序。<br>  2.3.  Vite<br>  Vite是Vue的作者尤雨溪开发的Web开发构建工具，它是一个基于浏览器原生ES模块导入的开发服务器，在开发环境下，利用浏览器去解析import，在服务器端按需编译返回，完全跳过了打包这个概念，服务器随启随用。同时不仅对Vue文件提供了支持，还支持热更新，而且热更新的速度不会随着模块增多而变慢。<br>  Vite具有以下特点： - 快速的冷启动 - 即时热模块更新（HMR，Hot Module Replacement） - 真正按需编译<br>  Vite由两部分组成： - 一个开发服务器，它基于 原生 ES 模块 提供了丰富的内建功能，如速度快到惊人的 [模块热更新HMR。 - 一套构建指令，它使用 Rollup打包你的代码，并且它是预配置的，可以输出用于生产环境的优化过的静态资源。<br>  Vite在开发阶段可以直接启动开发服务器，不需要进行打包操作，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快。当浏览器请求某个模块的时候，根据需要对模块的内容进行编译，大大缩短了编译时间。工作原理如下图所示。<br>  在热模块HMR方面，当修改一个模块的时候，仅需让浏览器重新请求该模块即可，无须像Webpack那样需要把该模块的相关依赖模块全部编译一次，因此效率也更高。<br>3. webpack，rollup，parcel优劣？(了解)<br>    对比</p>
-<p>  Webpack<br>  Rollup<br>  Parcel<br>  功能</p>
-<p>为处理资源管理和分割代码而生，可以用来处理任何类型的文件，灵活，插件多。<br>    用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>    用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>配置<br>    webpack需要配config文件，指明entry, output, plugin，transformations。<br>    rollup需要配config文件，指明entry, output, plugin，transformations。rollup 有对import&#x2F;export所做的node polyfills，webpack没有。rollup支持相对路径，而webpack没有，所以得使用</p>
-<pre><code>parcel则是完全开箱可用的，不用配置。
-</code></pre>
-<p>入口文件<br>    webpack只支持js文件作为入口文件，如果要以其他格式的文件作为入口，比如html文件为入口，如要加第三方Plugin。<br>    rollup可以用html作为入口文件，但也需要plugin，比如rollup-plugin-html-entry。<br>    parcel可以用index.html作为入口文件，而且它会通过看index.html的script tag里包含的什么自己找到要打包生成哪些js文件。<br>transformations<br>    transformations指的是把其他文件转化成js文件的过程，需要经过transformation才能够被打包。webpack使用Loaders来处理。<br>    rollup使用plugins来处理。<br>    parcel会自动去转换，当找到配置文件比如.babelrc, .postcssrc后就会自动转。<br>摇树优化<br>    摇树优化是webpack的一大特性。需要1，用import&#x2F;export语法，2，在package.json中加副作用的入口，3，加上支持去除死代码的缩小器（uglifyjsplugin）。<br>    rollup会统计引入的代码并排除掉那些没有被用到的。这使您可以在现有工具和模块的基础上构建，而无需添加额外的依赖项或膨胀项目的大小。<br>    parcel不支持摇树优化。<br>dev server<br>    webpack用webpack-dev-server。<br>rollup用rollup-plugin-serve和rollup-plugin-livereload共同作用。<br>    parcel内置的有dev server<br>热更新<br>    webpack的 wepack-dev-server支持hot模式。<br>    rollup不支持hmr。<br>    parcel有内置的hmr。<br>代码分割<br>    webpack通过在entry中手动设置，使用CommonsChunkPlugin，和模块内的内联函数动态引入来做代码分割。<br>    rollup有实验性的代码分割特性。它是用es模块在浏览器中的模块加载机制本身来分割代码的。需要把experimentalCodeSplitting 和 experimentalDynamicImport 设为true。<br>    parcel支持0配置的代码分割。主要是通过动态improt。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/12/webpack/webpack%E4%B8%8E%E5%85%B6%E4%BB%96%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7icg7a300v9ugun8ft3gg15" data-title="webpack与其他打包工具的区别" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack模块联邦" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" class="article-date">
-  <time class="dt-published" datetime="2020-12-07T07:24:58.000Z" itemprop="datePublished">2020-12-07</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/">webpack模块联邦</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。<br>这通常被称作微前端，但并不仅限于此。<br>Webpack5 模块联邦可以让 Webpack 达到了线上 Runtime 的效果，让代码直接在项目间利用 CDN 直接共享，不再需要本地安装 Npm 包、构建再发布了！<br>我们知道 Webpack 可以通过 DLL 或者 Externals 做代码共享时 Common Chunk，但不同应用和项目间这个任务就变得困难了，我们几乎无法在项目之间做到按需热插拔。</p>
-<p>早期NPM方式共享模块   代码的共享是将依赖作为library安装到我们的项目里进行webpack打包并且构建上线<br>对于项目 Home 与 Search，需要共享一个模块时，最常见的办法就是将其抽成通用依赖并分别安装在各自项目中。虽然 Monorepo 可以一定程度解决重复安装和修改困难的问题，但依然需要走本地编译。</p>
-<p>真正 Runtime 的方式可能是 UMD 方式共享代码模块，即将模块用 Webpack UMD模式打包，并输出到其他项目中。这是非常普遍的模块共享方式：<br>对于项目 Home 与 Search，直接利用 UMD 包复用一个模块。但这种技术方案问题也很明显，就是包体积无法达到本地编译时的优化效果，且库之间容易冲突。</p>
-<p>微前端：micro-frontends (MFE) 也是最近比较火的模块共享管理方式，微前端就是要解决多项目并存问题，多项目并存的最大问题就是模块共享，模块之间是不能有冲突。  对于微前端我们还要考虑样式冲突，声明周期管理冲突等问题，我们先不考虑这些   想把问题聚焦在资源加载的方式上   微前端一般有两种打包方式：1.子应用独立打包，模块实现解耦，但这种方式无法抽取公共的依赖，2.整体应用打一个打包 很好的解决我们上面第一种方式的问题，但是打包效率速度实在是太慢了。不具备水平的扩展能力。<br>由于微前端还要考虑样式冲突、生命周期管理，所以本文只聚焦在资源加载方式上。微前端一般有两种打包方式：</p>
-<ol>
-<li>子应用独立打包，模块更解耦，但无法抽取公共依赖等。</li>
-<li>整体应用一起打包，很好解决上面的问题，但打包速度实在是太慢了，不具备水平扩展能力。</li>
-</ol>
-<p>终于提到本文的主角了，模块联邦方式作为 Webpack5 内置核心特性之一的 FederatedModule：<br>这个方案是直接将一个应用的包应用于另一个应用，同时具备整体应用一起打包的公共依赖抽取能力。  比如：我们直接可以在Search应用里直接使用已经发布到线上的Home应用的组件。</p>
-<p><strong>应用案例</strong><br>本案例模拟三个应用： Nav 、 Search 及 Home 。每个应用都是独立的，又通过模块邦联系到了一起。<br>比如Home需要使用Nav组件共享出来的header，Search可能要使用Header和Home组件构建出来的HomeList。<br>模块联邦将他们共享的模块暴露出来进行引用。<br>1、Nav 导航<br>src&#x2F;header.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const Header = () =&gt; &#123;</span><br><span class="line"> const header = document.createElement(&#x27;h1&#x27;)</span><br><span class="line"> header.textContent = &#x27;公共头部内容&#x27;</span><br><span class="line"> return header</span><br><span class="line">&#125;</span><br><span class="line">export default Header</span><br></pre></td></tr></table></figure>
-<p>src&#x2F;index.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import Header from &#x27;./Header&#x27;</span><br><span class="line">const div = document.createElement(&#x27;div&#x27;)</span><br><span class="line">div.appendChild(Header())</span><br><span class="line">document.body.appendChild(div)</span><br></pre></td></tr></table></figure>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   // 模块联邦名字</span><br><span class="line">   name: &#x27;nav&#x27;,</span><br><span class="line">   // 外部访问的资源名字</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   // 引用的外部资源列表</span><br><span class="line">   remotes: &#123;&#125;,</span><br><span class="line">   // 暴露给外部资源列表</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./Header&#x27;: &#x27;./src/Header.js&#x27;,   // 暴露 Header组件  key：可以定义成./Header 这个./Header并不代表是我当前引用下的某个路径   而是将来在别人用的时候基于这个路径来拼接url，值是正真的我们本地项目的应用</span><br><span class="line">  &#125;,</span><br><span class="line">   // 共享模块，如lodash</span><br><span class="line">   shared: &#123;&#125;,   // 如果我们的 header模块里有共享的第三方模块比如：lodash等，我们可以把他放到这里在打包的时候可以把第三方的共享的模块打到单独的一个包里。</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>应用 webpack 运行服务：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3003</span><br></pre></td></tr></table></figure>
-
-<p>2、Home 首页<br>src&#x2F;HomeList</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const HomeList = (num) =&gt; &#123;</span><br><span class="line"> let str = &#x27;&lt;ul&gt;&#x27;</span><br><span class="line"> for (let i = 0; i &lt; num; i++) &#123;</span><br><span class="line">  str += &#x27;&lt;li&gt;item &#x27; + i + &#x27;&lt;/li&gt;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"> str += &#x27;&lt;/ul&gt;&#x27;</span><br><span class="line"> return str</span><br><span class="line">&#125;</span><br><span class="line">export default HomeList</span><br></pre></td></tr></table></figure>
-<p>src&#x2F;index.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import HomeList from &#x27;./HomeList&#x27;</span><br><span class="line">remotes: &#123;</span><br><span class="line">    nav</span><br><span class="line">	(&#x27;nav/Header&#x27;)：remotes: &#123; nav &#125;Header    exposes: &#123;./Header&#x27;:&#x27;&#x27;&#125;</span><br><span class="line">import(&#x27;nav/Header&#x27;).then((Header) =&gt; &#123;  //引用模块联邦的组件  这样导入别人组件的时候需要通过异步的方式因为 网络共享或者是模块载入 是由延迟的，所以要通过promise的方式（异步模块加载的形式）去引用它。</span><br><span class="line"> const body = document.createElement(&#x27;div&#x27;)</span><br><span class="line"> body.appendChild(Header.default())</span><br><span class="line"> document.body.appendChild(body)</span><br><span class="line"> document.body.innerHTML += HomeList(5)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &quot;home&quot;,</span><br><span class="line">   filename: &quot;remoteEntry.js&quot;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,    // 引用第三方或别人写好的应用的路径。远端的服务路径</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./HomeList&#x27;: &#x27;./src/HomeList.js&#x27;,</span><br><span class="line">  &#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>应用 webpack 运行服务：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3001</span><br></pre></td></tr></table></figure>
-
-<p>3、search 搜索<br>src&#x2F;index</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Promise.all([import(&#x27;nav/Header&#x27;), import(&#x27;home/HomeList&#x27;)])</span><br><span class="line">.then(([&#123;</span><br><span class="line">  default: Header</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  default: HomeList</span><br><span class="line">&#125;]) =&gt; &#123;</span><br><span class="line">  document.body.appendChild(Header())</span><br><span class="line">  document.body.innerHTML += HomeList(4)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &#x27;search&#x27;,</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,</span><br><span class="line">    home: &quot;home@http://localhost:3001/remoteEntry.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;&#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>应用 webpack 运行服务：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3002</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" data-id="cl7icg7a900vrugun6uvy3cqo" data-title="webpack模块联邦" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li></ul>
 
     </footer>
   </div>
@@ -2471,7 +2825,7 @@ $(document).ready(function(){
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -2482,7 +2836,7 @@ $(document).ready(function(){
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/">原理</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8E%9F%E7%90%86/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/React/">React</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -2502,7 +2856,7 @@ $(document).ready(function(){
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
     </div>
   </div>
 
@@ -2532,15 +2886,15 @@ $(document).ready(function(){
           </li>
         
           <li>
+            <a href="/2022/01/18/React/React-%E6%8F%90%E9%AB%98%E7%BB%84%E4%BB%B6%E6%95%88%E7%8E%87%20%20%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84render/">React-提高组件效率  避免不必要的render</a>
+          </li>
+        
+          <li>
             <a href="/2022/01/12/%E5%B7%A5%E5%85%B7/git-stach/">git-stach</a>
           </li>
         
           <li>
             <a href="/2021/10/16/Vue/vue3%E4%BC%98%E5%8C%96/">vue3优化</a>
-          </li>
-        
-          <li>
-            <a href="/2021/10/11/Vue/Vue3-%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87%E3%80%81%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96/">Vue3-设计目标、做了哪些优化</a>
           </li>
         
       </ul>
