@@ -71,206 +71,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-html+css+js+ts/1-移动端布局适配" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/05/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80%E9%80%82%E9%85%8D/" class="article-date">
-  <time class="dt-published" datetime="2018-02-05T07:11:47.000Z" itemprop="datePublished">2018-02-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>►<a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/05/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80%E9%80%82%E9%85%8D/">移动端适配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、为什么要做适配"><a href="#一、为什么要做适配" class="headerlink" title="一、为什么要做适配"></a>一、为什么要做适配</h2><ul>
-<li>为了适应各种移动端设备，完美呈现应有的布局效果</li>
-<li>各个移动端设备，分辨率大小不一致，网页想铺满整个屏幕，并在各种分辨下等比缩放</li>
-</ul>
-<h2 id="二、适配方案"><a href="#二、适配方案" class="headerlink" title="二、适配方案"></a>二、适配方案</h2><ul>
-<li>固定高度，宽度百分比适配-布局非常均匀，适合百分比布局</li>
-<li>固定宽度，改变缩放比例适配-什么情况都可以</li>
-<li><code>Rem</code>适配</li>
-<li>像素比适配</li>
-</ul>
-<h2 id="三、单位"><a href="#三、单位" class="headerlink" title="三、单位"></a>三、单位</h2><ul>
-<li><code>em</code>根据元素自身的字体大小计算,元素自身 <code>16px</code> <code>1em=16px</code></li>
-<li><code>Rem</code> <code>R -&gt; root</code> 根节点( <code>html</code> ) 根据<code>html</code>的字体大小计算其他元素尺寸</li>
-</ul>
-<h2 id="四、百分比适配-常用"><a href="#四、百分比适配-常用" class="headerlink" title="四、百分比适配(常用)"></a>四、百分比适配(常用)</h2><blockquote>
-<p>固定高度，宽度百分比适配</p>
-</blockquote>
-<ul>
-<li>根据设置的大小去设置高度，单位可以用<code>px</code> 百分比 <code>auto</code></li>
-<li>常用<code>Flex</code>布局</li>
-<li>百分比宽度</li>
-</ul>
-<blockquote>
-<p>以<code>640</code>设计稿为例，在外层容器上设置最大以及最小的宽</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#wrapper &#123;</span><br><span class="line">    max-width: 640px; /*设置设计稿的宽度*/</span><br><span class="line">    min-width: 300px;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>后面的区块布局都用百分比，具体元素大小用<code>px</code>计算</p>
-</blockquote>
-<ul>
-<li>也就是宽度用百分比，高度用<code>px</code></li>
-<li>高度以及图片不要定死，让它自动撑开</li>
-</ul>
-<h2 id="五、Rem适配-常用"><a href="#五、Rem适配-常用" class="headerlink" title="五、Rem适配(常用)"></a>五、Rem适配(常用)</h2><ul>
-<li>根据屏幕的分辨率动态设置<code>html</code>的文字大小，达到等比缩放的功能</li>
-<li>保证<code>html</code>最终算出来的字体大小，不能小于<code>12px</code></li>
-<li>在不同的移动端显示不同的元素比例效果</li>
-<li>如果<code>html</code>的<code>font-size:20px</code>的时候，那么此时的<code>1rem = 20px</code></li>
-<li>把设计图的宽度分成多少分之一，根据实际情况</li>
-<li><code>rem</code>做盒子的宽度，<code>viewport</code>缩放</li>
-</ul>
-<blockquote>
-<p><code>head</code>加入常见的<code>meta</code>属性</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;</span><br><span class="line">&lt;!--这个是关键--&gt;</span><br><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0，minimum-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>把这段代码加入<code>head</code>中的<code>script</code>预先加载</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// rem适配用这段代码动态计算html的font-size大小</span><br><span class="line">(function(win) &#123;</span><br><span class="line">    var docEl = win.document.documentElement;</span><br><span class="line">    var timer = &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">    function changeRem() &#123;</span><br><span class="line">        var width = docEl.getBoundingClientRect().width;</span><br><span class="line">        if (width &gt; 750) &#123; // 750是设计稿大小</span><br><span class="line">            width = 750;</span><br><span class="line">        &#125;</span><br><span class="line">        var fontS = width / 10; // 把设备宽度十等分 1rem=10px</span><br><span class="line">        docEl.style.fontSize = fontS + &quot;px&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    win.addEventListener(&quot;resize&quot;, function() &#123;</span><br><span class="line">        clearTimeout(timer);</span><br><span class="line">        timer = setTimeout(changeRem, 30);</span><br><span class="line">    &#125;, false);</span><br><span class="line">    win.addEventListener(&quot;pageshow&quot;, function(e) &#123;</span><br><span class="line">        if (e.persisted) &#123; //清除缓存</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = setTimeout(changeRem, 30);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, false);</span><br><span class="line">    changeRem();</span><br><span class="line">&#125;)(window)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>或者使用淘宝提供的库 <a target="_blank" rel="noopener" href="https://github.com/amfe/lib-flexible">https://github.com/amfe/lib-flexible</a></li>
-</ul>
-<p><strong>布局细节</strong></p>
-<ul>
-<li>结构用<code>section</code>区块划分更语义化</li>
-<li>然后在<code>body</code>设置宽度</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    width: 10rem;</span><br><span class="line">    margin: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>后面的区块都以百分比布局</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;wrapper&quot;&gt;</span><br><span class="line">   &lt;header&gt;&lt;header&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">section,</span><br><span class="line">header &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>把视觉稿中的 px 转换成 rem</strong></p>
-<blockquote>
-<p>首先，目前日常工作当中，视觉设计师给到前端开发人员手中的视觉稿尺寸一般是基于 <code>640px</code> 、 <code>750px</code> 以及 <code>1125px</code> 宽度为准。甚至为什么？大家应该懂的（考虑<code>Retina</code>屏）</p>
-</blockquote>
-<blockquote>
-<p>假定设计稿的大小为<code>750</code>，那么我们则将整个图分成<code>10</code>等份来看。&#96;&#96; 对应的 <code>font-size</code>为<code>75px</code></p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">html&#123;</span><br><span class="line">	font-size: 75px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>这样一来，对于视觉稿上的元素尺寸换算，只需要原始的 <code>px</code>值 除以 <code>rem</code>基准值 即可</li>
-</ul>
-<blockquote>
-<p>那么，我们现在就可以比对设计稿，比如设计稿中，有一个<code>div</code>元素，宽度，高度都为<code>20px</code>,那么我们这样写即可（可以用 <code>markman</code>标准设计稿的元素大小）</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">	height: 0.27rem; /*20/75*/</span><br><span class="line">	width: 0.27rem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>动态计算的<code>rem</code>最后会帮我们动态计算元素在不同屏幕下的宽高</li>
-<li>对于设计稿上的每个元素的尺寸在设计稿大小已知的时候，我们需要测量出，然后在用测量的宽高除以设计稿<code>750</code>的十分之一也就是<code>75</code>,得到我们想要的<code>rem</code>。而<code>rem</code>是根据屏幕动态变化的，也就达到了适配的效果。也就是同一套设计稿运用在不同的设备上。</li>
-</ul>
-<blockquote>
-<p>比如当我们切换到<code>320</code>设备大小的时候，这时候<code>1rem=32px;</code> <code>div</code>的像素实际是<code>0.27*32=8.64px``0.27</code>是我们在已知设计稿是<code>750</code>的情况下计算出来的，<code>rem</code>用来动态计算而已</p>
-</blockquote>
-<ul>
-<li>对于<code>margin</code> <code>padding</code> <code>line-height</code> <code>width</code> <code>height</code>使用<code>rem</code>计算</li>
-</ul>
-<p><strong>如何快速计算</strong></p>
-<blockquote>
-<p>在实际生产当中，如果每一次计算 <code>px</code> 转换 <code>rem</code> ，或许会觉得非常麻烦</p>
-</blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/flashlizi/cssrem"><code>CSSREM</code></a> 是一个<code>CSS</code>的 <code>px</code> 值转 <code>rem</code> 值的<code>Sublime Text3</code>自动完成插件</li>
-<li>插件效果</li>
-</ul>
-<p><img src="https://github.com/poetries/cssrem/raw/master/cssrem.gif" alt="img"></p>
-<blockquote>
-<p>插件使用方法</p>
-</blockquote>
-<ul>
-<li><p>安装</p>
-<ul>
-<li>下载本项目，比如：git clone <a target="_blank" rel="noopener" href="https://github.com/flashlizi/cssrem">https://github.com/flashlizi/cssrem</a></li>
-<li>进入<code>packages</code>目录：<code>Sublime Text</code> -&gt; <code>Preferences</code> -&gt; <code>Browse Packages</code>…</li>
-<li>复制下载的<code>cssrem</code>目录到刚才的packges目录里。</li>
-<li>重启<code>Sublime Text</code></li>
-</ul>
-</li>
-<li><p>配置参数</p>
-<ul>
-<li><p>参数配置文件：<code>Sublime Text -&gt; Preferences -&gt; Package Settings -&gt; cssrem</code></p>
-</li>
-<li><p><code>px_to_rem</code> - <code>px</code>转<code>rem</code>的单位比例，默认为<code>40</code>【根据设计稿来设置，如设计稿<code>750</code>，我们取十分之一即<code>75</code>】。</p>
-</li>
-<li><p><code>max_rem_fraction_length</code> - <code>px</code>转<code>rem</code>的小数部分的最大长度。默认为<code>6</code>。</p>
-</li>
-<li><p><code>available_file_types</code> - 启用此插件的文件类型。默认为：[“<code>.css</code>“, “<code>.less</code>“, “<code>.sass</code>“]。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>文字适配的解决方案</strong></p>
-<ul>
-<li>对于一些标题性的文字，我们依然可以用<code>rem</code>。让他随着屏幕来进行缩放，因为标题性文字一般较大，而较大的文字，点阵对其影响就越小。这样，即使出现奇怪的尺寸，也能够让字体得到很好的渲染。</li>
-<li>对于一些正文内容的文字（即站在使用者的角度，你不希望他进行缩放的文字）。我们采用<code>px</code>来进行处理</li>
-</ul>
-<h2 id="六、缩放比适配"><a href="#六、缩放比适配" class="headerlink" title="六、缩放比适配"></a>六、缩放比适配</h2><blockquote>
-<p>固定宽度，改变缩放比例适配</p>
-</blockquote>
-<ul>
-<li>设计图的宽度就是网页显示的宽度</li>
-<li>改变视口的缩放比例</li>
-<li>页面宽度固定死</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 缩放比例适配方案--用这个代码 </span><br><span class="line">var width = window.screen.width,</span><br><span class="line">    fixedW = 320, //设计稿宽度的一半</span><br><span class="line">    scale = width / fixedW, // 缩放比例</span><br><span class="line">    meta = document.createElement(&#x27;meta&#x27;),</span><br><span class="line">    metaAttr = &#123;</span><br><span class="line">        name : &#x27;viewport&#x27;,</span><br><span class="line">        content : &#x27;width=&#x27;+fixedW+&#x27;, initial-scale=&#x27;+scale+&#x27;, maximum-scale=&#x27;+scale+&#x27;, user-scalable=0&#x27;</span><br><span class="line">    &#125;;</span><br><span class="line">    for (var key in metaAttr) &#123;</span><br><span class="line">        meta[key] = metaAttr[key];</span><br><span class="line">    &#125;</span><br><span class="line">    document.head.appendChild(meta);</span><br></pre></td></tr></table></figure>
-
-<h2 id="七、像素比适配"><a href="#七、像素比适配" class="headerlink" title="七、像素比适配"></a>七、像素比适配</h2><ul>
-<li><code>window.devicePixelRatio</code></li>
-<li>物理像素是手机屏幕分辨率</li>
-<li>独立像素 指<code>css</code>像素 屏幕宽度</li>
-<li>像素比 &#x3D; 物理像素 &#x2F; <code>css宽度</code></li>
-<li>获取设备的像素比 <code>window.devicePixelRatio</code></li>
-</ul>
-<h2 id="八、小结"><a href="#八、小结" class="headerlink" title="八、小结"></a>八、小结</h2><blockquote>
-<p>关于移动端布局方案有很多，<code>rem</code>和百分比运用最多的</p>
-</blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://ymblog.net/2015/07/01/%E7%A7%BB%E5%8A%A8%E5%89%8D%E7%AB%AFmeta%E6%A0%87%E7%AD%BE%E8%BD%AC/">http://ymblog.net/2015/07/01/移动前端meta标签转/</a>)</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/02/05/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80%E9%80%82%E9%85%8D/" data-id="cl7ibzoe30016ugun2j653oe1" data-title="移动端适配" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-html+css+js+ts/1-flex" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2018/02/02/html+css+js+ts/1-flex/" class="article-date">
@@ -1974,6 +1774,412 @@ $(window).scroll(function(){
 
 
   
+    <article id="post-html+css+js+ts/1-html-tag" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/10/html+css+js+ts/1-html-tag/" class="article-date">
+  <time class="dt-published" datetime="2018-01-10T08:13:54.000Z" itemprop="datePublished">2018-01-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/10/html+css+js+ts/1-html-tag/">html-tag</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="第二章-html基本结构"><a href="#第二章-html基本结构" class="headerlink" title="第二章 html基本结构"></a>第二章 html基本结构</h4><hr>
+<ul>
+<li>认识HTML：<ul>
+<li><code>html</code>不是一种编程语言，是一种标志语言</li>
+<li>标记语言是由一套标识标签组成的</li>
+<li><code>html</code>使用标签来描述网页</li>
+</ul>
+</li>
+<li><code>html</code>结构：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;&lt;/head&gt;</span><br><span class="line">    &lt;body&gt;&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>不成对出现的标签<br><code> </code> <code> </code> <code> </code> <code> </code></p>
+</li>
+<li><p><strong>HTML 基本标签的讲解：</strong></p>
+<ul>
+<li><p><code> </code> &#96;&#96;标签</p>
+</li>
+<li><p><code>—-</code>仅仅用于标题文本，不要为了产生粗体文本使用它们</p>
+</li>
+<li><p>&#96;&#96;标签 段落标签</p>
+</li>
+<li><p>&#96;&#96;标签</p>
+</li>
+<li><p>都会让文字产生加粗效果</p>
+<ul>
+<li>&#96;&#96;用于强调文本，强度更深，表示重要文本—&gt;用于<code>SEO</code>优化</li>
+<li>&#96;&#96;只是视觉加粗效果—&gt;单纯为了产生加粗</li>
+</ul>
+</li>
+<li><pre><code>&lt;em&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+&lt;i&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">    标签</span><br><span class="line"></span><br><span class="line">    - `em`用于强调文本</span><br><span class="line">    - `i`只是视觉斜体效果</span><br><span class="line">    - ``比``强调更强</span><br><span class="line">    </span><br><span class="line">  - 特殊符号：</span><br><span class="line"></span><br><span class="line">    - `&amp;nbsp`; —-&gt;空格</span><br><span class="line">    - `&amp;gt`; —&gt;大于号</span><br><span class="line">    - `&amp;lt`；—&gt;小于号</span><br><span class="line">    - `&amp;quot`；—&gt;引号</span><br><span class="line">    - `&amp;copy`;–&gt;版权号</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 第三章 html基本标签</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- `HTMl`基本标签：</span><br><span class="line"></span><br><span class="line">  - ```</span><br><span class="line">    span</span><br></pre></td></tr></table></figure>
+
+标签
+
+- 对被用来组合文档中的行内元素
+- 注意：span没有固定的格式表现，当对它应用样式时，才会产生视觉上的变化
+</code></pre>
+</li>
+<li><p>&#96;&#96;&#96;</p>
+<pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  标签</span><br><span class="line"></span><br><span class="line">  - 文字的格式按源码的排版来显示，我们称之为预处理格式</span><br><span class="line"></span><br><span class="line">- &lt;a&gt;标签—&gt;他有一个必不可少的属性 href</span><br><span class="line"></span><br><span class="line">- 创建锚点和锚链接</span><br><span class="line"></span><br><span class="line">  - 锚点也是一种超链接，是页面内进行跳转的超链接</span><br><span class="line">    - 第一步：创建锚点 ``</span><br><span class="line">    - 第二步：使用创建好的锚点名称 `[内容](#锚点名称)`</span><br><span class="line"></span><br><span class="line">- ```</span><br><span class="line">  marquee</span><br></pre></td></tr></table></figure>
+
+标签
+
+- 可以创建一个内容滚动效果</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;marquee direction=&quot;down&quot; loop=&quot;4&quot; onmouseover=this.stop() onmouseout=this.start()&gt;&lt;/marquee&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>direction</code> 表示滚动方向，取值有（left,right,up,down,默认left）</li>
+<li><code>loop</code>表示滚动循环的次数，默认为无限循环</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onmouseover=this.stop()  onmouseover=this.start()  scrollamout=&quot;1&quot;(滚动速度)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表示当鼠标移上区域的时候停止滚动，鼠标移开继续滚动</li>
+</ul>
+<hr>
+<h4 id="第四章-img图片标签与路径"><a href="#第四章-img图片标签与路径" class="headerlink" title="第四章 img图片标签与路径"></a>第四章 img图片标签与路径</h4><hr>
+<ul>
+<li><p>图片标签与路径：</p>
+<ul>
+<li>常见图片格式 <code>jpg</code> <code>png</code> <code>gif</code></li>
+<li><code>Gif</code> （只支持全透明）</li>
+<li><code>Jpeg</code> &#x2F;<code>jpg</code></li>
+<li><code>Png</code> 半&#x2F;全透明都支持</li>
+</ul>
+</li>
+<li><p>图片标签写法 ：</p>
+<ul>
+<li>&#96;&#96;</li>
+</ul>
+</li>
+<li><p>图片四要素：</p>
+<ul>
+<li><code>src=&quot;&quot;</code> 图片路径</li>
+<li><code>alt=&quot;&quot;</code> 图片含义</li>
+<li><code>width=&quot;&quot;</code> 图片宽度 和图片大小保持一致</li>
+<li><code>height=&quot;&quot;</code> 图片高度 和图片大小保持一致</li>
+<li><code>title=&quot;&quot;</code></li>
+</ul>
+</li>
+<li><p>路径知识：</p>
+<ul>
+<li>相对路径、绝对路径：<ul>
+<li>相对路径：(Relative Path) 相对于该文件的路径；</li>
+<li>绝对路径：(Absolute Path) 从磁盘出发的路径；</li>
+</ul>
+</li>
+<li>&lt;img src&#x3D;”” …… align&#x3D;”” &#x2F;&gt; align属性–设置图片与后面文字的位置关系值–top、bottom、middle、absmiddle、left、right</li>
+</ul>
+</li>
+<li><p>在静态页面中：</p>
+<ul>
+<li><p><code>/</code>开头表示根目录；</p>
+</li>
+<li><p><code>./</code>表示当前目录；（斜画线前面一个点）</p>
+</li>
+<li><p><code>../</code>上级目录；（斜画线前面两个点）</p>
+</li>
+<li><p>直接用文件名不带&#x2F;也表示同一目录</p>
+</li>
+<li><p>这些都是相对于当前文件的位置来说的，如果用绝对路径的话就是写全了。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="第五章-三种列表的讲解"><a href="#第五章-三种列表的讲解" class="headerlink" title="第五章 三种列表的讲解"></a>第五章 三种列表的讲解</h4><hr>
+<ul>
+<li><p>三种列表的知识讲解：</p>
+<ul>
+<li>&#96;&#96;&#96;<ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">无序列表</span><br><span class="line"></span><br><span class="line">- 无序列表是一个没有顺序项目的列表，此列表项默认粗体圆点进行标识</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<ul>
+   <li></li>
+   <li></li>
+   <li></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 1. 有序列表</span><br><span class="line"></span><br><span class="line">  2. - 有序列表也是一列项目，只是列表项目使用的是数字进行标记。 有序列表始于 `` 标签。每个列表项始于 ``标签。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+   <li>内容一</li>
+   <li>内容二</li>
+   <li>内容三</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 列表符号</span><br><span class="line">  - 无序列表-列表符号:</span><br><span class="line">    - `type=&quot;circle&quot;` 空心圆 `type=“disc”` 实心圆 默认值 `type=&quot;square&quot;` 方块符</span><br><span class="line">  - 有序列表-列表符号</span><br><span class="line">    - `type=&quot;A&quot;` A B C D</span><br><span class="line">    - `type=&quot;a&quot;` a b c d</span><br><span class="line">    - `type=&quot;1&quot;` 1 2 3 4 默认值type=”I” I II III type=”i” i ii iii</span><br><span class="line">  - 列表嵌套</span><br><span class="line">  - 无序列表-嵌套</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+ <li>柚子
+  <ul>
+   <li>沙田柚</li>
+   <li>蜜柚</li>
+  </ul>
+ </li>
+ <li>荔枝</li>
+ <li>苹果</li></ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 有序列表-嵌套</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol>
+ <li>茶
+  <ul>
+   <li>红茶</li>
+   <li>绿茶</li>
+  </ul>
+ </li>
+ <li>果汁</li>
+ <li>牛奶</li></ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 定义列表</span><br><span class="line">  - 定义列表不仅仅是一列项目，而是项目及其注释的组合。定义列表以 `` 标签开始。每个定义列表项以 ``开始。每个自定义列表项的定义以 `` 开始。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<dl>  
+     <dt>pc网页制作</dt>  
+     <dd>学习DIV+CSS JS JQ 项目实战</dd>  
+     <dt>手机网页制作</dt>  
+     <dd>手机网页制作实战</dd>
+</dl>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- `dd`是对`dt`的解释</span><br><span class="line">  - `&lt; dl&gt;&lt; /dl&gt;`用来创建一个普通的列表,</span><br><span class="line">  - `&lt; dt&gt;&lt; /dt&gt;`用来创建列表中的上层项目，</span><br><span class="line">  - `&lt; dd&gt;&lt; /dd&gt;`用来创建列表中最下层项目，</span><br><span class="line">  - `&lt; dt&gt;&lt; /dt&gt;`和`&lt; dd&gt;&lt; /dd&gt;`都必须放在`&lt; dl&gt;&lt; /dl&gt;`标志对之间。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<dl>
+    <dt>中国城市</dt>
+    <dd>北京 </dd>
+    <dd>上海 </dd>
+    <dd>广州 </dd>
+    <dt>美国城市</dt>
+    <dd>华盛顿 </dd>
+    <dd>芝加哥 </dd>
+    <dd>纽约 </dd>
+</dl>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- `dl`是d`efinition list`的缩写</span><br><span class="line">- `dt`是`definition title`的缩写</span><br><span class="line">- `dd`是d`efinition description`的缩写</span><br><span class="line"></span><br><span class="line">- `list-style`属性具有三个属性分量：</span><br><span class="line">- `list-style-position` ：设置列表项图标的位置，位于文本内或者文本外</span><br><span class="line">- `list-style-type`： 设置列表项图标的类型</span><br><span class="line">- `list-style-image`：使用图像设置列表项图标</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">#### 第六章 表单元素(上)</span><br><span class="line"></span><br><span class="line">------</span><br><span class="line"></span><br><span class="line">- 表单标签:</span><br><span class="line"></span><br><span class="line">  - ``表单标签</span><br><span class="line"></span><br><span class="line">    - ```</span><br><span class="line">      &lt;form&gt;</span><br></pre></td></tr></table></figure>
+
+<pre><code>  表单是一个包含表单元素的区域，包括起来的都是表单的内容
+
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;</span><br><span class="line"> &lt;input type=&quot;text&quot;/&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ul>
+<li><p>HTML标签 - <code>Action</code>和确认按钮：</p>
+<ul>
+<li>当用户单击确认按钮时，表单的内容会被传送到另一个文件。表单的动作属性定义了目的文件的文件名。由动作属性定义的这个文件通常会对接收到的输入数据进行相关的处理。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;html.do&quot; method=&quot;get&quot;&gt;    </span><br><span class="line">        username:  &lt;input type=&quot;text&quot; name=&quot;user&quot; /&gt;   </span><br><span class="line">        &lt;input type=&quot;submit&quot; value=&quot;提  交&quot; /&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>HTML</code>标签 - 隐藏域隐藏标签：</li>
+<li>隐藏域在页面中对于用户是不可见的，在表单中插入隐藏域的目的在于收集或发送信息，以利于被处理表单的程序所使用。浏览者单击发送按钮发送表单的时候，隐藏域的信息也被一起发送到服务器</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;        </span><br><span class="line">     &lt;input type=&quot;hidden&quot; name=&quot;hid&quot; value=&quot;value&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>&#96;&#96;标签的掌握</p>
+<ul>
+<li>常用<code>type</code>类型：<ul>
+<li>&#96;&#96;</li>
+<li><code>type=&quot;text&quot;</code> 单行文本输入框</li>
+<li><code>type=&quot;password&quot;</code> 密码（<code>maxlength=&quot;&quot;</code>）</li>
+<li><code>type=&quot;radio&quot;</code> 单项选择（<code>checked=&quot;checked&quot;</code>）</li>
+<li><code>type=&quot;checkbox&quot;</code> 多项选择</li>
+<li><code>type=&quot;button&quot;</code> 按钮</li>
+<li><code>type=&quot;submit&quot;</code> 提交 <code>type=&quot;image&quot;</code>图片提交</li>
+<li><code>type=&quot;file&quot;</code> 上传文件</li>
+<li><code>type=&quot;reset&quot;</code>重置</li>
+<li><code>type=&quot;hidden&quot;</code> 隐藏</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>关于表单中的设置默认值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;&quot; value=&quot;今天心情不错&quot; /&gt;</span><br><span class="line">&lt;input type=&quot;radio&quot; name=&quot;&quot; value=&quot;&quot; checked=&quot;checked&quot;&gt;</span><br><span class="line">&lt;input type=&quot;checkbox&quot; name=&quot;&quot; value=&quot;&quot; checked=&quot;checked&quot;&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;select name=&quot;&quot; &gt;</span><br><span class="line"> &lt;option  value=&quot;&quot;&gt;&lt;/option&gt;</span><br><span class="line"> &lt;option  value=&quot;&quot; selected=&quot;selected&quot;&gt;&lt;/option&gt;</span><br><span class="line">&lt;select&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>textarea</code>没有默认值</p>
+</li>
+<li><p>&#96;&#96;标签的使用</p>
+<ul>
+<li><p>&#96;&#96;</p>
+<ul>
+<li><code>label</code> 元素不会向用户呈现任何特殊效果。</li>
+<li>不过，它为鼠标用户改进了可用性。</li>
+<li>如果您在 <code>label</code> 元素内点击文本，就会触发此控件。</li>
+<li>就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。</li>
+</ul>
+</li>
+<li><p>&#96;&#96; 标签的<code>for</code> 属性应当与相关元素的 <code>id</code>属性相同。</p>
+</li>
+<li><p>例子：（重要—注册表单–用户体验–必做）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;单向选择&lt;/p&gt;</span><br><span class="line">&lt;label for=&quot;male&quot;&gt;男：&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;sex&quot; id=&quot;male&quot;/&gt;</span><br><span class="line">&lt;label for=&quot;nv&quot;&gt;女：&lt;/label&gt;&lt;input type=&quot;radio&quot; name=&quot;sex&quot;checked=&quot;check&quot;/&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="第七章-表单和表格-下"><a href="#第七章-表单和表格-下" class="headerlink" title="第七章 表单和表格(下)"></a>第七章 表单和表格(下)</h4><hr>
+<ul>
+<li><p>表单和表格标签：</p>
+<ul>
+<li>&#96;&#96;文本域标签</li>
+<li>&#96;&#96;标签：</li>
+<li>&#96;&#96;是文本域标签，可以在其中插入一段文字内容，它有两个常用属性<code>rows</code>和<code>cols</code></li>
+</ul>
+</li>
+<li><p>注意：</p>
+<ul>
+<li><code>rows</code>表示这个文本域有多少行</li>
+<li><code>cols</code>表示这个文本域有多少列</li>
+</ul>
+</li>
+<li><p>除了这两个属性它还有<code>readonly</code>（只读，文本域的内容无法改变，相当于协议）和<code>title</code>（鼠标放上提示）</p>
+</li>
+<li><p>&#96;&#96;标签的掌握</p>
+<ul>
+<li><p>注：当提交表单时，浏览器会提交选定的项目，或者收集用逗号分隔的多个选项，将其合成一个单独的参数列表，并且在将</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;select&gt;</span><br></pre></td></tr></table></figure>
+
+<p>表单数据提交给服务器时包括</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name</span><br></pre></td></tr></table></figure>
+
+<p>属性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;form&gt;      </span><br><span class="line">    &lt;select name=&quot;&quot;  id=&quot;&quot;&gt;</span><br><span class="line">         &lt;option value=&quot;1&quot;&gt;1月&lt;/option&gt;  </span><br><span class="line">          &lt;option value=&quot;2&quot;&gt;2月&lt;/option&gt;      </span><br><span class="line">&lt;/select&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>常用到的属性：<code>disabled=“disabled” name=&quot;sel&quot; size=&quot;2&quot;</code></p>
+</li>
+<li><p>&#96;&#96;表格标签</p>
+</li>
+<li><table>表格标签：<table>是表格标签，可以用它定义一个表格。</li>
+<li><p>注意：&#96;&#96;的<code>border</code>属性不能少</p>
+</li>
+<li><p>&#96;标签的使用</p>
+</li>
+<li><p>行标签：</p>
+<ul>
+<li>可以定义表格中的一行，一个&lt;<code>tr&gt;</code>表示一行。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;table border=&quot;1&quot;&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line"> &lt;td&gt;姓名&lt;/td&gt;</span><br><span class="line"> &lt;td&gt;性别&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line"></span><br><span class="line">&lt;tr&gt;</span><br><span class="line"> &lt;td&gt;姓名&lt;/td&gt;</span><br><span class="line"> &lt;td&gt;性别&lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>&#96;单元格标签:</p>
+<ul>
+<li><pre><code>&lt;td&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以定义表格中的一个单元格，</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+&lt;td&gt;&lt;/td&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">表示一个单元格。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+&lt;table border=&quot;1&quot;&gt;
+&lt;tr&gt;
+&lt;td &gt;姓名&lt;/td&gt;
+&lt;td&gt;性别&lt;/td&gt;
+&lt;td&gt;爱好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+</li>
+<li><p><code>border-collapse</code> 属性设置是否将表格边框折叠为单一边框：</p>
+</li>
+<li><p><code>border-collapse:collapse</code>;</p>
+</li>
+<li><p><code>colspan</code>左右合并</p>
+</li>
+<li><p><code>rowspan</code>上下合并</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>第一部分总结</strong>：</p>
+<ul>
+<li><p>非可视化标签：<code>head</code> <code>meta</code> <code>style</code> <code>scrpit.</code>..</p>
+</li>
+<li><p>可视化标签：<code>img</code> <code>div</code> <code>span</code> <code>a</code> <code>ul</code> <code>li</code>…</p>
+</li>
+<li><p>只有可视化标签，才能用<code>css</code>改变它</p>
+</li>
+<li><p>单标签：<code>meta</code> <code>link</code> <code>base</code> <code>img</code> <code>input</code> <code>br</code> <code>hr</code></p>
+</li>
+<li><p>双标签：<code>html</code> <code>head</code> <code>body</code> <code>div</code> <code>a</code> <code>p</code> <code>span</code> ..<code>ul</code> <code>li</code> <code>ol</code> <code>dl</code> ….</p>
+</li>
+<li><p><strong>常用可视化标签</strong></p>
+<ul>
+<li><p><code>div</code></p>
+<ul>
+<li>一般用它来布局</li>
+</ul>
+</li>
+<li><p>a</p>
+<p>超链接标签</p>
+<ul>
+<li><code>href</code>*属性：设置跳转的网页地址</li>
+<li><code>target</code>属性：设置跳转的目标</li>
+<li>结论：凡事页面可以点击跳转或者表单提交的文字，都用<code>a</code>标签</li>
+</ul>
+</li>
+<li><p><code>img</code></p>
+<ul>
+<li><code>src</code>*属性用来设置图片的url数据</li>
+<li><code>alt</code>提供给搜索引擎搜索的</li>
+<li><code>width</code></li>
+<li><code>height</code></li>
+<li>结论 ：显示图片</li>
+</ul>
+</li>
+<li><p>ul li</p>
+<ul>
+<li>列表</li>
+<li>结论：只要将来设计页面中有固定样式的列表，就用ul和li</li>
+</ul>
+</li>
+<li><p><code>table</code> <code>caption</code> <code>tr</code> <code>td (th)</code></p>
+<ul>
+<li>慢慢已经被淘汰了 被ul li代替</li>
+<li>如果是合并竖排的就是合并行（<code>rowspan</code>）</li>
+<li>如果是合并横排的就是合并列（<code>colspan</code>）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/01/10/html+css+js+ts/1-html-tag/" data-id="cl7ibzody000yugungrs18yu9" data-title="html-tag" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/" rel="tag">html</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
 
 
   <nav id="page-nav">
@@ -1999,7 +2205,7 @@ $(window).scroll(function(){
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Event-Loop/" rel="tag">Event Loop</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
     </div>
   </div>
 
@@ -2009,7 +2215,7 @@ $(window).scroll(function(){
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Event-Loop/" style="font-size: 10px;">Event Loop</a> <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15.83px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" style="font-size: 13.33px;">浏览器</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
     </div>
   </div>
 
@@ -2018,7 +2224,7 @@ $(window).scroll(function(){
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
     </div>
   </div>
 
