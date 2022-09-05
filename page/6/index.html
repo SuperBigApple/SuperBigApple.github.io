@@ -1,103 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/6/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="John Doe">
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    
+    
+    
+    
+    <title>Hexo</title>
+    <!-- inject:style -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
 
-  
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: 'Loading';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
 <meta name="generator" content="Hexo 6.2.0"></head>
-
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-categories" aria-hidden="true"></i>
+            <a href="/categories">分类</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-tags" aria-hidden="true"></i>
+            <a href="/tags">标签</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-about" aria-hidden="true"></i>
+            <a href="/about-me">关于我</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">Open Lyrics</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">Top</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" http://cube-1252774894.cosgz.myqcloud.com/background.png " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">senrenbankaの部落格</span>
+        <span class="cube-typed-cursor">|</span>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
+    
 </header>
 
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-webpack/webpackdll预编译提高webpack打包速度" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" class="article-date">
-  <time class="dt-published" datetime="2020-10-21T03:49:18.000Z" itemprop="datePublished">2020-10-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/">webpackdll预编译提高webpack打包速度</a>
-    </h1>
-  
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
 
-      </header>
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">senrenbankaの部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote>
+    <div class="cube-content">
+        <div class="cube-left">
+            
+<div class="cube-excerpt" id="cube-excerpt-webpackdll预编译提高webpack打包速度">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/">webpackdll预编译提高webpack打包速度</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-10-21
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <blockquote>
 <p>博客链接 <a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/11/23/webpack-dll">http://blog.poetries.top/2018/11/23/webpack-dll</a></p>
 </blockquote>
 <h2 id="一、webpack的dll功能"><a href="#一、webpack的dll功能" class="headerlink" title="一、webpack的dll功能"></a>一、webpack的dll功能</h2><blockquote>
@@ -184,50 +267,33 @@
 <li><a target="_blank" rel="noopener" href="https://github.com/p2227/p2227.github.io/issues/21">提高webpack的打包速度：happypack和dll打包</a></li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" data-id="cl7icg7a200v6ugun6y3yca0l" data-title="webpackdll预编译提高webpack打包速度" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack-bundle-analyzer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/20/webpack/webpack-bundle-analyzer/" class="article-date">
-  <time class="dt-published" datetime="2020-10-20T06:42:13.000Z" itemprop="datePublished">2020-10-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/20/webpack/webpack-bundle-analyzer/">webpack-analyzer</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>我们可以使用 analyzer 分析项目编译后的文件组成，以便进行加载速度优化。</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack-analyzer">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/10/20/webpack/webpack-bundle-analyzer/">webpack-analyzer</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-10-20
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>我们可以使用 analyzer 分析项目编译后的文件组成，以便进行加载速度优化。</p>
 <p>1.首先安装依赖：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-bundle-analyzer --save-dev</span><br></pre></td></tr></table></figure>
 <p>2.然后在 vue.config.js 中添加如下配置：</p>
@@ -237,50 +303,33 @@
 <p>3.使用</p>
 <p>npm run serve –report<br>npm run build –report</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/20/webpack/webpack-bundle-analyzer/" data-id="cl7icg7a100uxugun0buje8r1" data-title="webpack-analyzer" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack4-webpack5的区别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/14/webpack/webpack4-webpack5%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time class="dt-published" datetime="2020-10-14T01:36:54.000Z" itemprop="datePublished">2020-10-14</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/14/webpack/webpack4-webpack5%E7%9A%84%E5%8C%BA%E5%88%AB/">webpack4与webpack5的区别</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/10/20/webpack/webpack-bundle-analyzer/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Webpack5-关注下面内容："><a href="#Webpack5-关注下面内容：" class="headerlink" title="Webpack5 关注下面内容："></a>Webpack5 关注下面内容：</h1><p>通过持久缓存提高构建性能.</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack4与webpack5的区别">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/10/14/webpack/webpack4-webpack5%E7%9A%84%E5%8C%BA%E5%88%AB/">webpack4与webpack5的区别</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-10-14
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h1 id="Webpack5-关注下面内容："><a href="#Webpack5-关注下面内容：" class="headerlink" title="Webpack5 关注下面内容："></a>Webpack5 关注下面内容：</h1><p>通过持久缓存提高构建性能.</p>
 <p>使用更好的算法和默认值来改善长期缓存.</p>
 <p>通过更好的树摇和代码生成来改善捆绑包大小.</p>
 <p>清除处于怪异状态的内部结构，同时在 v4 中实现功能而不引入任何重大更改.</p>
@@ -331,50 +380,33 @@
 <h2 id="九、Caching"><a href="#九、Caching" class="headerlink" title="九、Caching"></a>九、Caching</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 配置缓存</span><br><span class="line">cache: &#123;</span><br><span class="line">  // 磁盘存储</span><br><span class="line">  type: &quot;filesystem&quot;,</span><br><span class="line">  buildDependencies: &#123;</span><br><span class="line">    // 当配置修改时，缓存失效</span><br><span class="line">    config: [__filename]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="十、SplitChunk"><a href="#十、SplitChunk" class="headerlink" title="十、SplitChunk"></a>十、SplitChunk</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// webpack4</span><br><span class="line">minSize: 30000;</span><br><span class="line"></span><br><span class="line">// webpack5</span><br><span class="line">minSize: &#123;</span><br><span class="line">  javascript: 30000,</span><br><span class="line">  style: 50000,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/14/webpack/webpack4-webpack5%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7icg7a200v3ugunh2jw9suk" data-title="webpack4与webpack5的区别" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack 优化前端性能" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/09/webpack/webpack%20%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" class="article-date">
-  <time class="dt-published" datetime="2020-10-09T05:09:48.000Z" itemprop="datePublished">2020-10-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/09/webpack/webpack%20%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">webpack优化前端性能</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/10/14/webpack/webpack4-webpack5%E7%9A%84%E5%8C%BA%E5%88%AB/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>随着前端的项目逐渐扩大，必然会带来的一个问题就是性能</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack优化前端性能">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/10/09/webpack/webpack%20%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">webpack优化前端性能</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-10-09
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>随着前端的项目逐渐扩大，必然会带来的一个问题就是性能</p>
 <p>尤其在大型复杂的项目中，前端业务可能因为一个小小的数据依赖，导致整个页面卡顿甚至奔溃</p>
 <p>一般项目在完成后，会通过<code>webpack</code>进行打包，利用<code>webpack</code>对前端项目性能优化是一个十分重要的环节</p>
 <h2 id="二、如何优化"><a href="#二、如何优化" class="headerlink" title="二、如何优化"></a>二、如何优化</h2><p>通过<code>webpack</code>优化前端的手段有：</p>
@@ -472,50 +504,33 @@
 
 <h3 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h3><p>关于<code>webpack</code>对前端性能的优化，可以通过文件体积大小入手，其次还可通过分包的形式、减少http请求次数等方式，实现对前端性能的优化</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/09/webpack/webpack%20%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/" data-id="cl7icg79y00ulugun8x16ex22" data-title="webpack优化前端性能" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack 性能优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/04/webpack/webpack%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="article-date">
-  <time class="dt-published" datetime="2020-10-04T06:09:48.000Z" itemprop="datePublished">2020-10-04</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/04/webpack/webpack%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">webpack性能优化</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/10/09/webpack/webpack%20%E4%BC%98%E5%8C%96%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="提升构建性能"><a href="#提升构建性能" class="headerlink" title="提升构建性能"></a>提升构建性能</h1><p>澄清：有时候我们会笼统的说webpack的性能提升，实际上webpack的性能提升可以分为两类  第一类是通过webpack来提升我们项目性能  如：网站的首屏到达时间，这个优化的受益者是c端的用户  ，2.提升webpack的构建编译性能，如：提高打包速度，降低打包时间，这个优化的受益者是我们的开发人员。   本章讲的是第二种<br>把官网上提出的webpack5 提升构建性能的点  列：<br><strong>注意：</strong>  webpack 每个版本的优化点都是不一样的<br>通用环境：这些优化既适用于开发化境也适用于生产环境。<br>开发环境：<br>生产环境：</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack性能优化">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/10/04/webpack/webpack%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">webpack性能优化</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-10-04
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h1 id="提升构建性能"><a href="#提升构建性能" class="headerlink" title="提升构建性能"></a>提升构建性能</h1><p>澄清：有时候我们会笼统的说webpack的性能提升，实际上webpack的性能提升可以分为两类  第一类是通过webpack来提升我们项目性能  如：网站的首屏到达时间，这个优化的受益者是c端的用户  ，2.提升webpack的构建编译性能，如：提高打包速度，降低打包时间，这个优化的受益者是我们的开发人员。   本章讲的是第二种<br>把官网上提出的webpack5 提升构建性能的点  列：<br><strong>注意：</strong>  webpack 每个版本的优化点都是不一样的<br>通用环境：这些优化既适用于开发化境也适用于生产环境。<br>开发环境：<br>生产环境：</p>
 <h3 id="通用环境"><a href="#通用环境" class="headerlink" title="通用环境"></a><strong>通用环境</strong></h3><p>无论你是在 开发环境 还是在 生产环境 下运行构建脚本，以下最佳实践都会有所帮助。</p>
 <p>1、更新到最新版本<br>使用最新的 webpack 版本。我们会经常进行性能优化。webpack 的最新稳定版本是：<br>将 Node.js 更新到最新版本，也有助于提高性能。除此之外，将你的 package 管理工具（例如 npm 或者 yarn ）更新到最新版本，也有助于提高性能。较新的版本能够建立更高效的模块树以及提高解析速度。</p>
 <p>2、loader<br>将 loader 应用于最少数量的必要模块。而非如下:</p>
@@ -575,50 +590,33 @@
 <p>17.webpack-bundle-analyzer</p>
 <h3 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a><strong>生产环境</strong></h3><p>以下步骤对于 生产环境 特别有帮助。<br>Source Maps<br>source map 相当消耗资源。你真的需要它们？</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/04/webpack/webpack%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" data-id="cl7icg79z00uougun9lgibhnd" data-title="webpack性能优化" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack 热加载原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/30/webpack/webpack%20%E7%83%AD%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2020-09-30T02:48:07.000Z" itemprop="datePublished">2020-09-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/30/webpack/webpack%20%E7%83%AD%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86/">webpack 热加载原理</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/10/04/webpack/webpack%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h3><p><code>HMR</code>全称 <code>Hot Module Replacement</code>，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack 热加载原理">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/09/30/webpack/webpack%20%E7%83%AD%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86/">webpack 热加载原理</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-09-30
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h3 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h3><p><code>HMR</code>全称 <code>Hot Module Replacement</code>，可以理解为模块热替换，指在应用程序运行过程中，替换、添加、删除模块，而无需重新刷新整个应用</p>
 <p>例如，我们在应用运行过程中修改了某个模块，通过自动刷新会导致整个应用的整体刷新，那页面中的状态信息都会丢失</p>
 <p>如果使用的是 <code>HMR</code>，就可以实现只将修改的模块实时替换至应用中，不必完全刷新整个应用</p>
 <p>在<code>webpack</code>中配置开启热模块也非常的简单，如下代码：</p>
@@ -666,50 +664,35 @@
 <li>浏览器拿到两个新的文件后，通过HMR runtime机制，加载这两个文件，并且针对修改的模块进行更新</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/30/webpack/webpack%20%E7%83%AD%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86/" data-id="cl7icg7a000uuugunh5263p4b" data-title="webpack 热加载原理" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack 渐进式网络应用程序PWA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/26/webpack/webpack%20%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8FPWA/" class="article-date">
-  <time class="dt-published" datetime="2020-09-26T03:07:19.000Z" itemprop="datePublished">2020-09-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/26/webpack/webpack%20%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8FPWA/">webpack (PWA)</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/09/30/webpack/webpack%20%E7%83%AD%E5%8A%A0%E8%BD%BD%E5%8E%9F%E7%90%86/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。<br>这通常被称作微前端，但并不仅限于此。<br>Webpack5 模块联邦可以让 Webpack 达到了线上 Runtime 的效果，让代码直接在项目间利用 CDN 直接共享，不再需要本地安装 Npm 包、构建再发布了！<br>我们知道 Webpack 可以通过 DLL 或者 Externals 做代码共享时 Common Chunk，但不同应用和项目间这个任务就变得困难了，我们几乎无法在项目之间做到按需热插拔。</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack (PWA)">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/09/26/webpack/webpack%20%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8FPWA/">webpack (PWA)</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-09-26
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+                <a href="/tags/%E5%89%8D%E7%AB%AF/" class="cube-excerpt-tag-link">#前端</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。<br>这通常被称作微前端，但并不仅限于此。<br>Webpack5 模块联邦可以让 Webpack 达到了线上 Runtime 的效果，让代码直接在项目间利用 CDN 直接共享，不再需要本地安装 Npm 包、构建再发布了！<br>我们知道 Webpack 可以通过 DLL 或者 Externals 做代码共享时 Common Chunk，但不同应用和项目间这个任务就变得困难了，我们几乎无法在项目之间做到按需热插拔。</p>
 <p>早期NPM方式共享模块   代码的共享是将依赖作为library安装到我们的项目里进行webpack打包并且构建上线<br>对于项目 Home 与 Search，需要共享一个模块时，最常见的办法就是将其抽成通用依赖并分别安装在各自项目中。虽然 Monorepo 可以一定程度解决重复安装和修改困难的问题，但依然需要走本地编译。</p>
 <p>真正 Runtime 的方式可能是 UMD 方式共享代码模块，即将模块用 Webpack UMD模式打包，并输出到其他项目中。这是非常普遍的模块共享方式：<br>对于项目 Home 与 Search，直接利用 UMD 包复用一个模块。但这种技术方案问题也很明显，就是包体积无法达到本地编译时的优化效果，且库之间容易冲突。</p>
 <p>微前端：micro-frontends (MFE) 也是最近比较火的模块共享管理方式，微前端就是要解决多项目并存问题，多项目并存的最大问题就是模块共享，模块之间是不能有冲突。  对于微前端我们还要考虑样式冲突，声明周期管理冲突等问题，我们先不考虑这些   想把问题聚焦在资源加载的方式上   微前端一般有两种打包方式：1.子应用独立打包，模块实现解耦，但这种方式无法抽取公共的依赖，2.整体应用打一个打包 很好的解决我们上面第一种方式的问题，但是打包效率速度实在是太慢了。不具备水平的扩展能力。<br>由于微前端还要考虑样式冲突、生命周期管理，所以本文只聚焦在资源加载方式上。微前端一般有两种打包方式：</p>
@@ -742,50 +725,33 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &#x27;search&#x27;,</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,</span><br><span class="line">    home: &quot;home@http://localhost:3001/remoteEntry.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;&#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>应用 webpack 运行服务：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3002</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/26/webpack/webpack%20%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8FPWA/" data-id="cl7icg7a000urugun0qlbds65" data-title="webpack (PWA)" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack loader-plugin的区别，编写" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/22/webpack/webpack%20loader-plugin%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E7%BC%96%E5%86%99/" class="article-date">
-  <time class="dt-published" datetime="2020-09-21T23:32:18.000Z" itemprop="datePublished">2020-09-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/22/webpack/webpack%20loader-plugin%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E7%BC%96%E5%86%99/">webpack loader-plugin区别，自定义</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/09/26/webpack/webpack%20%E6%B8%90%E8%BF%9B%E5%BC%8F%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8FPWA/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、区别"><a href="#一、区别" class="headerlink" title="一、区别"></a>一、区别</h2><p>前面两节我们有提到<code>Loader</code>与<code>Plugin</code>对应的概念，先来回顾下</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack loader-plugin区别，自定义">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/09/22/webpack/webpack%20loader-plugin%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E7%BC%96%E5%86%99/">webpack loader-plugin区别，自定义</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-09-22
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、区别"><a href="#一、区别" class="headerlink" title="一、区别"></a>一、区别</h2><p>前面两节我们有提到<code>Loader</code>与<code>Plugin</code>对应的概念，先来回顾下</p>
 <ul>
 <li>loader 是文件加载器，能够加载资源文件，并对这些文件进行一些处理，诸如编译、压缩等，最终一起打包到指定的文件中</li>
 <li>plugin 赋予了 webpack 各种灵活的功能，例如打包优化、资源管理、环境变量注入等，目的是解决 loader 无法实现的其他事</li>
@@ -826,50 +792,33 @@
 
 <p>在 <code>emit</code> 事件发生时，代表源文件的转换和组装已经完成，可以读取到最终将输出的资源、代码块、模块及其依赖，并且可以修改输出资源的内容</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/22/webpack/webpack%20loader-plugin%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E7%BC%96%E5%86%99/" data-id="cl7icg79y00uiugun2u3ceid5" data-title="webpack loader-plugin区别，自定义" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-组件通信" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/19/Vue/vue-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/" class="article-date">
-  <time class="dt-published" datetime="2020-09-19T02:39:15.000Z" itemprop="datePublished">2020-09-19</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/19/Vue/vue-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">vue-组件通信</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/09/22/webpack/webpack%20loader-plugin%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E7%BC%96%E5%86%99/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、组件间通信的概念"><a href="#一、组件间通信的概念" class="headerlink" title="一、组件间通信的概念"></a>一、组件间通信的概念</h2><p>开始之前，我们把<strong>组件间通信</strong>这个词进行拆分</p>
+<div class="cube-excerpt" id="cube-excerpt-vue-组件通信">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/09/19/Vue/vue-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">vue-组件通信</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-09-19
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、组件间通信的概念"><a href="#一、组件间通信的概念" class="headerlink" title="一、组件间通信的概念"></a>一、组件间通信的概念</h2><p>开始之前，我们把<strong>组件间通信</strong>这个词进行拆分</p>
 <ul>
 <li>组件</li>
 <li>通信</li>
@@ -977,50 +926,33 @@
 <li>复杂关系的组件数据传递可以通过<code>vuex</code>存放共享的变量</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/19/Vue/vue-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/" data-id="cl7icg7dg011qugun6nxg5hxe" data-title="vue-组件通信" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack loader-plugin" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/09/17/webpack/webpack%20loader-plugin/" class="article-date">
-  <time class="dt-published" datetime="2020-09-17T03:35:48.000Z" itemprop="datePublished">2020-09-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/09/17/webpack/webpack%20loader-plugin/">webpack loader-plugin</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/09/19/Vue/vue-%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="一、loader"><a href="#一、loader" class="headerlink" title="一、loader"></a>一、loader</h1><p>对于webpack，一切皆模块。webpack 只能理解 JavaScript 和 JSON 文件，其他类型&#x2F;后缀的文件都需要经过 loader 处理，将它们转换为js可识别的有效模块 (webpack 天生支持 ECMAScript、CommonJS、资源模块等模块类型)。loader可以做语言翻译(比如将文件从 TypeScript 转换为 JavaScript) 或格式转换(将内联图像转换为 data URL)还有样式编译(允许直接在 JavaScript 模块中 import CSS文件)。</p>
+<div class="cube-excerpt" id="cube-excerpt-webpack loader-plugin">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2020/09/17/webpack/webpack%20loader-plugin/">webpack loader-plugin</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2020-09-17
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/webpack/" class="cube-excerpt-tag-link">#webpack</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h1 id="一、loader"><a href="#一、loader" class="headerlink" title="一、loader"></a>一、loader</h1><p>对于webpack，一切皆模块。webpack 只能理解 JavaScript 和 JSON 文件，其他类型&#x2F;后缀的文件都需要经过 loader 处理，将它们转换为js可识别的有效模块 (webpack 天生支持 ECMAScript、CommonJS、资源模块等模块类型)。loader可以做语言翻译(比如将文件从 TypeScript 转换为 JavaScript) 或格式转换(将内联图像转换为 data URL)还有样式编译(允许直接在 JavaScript 模块中 import CSS文件)。</p>
 <h2 id="1-loader是什么？"><a href="#1-loader是什么？" class="headerlink" title="1.loader是什么？"></a>1.loader是什么？</h2><p>每个 loader 本质上都是一个导出为函数的 JavaScript 模块。loader runner 会调用此函数，将资源文件或者上一个 loader 产生的结果传进去，经过编译转换把处理结果再输出去（如果后面还有 loader 就传给下一个）。函数中的 this 作为上下文会被 webpack 填充，并且 loader runner 中包含一些实用的方法，比如可以使 loader 调用方式变为异步，或者获取 query 参数。<br>简言之 loader 就是模块转换器。有点像 Vue 的过滤器。<br>loader从下到上地取值(evaluate)&#x2F;执行(execute)，也就是是从后往前执行。</p>
 <h2 id="2-有哪些常见的Loader？他们是解决什么问题的？"><a href="#2-有哪些常见的Loader？他们是解决什么问题的？" class="headerlink" title="2. 有哪些常见的Loader？他们是解决什么问题的？"></a>2. 有哪些常见的Loader？他们是解决什么问题的？</h2><p>● source-map-loader：加载额外的 Source Map 文件，以方便断点调试<br>● image-loader：加载并且压缩图片文件<br>● eslint-loader：通过 ESLint 检查 JavaScript 代码</p>
 <p>文件<br>url-loader 与 file-loader 类似，但当文件 size 小于设置的 limit 值，会返回 data URL<br>file-loader 将文件保存至输出文件夹中并返回 URL (默认是是绝对路径，可以 outputPath 和 publicPath 通过配置成相对路径)<br>语法转换<br>babel-loader 使用 Babel 加载 ES2015+ 代码并将其转换为 ES5<br>ts-loader 像加载 JavaScript 一样加载 TypeScript 2.0+<br>样式<br>style-loader 将样式模块导出的内容以往 <head> 中注入多个 <style> 的形式，添加到 DOM 中<br>css-loader 加载 CSS 文件并解析 @import 的 CSS 文件，将 url() 处理成 require() 请求，最终返回 CSS 代码<br>less-loader 加载并编译 LESS 文件<br>sass-loader 加载并编译 SASS&#x2F;SCSS 文件<br>postcss-loader 使用 PostCSS 加载并转换 CSS&#x2F;SSS 文件<br>stylus-loader 加载并编译 Stylus 文件<br>框架<br>vue-loader 加载并编译</p>
@@ -1054,145 +986,601 @@
 <li>Plugin在plugins中单独配置。 类型为数组，每一项是一个plugin的实例，参数都通过构造函数传入。</li>
 </ol>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/17/webpack/webpack%20loader-plugin/" data-id="cl7icg79x00ugugunhheu80mz" data-title="webpack loader-plugin" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2020/09/17/webpack/webpack%20loader-plugin/">Read More</a>
     </footer>
-  </div>
-  
-</article>
+</div>
 
 
 
-  
-
-
-  <nav id="page-nav">
+<ul class="cube-pagination cube-pagination-9">
     
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <li class="cube-pagination-prev">
+        <a href="/page/5/">« Prev</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
+        
+                <li class="cube-pagination-index">
+                    <a href="/">1</a>
+                </li>
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/5">5</a>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index disabled">
+                    <span>6</span>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/7">7</a>
+                </li>
+                
+            
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+                <li class="cube-pagination-index">
+                    <a href="/page/19">19</a>
+                </li>
+        
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
+    <li class="cube-pagination-next">
+        <a href="/page/7/">Next »</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">变量类型</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/">js-常用代码操作实例</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/">html-原生音视频</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/">DNS协议</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/">ES6 装饰器</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</ul>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+<!--其他组件后续添加-->
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
     </div>
-  </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/content.json'
+        window.searchModule.rootUrl = '/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="Search" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>John Doe</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>186</span>Article</a>
+        <a class="count tags"><span>35</span>Tags</a>
+        <a class="count categories"><span>23</span>Categories</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: 'Open Lyrics',
+            close: 'Close Lyrics'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>Recent Posts</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="变量类型">变量类型</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/" title="DNS协议">DNS协议</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" title="ES6 装饰器">ES6 装饰器</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/categories">Categories</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">#音视频</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/">#后端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">#问题</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">#架构模式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">#前端工程化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/liunx/">#liunx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B7%A5%E5%85%B7/">#工具</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">#数据可视化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#前端性能优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/tags">Tagcloud</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue/">#vue</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/html/">#html</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/xml/">#xml</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/css/">#css</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/nodejs/">#nodejs</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Promise/">#Promise</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/python/">#python</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/es6/">#es6</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/typescript/">#typescript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/async-await/">#async/await</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/vue3/">#vue3</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/react/">#react</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Redux/">#Redux</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/glup/">#glup</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/webpack/">#webpack</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nginx/">#nginx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/git/">#git</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Mock/">#Mock</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/RESTful/">#RESTful</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/eslint/">#eslint</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/hexo/">#hexo</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vs-code/">#vs code</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/echart/">#echart</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/mongodb/">#mongodb</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/mysql/">#mysql</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E4%BC%98%E5%8C%96/">#优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/GitHub.png">
+            
+            <a href="https://github.com/ZEROKISEKI" target="_blank">GitHub</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/Coding.png">
+            
+            <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/SF.png">
+            
+            <a href="https://segmentfault.com/u/aonosora" target="_blank">SF社区</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/开发者头条.png">
+            
+            <a href="https://toutiao.io/u/148070" target="_blank">开发者头条</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>Friend Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/micblo.png">
+            <a href="https://blog.micblo.com/" target="_blank">罗大佬</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/DIYgod.jpg">
+            <a href="https://www.anotherhome.net/" target="_blank">DIYgod</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/images/friend_links.jpg ">
+            <a href="https://aonosora.com/" target="_blank">咪西西の部落格</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 John Doe
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
 </footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
+<!-- inject:script -->
 <script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+<!-- endinject -->
+<div class="cube-loading out"></div>
 </body>
 </html>

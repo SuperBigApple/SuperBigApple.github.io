@@ -1,103 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/14/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="John Doe">
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    
+    
+    
+    
+    <title>Hexo</title>
+    <!-- inject:style -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
 
-  
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: 'Loading';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
 <meta name="generator" content="Hexo 6.2.0"></head>
-
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-categories" aria-hidden="true"></i>
+            <a href="/categories">分类</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-tags" aria-hidden="true"></i>
+            <a href="/tags">标签</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-about" aria-hidden="true"></i>
+            <a href="/about-me">关于我</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">Open Lyrics</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">Top</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" http://cube-1252774894.cosgz.myqcloud.com/background.png " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">senrenbankaの部落格</span>
+        <span class="cube-typed-cursor">|</span>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
+    
 </header>
 
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-小程序+uniapp/小程序登录流程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/09/30/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-09-30T08:22:41.000Z" itemprop="datePublished">2018-09-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/09/30/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/">小程序登录流程</a>
-    </h1>
-  
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
 
-      </header>
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">senrenbankaの部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>传统的<code>web</code>开发实现登陆功能，一般的做法是输入账号密码、或者输入手机号及短信验证码进行登录</p>
+    <div class="cube-content">
+        <div class="cube-left">
+            
+<div class="cube-excerpt" id="cube-excerpt-小程序登录流程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/09/30/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/">小程序登录流程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-09-30
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>传统的<code>web</code>开发实现登陆功能，一般的做法是输入账号密码、或者输入手机号及短信验证码进行登录</p>
 <p>服务端校验用户信息通过之后，下发一个代表登录态的 <code>token</code> 给客户端，以便进行后续的交互,每当<code>token</code>过期，用户都需要重新登录</p>
 <p>而在微信小程序中，可以通过微信官方提供的登录能力方便地获取微信提供的用户身份标识，快速建立小程序内的用户体系，从而实现登陆功能</p>
 <p>实现小程序用户体系主要涉及到<code>openid</code>和<code>code</code>的概念：</p>
@@ -131,50 +214,33 @@
 <p>这种方式的好处是不需要小程序服务端来参与校验，而是在小程序端调用AP，流程如下所示：</p>
 <p><img src="https://static.vue-js.com/8b446d30-349d-11ec-a752-75723a64e8f5.png" alt="img"></p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/09/30/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/" data-id="cl7icg7ck00zqugunevbofx1w" data-title="小程序登录流程" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序概念" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/09/27/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A6%82%E5%BF%B5/" class="article-date">
-  <time class="dt-published" datetime="2018-09-27T08:25:48.000Z" itemprop="datePublished">2018-09-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/09/27/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A6%82%E5%BF%B5/">小程序理解</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/09/30/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>2017年，微信正式推出了小程序，允许外部开发者在微信内部运行自己的代码，开展业务</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序理解">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/09/27/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A6%82%E5%BF%B5/">小程序理解</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-09-27
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>2017年，微信正式推出了小程序，允许外部开发者在微信内部运行自己的代码，开展业务</p>
 <p>截至目前，小程序已经成为国内前端的一个重要业务，跟 <code>Web</code> 和手机 <code>App</code> 有着同等的重要性</p>
 <p><img src="https://static.vue-js.com/ce751de0-300e-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
 <p>小程序是一种不需要下载安装即可使用的应用，它实现了应用“触手可及”的梦想，用户扫一扫或者搜一下即可打开应用</p>
@@ -216,50 +282,33 @@
 <li>受控微信：比起APP，尤其是安卓版的高自由度，小程序要面对很多来自微信的限制，从功能接口，甚至到类别内容，都要接受微信的管控</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/09/27/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A6%82%E5%BF%B5/" data-id="cl7icg7ch00zhuguneto97a25" data-title="小程序理解" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/Vue是什么" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/20/Vue/Vue%E6%98%AF%E4%BB%80%E4%B9%88/" class="article-date">
-  <time class="dt-published" datetime="2018-08-20T07:18:37.000Z" itemprop="datePublished">2018-08-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/20/Vue/Vue%E6%98%AF%E4%BB%80%E4%B9%88/">vue是什么</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/09/27/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%A6%82%E5%BF%B5/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="二、vue是什么"><a href="#二、vue是什么" class="headerlink" title="二、vue是什么"></a>二、vue是什么</h2><p>Vue.js（&#x2F;vjuː&#x2F;，或简称为Vue）是一个用于创建用户界面的开源JavaScript框架，也是一个创建单页应用的Web应用框架。构建出一款相当轻量的框架最早发布于2014年2月</p>
+<div class="cube-excerpt" id="cube-excerpt-vue是什么">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/08/20/Vue/Vue%E6%98%AF%E4%BB%80%E4%B9%88/">vue是什么</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-08-20
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="二、vue是什么"><a href="#二、vue是什么" class="headerlink" title="二、vue是什么"></a>二、vue是什么</h2><p>Vue.js（&#x2F;vjuː&#x2F;，或简称为Vue）是一个用于创建用户界面的开源JavaScript框架，也是一个创建单页应用的Web应用框架。构建出一款相当轻量的框架最早发布于2014年2月</p>
 <h2 id="三、Vue核心特性"><a href="#三、Vue核心特性" class="headerlink" title="三、Vue核心特性"></a>三、Vue核心特性</h2><h3 id="数据驱动（MVVM"><a href="#数据驱动（MVVM" class="headerlink" title="数据驱动（MVVM)"></a>数据驱动（MVVM)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MVVM`表示的是 `Model-View-ViewModel</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -313,40 +362,33 @@
 <li>diff算法不同。<code>react</code>主要使用diff队列保存需要更新哪些DOM，得到patch树，再统一操作批量更新DOM。<code>Vue</code> 使用双向指针，边对比，边更新DOM</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/20/Vue/Vue%E6%98%AF%E4%BB%80%E4%B9%88/" data-id="cl7icg7e40138ugundvji0oxo" data-title="vue是什么" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/08/20/Vue/Vue%E6%98%AF%E4%BB%80%E4%B9%88/">Read More</a>
     </footer>
-  </div>
-  
-</article>
+</div>
 
-
-
-  
-    <article id="post-Vue/vue-实例挂载的过程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/15/Vue/vue-%E5%AE%9E%E4%BE%8B%E6%8C%82%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-08-15T12:15:48.000Z" itemprop="datePublished">2018-08-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、思考"><a href="#一、思考" class="headerlink" title="一、思考"></a>一、思考</h2><p>我们都听过知其然知其所以然这句话</p>
+<div class="cube-excerpt" id="cube-excerpt-">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/08/15/Vue/vue-%E5%AE%9E%E4%BE%8B%E6%8C%82%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/"></a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-08-15
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、思考"><a href="#一、思考" class="headerlink" title="一、思考"></a>一、思考</h2><p>我们都听过知其然知其所以然这句话</p>
 <p>那么不知道大家是否思考过<code>new Vue()</code>这个过程中究竟做了些什么？</p>
 <p>过程中是如何完成数据的绑定，又是如何将数据渲染到视图的等等</p>
 <h2 id="一、分析"><a href="#一、分析" class="headerlink" title="一、分析"></a>一、分析</h2><p>首先找到<code>vue</code>的构造函数</p>
@@ -433,50 +475,33 @@
 <li><code>_update</code>将虚拟<code>DOM</code>生成真实<code>DOM</code>结构，并且渲染到页面中</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/15/Vue/vue-%E5%AE%9E%E4%BE%8B%E6%8C%82%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/" data-id="cl7icg7db011bugunebcs5ng9" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-权限管理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2018-08-10T06:31:15.000Z" itemprop="datePublished">2018-08-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">vue-权限管理</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/08/15/Vue/vue-%E5%AE%9E%E4%BE%8B%E6%8C%82%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>权限是对特定资源的访问许可，所谓权限控制，也就是确保用户只能访问到被分配的资源</p>
+<div class="cube-excerpt" id="cube-excerpt-vue-权限管理">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">vue-权限管理</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-08-10
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>权限是对特定资源的访问许可，所谓权限控制，也就是确保用户只能访问到被分配的资源</p>
 <p>而前端权限归根结底是请求的发起权，请求的发起可能有下面两种形式触发</p>
 <ul>
 <li>页面加载触发</li>
@@ -570,50 +595,33 @@
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>关于权限如何选择哪种合适的方案，可以根据自己项目的方案项目，如考虑路由与菜单是否分离</p>
 <p>权限需要前后端结合，前端尽可能的去控制，更多的需要后台判断</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" data-id="cl7icg7dc011eugunaa7eebl3" data-title="vue-权限管理" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-路由" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/05/Vue/vue-%E8%B7%AF%E7%94%B1/" class="article-date">
-  <time class="dt-published" datetime="2018-08-05T08:27:15.000Z" itemprop="datePublished">2018-08-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/05/Vue/vue-%E8%B7%AF%E7%94%B1/">vue-路由</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、路由基础介绍"><a href="#一、路由基础介绍" class="headerlink" title="一、路由基础介绍"></a>一、路由基础介绍</h2><h3 id="1-1-什么是前端路由"><a href="#1-1-什么是前端路由" class="headerlink" title="1.1 什么是前端路由"></a>1.1 什么是前端路由</h3><ul>
+<div class="cube-excerpt" id="cube-excerpt-vue-路由">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/08/05/Vue/vue-%E8%B7%AF%E7%94%B1/">vue-路由</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-08-05
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、路由基础介绍"><a href="#一、路由基础介绍" class="headerlink" title="一、路由基础介绍"></a>一、路由基础介绍</h2><h3 id="1-1-什么是前端路由"><a href="#1-1-什么是前端路由" class="headerlink" title="1.1 什么是前端路由"></a>1.1 什么是前端路由</h3><ul>
 <li>路由是根据不同的<code>url</code>地址展示不同的内容或页面</li>
 <li>前端路由就是把不同的路由对应不同的内容或页面的任务交给前端来做，之前是通过服务端根据<code>url</code>的不同返回不同的页面实现的</li>
 </ul>
@@ -795,50 +803,33 @@
 <li><strong>注意</strong>，<code>params</code>传参时，如果没有在路由中定义参数，也是可以传过去的，同时也能接收到，但是一旦刷新页面，这个参数就不存在了。这对于需要依赖参数进行某些操作的行为是行不通的</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 定义的路由中，只定义一个id参数</span><br><span class="line">&#123;</span><br><span class="line">    path: &#x27;detail/:id&#x27;,</span><br><span class="line">    name: &#x27;Detail&#x27;,</span><br><span class="line">    components: Detail</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// template中的路由传参，</span><br><span class="line">// 传了一个id参数和一个token参数</span><br><span class="line">// id是在路由中已经定义的参数，而token没有定义</span><br><span class="line">&lt;router-link :to=&quot;&#123;name: &#x27;Detail&#x27;, params: &#123; id: 1, token: &#x27;123456&#x27; &#125;&#125;&quot;&gt;前往Detail页面&lt;/router-link&gt;</span><br><span class="line"></span><br><span class="line">// 在详情页接收</span><br><span class="line">created () &#123;</span><br><span class="line">    // 以下都可以正常获取到</span><br><span class="line">    // 但是页面刷新后，id依然可以获取，而token此时就不存在了</span><br><span class="line">    const id = this.$route.params.id;</span><br><span class="line">    const token = this.$route.params.token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/05/Vue/vue-%E8%B7%AF%E7%94%B1/" data-id="cl7icg7dj011zugun4ka741wq" data-title="vue-路由" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-计算属性与数据监听" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/" class="article-date">
-  <time class="dt-published" datetime="2018-08-02T01:52:31.000Z" itemprop="datePublished">2018-08-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/">vue-计算属性与数据监听</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/08/05/Vue/vue-%E8%B7%AF%E7%94%B1/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、监听属性"><a href="#一、监听属性" class="headerlink" title="一、监听属性"></a>一、监听属性</h2><blockquote>
+<div class="cube-excerpt" id="cube-excerpt-vue-计算属性与数据监听">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/">vue-计算属性与数据监听</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-08-02
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、监听属性"><a href="#一、监听属性" class="headerlink" title="一、监听属性"></a>一、监听属性</h2><blockquote>
 <p>我们在工作中常常需要监听某一个属性值的变化，这个时候我们就需要用到了监听属性<code>watch</code></p>
 </blockquote>
 <h3 id="1-1-基础版监听"><a href="#1-1-基础版监听" class="headerlink" title="1.1 基础版监听"></a>1.1 基础版监听</h3><blockquote>
@@ -910,50 +901,33 @@
 <li>如果没有缓存，我们将不可避免的多次执行 A 的<code>getter</code>！如果你不希望有缓存，请用方法来替代</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/" data-id="cl7icg7dh011tugun99eeh63t" data-title="vue-计算属性与数据监听" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-核心知识" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/31/Vue/vue-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" class="article-date">
-  <time class="dt-published" datetime="2018-07-31T01:18:38.000Z" itemprop="datePublished">2018-07-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/31/Vue/vue-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/">vue-核心知识总结</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、组件的核心概念-属性props几种写法"><a href="#一、组件的核心概念-属性props几种写法" class="headerlink" title="一、组件的核心概念-属性props几种写法"></a>一、组件的核心概念-属性props几种写法</h2><blockquote>
+<div class="cube-excerpt" id="cube-excerpt-vue-核心知识总结">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/07/31/Vue/vue-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/">vue-核心知识总结</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-07-31
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、组件的核心概念-属性props几种写法"><a href="#一、组件的核心概念-属性props几种写法" class="headerlink" title="一、组件的核心概念-属性props几种写法"></a>一、组件的核心概念-属性props几种写法</h2><blockquote>
 <p>我们的开发都是围绕着<code>options</code>来的</p>
 </blockquote>
 <p><img src="https://poetries1.gitee.io/img-repo/2019/10/vue/1.png" alt="img"></p>
@@ -1060,50 +1034,35 @@
 </ul>
 <p><strong>原理</strong></p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/31/Vue/vue-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/" data-id="cl7icg7dd011hugunbdf2allw" data-title="vue-核心知识总结" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue和React的区别" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/28/Vue/vue%E5%92%8CReact%E7%9A%84%E5%8C%BA%E5%88%AB/" class="article-date">
-  <time class="dt-published" datetime="2018-07-28T02:46:19.000Z" itemprop="datePublished">2018-07-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/28/Vue/vue%E5%92%8CReact%E7%9A%84%E5%8C%BA%E5%88%AB/">vue和react的区别</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/07/31/Vue/vue-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>vue和react是当前最火的两个前端框架，vue的发展很快，但是目前来说，react的生态系统会更强大，世界上使用这个框架的人也很多。另外，react是facebook官方维护的，而vue是尤雨溪本人维护的。并且在其他周边库，如react的react-rouer和redux，是react社区在维护的。而vue的vuex和vue-router都是尤雨溪在维护的。</p>
+<div class="cube-excerpt" id="cube-excerpt-vue和react的区别">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/07/28/Vue/vue%E5%92%8CReact%E7%9A%84%E5%8C%BA%E5%88%AB/">vue和react的区别</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-07-28
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+                <a href="/tags/react/" class="cube-excerpt-tag-link">#react</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>vue和react是当前最火的两个前端框架，vue的发展很快，但是目前来说，react的生态系统会更强大，世界上使用这个框架的人也很多。另外，react是facebook官方维护的，而vue是尤雨溪本人维护的。并且在其他周边库，如react的react-rouer和redux，是react社区在维护的。而vue的vuex和vue-router都是尤雨溪在维护的。</p>
 <p>1、都在使用Virtual DOM，</p>
 <p>当然，不得不说，vue的虚拟DOM一定是从react这里模仿的，但是好的东西就是需要被模仿的，而没有必要重复的造轮子，所以没毛病。使用虚拟DOM的好处就很多了，比如通过虚拟DOM结合diff算法，我们可以很好地解决DOM操作的性能问题，即生成虚拟DOM的时间+diff算法时间+patch时间&lt;修改DOM省下来的时间，当然，如果某一天DOM操作很快，那么就不存在这个问题了。react可能就会被其他框架取代了。另外，使用虚拟DOM，可以使得JavaScript的应用不仅仅局限于网页，还可以是ios、安卓等，因为在react中没有用到html，用到的时jsx，虚拟dom，最后生成的可以是用在网页上的html，也可以是用在安卓和ios的控件，所以，react-native的大火也就可想而知了。、</p>
 <p>2、都提供了响应式（Reactive）和组件化（Composable）的视图组件。</p>
@@ -1139,50 +1098,33 @@
 <p>12、vue对于事件的清除优于react。</p>
 <p>在vue中，事件绑定之后，可以在组件销毁的同时事件接触绑定，无需我们自己去手动清除；而react却不是这样的，react需要我们在componentDidMount的时候绑定，在componentWillUnMount的时候接触绑定，否则会出现问题，尤其是添加在document上面的事件。</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/28/Vue/vue%E5%92%8CReact%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="cl7icg7e5013bugunaxi845pb" data-title="vue和react的区别" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue/vue-部署404问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/23/Vue/vue-%E9%83%A8%E7%BD%B2404%E9%97%AE%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2018-07-22T19:48:18.000Z" itemprop="datePublished">2018-07-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/23/Vue/vue-%E9%83%A8%E7%BD%B2404%E9%97%AE%E9%A2%98/">vue-部署404问题</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/07/28/Vue/vue%E5%92%8CReact%E7%9A%84%E5%8C%BA%E5%88%AB/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、如何部署"><a href="#一、如何部署" class="headerlink" title="一、如何部署"></a>一、如何部署</h2><p>前后端分离开发模式下，前后端是独立布署的，前端只需要将最后的构建物上传至目标服务器的<code>web</code>容器指定的静态目录下即可</p>
+<div class="cube-excerpt" id="cube-excerpt-vue-部署404问题">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/07/23/Vue/vue-%E9%83%A8%E7%BD%B2404%E9%97%AE%E9%A2%98/">vue-部署404问题</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-07-23
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/vue/" class="cube-excerpt-tag-link">#vue</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、如何部署"><a href="#一、如何部署" class="headerlink" title="一、如何部署"></a>一、如何部署</h2><p>前后端分离开发模式下，前后端是独立布署的，前端只需要将最后的构建物上传至目标服务器的<code>web</code>容器指定的静态目录下即可</p>
 <p>我们知道<code>vue</code>项目在构建后，是生成一系列的静态文件</p>
 <p><img src="https://imgkr2.cn-bj.ufileos.com/b9d13e56-f859-4b4b-a9da-a703a34c2f5d.png?UCloudPublicKey=TOKEN_8d8b72be-579a-4e83-bfd0-5f6ce1546f13&Signature=m1qDXRSFHrfXlnAtAlVhjoLKP70%253D&Expires=1609927181" alt="img"></p>
 <p>常规布署我们只需要将这个目录上传至目标服务器即可</p>
@@ -1231,145 +1173,601 @@
 
 <p>关于后端配置方案还有：<code>Apache</code>、<code>nodejs</code>等.</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/23/Vue/vue-%E9%83%A8%E7%BD%B2404%E9%97%AE%E9%A2%98/" data-id="cl7icg7dk0122ugungi6ederv" data-title="vue-部署404问题" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
-
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/07/23/Vue/vue-%E9%83%A8%E7%BD%B2404%E9%97%AE%E9%A2%98/">Read More</a>
     </footer>
-  </div>
-  
-</article>
+</div>
 
 
 
-  
-
-
-  <nav id="page-nav">
+<ul class="cube-pagination cube-pagination-9">
     
-    <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <li class="cube-pagination-prev">
+        <a href="/page/13/">« Prev</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
+        
+                <li class="cube-pagination-index">
+                    <a href="/">1</a>
+                </li>
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/13">13</a>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index disabled">
+                    <span>14</span>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/15">15</a>
+                </li>
+                
+            
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+                <li class="cube-pagination-index">
+                    <a href="/page/19">19</a>
+                </li>
+        
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
+    <li class="cube-pagination-next">
+        <a href="/page/15/">Next »</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">变量类型</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/">js-常用代码操作实例</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/">html-原生音视频</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/">DNS协议</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/">ES6 装饰器</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</ul>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+<!--其他组件后续添加-->
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
     </div>
-  </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/content.json'
+        window.searchModule.rootUrl = '/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="Search" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>John Doe</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>186</span>Article</a>
+        <a class="count tags"><span>35</span>Tags</a>
+        <a class="count categories"><span>23</span>Categories</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: 'Open Lyrics',
+            close: 'Close Lyrics'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>Recent Posts</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="变量类型">变量类型</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/" title="DNS协议">DNS协议</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" title="ES6 装饰器">ES6 装饰器</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/categories">Categories</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">#音视频</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/">#后端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">#问题</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">#架构模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">#前端工程化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/liunx/">#liunx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B7%A5%E5%85%B7/">#工具</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">#数据可视化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#前端性能优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/tags">Tagcloud</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue/">#vue</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/html/">#html</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/xml/">#xml</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/css/">#css</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nodejs/">#nodejs</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/Promise/">#Promise</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/python/">#python</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/es6/">#es6</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/typescript/">#typescript</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/async-await/">#async/await</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue3/">#vue3</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/react/">#react</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/Redux/">#Redux</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/glup/">#glup</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/webpack/">#webpack</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nginx/">#nginx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/git/">#git</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/Mock/">#Mock</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/RESTful/">#RESTful</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/eslint/">#eslint</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/hexo/">#hexo</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vs-code/">#vs code</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/echart/">#echart</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/mongodb/">#mongodb</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/mysql/">#mysql</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E4%BC%98%E5%8C%96/">#优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/GitHub.png">
+            
+            <a href="https://github.com/ZEROKISEKI" target="_blank">GitHub</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/Coding.png">
+            
+            <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/SF.png">
+            
+            <a href="https://segmentfault.com/u/aonosora" target="_blank">SF社区</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/开发者头条.png">
+            
+            <a href="https://toutiao.io/u/148070" target="_blank">开发者头条</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>Friend Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/micblo.png">
+            <a href="https://blog.micblo.com/" target="_blank">罗大佬</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/DIYgod.jpg">
+            <a href="https://www.anotherhome.net/" target="_blank">DIYgod</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/images/friend_links.jpg ">
+            <a href="https://aonosora.com/" target="_blank">咪西西の部落格</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 John Doe
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
 </footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
+<!-- inject:script -->
 <script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+<!-- endinject -->
+<div class="cube-loading out"></div>
 </body>
 </html>

@@ -1,103 +1,186 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/page/13/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="John Doe">
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    
+    
+    
+    
+    <title>Hexo</title>
+    <!-- inject:style -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
 
-  
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: 'Loading';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
 <meta name="generator" content="Hexo 6.2.0"></head>
-
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-categories" aria-hidden="true"></i>
+            <a href="/categories">分类</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-tags" aria-hidden="true"></i>
+            <a href="/tags">标签</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-about" aria-hidden="true"></i>
+            <a href="/about-me">关于我</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">Open Lyrics</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">Top</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" http://cube-1252774894.cosgz.myqcloud.com/background.png " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">senrenbankaの部落格</span>
+        <span class="cube-typed-cursor">|</span>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
+    
 </header>
 
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-工具/git rebase 和 git merge" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/" class="article-date">
-  <time class="dt-published" datetime="2018-11-26T01:26:13.000Z" itemprop="datePublished">2018-11-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/">git rebase 和 git merge</a>
-    </h1>
-  
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
 
-      </header>
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">senrenbankaの部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>在使用 <code>git</code> 进行版本管理的项目中，当完成一个特性的开发并将其合并到 <code>master</code> 分支时，会有两种方式：</p>
+    <div class="cube-content">
+        <div class="cube-left">
+            
+<div class="cube-excerpt" id="cube-excerpt-git rebase 和 git merge">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/">git rebase 和 git merge</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-26
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>在使用 <code>git</code> 进行版本管理的项目中，当完成一个特性的开发并将其合并到 <code>master</code> 分支时，会有两种方式：</p>
 <ul>
 <li>git merge</li>
 <li>git rebase</li>
@@ -141,50 +224,33 @@
 <h3 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h3><p><code>rebase</code>会将整个分支移动到另一个分支上，有效地整合了所有分支上的提交</p>
 <p>主要的好处是历史记录更加清晰，是在原有提交的基础上将差异内容反映进去，消除了 <code>git merge</code>所需的不必要的合并提交</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/" data-id="cl7icg7b600wzugung7bpcbf0" data-title="git rebase 和 git merge" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-工具/git pull 和 git fetch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/" class="article-date">
-  <time class="dt-published" datetime="2018-11-23T01:25:36.000Z" itemprop="datePublished">2018-11-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/">git pull 和 git fetch</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>先回顾两个命令的定义</p>
+<div class="cube-excerpt" id="cube-excerpt-git pull 和 git fetch">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/">git pull 和 git fetch</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-23
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>先回顾两个命令的定义</p>
 <ul>
 <li>git fetch 命令用于从另一个存储库下载对象和引用</li>
 <li>git pull 命令用于从另一个存储库或本地分支获取并集成(整合)</li>
@@ -233,50 +299,33 @@
 <li>相比起来，git fetch 更安全也更符合实际要求，在 merge 前，我们可以查看更新情况，根据实际情况再决定是否合并</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/" data-id="cl7icg7b600wwugun3j5e29os" data-title="git pull 和 git fetch" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-工具/git总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2018-11-18T03:35:18.000Z" itemprop="datePublished">2018-11-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/">git总结</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、Git简介"><a href="#一、Git简介" class="headerlink" title="一、Git简介"></a>一、Git简介</h2><pre><code>Git是一个免费的、开源的分布式版本控制系统，可以快速高效地处理从小型到大型的各种项目
+<div class="cube-excerpt" id="cube-excerpt-git总结">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/">git总结</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-18
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、Git简介"><a href="#一、Git简介" class="headerlink" title="一、Git简介"></a>一、Git简介</h2><pre><code>Git是一个免费的、开源的分布式版本控制系统，可以快速高效地处理从小型到大型的各种项目
 Git易于学习，占地面积小，性能极快。它具有廉价的本地库，方便的缓存区域和多个工作流分支等特性。其特性由于
 Subversion、CVS、Perforce和ClearCase等版本版本控制工具。
 在公司里用Git来管理代码，因此只要需要写代码就会用到git来管理代码
@@ -641,50 +690,33 @@ Idea集成GitLab
 </li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/" data-id="cl7icg7b800x8uguncwn63vbo" data-title="git总结" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-工具/版本管理是什么" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/" class="article-date">
-  <time class="dt-published" datetime="2018-11-13T14:53:43.000Z" itemprop="datePublished">2018-11-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/">版本管理是什么</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>版本控制（Version control），是维护工程蓝图的标准作法，能追踪工程蓝图从诞生一直到定案的过程。此外，版本控制也是一种软件工程技巧，借此能在软件开发的过程中，确保由不同人所编辑的同一程序文件都得到同步</p>
+<div class="cube-excerpt" id="cube-excerpt-版本管理是什么">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/">版本管理是什么</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-13
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>版本控制（Version control），是维护工程蓝图的标准作法，能追踪工程蓝图从诞生一直到定案的过程。此外，版本控制也是一种软件工程技巧，借此能在软件开发的过程中，确保由不同人所编辑的同一程序文件都得到同步</p>
 <p>透过文档控制，能记录任何工程项目内各个模块的改动历程，并为每次改动编上序号</p>
 <p>一种简单的版本控制形式如下：赋给图的初版一个版本等级“A”。当做了第一次改变后，版本等级改为“B”，以此类推</p>
 <p>版本控制能提供项目的设计者，将设计恢复到之前任一状态的选择权</p>
@@ -747,50 +779,33 @@ Idea集成GitLab
 <li>多人协作并行开发，对于多人协作项目，支持多人协作开发的版本管理将事半功倍</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/" data-id="cl7icg7bd00xwugun1edfb45l" data-title="版本管理是什么" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-工具/eslint配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/" class="article-date">
-  <time class="dt-published" datetime="2018-11-09T06:55:18.000Z" itemprop="datePublished">2018-11-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/">eslint配置</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote>
+<div class="cube-excerpt" id="cube-excerpt-eslint配置">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/">eslint配置</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-09
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/eslint/" class="cube-excerpt-tag-link">#eslint</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <blockquote>
 <p><code>ESLint</code>是一个<code>Javascript</code>静态检查工具，它可以帮你养成良好的编程习惯</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 环境定义了预定义的全局变量。</span><br><span class="line">    &quot;env&quot;: &#123;</span><br><span class="line">        //环境定义了预定义的全局变量。更多在官网查看</span><br><span class="line">        &quot;browser&quot;: true,</span><br><span class="line">        &quot;node&quot;: true,</span><br><span class="line">        &quot;commonjs&quot;: true,</span><br><span class="line">        &quot;amd&quot;: true,</span><br><span class="line">        &quot;es6&quot;: true,</span><br><span class="line">        &quot;mocha&quot;: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // JavaScript 语言选项</span><br><span class="line">    &quot;parserOptions&quot;: &#123;</span><br><span class="line">        // ECMAScript 版本</span><br><span class="line">        &quot;ecmaVersion&quot;: 6,</span><br><span class="line">        &quot;sourceType&quot;: &quot;module&quot;, //设置为 &quot;script&quot; (默认) 或 &quot;module&quot;（如果你的代码是 ECMAScript 模块)。</span><br><span class="line">        //想使用的额外的语言特性:</span><br><span class="line">        &quot;ecmaFeatures&quot;: &#123;</span><br><span class="line">            // 允许在全局作用域下使用 return 语句</span><br><span class="line">            &quot;globalReturn&quot;: true,</span><br><span class="line">            // impliedStric</span><br><span class="line">            &quot;impliedStrict&quot;: true,</span><br><span class="line">            // 启用 JSX</span><br><span class="line">            &quot;jsx&quot;: true,</span><br><span class="line">            &quot;modules&quot;: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    //-----让eslint支持 JSX start</span><br><span class="line">    &quot;plugins&quot;: [</span><br><span class="line">        &quot;react&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;extends&quot;: [</span><br><span class="line">        &quot;eslint:recommended&quot;,</span><br><span class="line">        &quot;plugin:react/recommended&quot;</span><br><span class="line">    ],</span><br><span class="line">    //-----让eslint支持 JSX end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * &quot;off&quot; 或 0 - 关闭规则</span><br><span class="line">     * &quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),</span><br><span class="line">     * &quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)</span><br><span class="line">     */</span><br><span class="line">    &quot;rules&quot;: &#123;</span><br><span class="line"></span><br><span class="line">        ////////////////</span><br><span class="line">        // 可能的错误 //</span><br><span class="line">        ////////////////</span><br><span class="line"></span><br><span class="line">        // 禁止条件表达式中出现赋值操作符</span><br><span class="line">        &quot;no-cond-assign&quot;: 2,</span><br><span class="line">        // 禁用 console</span><br><span class="line">        &quot;no-console&quot;: 0,</span><br><span class="line">        // 禁止在条件中使用常量表达式</span><br><span class="line">        // if (false) &#123;</span><br><span class="line">        // doSomethingUnfinished();</span><br><span class="line">        // &#125; //cuowu</span><br><span class="line">        &quot;no-constant-condition&quot;: 2,</span><br><span class="line">        // 禁止在正则表达式中使用控制字符 ：new RegExp(&quot;\x1f&quot;)</span><br><span class="line">        &quot;no-control-regex&quot;: 2,</span><br><span class="line">        // 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号，</span><br><span class="line">        // always-multiline：多行模式必须带逗号，单行模式不能带逗号</span><br><span class="line">        &quot;comma-dangle&quot;: [1, &quot;never&quot;],</span><br><span class="line">        // 禁用 debugger</span><br><span class="line">        &quot;no-debugger&quot;: 2,</span><br><span class="line">        // 禁止 function 定义中出现重名参数</span><br><span class="line">        &quot;no-dupe-args&quot;: 2,</span><br><span class="line">        // 禁止对象字面量中出现重复的 key</span><br><span class="line">        &quot;no-dupe-keys&quot;: 2,</span><br><span class="line">        // 禁止重复的 case 标签</span><br><span class="line">        &quot;no-duplicate-case&quot;: 2,</span><br><span class="line">        // 禁止空语句块</span><br><span class="line">        &quot;no-empty&quot;: 2,</span><br><span class="line">        // 禁止在正则表达式中使用空字符集 (/^abc[]/)</span><br><span class="line">        &quot;no-empty-character-class&quot;: 2,</span><br><span class="line">        // 禁止对 catch 子句的参数重新赋值</span><br><span class="line">        &quot;no-ex-assign&quot;: 2,</span><br><span class="line">        // 禁止不必要的布尔转换</span><br><span class="line">        &quot;no-extra-boolean-cast&quot;: 2,</span><br><span class="line">        // 禁止不必要的括号 //(a * b) + c;//报错</span><br><span class="line">        &quot;no-extra-parens&quot;: 0,</span><br><span class="line">        // 禁止不必要的分号</span><br><span class="line">        &quot;no-extra-semi&quot;: 2,</span><br><span class="line">        // 禁止对 function 声明重新赋值</span><br><span class="line">        &quot;no-func-assign&quot;: 2,</span><br><span class="line">        // 禁止在嵌套的块中出现 function 或 var 声明</span><br><span class="line">        &quot;no-inner-declarations&quot;: [2, &quot;functions&quot;],</span><br><span class="line">        // 禁止 RegExp 构造函数中无效的正则表达式字符串</span><br><span class="line">        &quot;no-invalid-regexp&quot;: 2,</span><br><span class="line">        // 禁止在字符串和注释之外不规则的空白</span><br><span class="line">        &quot;no-irregular-whitespace&quot;: 2,</span><br><span class="line">        // 禁止在 in 表达式中出现否定的左操作数</span><br><span class="line">        &quot;no-negated-in-lhs&quot;: 2,</span><br><span class="line">        // 禁止把全局对象 (Math 和 JSON) 作为函数调用 错误：var math = Math();</span><br><span class="line">        &quot;no-obj-calls&quot;: 2,</span><br><span class="line">        // 禁止直接使用 Object.prototypes 的内置属性</span><br><span class="line">        &quot;no-prototype-builtins&quot;: 0,</span><br><span class="line">        // 禁止正则表达式字面量中出现多个空格</span><br><span class="line">        &quot;no-regex-spaces&quot;: 2,</span><br><span class="line">        // 禁用稀疏数组</span><br><span class="line">        &quot;no-sparse-arrays&quot;: 2,</span><br><span class="line">        // 禁止出现令人困惑的多行表达式</span><br><span class="line">        &quot;no-unexpected-multiline&quot;: 2,</span><br><span class="line">        // 禁止在return、throw、continue 和 break语句之后出现不可达代码</span><br><span class="line">        &quot;no-unreachable&quot;: 2,</span><br><span class="line">        // 要求使用 isNaN() 检查 NaN</span><br><span class="line">        &quot;use-isnan&quot;: 2,</span><br><span class="line">        // 强制使用有效的 JSDoc 注释</span><br><span class="line">        &quot;valid-jsdoc&quot;: 1,</span><br><span class="line">        // 强制 typeof 表达式与有效的字符串进行比较</span><br><span class="line">        // typeof foo === &quot;undefimed&quot; 错误</span><br><span class="line">        &quot;valid-typeof&quot;: 2,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 最佳实践 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 定义对象的set存取器属性时，强制定义get</span><br><span class="line">        &quot;accessor-pairs&quot;: 2,</span><br><span class="line">        // 强制数组方法的回调函数中有 return 语句</span><br><span class="line">        &quot;array-callback-return&quot;: 0,</span><br><span class="line">        // 强制把变量的使用限制在其定义的作用域范围内</span><br><span class="line">        &quot;block-scoped-var&quot;: 0,</span><br><span class="line">        // 限制圈复杂度，也就是类似if else能连续接多少个</span><br><span class="line">        &quot;complexity&quot;: [2, 9],</span><br><span class="line">        // 要求 return 语句要么总是指定返回的值，要么不指定</span><br><span class="line">        &quot;consistent-return&quot;: 0,</span><br><span class="line">        // 强制所有控制语句使用一致的括号风格</span><br><span class="line">        &quot;curly&quot;: [2, &quot;all&quot;],</span><br><span class="line">        // switch 语句强制 default 分支，也可添加 // no default 注释取消此次警告</span><br><span class="line">        &quot;default-case&quot;: 2,</span><br><span class="line">        // 强制object.key 中 . 的位置，参数:</span><br><span class="line">        // property，&#x27;.&#x27;号应与属性在同一行</span><br><span class="line">        // object, &#x27;.&#x27; 号应与对象名在同一行</span><br><span class="line">        &quot;dot-location&quot;: [2, &quot;property&quot;],</span><br><span class="line">        // 强制使用.号取属性</span><br><span class="line">        // 参数： allowKeywords：true 使用保留字做属性名时，只能使用.方式取属性</span><br><span class="line">        // false 使用保留字做属性名时, 只能使用[]方式取属性 e.g [2, &#123;&quot;allowKeywords&quot;: false&#125;]</span><br><span class="line">        // allowPattern: 当属性名匹配提供的正则表达式时，允许使用[]方式取值,否则只能用.号取值 e.g [2, &#123;&quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot;&#125;]</span><br><span class="line">        &quot;dot-notation&quot;: [2, &#123;</span><br><span class="line">            &quot;allowKeywords&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 使用 === 替代 == allow-null允许null和undefined==</span><br><span class="line">        &quot;eqeqeq&quot;: [2, &quot;allow-null&quot;],</span><br><span class="line">        // 要求 for-in 循环中有一个 if 语句</span><br><span class="line">        &quot;guard-for-in&quot;: 2,</span><br><span class="line">        // 禁用 alert、confirm 和 prompt</span><br><span class="line">        &quot;no-alert&quot;: 0,</span><br><span class="line">        // 禁用 arguments.caller 或 arguments.callee</span><br><span class="line">        &quot;no-caller&quot;: 2,</span><br><span class="line">        // 不允许在 case 子句中使用词法声明</span><br><span class="line">        &quot;no-case-declarations&quot;: 2,</span><br><span class="line">        // 禁止除法操作符显式的出现在正则表达式开始的位置</span><br><span class="line">        &quot;no-div-regex&quot;: 2,</span><br><span class="line">        // 禁止 if 语句中有 return 之后有 else</span><br><span class="line">        &quot;no-else-return&quot;: 0,</span><br><span class="line">        // 禁止出现空函数.如果一个函数包含了一条注释，它将不会被认为有问题。</span><br><span class="line">        &quot;no-empty-function&quot;: 2,</span><br><span class="line">        // 禁止使用空解构模式no-empty-pattern</span><br><span class="line">        &quot;no-empty-pattern&quot;: 2,</span><br><span class="line">        // 禁止在没有类型检查操作符的情况下与 null 进行比较</span><br><span class="line">        &quot;no-eq-null&quot;: 1,</span><br><span class="line">        // 禁用 eval()</span><br><span class="line">        &quot;no-eval&quot;: 2,</span><br><span class="line">        // 禁止扩展原生类型</span><br><span class="line">        &quot;no-extend-native&quot;: 2,</span><br><span class="line">        // 禁止不必要的 .bind() 调用</span><br><span class="line">        &quot;no-extra-bind&quot;: 2,</span><br><span class="line">        // 禁用不必要的标签</span><br><span class="line">        &quot;no-extra-label:&quot;: 0,</span><br><span class="line">        // 禁止 case 语句落空</span><br><span class="line">        &quot;no-fallthrough&quot;: 2,</span><br><span class="line">        // 禁止数字字面量中使用前导和末尾小数点</span><br><span class="line">        &quot;no-floating-decimal&quot;: 2,</span><br><span class="line">        // 禁止使用短符号进行类型转换(!!fOO)</span><br><span class="line">        &quot;no-implicit-coercion&quot;: 0,</span><br><span class="line">        // 禁止在全局范围内使用 var 和命名的 function 声明</span><br><span class="line">        &quot;no-implicit-globals&quot;: 1,</span><br><span class="line">        // 禁止使用类似 eval() 的方法</span><br><span class="line">        &quot;no-implied-eval&quot;: 2,</span><br><span class="line">        // 禁止 this 关键字出现在类和类对象之外</span><br><span class="line">        &quot;no-invalid-this&quot;: 0,</span><br><span class="line">        // 禁用 __iterator__ 属性</span><br><span class="line">        &quot;no-iterator&quot;: 2,</span><br><span class="line">        // 禁用标签语句</span><br><span class="line">        &quot;no-labels&quot;: 2,</span><br><span class="line">        // 禁用不必要的嵌套块</span><br><span class="line">        &quot;no-lone-blocks&quot;: 2,</span><br><span class="line">        // 禁止在循环中出现 function 声明和表达式</span><br><span class="line">        &quot;no-loop-func&quot;: 1,</span><br><span class="line">        // 禁用魔术数字(3.14什么的用常量代替)</span><br><span class="line">        &quot;no-magic-numbers&quot;: [1, &#123;</span><br><span class="line">            &quot;ignore&quot;: [0, -1, 1]</span><br><span class="line">        &#125;],</span><br><span class="line">        // 禁止使用多个空格</span><br><span class="line">        &quot;no-multi-spaces&quot;: 2,</span><br><span class="line">        // 禁止使用多行字符串，在 JavaScript 中，可以在新行之前使用斜线创建多行字符串</span><br><span class="line">        &quot;no-multi-str&quot;: 2,</span><br><span class="line">        // 禁止对原生对象赋值</span><br><span class="line">        &quot;no-native-reassign&quot;: 2,</span><br><span class="line">        // 禁止在非赋值或条件语句中使用 new 操作符</span><br><span class="line">        &quot;no-new&quot;: 2,</span><br><span class="line">        // 禁止对 Function 对象使用 new 操作符</span><br><span class="line">        &quot;no-new-func&quot;: 0,</span><br><span class="line">        // 禁止对 String，Number 和 Boolean 使用 new 操作符</span><br><span class="line">        &quot;no-new-wrappers&quot;: 2,</span><br><span class="line">        // 禁用八进制字面量</span><br><span class="line">        &quot;no-octal&quot;: 2,</span><br><span class="line">        // 禁止在字符串中使用八进制转义序列</span><br><span class="line">        &quot;no-octal-escape&quot;: 2,</span><br><span class="line">        // 不允许对 function 的参数进行重新赋值</span><br><span class="line">        &quot;no-param-reassign&quot;: 0,</span><br><span class="line">        // 禁用 __proto__ 属性</span><br><span class="line">        &quot;no-proto&quot;: 2,</span><br><span class="line">        // 禁止使用 var 多次声明同一变量</span><br><span class="line">        &quot;no-redeclare&quot;: 2,</span><br><span class="line">        // 禁用指定的通过 require 加载的模块</span><br><span class="line">        &quot;no-return-assign&quot;: 0,</span><br><span class="line">        // 禁止使用 javascript: url</span><br><span class="line">        &quot;no-script-url&quot;: 0,</span><br><span class="line">        // 禁止自我赋值</span><br><span class="line">        &quot;no-self-assign&quot;: 2,</span><br><span class="line">        // 禁止自身比较</span><br><span class="line">        &quot;no-self-compare&quot;: 2,</span><br><span class="line">        // 禁用逗号操作符</span><br><span class="line">        &quot;no-sequences&quot;: 2,</span><br><span class="line">        // 禁止抛出非异常字面量</span><br><span class="line">        &quot;no-throw-literal&quot;: 2,</span><br><span class="line">        // 禁用一成不变的循环条件</span><br><span class="line">        &quot;no-unmodified-loop-condition&quot;: 2,</span><br><span class="line">        // 禁止出现未使用过的表达式</span><br><span class="line">        &quot;no-unused-expressions&quot;: 0,</span><br><span class="line">        // 禁用未使用过的标签</span><br><span class="line">        &quot;no-unused-labels&quot;: 2,</span><br><span class="line">        // 禁止不必要的 .call() 和 .apply()</span><br><span class="line">        &quot;no-useless-call&quot;: 2,</span><br><span class="line">        // 禁止不必要的字符串字面量或模板字面量的连接</span><br><span class="line">        &quot;no-useless-concat&quot;: 2,</span><br><span class="line">        // 禁用不必要的转义字符</span><br><span class="line">        &quot;no-useless-escape&quot;: 0,</span><br><span class="line">        // 禁用 void 操作符</span><br><span class="line">        &quot;no-void&quot;: 0,</span><br><span class="line">        // 禁止在注释中使用特定的警告术语</span><br><span class="line">        &quot;no-warning-comments&quot;: 0,</span><br><span class="line">        // 禁用 with 语句</span><br><span class="line">        &quot;no-with&quot;: 2,</span><br><span class="line">        // 强制在parseInt()使用基数参数</span><br><span class="line">        &quot;radix&quot;: 2,</span><br><span class="line">        // 要求所有的 var 声明出现在它们所在的作用域顶部</span><br><span class="line">        &quot;vars-on-top&quot;: 0,</span><br><span class="line">        // 要求 IIFE 使用括号括起来</span><br><span class="line">        &quot;wrap-iife&quot;: [2, &quot;any&quot;],</span><br><span class="line">        // 要求或禁止 “Yoda” 条件</span><br><span class="line">        &quot;yoda&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 要求或禁止使用严格模式指令</span><br><span class="line">        &quot;strict&quot;: 0,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 变量声明 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 要求或禁止 var 声明中的初始化(初值)</span><br><span class="line">        &quot;init-declarations&quot;: 0,</span><br><span class="line">        // 不允许 catch 子句的参数与外层作用域中的变量同名</span><br><span class="line">        &quot;no-catch-shadow&quot;: 0,</span><br><span class="line">        // 禁止删除变量</span><br><span class="line">        &quot;no-delete-var&quot;: 2,</span><br><span class="line">        // 不允许标签与变量同名</span><br><span class="line">        &quot;no-label-var&quot;: 2,</span><br><span class="line">        // 禁用特定的全局变量</span><br><span class="line">        &quot;no-restricted-globals&quot;: 0,</span><br><span class="line">        // 禁止 var 声明 与外层作用域的变量同名</span><br><span class="line">        &quot;no-shadow&quot;: 0,</span><br><span class="line">        // 禁止覆盖受限制的标识符</span><br><span class="line">        &quot;no-shadow-restricted-names&quot;: 2,</span><br><span class="line">        // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到</span><br><span class="line">        &quot;no-undef&quot;: 2,</span><br><span class="line">        // 禁止将变量初始化为 undefined</span><br><span class="line">        &quot;no-undef-init&quot;: 2,</span><br><span class="line">        // 禁止将 undefined 作为标识符</span><br><span class="line">        &quot;no-undefined&quot;: 0,</span><br><span class="line">        // 禁止出现未使用过的变量</span><br><span class="line">        &quot;no-unused-vars&quot;: [2, &#123;</span><br><span class="line">            &quot;vars&quot;: &quot;all&quot;,</span><br><span class="line">            &quot;args&quot;: &quot;none&quot;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 不允许在变量定义之前使用它们</span><br><span class="line">        &quot;no-use-before-define&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////////////////</span><br><span class="line">        // Node.js and CommonJS //</span><br><span class="line">        //////////////////////////</span><br><span class="line"></span><br><span class="line">        // require return statements after callbacks</span><br><span class="line">        &quot;callback-return&quot;: 0,</span><br><span class="line">        // 要求 require() 出现在顶层模块作用域中</span><br><span class="line">        &quot;global-require&quot;: 1,</span><br><span class="line">        // 要求回调函数中有容错处理</span><br><span class="line">        &quot;handle-callback-err&quot;: [2, &quot;^(err|error)$&quot;],</span><br><span class="line">        // 禁止混合常规 var 声明和 require 调用</span><br><span class="line">        &quot;no-mixed-requires&quot;: 0,</span><br><span class="line">        // 禁止调用 require 时使用 new 操作符</span><br><span class="line">        &quot;no-new-require&quot;: 2,</span><br><span class="line">        // 禁止对 __dirname 和 __filename进行字符串连接</span><br><span class="line">        &quot;no-path-concat&quot;: 0,</span><br><span class="line">        // 禁用 process.env</span><br><span class="line">        &quot;no-process-env&quot;: 0,</span><br><span class="line">        // 禁用 process.exit()</span><br><span class="line">        &quot;no-process-exit&quot;: 0,</span><br><span class="line">        // 禁用同步方法</span><br><span class="line">        &quot;no-sync&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 风格指南 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 指定数组的元素之间要以空格隔开(, 后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格</span><br><span class="line">        &quot;array-bracket-spacing&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 禁止或强制在单行代码块中使用空格(禁用)</span><br><span class="line">        &quot;block-spacing&quot;: [1, &quot;never&quot;],</span><br><span class="line">        //强制使用一致的缩进 第二个参数为 &quot;tab&quot; 时，会使用tab，</span><br><span class="line">        // if while function 后面的&#123;必须与if在同一行，java风格。</span><br><span class="line">        &quot;brace-style&quot;: [2, &quot;1tbs&quot;, &#123;</span><br><span class="line">            &quot;allowSingleLine&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 双峰驼命名格式</span><br><span class="line">        &quot;camelcase&quot;: 2,</span><br><span class="line">        // 控制逗号前后的空格</span><br><span class="line">        &quot;comma-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: false,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 控制逗号在行尾出现还是在行首出现 (默认行尾)</span><br><span class="line">        // http://eslint.org/docs/rules/comma-style</span><br><span class="line">        &quot;comma-style&quot;: [2, &quot;last&quot;],</span><br><span class="line">        //&quot;SwitchCase&quot; (默认：0) 强制 switch 语句中的 case 子句的缩进水平</span><br><span class="line">        // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always</span><br><span class="line">        &quot;computed-property-spacing&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 用于指统一在回调函数中指向this的变量名，箭头函数中的this已经可以指向外层调用者，应该没卵用了</span><br><span class="line">        // e.g [0,&quot;that&quot;] 指定只能 var that = this. that不能指向其他任何值，this也不能赋值给that以外的其他值</span><br><span class="line">        &quot;consistent-this&quot;: [1, &quot;that&quot;],</span><br><span class="line">        // 强制使用命名的 function 表达式</span><br><span class="line">        &quot;func-names&quot;: 0,</span><br><span class="line">        // 文件末尾强制换行</span><br><span class="line">        &quot;eol-last&quot;: 2,</span><br><span class="line">        &quot;indent&quot;: [2, 4, &#123;</span><br><span class="line">            &quot;SwitchCase&quot;: 1</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在对象字面量的属性中键和值之间使用一致的间距</span><br><span class="line">        &quot;key-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;beforeColon&quot;: false,</span><br><span class="line">            &quot;afterColon&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制使用一致的换行风格</span><br><span class="line">        &quot;linebreak-style&quot;: [1, &quot;unix&quot;],</span><br><span class="line">        // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)</span><br><span class="line">        &quot;lines-around-comment&quot;: [1, &#123;</span><br><span class="line">            &quot;beforeBlockComment&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制一致地使用函数声明或函数表达式，方法定义风格，参数：</span><br><span class="line">        // declaration: 强制使用方法声明的方式，function f()&#123;&#125; e.g [2, &quot;declaration&quot;]</span><br><span class="line">        // expression：强制使用方法表达式的方式，var f = function() &#123;&#125; e.g [2, &quot;expression&quot;]</span><br><span class="line">        // allowArrowFunctions: declaration风格中允许箭头函数。 e.g [2, &quot;declaration&quot;, &#123; &quot;allowArrowFunctions&quot;: true &#125;]</span><br><span class="line">        &quot;func-style&quot;: 0,</span><br><span class="line">        // 强制回调函数最大嵌套深度 5层</span><br><span class="line">        &quot;max-nested-callbacks&quot;: [1, 5],</span><br><span class="line">        // 禁止使用指定的标识符</span><br><span class="line">        &quot;id-blacklist&quot;: 0,</span><br><span class="line">        // 强制标识符的最新和最大长度</span><br><span class="line">        &quot;id-length&quot;: 0,</span><br><span class="line">        // 要求标识符匹配一个指定的正则表达式</span><br><span class="line">        &quot;id-match&quot;: 0,</span><br><span class="line">        // 强制在 JSX 属性中一致地使用双引号或单引号</span><br><span class="line">        &quot;jsx-quotes&quot;: 0,</span><br><span class="line">        // 强制在关键字前后使用一致的空格 (前后腰需要)</span><br><span class="line">        &quot;keyword-spacing&quot;: 2,</span><br><span class="line">        // 强制一行的最大长度</span><br><span class="line">        &quot;max-len&quot;: [1, 200],</span><br><span class="line">        // 强制最大行数</span><br><span class="line">        &quot;max-lines&quot;: 0,</span><br><span class="line">        // 强制 function 定义中最多允许的参数数量</span><br><span class="line">        &quot;max-params&quot;: [1, 7],</span><br><span class="line">        // 强制 function 块最多允许的的语句数量</span><br><span class="line">        &quot;max-statements&quot;: [1, 200],</span><br><span class="line">        // 强制每一行中所允许的最大语句数量</span><br><span class="line">        &quot;max-statements-per-line&quot;: 0,</span><br><span class="line">        // 要求构造函数首字母大写 （要求调用 new 操作符时有首字母大小的函数，允许调用首字母大写的函数时没有 new 操作符。）</span><br><span class="line">        &quot;new-cap&quot;: [2, &#123;</span><br><span class="line">            &quot;newIsCap&quot;: true,</span><br><span class="line">            &quot;capIsNew&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求调用无参构造函数时有圆括号</span><br><span class="line">        &quot;new-parens&quot;: 2,</span><br><span class="line">        // 要求或禁止 var 声明语句后有一行空行</span><br><span class="line">        &quot;newline-after-var&quot;: 0,</span><br><span class="line">        // 禁止使用 Array 构造函数</span><br><span class="line">        &quot;no-array-constructor&quot;: 2,</span><br><span class="line">        // 禁用按位运算符</span><br><span class="line">        &quot;no-bitwise&quot;: 0,</span><br><span class="line">        // 要求 return 语句之前有一空行</span><br><span class="line">        &quot;newline-before-return&quot;: 0,</span><br><span class="line">        // 要求方法链中每个调用都有一个换行符</span><br><span class="line">        &quot;newline-per-chained-call&quot;: 1,</span><br><span class="line">        // 禁用 continue 语句</span><br><span class="line">        &quot;no-continue&quot;: 0,</span><br><span class="line">        // 禁止在代码行后使用内联注释</span><br><span class="line">        &quot;no-inline-comments&quot;: 0,</span><br><span class="line">        // 禁止 if 作为唯一的语句出现在 else 语句中</span><br><span class="line">        &quot;no-lonely-if&quot;: 0,</span><br><span class="line">        // 禁止混合使用不同的操作符</span><br><span class="line">        &quot;no-mixed-operators&quot;: 0,</span><br><span class="line">        // 不允许空格和 tab 混合缩进</span><br><span class="line">        &quot;no-mixed-spaces-and-tabs&quot;: 2,</span><br><span class="line">        // 不允许多个空行</span><br><span class="line">        &quot;no-multiple-empty-lines&quot;: [2, &#123;</span><br><span class="line">            &quot;max&quot;: 2</span><br><span class="line">        &#125;],</span><br><span class="line">        // 不允许否定的表达式</span><br><span class="line">        &quot;no-negated-condition&quot;: 0,</span><br><span class="line">        // 不允许使用嵌套的三元表达式</span><br><span class="line">        &quot;no-nested-ternary&quot;: 0,</span><br><span class="line">        // 禁止使用 Object 的构造函数</span><br><span class="line">        &quot;no-new-object&quot;: 2,</span><br><span class="line">        // 禁止使用一元操作符 ++ 和 --</span><br><span class="line">        &quot;no-plusplus&quot;: 0,</span><br><span class="line">        // 禁止使用特定的语法</span><br><span class="line">        &quot;no-restricted-syntax&quot;: 0,</span><br><span class="line">        // 禁止 function 标识符和括号之间出现空格</span><br><span class="line">        &quot;no-spaced-func&quot;: 2,</span><br><span class="line">        // 不允许使用三元操作符</span><br><span class="line">        &quot;no-ternary&quot;: 0,</span><br><span class="line">        // 禁用行尾空格</span><br><span class="line">        &quot;no-trailing-spaces&quot;: 2,</span><br><span class="line">        // 禁止标识符中有悬空下划线_bar</span><br><span class="line">        &quot;no-underscore-dangle&quot;: 0,</span><br><span class="line">        // 禁止可以在有更简单的可替代的表达式时使用三元操作符</span><br><span class="line">        &quot;no-unneeded-ternary&quot;: 2,</span><br><span class="line">        // 禁止属性前有空白</span><br><span class="line">        &quot;no-whitespace-before-property&quot;: 0,</span><br><span class="line">        // 强制花括号内换行符的一致性</span><br><span class="line">        &quot;object-curly-newline&quot;: 0,</span><br><span class="line">        // 强制在花括号中使用一致的空格</span><br><span class="line">        &quot;object-curly-spacing&quot;: 0,</span><br><span class="line">        // 强制将对象的属性放在不同的行上</span><br><span class="line">        &quot;object-property-newline&quot;: 0,</span><br><span class="line">        // 强制函数中的变量要么一起声明要么分开声明</span><br><span class="line">        &quot;one-var&quot;: [2, &#123;</span><br><span class="line">            &quot;initialized&quot;: &quot;never&quot;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止在 var 声明周围换行</span><br><span class="line">        &quot;one-var-declaration-per-line&quot;: 0,</span><br><span class="line">        // 要求或禁止在可能的情况下要求使用简化的赋值操作符</span><br><span class="line">        &quot;operator-assignment&quot;: 0,</span><br><span class="line">        // 强制操作符使用一致的换行符</span><br><span class="line">        &quot;operator-linebreak&quot;: [2, &quot;after&quot;, &#123;</span><br><span class="line">            &quot;overrides&quot;: &#123;</span><br><span class="line">                &quot;?&quot;: &quot;before&quot;,</span><br><span class="line">                &quot;:&quot;: &quot;before&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止块内填充</span><br><span class="line">        &quot;padded-blocks&quot;: 0,</span><br><span class="line">        // 要求对象字面量属性名称用引号括起来</span><br><span class="line">        &quot;quote-props&quot;: 0,</span><br><span class="line">        // 强制使用一致的反勾号、双引号或单引号</span><br><span class="line">        &quot;quotes&quot;: [2, &quot;double&quot;, &quot;avoid-escape&quot;],</span><br><span class="line">        // 要求使用 JSDoc 注释</span><br><span class="line">        &quot;require-jsdoc&quot;: 1,</span><br><span class="line">        // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）</span><br><span class="line">        &quot;semi&quot;: [2, &quot;always&quot;],</span><br><span class="line">        // 强制分号之前和之后使用一致的空格</span><br><span class="line">        &quot;semi-spacing&quot;: 0,</span><br><span class="line">        // 要求同一个声明块中的变量按顺序排列</span><br><span class="line">        &quot;sort-vars&quot;: 0,</span><br><span class="line">        // 强制在块之前使用一致的空格</span><br><span class="line">        &quot;space-before-blocks&quot;: [2, &quot;always&quot;],</span><br><span class="line">        // 强制在 function的左括号之前使用一致的空格</span><br><span class="line">        &quot;space-before-function-paren&quot;: [0, &quot;always&quot;],</span><br><span class="line">        // 强制在圆括号内使用一致的空格</span><br><span class="line">        &quot;space-in-parens&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 要求操作符周围有空格</span><br><span class="line">        &quot;space-infix-ops&quot;: 2,</span><br><span class="line">        // 强制在一元操作符前后使用一致的空格</span><br><span class="line">        &quot;space-unary-ops&quot;: [2, &#123;</span><br><span class="line">            &quot;words&quot;: true,</span><br><span class="line">            &quot;nonwords&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在注释中 // 或 /* 使用一致的空格</span><br><span class="line">        &quot;spaced-comment&quot;: [2, &quot;always&quot;, &#123;</span><br><span class="line">            &quot;markers&quot;: [&quot;global&quot;, &quot;globals&quot;, &quot;eslint&quot;, &quot;eslint-disable&quot;, &quot;*package&quot;, &quot;!&quot;]</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止 Unicode BOM</span><br><span class="line">        &quot;unicode-bom&quot;: 0,</span><br><span class="line">        // 要求正则表达式被括号括起来</span><br><span class="line">        &quot;wrap-regex&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // ES6.相关 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 要求箭头函数体使用大括号</span><br><span class="line">        &quot;arrow-body-style&quot;: 2,</span><br><span class="line">        // 要求箭头函数的参数使用圆括号</span><br><span class="line">        &quot;arrow-parens&quot;: 2,</span><br><span class="line">        &quot;arrow-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: true,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在子类构造函数中用super()调用父类构造函数，TypeScrip的编译器也会提示</span><br><span class="line">        &quot;constructor-super&quot;: 0,</span><br><span class="line">        // 强制 generator 函数中 * 号周围使用一致的空格</span><br><span class="line">        &quot;generator-star-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: true,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 禁止修改类声明的变量</span><br><span class="line">        &quot;no-class-assign&quot;: 2,</span><br><span class="line">        // 不允许箭头功能，在那里他们可以混淆的比较</span><br><span class="line">        &quot;no-confusing-arrow&quot;: 0,</span><br><span class="line">        // 禁止修改 const 声明的变量</span><br><span class="line">        &quot;no-const-assign&quot;: 2,</span><br><span class="line">        // 禁止类成员中出现重复的名称</span><br><span class="line">        &quot;no-dupe-class-members&quot;: 2,</span><br><span class="line">        // 不允许复制模块的进口</span><br><span class="line">        &quot;no-duplicate-imports&quot;: 0,</span><br><span class="line">        // 禁止 Symbol 的构造函数</span><br><span class="line">        &quot;no-new-symbol&quot;: 2,</span><br><span class="line">        // 允许指定模块加载时的进口</span><br><span class="line">        &quot;no-restricted-imports&quot;: 0,</span><br><span class="line">        // 禁止在构造函数中，在调用 super() 之前使用 this 或 super</span><br><span class="line">        &quot;no-this-before-super&quot;: 2,</span><br><span class="line">        // 禁止不必要的计算性能键对象的文字</span><br><span class="line">        &quot;no-useless-computed-key&quot;: 0,</span><br><span class="line">        // 要求使用 let 或 const 而不是 var</span><br><span class="line">        &quot;no-var&quot;: 0,</span><br><span class="line">        // 要求或禁止对象字面量中方法和属性使用简写语法</span><br><span class="line">        &quot;object-shorthand&quot;: 0,</span><br><span class="line">        // 要求使用箭头函数作为回调</span><br><span class="line">        &quot;prefer-arrow-callback&quot;: 0,</span><br><span class="line">        // 要求使用 const 声明那些声明后不再被修改的变量</span><br><span class="line">        &quot;prefer-const&quot;: 0,</span><br><span class="line">        // 要求在合适的地方使用 Reflect 方法</span><br><span class="line">        &quot;prefer-reflect&quot;: 0,</span><br><span class="line">        // 要求使用扩展运算符而非 .apply()</span><br><span class="line">        &quot;prefer-spread&quot;: 0,</span><br><span class="line">        // 要求使用模板字面量而非字符串连接</span><br><span class="line">        &quot;prefer-template&quot;: 0,</span><br><span class="line">        // Suggest using the rest parameters instead of arguments</span><br><span class="line">        &quot;prefer-rest-params&quot;: 0,</span><br><span class="line">        // 要求generator 函数内有 yield</span><br><span class="line">        &quot;require-yield&quot;: 0,</span><br><span class="line">        // enforce spacing between rest and spread operators and their expressions</span><br><span class="line">        &quot;rest-spread-spacing&quot;: 0,</span><br><span class="line">        // 强制模块内的 import 排序</span><br><span class="line">        &quot;sort-imports&quot;: 0,</span><br><span class="line">        // 要求或禁止模板字符串中的嵌入表达式周围空格的使用</span><br><span class="line">        &quot;template-curly-spacing&quot;: 1,</span><br><span class="line">        // 强制在 yield* 表达式中 * 周围使用空格</span><br><span class="line">        &quot;yield-star-spacing&quot;: 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -809,50 +824,33 @@ Idea集成GitLab
 <li>关闭下一行校验</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// eslint-disable-next-line</span><br><span class="line">some code</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/" data-id="cl7icg7b400wqugun1gnd2g8k" data-title="eslint配置" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序速度提升" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/" class="article-date">
-  <time class="dt-published" datetime="2018-11-02T12:42:58.000Z" itemprop="datePublished">2018-11-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/">小程序应用速度提升</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>小程序启动会常常遇到如下图场景：</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序应用速度提升">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/">小程序应用速度提升</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-02
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>小程序启动会常常遇到如下图场景：</p>
 <p><img src="https://static.vue-js.com/03941230-3279-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
 <p>这是因为，小程序首次启动前，微信会在小程序启动前为小程序准备好通用的运行环境，如运行中的县城和一些基础库的初始化</p>
 <p>然后才开始进入启动状态，展示一个固定的启动界面，界面内包含小程序的图标、名称和加载提示图标。此时，微信会在背后完成几项工作：</p>
@@ -900,50 +898,33 @@ Idea集成GitLab
 <li>使用自定义组件</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/" data-id="cl7icg7cl00zwugun97qpblus" data-title="小程序应用速度提升" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序支付流程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-10-25T07:31:26.000Z" itemprop="datePublished">2018-10-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/">小程序支付流程</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>微信小程序为电商类小程序，提供了非常完善、优秀、安全的支付功能</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序支付流程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/">小程序支付流程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-25
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>微信小程序为电商类小程序，提供了非常完善、优秀、安全的支付功能</p>
 <p>在小程序内可调用微信的<code>API</code>完成支付功能，方便、快捷</p>
 <p>场景如下图所示：</p>
 <p><img src="https://static.vue-js.com/6e0cff40-34a0-11ec-a752-75723a64e8f5.png" alt="img"></p>
@@ -976,50 +957,33 @@ Idea集成GitLab
 <p><img src="https://files.mdnice.com/user/155/48efed1f-d67f-45a7-ab2c-89a6424fafa0.png" alt="img"></p>
 <h2 id="三、结束"><a href="#三、结束" class="headerlink" title="三、结束"></a>三、结束</h2><p>小程序支付和以往的网页、APP微信支付大同小异，可以说小程序的支付变得更加简洁，不需要设置支付目录、域名授权等操作</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/" data-id="cl7icg7ci00zkugun4iij0m8b" data-title="小程序支付流程" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序发布流程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-10-17T06:22:42.000Z" itemprop="datePublished">2018-10-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">小程序发布流程</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>在中大型的公司里，人员的分工非常仔细，一般会有不同岗位角色的员工同时参与同一个小程序项目。为此，小程序平台设计了不同的权限管理使得项目管理者可以更加高效管理整个团队的协同工作</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序发布流程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">小程序发布流程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-17
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>在中大型的公司里，人员的分工非常仔细，一般会有不同岗位角色的员工同时参与同一个小程序项目。为此，小程序平台设计了不同的权限管理使得项目管理者可以更加高效管理整个团队的协同工作</p>
 <p><img src="https://static.vue-js.com/e76aff50-3652-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
 <p>以往我们在开发完网页之后，需要把网页的代码和资源放在服务器上，让用户通过互联网来访问</p>
 <p>在小程序的平台里，开发者完成开发之后，需要在开发者工具提交小程序的代码包，然后在小程序后台发布小程序</p>
@@ -1059,50 +1023,33 @@ Idea集成GitLab
 <p>因此可以考虑自动化构建部署，就是将从开发到部署的一系列流程变成自动化，衔接连贯，在构建失败时能够告知开发者，构建成功后能够告知测试和实施人员，可参考如下流程图：</p>
 <p><img src="https://static.vue-js.com/602d9bf0-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" data-id="cl7icg7ch00zeugun066p6ft6" data-title="小程序发布流程" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序生命周期" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="article-date">
-  <time class="dt-published" datetime="2018-10-13T02:24:19.000Z" itemprop="datePublished">2018-10-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">小程序生命周期</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>跟<code>vue</code>、<code>react</code>框架一样，微信小程序框架也存在生命周期，实质也是一堆会在特定时期执行的函数</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序生命周期">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">小程序生命周期</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-13
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>跟<code>vue</code>、<code>react</code>框架一样，微信小程序框架也存在生命周期，实质也是一堆会在特定时期执行的函数</p>
 <p>小程序中，生命周期主要分成了三部分：</p>
 <ul>
 <li>应用的生命周期</li>
@@ -1264,50 +1211,33 @@ Idea集成GitLab
 <li>再次进入：小程序未销毁 –&gt; (App)onShow(执行上面的顺序），小程序被销毁，（App)onLaunch重新开始执行</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" data-id="cl7icg7cj00znugun58vg1qbq" data-title="小程序生命周期" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-小程序+uniapp/小程序路由跳转" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/" class="article-date">
-  <time class="dt-published" datetime="2018-10-09T13:14:39.000Z" itemprop="datePublished">2018-10-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/">小程序路由跳转</a>
-    </h1>
-  
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">Read More</a>
+    </footer>
+</div>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>微信小程序拥有<code>web</code>网页和<code>Application</code>共同的特征，我们的页面都不是孤立存在的，而是通过和其他页面进行交互，来共同完成系统的功能</p>
+<div class="cube-excerpt" id="cube-excerpt-小程序路由跳转">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/">小程序路由跳转</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-09
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>微信小程序拥有<code>web</code>网页和<code>Application</code>共同的特征，我们的页面都不是孤立存在的，而是通过和其他页面进行交互，来共同完成系统的功能</p>
 <p>在微信小程序中，每个页面可以看成是一个<code>pageModel</code>，<code>pageModel</code>全部以栈的形式进行管理</p>
 <h2 id="二、有哪些"><a href="#二、有哪些" class="headerlink" title="二、有哪些"></a>二、有哪些</h2><p>常见的微信小程序页面跳转方式有如下：</p>
 <ul>
@@ -1358,145 +1288,601 @@ Idea集成GitLab
 <li>reLanch 页面全部出栈，只留下新的页面</li>
 </ul>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/" data-id="cl7icg7ck00ztugun5mki3lw7" data-title="小程序路由跳转" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li></ul>
-
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/">Read More</a>
     </footer>
-  </div>
-  
-</article>
+</div>
 
 
 
-  
-
-
-  <nav id="page-nav">
+<ul class="cube-pagination cube-pagination-9">
     
-    <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <li class="cube-pagination-prev">
+        <a href="/page/12/">« Prev</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/liunx/">liunx</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">移动端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">问题</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">音视频</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">前端性能优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">算法</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">数据可视化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">架构模式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">框架</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mock/" rel="tag">Mock</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RESTful/" rel="tag">RESTful</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/async-await/" rel="tag">async&#x2F;await</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/echart/" rel="tag">echart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eslint/" rel="tag">eslint</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/glup/" rel="tag">glup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http/" rel="tag">http</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/" rel="tag">nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/typescript/" rel="tag">typescript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vs-code/" rel="tag">vs code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue3/" rel="tag">vue3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xml/" rel="tag">xml</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag">小程序</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" rel="tag">移动端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
-    </div>
-  </div>
-
-
-  
+        
+                <li class="cube-pagination-index">
+                    <a href="/">1</a>
+                </li>
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/12">12</a>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index disabled">
+                    <span>13</span>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/14">14</a>
+                </li>
+                
+            
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+                <li class="cube-pagination-index">
+                    <a href="/page/19">19</a>
+                </li>
+        
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">June 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
+    <li class="cube-pagination-next">
+        <a href="/page/14/">Next »</a>
+    </li>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">变量类型</a>
-          </li>
-        
-          <li>
-            <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/">js-常用代码操作实例</a>
-          </li>
-        
-          <li>
-            <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/">html-原生音视频</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/">DNS协议</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/">ES6 装饰器</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+</ul>
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+<!--其他组件后续添加-->
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
     </div>
-  </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/content.json'
+        window.searchModule.rootUrl = '/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="Search" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>John Doe</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>186</span>Article</a>
+        <a class="count tags"><span>35</span>Tags</a>
+        <a class="count categories"><span>23</span>Categories</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: 'Open Lyrics',
+            close: 'Close Lyrics'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>Recent Posts</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="变量类型">变量类型</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/" title="DNS协议">DNS协议</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" title="ES6 装饰器">ES6 装饰器</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/categories">Categories</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">#音视频</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/">#后端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">#问题</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">#架构模式</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">#前端工程化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/liunx/">#liunx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B7%A5%E5%85%B7/">#工具</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">#数据可视化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#前端性能优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/tags">Tagcloud</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/vue/">#vue</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/html/">#html</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/xml/">#xml</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/css/">#css</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nodejs/">#nodejs</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/Promise/">#Promise</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/python/">#python</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/es6/">#es6</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/typescript/">#typescript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/async-await/">#async/await</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue3/">#vue3</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/react/">#react</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/Redux/">#Redux</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/glup/">#glup</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/webpack/">#webpack</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nginx/">#nginx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/git/">#git</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Mock/">#Mock</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/RESTful/">#RESTful</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/eslint/">#eslint</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/hexo/">#hexo</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vs-code/">#vs code</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/echart/">#echart</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/mongodb/">#mongodb</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/mysql/">#mysql</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E4%BC%98%E5%8C%96/">#优化</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/GitHub.png">
+            
+            <a href="https://github.com/ZEROKISEKI" target="_blank">GitHub</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/Coding.png">
+            
+            <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/SF.png">
+            
+            <a href="https://segmentfault.com/u/aonosora" target="_blank">SF社区</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/开发者头条.png">
+            
+            <a href="https://toutiao.io/u/148070" target="_blank">开发者头条</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>Friend Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/micblo.png">
+            <a href="https://blog.micblo.com/" target="_blank">罗大佬</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/DIYgod.jpg">
+            <a href="https://www.anotherhome.net/" target="_blank">DIYgod</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/images/friend_links.jpg ">
+            <a href="https://aonosora.com/" target="_blank">咪西西の部落格</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 John Doe
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
 </footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
+<!-- inject:script -->
 <script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
+<!-- endinject -->
+<div class="cube-loading out"></div>
 </body>
 </html>
