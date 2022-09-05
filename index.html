@@ -225,6 +225,158 @@
     </footer>
 </div>
 
+<div class="cube-excerpt" id="cube-excerpt-echarts图标自适应方法">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2022/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/">echarts图标自适应方法</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2022-07-15
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>在使用echarts是，当放大缩放屏幕时，会出现echarts图形因未自适应而导致溢出div的情况</p>
+<p>面对此问题，可以使用resize监听来实现效果，核心代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;resize&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">     <span class="variable constant_">XXX</span>.<span class="title function_">resize</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>实例：</p>
+<p>标签写法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-row</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-col</span> <span class="attr">:xs</span>=<span class="string">&quot;24&quot;</span> <span class="attr">:sm</span>=<span class="string">&quot;24&quot;</span> <span class="attr">:lg</span>=<span class="string">&quot;24&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;chart-wrapper&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;testBottom&quot;</span> <span class="attr">class</span>=<span class="string">&quot;chart-wrapper&quot;</span> <span class="attr">style</span>=<span class="string">&quot;width: 100%; height: 600px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-col</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-row</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>生命周期中调用生成echarts图表的方法，该方法具体如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//测试用</span></span><br><span class="line"><span class="title function_">getTest</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> chartDom = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;testBottom&#x27;</span>);	<span class="comment">//找到目标对应节点</span></span><br><span class="line">    <span class="keyword">var</span> myChart = echarts.<span class="title function_">init</span>(chartDom);		<span class="comment">//处理一下</span></span><br><span class="line">    <span class="keyword">var</span> option = &#123;</span><br><span class="line">        <span class="attr">xAxis</span>: &#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;category&#x27;</span>,</span><br><span class="line">            <span class="attr">boundaryGap</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">data</span>: [<span class="string">&#x27;Mon&#x27;</span>, <span class="string">&#x27;Tue&#x27;</span>, <span class="string">&#x27;Wed&#x27;</span>, <span class="string">&#x27;Thu&#x27;</span>, <span class="string">&#x27;Fri&#x27;</span>, <span class="string">&#x27;Sat&#x27;</span>, <span class="string">&#x27;Sun&#x27;</span>]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">yAxis</span>: &#123;</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;value&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">series</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">data</span>: [<span class="number">820</span>, <span class="number">932</span>, <span class="number">901</span>, <span class="number">934</span>, <span class="number">1290</span>, <span class="number">1330</span>, <span class="number">1320</span>],</span><br><span class="line">                <span class="attr">type</span>: <span class="string">&#x27;line&#x27;</span>,</span><br><span class="line">                <span class="attr">areaStyle</span>: &#123;&#125;</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">    option &amp;&amp; myChart.<span class="title function_">setOption</span>(option)		</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;resize&quot;</span>,<span class="keyword">function</span>(<span class="params"></span>)&#123;		<span class="comment">//对该对象进行处理，设置resize</span></span><br><span class="line">        myChart.<span class="title function_">resize</span>();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>这样，效果就实现了。</p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2022/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-浏览器多进程与多线程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2022/07/15/bug/a01/">浏览器多进程与多线程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2022-07-15
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <p>首先先要区分什么是多进程，什么是多线程。</p>
+<p>举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- 进程是一个工厂，工厂有它的独立资源</span><br><span class="line"> </span><br><span class="line">- 工厂之间相互独立</span><br><span class="line"> </span><br><span class="line">- 线程是工厂中的工人，多个工人协作完成任务</span><br><span class="line"> </span><br><span class="line">- 工厂内有一个或多个工人</span><br><span class="line"> </span><br><span class="line">- 工人之间共享空间</span><br></pre></td></tr></table></figure>
+
+<p>再完善一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- 工厂的资源 -&gt; 系统分配的内存（独立的一块内存）</span><br><span class="line"> </span><br><span class="line">- 工厂之间的相互独立 -&gt; 进程之间相互独立</span><br><span class="line"> </span><br><span class="line">- 多个工人协作完成任务 -&gt; 多个线程在进程中协作完成任务</span><br><span class="line"> </span><br><span class="line">- 工厂内有一个或多个工人 -&gt; 一个进程由一个或多个线程组成</span><br><span class="line"> </span><br><span class="line">- 工人之间共享空间 -&gt; 同一进程下的各个线程之间共享程序的内存空间（包括代码段、数据集、堆等）</span><br></pre></td></tr></table></figure>
+
+<p>最后，再用较为官方的术语描述一遍：</p>
+<ul>
+<li>进程是cpu资源分配的最小单位（是能拥有资源和独立运行的最小单位）</li>
+<li>线程是cpu调度的最小单位（线程是建立在进程的基础上的一次程序运行单位，一个进程中可以有多个线程）</li>
+</ul>
+<h2 id="浏览器是多进程的"><a href="#浏览器是多进程的" class="headerlink" title="浏览器是多进程的"></a>浏览器是多进程的</h2><p>理解了进程与线程了区别后，接下来对浏览器进行一定程度上的认识：（先看下简化理解）</p>
+<ul>
+<li>浏览器是多进程的</li>
+<li>浏览器之所以能够运行，是因为系统给它的进程分配了资源（cpu、内存）</li>
+<li>简单点理解，每打开一个Tab页，就相当于创建了一个独立的浏览器进程。</li>
+</ul>
+<p>关于以上几点的验证，请再第一张图：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/27ef73c788c36244ed3297806b079988.png" alt="27ef73c788c36244ed3297806b079988.png (732×438) (csdnimg.cn)"></p>
+<p>图中打开了<code>Chrome</code>浏览器的多个标签页，然后可以在<code>Chrome的任务管理器</code>中看到有多个进程（分别是每一个Tab页面有一个独立的进程，以及一个主进程）。感兴趣的可以自行尝试下，如果再多打开一个Tab页，进程正常会+1以上</p>
+<p>注意：在这里浏览器应该也有自己的优化机制，有时候打开多个tab页后，可以在Chrome任务管理器中看到，有些进程被合并了 （所以每一个Tab标签对应一个进程并不一定是绝对的）</p>
+<h3 id="浏览器都包含哪些进程？"><a href="#浏览器都包含哪些进程？" class="headerlink" title="浏览器都包含哪些进程？"></a>浏览器都包含哪些进程？</h3><p>知道了浏览器是多进程后，再来看看它到底包含哪些进程：（为了简化理解，仅列举主要进程）</p>
+<ol>
+<li>Browser进程：浏览器的主进程（负责协调、主控），只有一个。作用有</li>
+</ol>
+<ul>
+<li>负责浏览器界面显示，与用户交互。如前进，后退等</li>
+<li>负责各个页面的管理，创建和销毁其他进程</li>
+<li>将Renderer进程得到的内存中的Bitmap，绘制到用户界面上</li>
+<li>网络资源的管理，下载等</li>
+</ul>
+<p>2.第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建</p>
+<p>3.GPU进程：最多一个，用于3D绘制等</p>
+<p>4.浏览器渲染进程（浏览器内核）（Renderer进程，内部是多线程的）：默认每个Tab页面一个进程，互不影响。主要作用为</p>
+<ul>
+<li>页面渲染，脚本执行，事件处理等</li>
+</ul>
+<p>强化记忆：在浏览器中打开一个网页相当于新起了一个进程（进程内有自己的多线程）</p>
+<p>当然，浏览器有时会将多个进程合并（譬如打开多个空白标签页后，会发现多个空白标签页被合并成了一个进程</p>
+<h3 id="浏览器多进程的优势"><a href="#浏览器多进程的优势" class="headerlink" title="浏览器多进程的优势"></a>浏览器多进程的优势</h3><p>相比于单进程浏览器，多进程有如下优点：</p>
+<ul>
+<li>避免单个page crash影响整个浏览器</li>
+<li>避免第三方插件crash影响整个浏览器</li>
+<li>多进程充分利用多核优势</li>
+<li>方便使用沙盒模型隔离插件等进程，提高浏览器稳定性</li>
+</ul>
+<p>简单点理解：如果浏览器是单进程，那么某个Tab页崩溃了，就影响了整个浏览器，体验有多差；同理如果是单进程，插件崩溃了也会影响整个浏览器；而且多进程还有其它的诸多优势。。。</p>
+<p>当然，内存等资源消耗也会更大，有点空间换时间的意思。</p>
+<h3 id="重点是浏览器内核（渲染进程）"><a href="#重点是浏览器内核（渲染进程）" class="headerlink" title="重点是浏览器内核（渲染进程）"></a>重点是浏览器内核（渲染进程）</h3><p>对于普通的前端操作来说，最终要的是什么呢？答案是渲染进程</p>
+<p>可以这样理解，页面的渲染，JS的执行，事件的循环，都在这个进程内进行。接下来重点分析这个进程。</p>
+<ol>
+<li>GUI渲染线程</li>
+</ol>
+<ul>
+<li>负责渲染浏览器界面，解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。</li>
+<li>当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行</li>
+<li>注意，GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。</li>
+</ul>
+<p>2.JS引擎线程</p>
+<ul>
+<li>也称为JS内核，负责处理Javascript脚本程序。（例如V8引擎）</li>
+<li>JS引擎线程负责解析Javascript脚本，运行代码。</li>
+<li>JS引擎一直等待着任务队列中任务的到来，然后加以处理，一个Tab页（renderer进程）中无论什么时候都只有一个JS线程在运行JS程序</li>
+<li>同样注意，GUI渲染线程与JS引擎线程是互斥的，所以如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。</li>
+</ul>
+<p>3.事件触发线程</p>
+<ul>
+<li>归属于浏览器而不是JS引擎，用来控制事件循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）</li>
+<li>当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中</li>
+<li>当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理</li>
+<li>注意，由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）</li>
+</ul>
+<p>4.定时触发器线程</p>
+<ul>
+<li>传说中的<code>setInterval</code>与<code>setTimeout</code>所在线程</li>
+<li>浏览器定时计数器并不是由JavaScript引擎计数的,（因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确）</li>
+<li>因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待JS引擎空闲后执行）</li>
+<li>注意，W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。</li>
+</ul>
+<p>5.异步http请求线程</p>
+<ul>
+<li>在XMLHttpRequest在连接后是通过浏览器新开一个线程请求</li>
+<li>将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中。再由JavaScript引擎执行。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9220e31c5c46876806e02f1d32436558.png" alt="9220e31c5c46876806e02f1d32436558.png (287×577) (csdnimg.cn)"></p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2022/07/15/bug/a01/">Read More</a>
+    </footer>
+</div>
+
 <div class="cube-excerpt" id="cube-excerpt-js-常用代码操作实例">
     <header class="cube-excerpt-header">
         <h1><a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/">js-常用代码操作实例</a></h1>
@@ -1321,245 +1473,6 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
     </footer>
 </div>
 
-<div class="cube-excerpt" id="cube-excerpt-移动端适配">
-    <header class="cube-excerpt-header">
-        <h1><a href="/2022/02/15/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80%E9%80%82%E9%85%8D/">移动端适配</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2022-02-15
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/tags/html/" class="cube-excerpt-tag-link">#html</a>
-                
-                <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" class="cube-excerpt-tag-link">#移动端</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <h2 id="一、为什么要做适配"><a href="#一、为什么要做适配" class="headerlink" title="一、为什么要做适配"></a>一、为什么要做适配</h2><ul>
-<li>为了适应各种移动端设备，完美呈现应有的布局效果</li>
-<li>各个移动端设备，分辨率大小不一致，网页想铺满整个屏幕，并在各种分辨下等比缩放</li>
-</ul>
-<h2 id="二、适配方案"><a href="#二、适配方案" class="headerlink" title="二、适配方案"></a>二、适配方案</h2><ul>
-<li>固定高度，宽度百分比适配-布局非常均匀，适合百分比布局</li>
-<li>固定宽度，改变缩放比例适配-什么情况都可以</li>
-<li><code>Rem</code>适配</li>
-<li>像素比适配</li>
-</ul>
-<h2 id="三、单位"><a href="#三、单位" class="headerlink" title="三、单位"></a>三、单位</h2><ul>
-<li><code>em</code>根据元素自身的字体大小计算,元素自身 <code>16px</code> <code>1em=16px</code></li>
-<li><code>Rem</code> <code>R -&gt; root</code> 根节点( <code>html</code> ) 根据<code>html</code>的字体大小计算其他元素尺寸</li>
-</ul>
-<h2 id="四、百分比适配-常用"><a href="#四、百分比适配-常用" class="headerlink" title="四、百分比适配(常用)"></a>四、百分比适配(常用)</h2><blockquote>
-<p>固定高度，宽度百分比适配</p>
-</blockquote>
-<ul>
-<li>根据设置的大小去设置高度，单位可以用<code>px</code> 百分比 <code>auto</code></li>
-<li>常用<code>Flex</code>布局</li>
-<li>百分比宽度</li>
-</ul>
-<blockquote>
-<p>以<code>640</code>设计稿为例，在外层容器上设置最大以及最小的宽</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#wrapper &#123;</span><br><span class="line">    max-width: 640px; /*设置设计稿的宽度*/</span><br><span class="line">    min-width: 300px;</span><br><span class="line">    margin: 0 auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>后面的区块布局都用百分比，具体元素大小用<code>px</code>计算</p>
-</blockquote>
-<ul>
-<li>也就是宽度用百分比，高度用<code>px</code></li>
-<li>高度以及图片不要定死，让它自动撑开</li>
-</ul>
-<h2 id="五、Rem适配-常用"><a href="#五、Rem适配-常用" class="headerlink" title="五、Rem适配(常用)"></a>五、Rem适配(常用)</h2><ul>
-<li>根据屏幕的分辨率动态设置<code>html</code>的文字大小，达到等比缩放的功能</li>
-<li>保证<code>html</code>最终算出来的字体大小，不能小于<code>12px</code></li>
-<li>在不同的移动端显示不同的元素比例效果</li>
-<li>如果<code>html</code>的<code>font-size:20px</code>的时候，那么此时的<code>1rem = 20px</code></li>
-<li>把设计图的宽度分成多少分之一，根据实际情况</li>
-<li><code>rem</code>做盒子的宽度，<code>viewport</code>缩放</li>
-</ul>
-<blockquote>
-<p><code>head</code>加入常见的<code>meta</code>属性</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;format-detection&quot; content=&quot;telephone=no&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-capable&quot; content=&quot;yes&quot;&gt;</span><br><span class="line">&lt;meta name=&quot;apple-mobile-web-app-status-bar-style&quot; content=&quot;black&quot;&gt;</span><br><span class="line">&lt;!--这个是关键--&gt;</span><br><span class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0，minimum-scale=1.0&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>把这段代码加入<code>head</code>中的<code>script</code>预先加载</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// rem适配用这段代码动态计算html的font-size大小</span><br><span class="line">(function(win) &#123;</span><br><span class="line">    var docEl = win.document.documentElement;</span><br><span class="line">    var timer = &#x27;&#x27;;</span><br><span class="line"></span><br><span class="line">    function changeRem() &#123;</span><br><span class="line">        var width = docEl.getBoundingClientRect().width;</span><br><span class="line">        if (width &gt; 750) &#123; // 750是设计稿大小</span><br><span class="line">            width = 750;</span><br><span class="line">        &#125;</span><br><span class="line">        var fontS = width / 10; // 把设备宽度十等分 1rem=10px</span><br><span class="line">        docEl.style.fontSize = fontS + &quot;px&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    win.addEventListener(&quot;resize&quot;, function() &#123;</span><br><span class="line">        clearTimeout(timer);</span><br><span class="line">        timer = setTimeout(changeRem, 30);</span><br><span class="line">    &#125;, false);</span><br><span class="line">    win.addEventListener(&quot;pageshow&quot;, function(e) &#123;</span><br><span class="line">        if (e.persisted) &#123; //清除缓存</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = setTimeout(changeRem, 30);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, false);</span><br><span class="line">    changeRem();</span><br><span class="line">&#125;)(window)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>或者使用淘宝提供的库 <a target="_blank" rel="noopener" href="https://github.com/amfe/lib-flexible">https://github.com/amfe/lib-flexible</a></li>
-</ul>
-<p><strong>布局细节</strong></p>
-<ul>
-<li>结构用<code>section</code>区块划分更语义化</li>
-<li>然后在<code>body</code>设置宽度</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">body &#123;</span><br><span class="line">    width: 10rem;</span><br><span class="line">    margin: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>后面的区块都以百分比布局</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;wrapper&quot;&gt;</span><br><span class="line">   &lt;header&gt;&lt;header&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">   &lt;section&gt;&lt;section&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">section,</span><br><span class="line">header &#123;</span><br><span class="line">    width: 100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>把视觉稿中的 px 转换成 rem</strong></p>
-<blockquote>
-<p>首先，目前日常工作当中，视觉设计师给到前端开发人员手中的视觉稿尺寸一般是基于 <code>640px</code> 、 <code>750px</code> 以及 <code>1125px</code> 宽度为准。甚至为什么？大家应该懂的（考虑<code>Retina</code>屏）</p>
-</blockquote>
-<blockquote>
-<p>假定设计稿的大小为<code>750</code>，那么我们则将整个图分成<code>10</code>等份来看。&#96;&#96; 对应的 <code>font-size</code>为<code>75px</code></p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">html&#123;</span><br><span class="line">	font-size: 75px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>这样一来，对于视觉稿上的元素尺寸换算，只需要原始的 <code>px</code>值 除以 <code>rem</code>基准值 即可</li>
-</ul>
-<blockquote>
-<p>那么，我们现在就可以比对设计稿，比如设计稿中，有一个<code>div</code>元素，宽度，高度都为<code>20px</code>,那么我们这样写即可（可以用 <code>markman</code>标准设计稿的元素大小）</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">	height: 0.27rem; /*20/75*/</span><br><span class="line">	width: 0.27rem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>动态计算的<code>rem</code>最后会帮我们动态计算元素在不同屏幕下的宽高</li>
-<li>对于设计稿上的每个元素的尺寸在设计稿大小已知的时候，我们需要测量出，然后在用测量的宽高除以设计稿<code>750</code>的十分之一也就是<code>75</code>,得到我们想要的<code>rem</code>。而<code>rem</code>是根据屏幕动态变化的，也就达到了适配的效果。也就是同一套设计稿运用在不同的设备上。</li>
-</ul>
-<blockquote>
-<p>比如当我们切换到<code>320</code>设备大小的时候，这时候<code>1rem=32px;</code> <code>div</code>的像素实际是<code>0.27*32=8.64px``0.27</code>是我们在已知设计稿是<code>750</code>的情况下计算出来的，<code>rem</code>用来动态计算而已</p>
-</blockquote>
-<ul>
-<li>对于<code>margin</code> <code>padding</code> <code>line-height</code> <code>width</code> <code>height</code>使用<code>rem</code>计算</li>
-</ul>
-<p><strong>如何快速计算</strong></p>
-<blockquote>
-<p>在实际生产当中，如果每一次计算 <code>px</code> 转换 <code>rem</code> ，或许会觉得非常麻烦</p>
-</blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/flashlizi/cssrem"><code>CSSREM</code></a> 是一个<code>CSS</code>的 <code>px</code> 值转 <code>rem</code> 值的<code>Sublime Text3</code>自动完成插件</li>
-<li>插件效果</li>
-</ul>
-<p><img src="https://github.com/poetries/cssrem/raw/master/cssrem.gif" alt="img"></p>
-<blockquote>
-<p>插件使用方法</p>
-</blockquote>
-<ul>
-<li><p>安装</p>
-<ul>
-<li>下载本项目，比如：git clone <a target="_blank" rel="noopener" href="https://github.com/flashlizi/cssrem">https://github.com/flashlizi/cssrem</a></li>
-<li>进入<code>packages</code>目录：<code>Sublime Text</code> -&gt; <code>Preferences</code> -&gt; <code>Browse Packages</code>…</li>
-<li>复制下载的<code>cssrem</code>目录到刚才的packges目录里。</li>
-<li>重启<code>Sublime Text</code></li>
-</ul>
-</li>
-<li><p>配置参数</p>
-<ul>
-<li><p>参数配置文件：<code>Sublime Text -&gt; Preferences -&gt; Package Settings -&gt; cssrem</code></p>
-</li>
-<li><p><code>px_to_rem</code> - <code>px</code>转<code>rem</code>的单位比例，默认为<code>40</code>【根据设计稿来设置，如设计稿<code>750</code>，我们取十分之一即<code>75</code>】。</p>
-</li>
-<li><p><code>max_rem_fraction_length</code> - <code>px</code>转<code>rem</code>的小数部分的最大长度。默认为<code>6</code>。</p>
-</li>
-<li><p><code>available_file_types</code> - 启用此插件的文件类型。默认为：[“<code>.css</code>“, “<code>.less</code>“, “<code>.sass</code>“]。</p>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>文字适配的解决方案</strong></p>
-<ul>
-<li>对于一些标题性的文字，我们依然可以用<code>rem</code>。让他随着屏幕来进行缩放，因为标题性文字一般较大，而较大的文字，点阵对其影响就越小。这样，即使出现奇怪的尺寸，也能够让字体得到很好的渲染。</li>
-<li>对于一些正文内容的文字（即站在使用者的角度，你不希望他进行缩放的文字）。我们采用<code>px</code>来进行处理</li>
-</ul>
-<h2 id="六、缩放比适配"><a href="#六、缩放比适配" class="headerlink" title="六、缩放比适配"></a>六、缩放比适配</h2><blockquote>
-<p>固定宽度，改变缩放比例适配</p>
-</blockquote>
-<ul>
-<li>设计图的宽度就是网页显示的宽度</li>
-<li>改变视口的缩放比例</li>
-<li>页面宽度固定死</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 缩放比例适配方案--用这个代码 </span><br><span class="line">var width = window.screen.width,</span><br><span class="line">    fixedW = 320, //设计稿宽度的一半</span><br><span class="line">    scale = width / fixedW, // 缩放比例</span><br><span class="line">    meta = document.createElement(&#x27;meta&#x27;),</span><br><span class="line">    metaAttr = &#123;</span><br><span class="line">        name : &#x27;viewport&#x27;,</span><br><span class="line">        content : &#x27;width=&#x27;+fixedW+&#x27;, initial-scale=&#x27;+scale+&#x27;, maximum-scale=&#x27;+scale+&#x27;, user-scalable=0&#x27;</span><br><span class="line">    &#125;;</span><br><span class="line">    for (var key in metaAttr) &#123;</span><br><span class="line">        meta[key] = metaAttr[key];</span><br><span class="line">    &#125;</span><br><span class="line">    document.head.appendChild(meta);</span><br></pre></td></tr></table></figure>
-
-<h2 id="七、像素比适配"><a href="#七、像素比适配" class="headerlink" title="七、像素比适配"></a>七、像素比适配</h2><ul>
-<li><code>window.devicePixelRatio</code></li>
-<li>物理像素是手机屏幕分辨率</li>
-<li>独立像素 指<code>css</code>像素 屏幕宽度</li>
-<li>像素比 &#x3D; 物理像素 &#x2F; <code>css宽度</code></li>
-<li>获取设备的像素比 <code>window.devicePixelRatio</code></li>
-</ul>
-<h2 id="八、小结"><a href="#八、小结" class="headerlink" title="八、小结"></a>八、小结</h2><blockquote>
-<p>关于移动端布局方案有很多，<code>rem</code>和百分比运用最多的</p>
-</blockquote>
-<ul>
-<li><a target="_blank" rel="noopener" href="http://ymblog.net/2015/07/01/%E7%A7%BB%E5%8A%A8%E5%89%8D%E7%AB%AFmeta%E6%A0%87%E7%AD%BE%E8%BD%AC/">http://ymblog.net/2015/07/01/移动前端meta标签转/</a>)</li>
-</ul>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/2022/02/15/html+css+js+ts/1-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E5%B8%83%E5%B1%80%E9%80%82%E9%85%8D/">Read More</a>
-    </footer>
-</div>
-
-<div class="cube-excerpt" id="cube-excerpt-React-提高组件效率  避免不必要的render">
-    <header class="cube-excerpt-header">
-        <h1><a href="/2022/01/18/React/React-%E6%8F%90%E9%AB%98%E7%BB%84%E4%BB%B6%E6%95%88%E7%8E%87%20%20%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84render/">React-提高组件效率  避免不必要的render</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2022-01-18
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/tags/React/" class="cube-excerpt-tag-link">#React</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p><code>react</code> 基于虚拟 <code>DOM</code> 和高效 <code>Diff</code>算法的完美配合，实现了对 <code>DOM</code>最小粒度的更新，大多数情况下，<code>React</code>对 <code>DOM</code>的渲染效率足以我们的业务日常</p>
-<p>复杂业务场景下，性能问题依然会困扰我们。此时需要采取一些措施来提升运行性能，避免不必要的渲染则是业务中常见的优化手段之一</p>
-<h2 id="二、如何做"><a href="#二、如何做" class="headerlink" title="二、如何做"></a>二、如何做</h2><p>在之前文章中，我们了解到<code>render</code>的触发时机，简单来讲就是类组件通过调用<code>setState</code>方法， 就会导致<code>render</code>，父组件一旦发生<code>render</code>渲染，子组件一定也会执行<code>render</code>渲染</p>
-<p>从上面可以看到，父组件渲染导致子组件渲染，子组件并没有发生任何改变，这时候就可以从避免无谓的渲染，具体实现的方式有如下：</p>
-<ul>
-<li>shouldComponentUpdate</li>
-<li>PureComponent</li>
-<li>React.memo</li>
-</ul>
-<h3 id="shouldComponentUpdate"><a href="#shouldComponentUpdate" class="headerlink" title="shouldComponentUpdate"></a>shouldComponentUpdate</h3><p>通过<code>shouldComponentUpdate</code>生命周期函数来比对 <code>state</code>和 <code>props</code>，确定是否要重新渲染</p>
-<p>默认情况下返回<code>true</code>表示重新渲染，如果不希望组件重新渲染，返回 <code>false</code> 即可</p>
-<h3 id="PureComponent"><a href="#PureComponent" class="headerlink" title="PureComponent"></a>PureComponent</h3><p>跟<code>shouldComponentUpdate</code>原理基本一致，通过对 <code>props</code> 和 <code>state</code>的浅比较结果来实现 <code>shouldComponentUpdate</code>，源码大致如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">_compositeType</span> === <span class="title class_">CompositeTypes</span>.<span class="property">PureClass</span>) &#123;</span><br><span class="line">    shouldUpdate = !<span class="title function_">shallowEqual</span>(prevProps, nextProps) || ! <span class="title function_">shallowEqual</span>(inst.<span class="property">state</span>, nextState);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>shallowEqual</code>对应方法大致如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hasOwnProperty = <span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * is 方法来判断两个值是否是相等的值，为何这么写可以移步 MDN 的文档</span></span><br><span class="line"><span class="comment"> * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/is</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">is</span>(<span class="params">x: mixed, y: mixed</span>): boolean &#123;</span><br><span class="line">  <span class="keyword">if</span> (x === y) &#123;</span><br><span class="line">    <span class="keyword">return</span> x !== <span class="number">0</span> || y !== <span class="number">0</span> || <span class="number">1</span> / x === <span class="number">1</span> / y;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> x !== x &amp;&amp; y !== y;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">shallowEqual</span>(<span class="params">objA: mixed, objB: mixed</span>): boolean &#123;</span><br><span class="line">  <span class="comment">// 首先对基本类型进行比较</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="title function_">is</span>(objA, objB)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> objA !== <span class="string">&#x27;object&#x27;</span> || objA === <span class="literal">null</span> ||</span><br><span class="line">      <span class="keyword">typeof</span> objB !== <span class="string">&#x27;object&#x27;</span> || objB === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> keysA = <span class="title class_">Object</span>.<span class="title function_">keys</span>(objA);</span><br><span class="line">  <span class="keyword">const</span> keysB = <span class="title class_">Object</span>.<span class="title function_">keys</span>(objB);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 长度不相等直接返回false</span></span><br><span class="line">  <span class="keyword">if</span> (keysA.<span class="property">length</span> !== keysB.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// key相等的情况下，再去循环比较</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keysA.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      !hasOwnProperty.<span class="title function_">call</span>(objB, keysA[i]) ||</span><br><span class="line">      !<span class="title function_">is</span>(objA[keysA[i]], objB[keysA[i]])</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当对象包含复杂的数据结构时，对象深层的数据已改变却没有触发 <code>render</code></p>
-<p>注意：在<code>react</code>中，是不建议使用深层次结构的数据</p>
-<h3 id="React-memo"><a href="#React-memo" class="headerlink" title="React.memo"></a>React.memo</h3><p><code>React.memo</code>用来缓存组件的渲染，避免不必要的更新，其实也是一个高阶组件，与 <code>PureComponent</code> 十分类似。但不同的是， <code>React.memo</code> 只能用于函数组件</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; memo &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Button</span>(<span class="params">props</span>) &#123;</span><br><span class="line">  <span class="comment">// Component code</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">memo</span>(<span class="title class_">Button</span>);</span><br></pre></td></tr></table></figure>
-
-<p>如果需要深层次比较，这时候可以给<code>memo</code>第二个参数传递比较函数</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">arePropsEqual</span>(<span class="params">prevProps, nextProps</span>) &#123;</span><br><span class="line">  <span class="comment">// your code</span></span><br><span class="line">  <span class="keyword">return</span> prevProps === nextProps;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">memo</span>(<span class="title class_">Button</span>, arePropsEqual);</span><br></pre></td></tr></table></figure>
-
-<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>在实际开发过程中，前端性能问题是一个必须考虑的问题，随着业务的复杂，遇到性能问题的概率也在增高</p>
-<p>除此之外，建议将页面进行更小的颗粒化，如果一个过大，当状态发生修改的时候，就会导致整个大组件的渲染，而对组件进行拆分后，粒度变小了，也能够减少子组件不必要的渲染</p>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/2022/01/18/React/React-%E6%8F%90%E9%AB%98%E7%BB%84%E4%BB%B6%E6%95%88%E7%8E%87%20%20%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84render/">Read More</a>
-    </footer>
-</div>
-
 
 
 <ul class="cube-pagination cube-pagination-9">
@@ -1702,7 +1615,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
                     <span>2</span>
                 </p>
                 <p class="title">
-                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
+                    <a href="/2022/07/15/bug/echarts%E5%9B%BE%E6%A0%87%E8%87%AA%E9%80%82%E5%BA%94%E6%96%B9%E6%B3%95/" title="echarts图标自适应方法">echarts图标自适应方法</a>
                 </p>
             </div>
         </li>
@@ -1715,7 +1628,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
                     <span>3</span>
                 </p>
                 <p class="title">
-                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
+                    <a href="/2022/07/15/bug/a01/" title="浏览器多进程与多线程">浏览器多进程与多线程</a>
                 </p>
             </div>
         </li>
@@ -1728,7 +1641,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
                     <span>4</span>
                 </p>
                 <p class="title">
-                    <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/" title="DNS协议">DNS协议</a>
+                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
                 </p>
             </div>
         </li>
@@ -1741,7 +1654,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
                     <span>5</span>
                 </p>
                 <p class="title">
-                    <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" title="ES6 装饰器">ES6 装饰器</a>
+                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
                 </p>
             </div>
         </li>
@@ -1764,7 +1677,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/categories/%E6%A1%86%E6%9E%B6/">#框架</a>
         </div>
         
@@ -1794,7 +1707,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
         </div>
         
@@ -1809,7 +1722,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">#问题</a>
         </div>
         
@@ -1824,7 +1737,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">#框架</a>
         </div>
         
@@ -1839,7 +1752,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/categories/%E5%B7%A5%E5%85%B7/">#工具</a>
         </div>
         
@@ -1849,7 +1762,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#前端性能优化</a>
         </div>
         
@@ -1859,7 +1772,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/categories/%E7%AE%97%E6%B3%95/">#算法</a>
         </div>
         
@@ -1885,7 +1798,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
     <div class="cube-boxs">
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/http/">#http</a>
         </div>
         
@@ -1895,7 +1808,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/React/">#React</a>
         </div>
         
@@ -1915,7 +1828,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/react/">#react</a>
         </div>
         
@@ -1925,7 +1838,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/xml/">#xml</a>
         </div>
         
@@ -1945,27 +1858,27 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/Promise/">#Promise</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/es6/">#es6</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/typescript/">#typescript</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/async-await/">#async/await</a>
         </div>
         
         
-        <div class="cube-box-bg ">
+        <div class="cube-box ">
             <a href="/tags/nodejs/">#nodejs</a>
         </div>
         
@@ -1980,17 +1893,17 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/glup/">#glup</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/webpack/">#webpack</a>
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
         </div>
         
@@ -2000,7 +1913,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/Mock/">#Mock</a>
         </div>
         
@@ -2020,7 +1933,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/vs-code/">#vs code</a>
         </div>
         
@@ -2030,7 +1943,7 @@ $(“#logo”).attr({“title”: “logo”});<br>$(“#logo”).attr(“title�
         </div>
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/tags/%E4%BC%98%E5%8C%96/">#优化</a>
         </div>
         
