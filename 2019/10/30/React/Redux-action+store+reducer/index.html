@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Redux action+store+reducer | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="redux的核心概念就是store、action、reducer，从调用关系来看如下所示
+
+12345678910111213141516171819202122232425262728293031store.dispatch(action) --&amp;gt; reducer(state, action" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="Redux action+store+reducer" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2019-10-30T07:28:17.000Z"><a href="/2019/10/30/React/Redux-action+store+reducer/">2019-10-30</a></time>
+      
+      
+  
+    <h1 class="title">Redux action+store+reducer</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>redux的核心概念就是store、action、reducer，从调用关系来看如下所示</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">store.dispatch(action) --&gt; reducer(state, action) --&gt; final state</span><br><span class="line">// reducer方法, 传入的参数有两个</span><br><span class="line">// state: 当前的state</span><br><span class="line">// action: 当前触发的行为, &#123;type: &#x27;xx&#x27;&#125;</span><br><span class="line">// 返回值: 新的state</span><br><span class="line">var reducer = function(state, action)&#123;</span><br><span class="line">    switch (action.type) &#123;</span><br><span class="line">        case &#x27;add_todo&#x27;:</span><br><span class="line">            return state.concat(action.text);</span><br><span class="line">        default:</span><br><span class="line">            return state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 创建store, 传入两个参数</span><br><span class="line">// 参数1: reducer 用来修改state</span><br><span class="line">// 参数2(可选): [], 默认的state值,如果不传, 则为undefined</span><br><span class="line">var store = redux.createStore(reducer, []);</span><br><span class="line"></span><br><span class="line">// 通过 store.getState() 可以获取当前store的状态(state)</span><br><span class="line">// 默认的值是 createStore 传入的第二个参数</span><br><span class="line">console.log(&#x27;state is: &#x27; + store.getState());  // state is:</span><br><span class="line"></span><br><span class="line">// 通过 store.dispatch(action) 来达到修改 state 的目的</span><br><span class="line">// 注意: 在redux里,唯一能够修改state的方法,就是通过 store.dispatch(action)</span><br><span class="line">store.dispatch(&#123;type: &#x27;add_todo&#x27;, text: &#x27;读书&#x27;&#125;);</span><br><span class="line">// 打印出修改后的state</span><br><span class="line">console.log(&#x27;state is: &#x27; + store.getState());  // state is: 读书</span><br><span class="line"></span><br><span class="line">store.dispatch(&#123;type: &#x27;add_todo&#x27;, text: &#x27;写作&#x27;&#125;);</span><br><span class="line">console.log(&#x27;state is: &#x27; + store.getState());  // state is: 读书,写作</span><br></pre></td></tr></table></figure>
+
+<h2 id="一、store、reducer、action关联"><a href="#一、store、reducer、action关联" class="headerlink" title="一、store、reducer、action关联"></a>一、store、reducer、action关联</h2><p><strong>store</strong></p>
+<ul>
+<li><code>store</code>在这里代表的是数据模型，内部维护了一个<code>state</code>变量</li>
+<li><code>store</code>有两个核心方法，分别是<code>getState</code>、<code>dispatch</code>。前者用来获取<code>store</code>的状态（<code>state</code>），后者用来修改<code>store</code>的状态</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 创建store, 传入两个参数</span><br><span class="line">// 参数1: reducer 用来修改state</span><br><span class="line">// 参数2(可选): [], 默认的state值,如果不传, 则为undefined</span><br><span class="line">var store = redux.createStore(reducer, []);</span><br><span class="line"></span><br><span class="line">// 通过 store.getState() 可以获取当前store的状态(state)</span><br><span class="line">// 默认的值是 createStore 传入的第二个参数</span><br><span class="line">console.log(&#x27;state is: &#x27; + store.getState());  // state is:</span><br><span class="line"></span><br><span class="line">// 通过 store.dispatch(action) 来达到修改 state 的目的</span><br><span class="line">// 注意: 在redux里,唯一能够修改state的方法,就是通过 store.dispatch(action)</span><br><span class="line">store.dispatch(&#123;type: &#x27;add_todo&#x27;, text: &#x27;读书&#x27;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>action</strong></p>
+<ul>
+<li>对行为（如用户行为）的抽象，在<code>redux</code>里是一个普通的<code>js</code>对象</li>
+<li><code>action</code>必须有一个<code>type</code>字段来标识这个行为的类型</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;type:&#x27;add_todo&#x27;, text:&#x27;读书&#x27;&#125;</span><br><span class="line">&#123;type:&#x27;add_todo&#x27;, text:&#x27;写作&#x27;&#125;</span><br><span class="line">&#123;type:&#x27;add_todo&#x27;, text:&#x27;睡觉&#x27;, time:&#x27;晚上&#x27;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>reducer</strong></p>
+<ul>
+<li>一个普通的函数，用来修改<code>store</code>的状态。传入两个参数 <code>state</code>、<code>action</code></li>
+<li>其中，<code>state</code>为当前的状态（可通过<code>store.getState()</code>获得），而<code>action</code>为当前触发的行为（通过<code>store.dispatch(action)</code>调用触发）</li>
+<li><code>reducer(state, action)</code> 返回的值，就是<code>store</code>最新的<code>state</code>值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// reducer方法, 传入的参数有两个</span><br><span class="line">// state: 当前的state</span><br><span class="line">// action: 当前触发的行为, &#123;type: &#x27;xx&#x27;&#125;</span><br><span class="line">// 返回值: 新的state</span><br><span class="line">var reducer = function(state, action)&#123;</span><br><span class="line">    switch (action.type) &#123;</span><br><span class="line">        case &#x27;add_todo&#x27;:</span><br><span class="line">            return state.concat(action.text);</span><br><span class="line">        default:</span><br><span class="line">            return state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、关于actionCreator"><a href="#二、关于actionCreator" class="headerlink" title="二、关于actionCreator"></a>二、关于actionCreator</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">actionCreator(args) =&gt; action</span><br><span class="line">var addTodo = function(text)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        type: &#x27;add_todo&#x27;,</span><br><span class="line">        text: text</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">addTodo(&#x27;睡觉&#x27;);  // 返回：&#123;type: &#x27;add_todo&#x27;, text: &#x27;睡觉&#x27;&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/框架/">框架</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/Redux/">Redux</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>vue3-Composition Api 与  Options Api 有什么不同 | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="开始之前Composition API 可以说是Vue3的最大特点，那么为什么要推出Composition Api，解决了什么问题？
+通常使用Vue2开发的项目，普遍会存在以下问题：
+
+代码的可读性随着组件变大而变差
+每一种代码复用的方式，都存在缺点
+TypeScript支持有限
+
+以上通过使用Co" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="vue3-Composition Api 与  Options Api 有什么不同" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2021-09-02T09:23:09.000Z"><a href="/2021/09/02/Vue/vue3-Composition Api 与  Options Api 有什么不同/">2021-09-02</a></time>
+      
+      
+  
+    <h1 class="title">vue3-Composition Api 与  Options Api 有什么不同</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p><code>Composition API</code> 可以说是<code>Vue3</code>的最大特点，那么为什么要推出<code>Composition Api</code>，解决了什么问题？</p>
+<p>通常使用<code>Vue2</code>开发的项目，普遍会存在以下问题：</p>
+<ul>
+<li>代码的可读性随着组件变大而变差</li>
+<li>每一种代码复用的方式，都存在缺点</li>
+<li>TypeScript支持有限</li>
+</ul>
+<p>以上通过使用<code>Composition Api</code>都能迎刃而解</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="一、Options-Api"><a href="#一、Options-Api" class="headerlink" title="一、Options Api"></a>一、Options Api</h3><p><code>Options API</code>，即大家常说的选项API，即以<code>vue</code>为后缀的文件，通过定义<code>methods</code>，<code>computed</code>，<code>watch</code>，<code>data</code>等属性与方法，共同处理页面逻辑</p>
+<p>如下图：</p>
+<p><img src="https://static.vue-js.com/9bf6d9d0-6048-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>可以看到<code>Options</code>代码编写方式，如果是组件状态，则写在<code>data</code>属性上，如果是方法，则写在<code>methods</code>属性上…</p>
+<p>用组件的选项 (<code>data</code>、<code>computed</code>、<code>methods</code>、<code>watch</code>) 组织逻辑在大多数情况下都有效</p>
+<p>然而，当组件变得复杂，导致对应属性的列表也会增长，这可能会导致组件难以阅读和理解</p>
+<h3 id="二、Composition-Api"><a href="#二、Composition-Api" class="headerlink" title="二、Composition Api"></a>二、Composition Api</h3><p>在 Vue3 Composition API 中，组件根据逻辑功能来组织的，一个功能所定义的所有 API 会放在一起（更加的高内聚，低耦合）</p>
+<p>即使项目很大，功能很多，我们都能快速的定位到这个功能所用到的所有 API</p>
+<p><img src="https://static.vue-js.com/acee9200-6048-11eb-ab90-d9ae814b240d.png" alt="img"></p>
+<h3 id="三、对比"><a href="#三、对比" class="headerlink" title="三、对比"></a>三、对比</h3><p>下面对<code>Composition Api</code>与<code>Options Api</code>进行两大方面的比较</p>
+<ul>
+<li>逻辑组织</li>
+<li>逻辑复用</li>
+</ul>
+<h4 id="逻辑组织"><a href="#逻辑组织" class="headerlink" title="逻辑组织"></a>逻辑组织</h4><h5 id="Options-API"><a href="#Options-API" class="headerlink" title="Options API"></a>Options API</h5><p>假设一个组件是一个大型组件，其内部有很多处理逻辑关注点（对应下图不用颜色）</p>
+<p><img src="https://static.vue-js.com/dc83d070-6048-11eb-ab90-d9ae814b240d.png" alt="img"></p>
+<p>可以看到，这种碎片化使得理解和维护复杂组件变得困难</p>
+<p>选项的分离掩盖了潜在的逻辑问题。此外，在处理单个逻辑关注点时，我们必须不断地“跳转”相关代码的选项块</p>
+<h5 id="Compostion-API"><a href="#Compostion-API" class="headerlink" title="Compostion API"></a>Compostion API</h5><p>而<code>Compositon API</code>正是解决上述问题，将某个逻辑关注点相关的代码全都放在一个函数里，这样当需要修改一个功能时，就不再需要在文件中跳来跳去</p>
+<p>下面举个简单例子，将处理<code>count</code>属性相关的代码放在同一个函数了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">useCount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> count = <span class="title function_">ref</span>(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">let</span> double = <span class="title function_">computed</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> count.<span class="property">value</span> * <span class="number">2</span>;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">handleConut</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">        count.<span class="property">value</span> = count.<span class="property">value</span> * <span class="number">2</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(count);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        count,</span><br><span class="line">        double,</span><br><span class="line">        handleConut,</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>组件上中使用<code>count</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineComponent</span>(&#123;</span><br><span class="line">    <span class="title function_">setup</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; count, double, handleConut &#125; = <span class="title function_">useCount</span>();</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count,</span><br><span class="line">            double,</span><br><span class="line">            handleConut</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>再来一张图进行对比，可以很直观地感受到 <code>Composition API</code>在逻辑组织方面的优势，以后修改一个属性功能的时候，只需要跳到控制该属性的方法中即可</p>
+<p><img src="https://static.vue-js.com/e5804bc0-5c58-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<h4 id="逻辑复用"><a href="#逻辑复用" class="headerlink" title="逻辑复用"></a>逻辑复用</h4><p>在<code>Vue2</code>中，我们是用过<code>mixin</code>去复用相同的逻辑</p>
+<p>下面举个例子，我们会另起一个<code>mixin.js</code>文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title class_">MoveMixin</span> = &#123;</span><br><span class="line">  <span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">x</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="attr">y</span>: <span class="number">0</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="title function_">handleKeyup</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">code</span>);</span><br><span class="line">      <span class="comment">// 上下左右 x y</span></span><br><span class="line">      <span class="keyword">switch</span> (e.<span class="property">code</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;ArrowUp&quot;</span>:</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">y</span>--;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;ArrowDown&quot;</span>:</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">y</span>++;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;ArrowLeft&quot;</span>:</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">x</span>--;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;ArrowRight&quot;</span>:</span><br><span class="line">          <span class="variable language_">this</span>.<span class="property">x</span>++;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">mounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;keyup&quot;</span>, <span class="variable language_">this</span>.<span class="property">handleKeyup</span>);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">unmounted</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&quot;keyup&quot;</span>, <span class="variable language_">this</span>.<span class="property">handleKeyup</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后在组件中使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    Mouse position: x &#123;&#123; x &#125;&#125; / y &#123;&#123; y &#125;&#125;</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">import</span> mousePositionMixin <span class="keyword">from</span> <span class="string">&#x27;./mouse&#x27;</span></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="attr">mixins</span>: [mousePositionMixin]</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>使用单个<code>mixin</code>似乎问题不大，但是当我们一个组件混入大量不同的 <code>mixins</code> 的时候</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mixins</span>: [mousePositionMixin, fooMixin, barMixin, otherMixin]</span><br></pre></td></tr></table></figure>
+
+<p>会存在两个非常明显的问题：</p>
+<ul>
+<li>命名冲突</li>
+<li>数据来源不清晰</li>
+</ul>
+<p>现在通过<code>Compositon API</code>这种方式改写上面的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; onMounted, onUnmounted, reactive &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">useMove</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> position = <span class="title function_">reactive</span>(&#123;</span><br><span class="line">    <span class="attr">x</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">y</span>: <span class="number">0</span>,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">handleKeyup</span> = (<span class="params">e</span>) =&gt; &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">code</span>);</span><br><span class="line">    <span class="comment">// 上下左右 x y</span></span><br><span class="line">    <span class="keyword">switch</span> (e.<span class="property">code</span>) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;ArrowUp&quot;</span>:</span><br><span class="line">        <span class="comment">// y.value--;</span></span><br><span class="line">        position.<span class="property">y</span>--;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;ArrowDown&quot;</span>:</span><br><span class="line">        <span class="comment">// y.value++;</span></span><br><span class="line">        position.<span class="property">y</span>++;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;ArrowLeft&quot;</span>:</span><br><span class="line">        <span class="comment">// x.value--;</span></span><br><span class="line">        position.<span class="property">x</span>--;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;ArrowRight&quot;</span>:</span><br><span class="line">        <span class="comment">// x.value++;</span></span><br><span class="line">        position.<span class="property">x</span>++;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;keyup&quot;</span>, handleKeyup);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">onUnmounted</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>(<span class="string">&quot;keyup&quot;</span>, handleKeyup);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; position &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在组件中使用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    Mouse position: x &#123;&#123; x &#125;&#125; / y &#123;&#123; y &#125;&#125;</span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">import</span> &#123; useMove &#125; <span class="keyword">from</span> <span class="string">&quot;./useMove&quot;</span>;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">import</span> &#123; toRefs &#125; <span class="keyword">from</span> <span class="string">&quot;vue&quot;</span>;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  <span class="title function_">setup</span>(<span class="params"></span>) &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">const</span> &#123; position &#125; = <span class="title function_">useMove</span>();</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">const</span> &#123; x, y &#125; = <span class="title function_">toRefs</span>(position);</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    <span class="keyword">return</span> &#123;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      x,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">      y,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">    &#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">  &#125;,</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml">&#125;;</span></span></span><br><span class="line"><span class="language-javascript"><span class="language-xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以看到，整个数据来源清晰了，即使去编写更多的 hook 函数，也不会出现命名冲突的问题</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>在逻辑组织和逻辑复用方面，<code>Composition API</code>是优于<code>Options API</code></li>
+<li>因为<code>Composition API</code>几乎是函数，会有更好的类型推断。</li>
+<li><code>Composition API</code>对 <code>tree-shaking</code> 友好，代码也更容易压缩</li>
+<li><code>Composition API</code>中见不到<code>this</code>的使用，减少了<code>this</code>指向不明的情况</li>
+<li>如果是小型组件，可以继续使用<code>Options API</code>，也是十分友好的</li>
+</ul>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/框架/">框架</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/vue3/">vue3</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

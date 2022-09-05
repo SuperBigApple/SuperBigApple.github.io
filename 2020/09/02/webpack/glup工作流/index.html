@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>glup工作流 | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="配置一套基于gulp的工作流，满足日常的基本开发。
+
+一、目录结构
+二、 package.json1234567891011121314151617181920212223242526272829&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;gulp-project&amp;quot;, " />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="glup工作流" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2020-09-02T07:14:26.000Z"><a href="/2020/09/02/webpack/glup工作流/">2020-09-02</a></time>
+      
+      
+  
+    <h1 class="title">glup工作流</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>配置一套基于<code>gulp</code>的工作流，满足日常的基本开发。</p>
+</blockquote>
+<h3 id="一、目录结构"><a href="#一、目录结构" class="headerlink" title="一、目录结构"></a>一、目录结构</h3><p><img src="https://poetries1.gitee.io/img-repo/2019/10/221.png" alt="img"></p>
+<h3 id="二、-package-json"><a href="#二、-package-json" class="headerlink" title="二、 package.json"></a>二、 package.json</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;gulp-project&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;gulp dev&quot;, //npm run dev   开发</span><br><span class="line">    &quot;build&quot;: &quot;gulp build&quot;, //npm run build   发布</span><br><span class="line">    &quot;upload&quot;: &quot;gulp upload&quot;, //npm run upload 上传服务器 </span><br><span class="line">    &quot;zip&quot;: &quot;gulp zip&quot; ////npm run zip 打包文件</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;babel-preset-es2015&quot;: &quot;^6.22.0&quot;, //编译es6</span><br><span class="line">    &quot;browser-sync&quot;: &quot;^2.15.0&quot;,  //监听改动刷新</span><br><span class="line">    &quot;gulp&quot;: &quot;^3.9.1&quot;, //gulp</span><br><span class="line">    &quot;gulp-autoprefixer&quot;: &quot;^3.1.1&quot;, //补齐css浏览器前缀</span><br><span class="line">    &quot;gulp-babel&quot;: &quot;^6.1.2&quot;, // Es6</span><br><span class="line">    &quot;gulp-clean&quot;: &quot;^0.3.2&quot;, //删除文件</span><br><span class="line">    &quot;gulp-clean-css&quot;: &quot;^2.0.12&quot;, //css压缩，gulp-minify-css不更新了</span><br><span class="line">    &quot;gulp-concat&quot;: &quot;^2.6.0&quot;,//合并文件</span><br><span class="line">    &quot;gulp-ftp&quot;: &quot;^1.1.0&quot;,//提交到ftp服务器</span><br><span class="line">    &quot;gulp-git&quot;: &quot;^1.11.3&quot;,//提交到git</span><br><span class="line">    &quot;gulp-htmlmin&quot;: &quot;^2.0.0&quot;,//压缩html</span><br><span class="line">    &quot;gulp-imagemin&quot;: &quot;^3.0.3&quot;,//压缩图片</span><br><span class="line">    &quot;gulp-rename&quot;: &quot;^1.2.2&quot;,//重命名文件</span><br><span class="line">    &quot;gulp-rev-append&quot;: &quot;^0.1.6&quot;, //添加MD5版本号，这里改成了时间戳</span><br><span class="line">    &quot;gulp-sass&quot;: &quot;^2.3.2&quot;,//编译SASS</span><br><span class="line">    &quot;gulp-uglify&quot;: &quot;^2.0.0&quot;,//js压缩</span><br><span class="line">    &quot;gulp-util&quot;: &quot;^3.0.7&quot;, //说是ftp配套用的，看了下是包装了些常用函数</span><br><span class="line">    &quot;gulp-zip&quot;: &quot;^3.2.0&quot; // 打包文件</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、-gulpfile-js"><a href="#三、-gulpfile-js" class="headerlink" title="三、 gulpfile.js"></a>三、 gulpfile.js</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br></pre></td><td class="code"><pre><span class="line">//组件</span><br><span class="line"></span><br><span class="line">let gulp = require(&#x27;gulp&#x27;),</span><br><span class="line">	browserSync = require(&#x27;browser-sync&#x27;).create(), //监听刷新</span><br><span class="line">    reload = browserSync.reload,</span><br><span class="line">    ftp = require(&#x27;gulp-ftp&#x27;), // ftp上传</span><br><span class="line">    gutil = require(&#x27;gulp-util&#x27;),</span><br><span class="line">    sass = require(&#x27;gulp-sass&#x27;), // sass</span><br><span class="line">    cleancss = require(&#x27;gulp-clean-css&#x27;), // CSS压缩</span><br><span class="line">    autoprefixer = require(&quot;gulp-autoprefixer&quot;),</span><br><span class="line">    uglify = require(&#x27;gulp-uglify&#x27;), // js压缩</span><br><span class="line">    concat = require(&#x27;gulp-concat&#x27;), // 合并文件</span><br><span class="line">    rename = require(&#x27;gulp-rename&#x27;), // 重命名</span><br><span class="line">    clean = require(&#x27;gulp-clean&#x27;), //清空文件夹</span><br><span class="line">    imagemin = require(&#x27;gulp-imagemin&#x27;), //压缩图片</span><br><span class="line">    zip = require(&#x27;gulp-zip&#x27;), //打包文件</span><br><span class="line">    rev = require(&#x27;gulp-rev-append&#x27;), //添加MD5</span><br><span class="line">    htmlmin = require(&#x27;gulp-htmlmin&#x27;), // 压缩html</span><br><span class="line">	git = require(&#x27;gulp-git&#x27;),     //git</span><br><span class="line">	babel = require(&quot;gulp-babel&quot;); //ES6 转es5</span><br><span class="line">// =========== 开发构建流程 [多文件输出] ==============</span><br><span class="line"></span><br><span class="line">//dev</span><br><span class="line">gulp.task(&#x27;sass:dev&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/sass/*.scss&#x27;)</span><br><span class="line">        .pipe(sass())</span><br><span class="line">        .pipe(gulp.dest(&#x27;src/css/&#x27;))</span><br><span class="line">        .pipe(reload(&#123; stream: true &#125;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 合并、重命名css</span><br><span class="line">gulp.task(&#x27;css:dev&#x27;, [&#x27;sass:dev&#x27;], () =&gt; &#123;</span><br><span class="line">    gulp.src([&#x27;src/css/*.css&#x27;, &#x27;!src/css/areaMap.css&#x27;])</span><br><span class="line">        .pipe(concat(&#x27;all.css&#x27;))</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/css/&#x27;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 合并、重命名js</span><br><span class="line">gulp.task(&#x27;js:dev&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/js/*.js&#x27;)</span><br><span class="line">    	.pipe(babel(&#123;</span><br><span class="line">		      	 	presets: [&#x27;es2015&#x27;]</span><br><span class="line">     			&#125;)) //ES6转ES5</span><br><span class="line">        //.pipe(concat(&#x27;all.js&#x27;)) 开发阶段分开输出js文件</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/js/&#x27;))</span><br><span class="line">        .pipe(reload(&#123; stream: true &#125;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// HTML</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;html:dev&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/tpl/*.html&#x27;)</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist&#x27;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 将lib的库文件对应到指定位置</span><br><span class="line">gulp.task(&#x27;lib:dev&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;./src/lib/*&#x27;)</span><br><span class="line">        .pipe(gulp.dest(&#x27;./dist/lib/&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//开发构建</span><br><span class="line">gulp.task(&#x27;dev&#x27;, [&#x27;css:dev&#x27;, &#x27;js:dev&#x27;, &#x27;html:dev&#x27;, &#x27;img&#x27;,&#x27;copyFonts&#x27;,&#x27;lib&#x27;], () =&gt; &#123;</span><br><span class="line">    browserSync.init(&#123;</span><br><span class="line">        server: &#123;</span><br><span class="line">            baseDir: &quot;dist&quot; // 设置服务器的根目录为dist目录</span><br><span class="line">        &#125;,</span><br><span class="line">        notify: false // 开启静默模式</span><br><span class="line">    &#125;);</span><br><span class="line">    // 我们使用gulp的文件监听功能，来实时编译修改过后的文件</span><br><span class="line"></span><br><span class="line">    gulp.watch(&#x27;src/js/*.js&#x27;, [&#x27;js:dev&#x27;]);</span><br><span class="line">    gulp.watch(&#x27;src/sass/*.scss&#x27;, [&#x27;sass:dev&#x27;]);</span><br><span class="line">    gulp.watch(&#x27;src/tpl/*.html&#x27;, [&#x27;html:dev&#x27;]);</span><br><span class="line">    gulp.watch(&#x27;src/fonts/**&#x27;, [&#x27;copyFonts&#x27;]);</span><br><span class="line">    gulp.watch(&#x27;src/images/**&#x27;, [&#x27;img&#x27;]);</span><br><span class="line">    gulp.watch(&#x27;src/lib/**&#x27;, [&#x27;lib&#x27;]);</span><br><span class="line">&#125;);</span><br><span class="line">// =========== 正式构建 build [单文件输出] ==============</span><br><span class="line"></span><br><span class="line">// sass解析</span><br><span class="line">gulp.task(&#x27;sass&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/sass/*.scss&#x27;)</span><br><span class="line">        //输出为压缩</span><br><span class="line">         .pipe(sass(&#123;</span><br><span class="line">             outputStyle: &#x27;compressed&#x27;</span><br><span class="line">         &#125;))</span><br><span class="line">        .pipe(sass())</span><br><span class="line">        .pipe(gulp.dest(&#x27;src/css/&#x27;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 合并、压缩、重命名css</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;css&#x27;, [&#x27;sass&#x27;], () =&gt; &#123;</span><br><span class="line">    gulp.src([&#x27;src/css/*.css&#x27;, &#x27;!src/css/areaMap.css&#x27;])</span><br><span class="line">        .pipe(concat(&#x27;all.css&#x27;))</span><br><span class="line">        .pipe(autoprefixer(&#123;</span><br><span class="line">            browsers: [&#x27;last 2 versions&#x27;, &#x27;Android &gt;= 4.0&#x27;],</span><br><span class="line">            cascade: true, //是否美化属性值 默认：true 像这样：</span><br><span class="line">            remove: false //是否去掉不必要的前缀 默认：true </span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(cleancss()) //压缩css</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/css&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 合并，压缩,重命名js文件</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;js&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/js/*.js&#x27;)</span><br><span class="line">    	.pipe(babel(&#123;</span><br><span class="line">		      	 	presets: [&#x27;es2015&#x27;]</span><br><span class="line">     			&#125;)) //ES6转ES5</span><br><span class="line">        .pipe(concat(&#x27;all.js&#x27;))</span><br><span class="line">        .pipe(uglify())</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/js&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 压缩HTML</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;html&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/tpl/*.html&#x27;)</span><br><span class="line">        .pipe(rev())//记得在引用地址后面加后缀，插件原本是ver=@@hash ,这里改成了v=@@hash</span><br><span class="line">      //&lt;link rel=&quot;stylesheet&quot; href=&quot;css/all.css?v=@@hash&quot;&gt;</span><br><span class="line">      //&lt;script src=&quot;js/all.js?v=@@hash&quot;&gt;&lt;/script&gt;</span><br><span class="line">        .pipe(htmlmin(&#123;</span><br><span class="line">            removeComments: true, //清除HTML注释</span><br><span class="line">            collapseWhitespace: true, //压缩HTML</span><br><span class="line">            collapseBooleanAttributes: true, //省略布尔属性的值 &lt;input checked=&quot;true&quot;/&gt; ==&gt; &lt;input /&gt;</span><br><span class="line">            removeEmptyAttributes: true, //删除所有空格作属性值 &lt;input id=&quot;&quot; /&gt; ==&gt; &lt;input /&gt;</span><br><span class="line">            removeScriptTypeAttributes: true, //删除&lt;script&gt;的type=&quot;text/javascript&quot;</span><br><span class="line">            removeStyleLinkTypeAttributes: true, //删除&lt;style&gt;和&lt;link&gt;的type=&quot;text/css&quot;</span><br><span class="line">            minifyJS: true, //压缩页面JS</span><br><span class="line">            minifyCSS: true //压缩页面CSS</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist&#x27;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//压缩图片</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;img&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;src/images/*.&#123;png,jpg,gif,ico&#125;&#x27;)</span><br><span class="line">        .pipe(imagemin(&#123;</span><br><span class="line">            optimizationLevel: 5, //类型：Number  默认：3  取值范围：0-7（优化等级）</span><br><span class="line">            progressive: true, //类型：Boolean 默认：false 无损压缩jpg图片</span><br><span class="line">            interlaced: true, //类型：Boolean 默认：false 隔行扫描gif进行渲染</span><br><span class="line">            multipass: true //类型：Boolean 默认：false 多次优化svg直到完全优化</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/images&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//字体文件</span><br><span class="line">gulp.task(&#x27;copyFonts&#x27;, function () &#123;</span><br><span class="line">    gulp.src(&#x27;src/fonts/**/*&#x27;)</span><br><span class="line">        .pipe(gulp.dest(&#x27;dist/fonts/&#x27;))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 清空图片、样式、js</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;clean&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;dist&#x27;, &#123; read: false &#125;)</span><br><span class="line">        .pipe(clean(&#123; force: true &#125;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 将bower的库文件对应到指定位置</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;lib&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;/src/lib/*&#x27;)</span><br><span class="line">        .pipe(gulp.dest(&#x27;/dist/lib/&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line">// ================ 打包主体dist 文件夹 zip ====</span><br><span class="line"></span><br><span class="line">//打包主体dist 文件夹并按照时间重命名</span><br><span class="line">gulp.task(&#x27;zip&#x27;, function()&#123;</span><br><span class="line">      function checkTime(i) &#123;</span><br><span class="line">          if (i &lt; 10) &#123;</span><br><span class="line">              i = &quot;0&quot; + i</span><br><span class="line">          &#125;</span><br><span class="line">          return i</span><br><span class="line">      &#125;</span><br><span class="line">          </span><br><span class="line">      var d=new Date();</span><br><span class="line">      var year=d.getFullYear();</span><br><span class="line">      var month=checkTime(d.getMonth() + 1);</span><br><span class="line">      var day=checkTime(d.getDate());</span><br><span class="line">      var hour=checkTime(d.getHours());</span><br><span class="line">      var minute=checkTime(d.getMinutes());</span><br><span class="line"></span><br><span class="line">  return gulp.src(&#x27;./dist/**&#x27;)</span><br><span class="line">        .pipe(zip(year+month+day +hour+minute+&#x27;.zip&#x27;))</span><br><span class="line">        .pipe(gulp.dest(&#x27;./zip&#x27;));</span><br><span class="line">&#125;);</span><br><span class="line">//正式构建</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;build&#x27;, [&#x27;clean&#x27;,&#x27;css&#x27;, &#x27;js&#x27;, &#x27;img&#x27;, &#x27;html&#x27;,&#x27;copyFonts&#x27;,&#x27;lib&#x27;]);</span><br><span class="line"></span><br><span class="line">// ================ 上传 upload ====</span><br><span class="line"></span><br><span class="line">gulp.task(&#x27;upload&#x27;, () =&gt; &#123;</span><br><span class="line">    gulp.src(&#x27;dist/**&#x27;)</span><br><span class="line">        .pipe(ftp(&#123;</span><br><span class="line">            host: &#x27;8.8.8.8&#x27;, // 远程主机ip</span><br><span class="line">            port: 22, // 端口</span><br><span class="line">            user: &#x27;username&#x27;, // 帐号</span><br><span class="line">            pass: &#x27;password&#x27;, // 密码</span><br><span class="line">            remotePath: &#x27;/project&#x27; // 上传路径，不存在则新建</span><br><span class="line">        &#125;))</span><br><span class="line">        .pipe(gutil.noop())</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/前端工程化/">前端工程化</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/glup/">glup</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

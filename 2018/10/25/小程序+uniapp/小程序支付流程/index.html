@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>小程序支付流程 | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="一、前言微信小程序为电商类小程序，提供了非常完善、优秀、安全的支付功能
+在小程序内可调用微信的API完成支付功能，方便、快捷
+场景如下图所示：
+
+
+
+用户通过分享或扫描二维码进入商户小程序，用户选择购买，完成选购流程
+调起微信支付控件，用户开始输入支付密码
+密码验证通过，支付成功。商户后台得到支付成" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="小程序支付流程" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2018-10-25T07:31:26.000Z"><a href="/2018/10/25/小程序+uniapp/小程序支付流程/">2018-10-25</a></time>
+      
+      
+  
+    <h1 class="title">小程序支付流程</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>微信小程序为电商类小程序，提供了非常完善、优秀、安全的支付功能</p>
+<p>在小程序内可调用微信的<code>API</code>完成支付功能，方便、快捷</p>
+<p>场景如下图所示：</p>
+<p><img src="https://static.vue-js.com/6e0cff40-34a0-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p><img src="https://static.vue-js.com/34864830-34a0-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<ul>
+<li>用户通过分享或扫描二维码进入商户小程序，用户选择购买，完成选购流程</li>
+<li>调起微信支付控件，用户开始输入支付密码</li>
+<li>密码验证通过，支付成功。商户后台得到支付成功的通知</li>
+<li>返回商户小程序，显示购买成功</li>
+<li>微信支付公众号下发支付凭证</li>
+</ul>
+<h2 id="二、流程"><a href="#二、流程" class="headerlink" title="二、流程"></a>二、流程</h2><p>以电商小程序为例</p>
+<p>支付流程图如下所示：</p>
+<p><img src="https://static.vue-js.com/76b66780-34a0-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>具体的做法：</p>
+<ul>
+<li>打开某小程序，点击直接下单</li>
+<li>wx.login获取用户临时登录凭证code，发送到后端服务器换取openId</li>
+<li>在下单时，小程序需要将购买的商品Id，商品数量，以及用户的openId传送到服务器</li>
+<li>服务器在接收到商品Id、商品数量、openId后，生成服务期订单数据，同时经过一定的签名算法，向微信支付发送请求，获取预付单信息(prepay_id)，同时将获取的数据再次进行相应规则的签名，向小程序端响应必要的信息</li>
+<li>小程序端在获取对应的参数后，调用wx.requestPayment()发起微信支付，唤醒支付工作台，进行支付</li>
+<li>接下来的一些列操作都是由用户来操作的包括了微信支付密码，指纹等验证，确认支付之后执行鉴权调起支付</li>
+<li>鉴权调起支付：在微信后台进行鉴权，微信后台直接返回给前端支付的结果，前端收到返回数据后对支付结果进行展示</li>
+<li>推送支付结果：微信后台在给前端返回支付的结果后，也会向后台也返回一个支付结果，后台通过这个支付结果来更新订单的状态</li>
+</ul>
+<p>其中后端响应数据必要的信息则是<code>wx.requestPayment</code>方法所需要的参数，大致如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">wx.<span class="title function_">requestPayment</span>(&#123;</span><br><span class="line">  <span class="comment">// 时间戳</span></span><br><span class="line">  <span class="attr">timeStamp</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 随机字符串</span></span><br><span class="line">  <span class="attr">nonceStr</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 统一下单接口返回的 prepay_id 参数值</span></span><br><span class="line">  <span class="attr">package</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 签名类型</span></span><br><span class="line">  <span class="attr">signType</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 签名</span></span><br><span class="line">  <span class="attr">paySign</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 调用成功回调</span></span><br><span class="line">  success () &#123;&#125;,</span><br><span class="line">  <span class="comment">// 失败回调</span></span><br><span class="line">  fail () &#123;&#125;,</span><br><span class="line">  <span class="comment">// 接口调用结束回调</span></span><br><span class="line">  complete () &#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>参数表如下所示：</p>
+<p><img src="https://files.mdnice.com/user/155/48efed1f-d67f-45a7-ab2c-89a6424fafa0.png" alt="img"></p>
+<h2 id="三、结束"><a href="#三、结束" class="headerlink" title="三、结束"></a>三、结束</h2><p>小程序支付和以往的网页、APP微信支付大同小异，可以说小程序的支付变得更加简洁，不需要设置支付目录、域名授权等操作</p>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/小程序/">小程序</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/小程序/">小程序</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

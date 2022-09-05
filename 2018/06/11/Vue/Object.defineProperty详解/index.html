@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Object.defineProperty详解 | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="一、简介兼容性
+
+在ie8下只能在DOM对象上使用，尝试在原生的对象使用 Object.defineProperty()会报错。
+
+定义对象可以使用构造函数或字面量的形式
+123var obj = new Object;  //obj = &amp;#123;&amp;#125;obj.name = &amp;quot;张" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="Object.defineProperty详解" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2018-06-11T01:48:42.000Z"><a href="/2018/06/11/Vue/Object.defineProperty详解/">2018-06-11</a></time>
+      
+      
+  
+    <h1 class="title">Object.defineProperty详解</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p><strong>兼容性</strong></p>
+<blockquote>
+<p>在<code>ie8</code>下只能在<code>DOM</code>对象上使用，尝试在原生的对象使用 <code>Object.defineProperty()</code>会报错。</p>
+</blockquote>
+<p>定义对象可以使用构造函数或字面量的形式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var obj = new Object;  //obj = &#123;&#125;</span><br><span class="line">obj.name = &quot;张三&quot;;  //添加描述</span><br><span class="line">obj.say = function()&#123;&#125;;  //添加行为</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了以上添加属性的方式，还可以使用<code>Object.defineProperty</code>定义新属性或修改原有的属性</p>
+</blockquote>
+<h2 id="二、Object-defineProperty"><a href="#二、Object-defineProperty" class="headerlink" title="二、Object.defineProperty()"></a>二、Object.defineProperty()</h2><h3 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(obj, prop, descriptor)</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li><code>obj</code>：必需。目标对象</li>
+<li><code>prop</code>：必需。需定义或修改的属性的名字</li>
+<li><code>descriptor</code>：必需。目标属性所拥有的特性</li>
+</ul>
+<blockquote>
+<p>返回值：传入函数的对象。即第一个参数<code>obj</code></p>
+</blockquote>
+<ul>
+<li>针对属性，我们可以给这个属性设置一些特性，比如是否只读不可以写；是否可以被<code>for..in</code>或<code>Object.keys()</code>遍历。</li>
+</ul>
+<p><strong>给对象的属性添加特性描述，目前提供两种形式：数据描述和存取器描述</strong></p>
+<h3 id="2-2-数据描述"><a href="#2-2-数据描述" class="headerlink" title="2.2 数据描述"></a>2.2 数据描述</h3><blockquote>
+<p>当修改或定义对象的某个属性的时候，给这个属性添加一些特性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    test:&quot;hello&quot;</span><br><span class="line">&#125;</span><br><span class="line">//对象已有的属性添加特性描述</span><br><span class="line">Object.defineProperty(obj,&quot;test&quot;,&#123;</span><br><span class="line">    configurable:true | false,</span><br><span class="line">    enumerable:true | false,</span><br><span class="line">    value:任意类型的值,</span><br><span class="line">    writable:true | false</span><br><span class="line">&#125;);</span><br><span class="line">//对象新添加的属性的特性描述</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    configurable:true | false,</span><br><span class="line">    enumerable:true | false,</span><br><span class="line">    value:任意类型的值,</span><br><span class="line">    writable:true | false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>数据描述中的属性都是可选的，来看一下设置每一个属性的作用</p>
+</blockquote>
+<h4 id="2-2-1-value"><a href="#2-2-1-value" class="headerlink" title="2.2.1 value"></a>2.2.1 value</h4><blockquote>
+<p>属性对应的值,可以使任意类型的值，默认为<code>undefined</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;</span><br><span class="line">//第一种情况：不设置value属性</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line">console.log( obj.newKey );  //undefined</span><br><span class="line">------------------------------</span><br><span class="line">//第二种情况：设置value属性</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;</span><br><span class="line">&#125;);</span><br><span class="line">console.log( obj.newKey );  //hello</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-writable"><a href="#2-2-2-writable" class="headerlink" title="2.2.2 writable"></a>2.2.2 writable</h4><blockquote>
+<p>属性的值是否可以被重写。设置为<code>true</code>可以被重写；设置为<code>false</code>，不能被重写。默认为<code>false</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;</span><br><span class="line">//第一种情况：writable设置为false，不能重写。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false</span><br><span class="line">&#125;);</span><br><span class="line">//更改newKey的值</span><br><span class="line">obj.newKey = &quot;change value&quot;;</span><br><span class="line">console.log( obj.newKey );  //hello</span><br><span class="line"></span><br><span class="line">//第二种情况：writable设置为true，可以重写</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:true</span><br><span class="line">&#125;);</span><br><span class="line">//更改newKey的值</span><br><span class="line">obj.newKey = &quot;change value&quot;;</span><br><span class="line">console.log( obj.newKey );  //change value</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-enumerable"><a href="#2-2-3-enumerable" class="headerlink" title="2.2.3 enumerable"></a>2.2.3 enumerable</h4><blockquote>
+<p>此属性是否可以被枚举（使用<code>for...in</code>或<code>Object.keys()</code>）。设置为<code>true</code>可以被枚举；设置为<code>false</code>，不能被枚举。默认为<code>false</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;</span><br><span class="line">//第一种情况：enumerable设置为false，不能被枚举。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:false</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//枚举对象的属性</span><br><span class="line">for( var attr in obj )&#123;</span><br><span class="line">    console.log( attr );  </span><br><span class="line">&#125;</span><br><span class="line">//第二种情况：enumerable设置为true，可以被枚举。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:true</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//枚举对象的属性</span><br><span class="line">for( var attr in obj )&#123;</span><br><span class="line">    console.log( attr );  //newKey</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-4-configurable"><a href="#2-2-4-configurable" class="headerlink" title="2.2.4 configurable"></a>2.2.4 configurable</h4><blockquote>
+<p>是否可以删除目标属性或是否可以再次修改属性的特性（<code>writable</code>, <code>configurable</code>, <code>enumerable</code>）。设置为<code>true</code>可以被删除或可以重新设置特性；设置为<code>false</code>，不能被可以被删除或不可以重新设置特性。默认为<code>false</code></p>
+</blockquote>
+<p><strong>这个属性起到两个作用</strong></p>
+<ul>
+<li>目标属性是否可以使用<code>delete</code>删除</li>
+<li>目标属性是否可以再次设置特性</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">//-----------------测试目标属性是否能被删除------------------------</span><br><span class="line">var obj = &#123;&#125;</span><br><span class="line">//第一种情况：configurable设置为false，不能被删除。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:false,</span><br><span class="line">    configurable:false</span><br><span class="line">&#125;);</span><br><span class="line">//删除属性</span><br><span class="line">delete obj.newKey;</span><br><span class="line">console.log( obj.newKey ); //hello</span><br><span class="line"></span><br><span class="line">//第二种情况：configurable设置为true，可以被删除。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:false,</span><br><span class="line">    configurable:true</span><br><span class="line">&#125;);</span><br><span class="line">//删除属性</span><br><span class="line">delete obj.newKey;</span><br><span class="line">console.log( obj.newKey ); //undefined</span><br><span class="line">//-----------------测试是否可以再次修改特性------------------------</span><br><span class="line">var obj = &#123;&#125;</span><br><span class="line">//第一种情况：configurable设置为false，不能再次修改特性。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:false,</span><br><span class="line">    configurable:false</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//重新修改特性</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:true,</span><br><span class="line">    enumerable:true,</span><br><span class="line">    configurable:true</span><br><span class="line">&#125;);</span><br><span class="line">console.log( obj.newKey ); //报错：Uncaught TypeError: Cannot redefine property: newKey</span><br><span class="line"></span><br><span class="line">//第二种情况：configurable设置为true，可以再次修改特性。</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:false,</span><br><span class="line">    enumerable:false,</span><br><span class="line">    configurable:true</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//重新修改特性</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    value:&quot;hello&quot;,</span><br><span class="line">    writable:true,</span><br><span class="line">    enumerable:true,</span><br><span class="line">    configurable:true</span><br><span class="line">&#125;);</span><br><span class="line">console.log( obj.newKey ); //hello</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了可以给新定义的属性设置特性，也可以给已有的属性设置特性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//定义对象的时候添加的属性，是可删除、可重写、可枚举的。</span><br><span class="line">var obj = &#123;</span><br><span class="line">    test:&quot;hello&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//改写值</span><br><span class="line">obj.test = &#x27;change value&#x27;;</span><br><span class="line"></span><br><span class="line">console.log( obj.test ); //&#x27;change value&#x27;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(obj,&quot;test&quot;,&#123;</span><br><span class="line">    writable:false</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//再次改写值</span><br><span class="line">obj.test = &#x27;change value again&#x27;;</span><br><span class="line"></span><br><span class="line">console.log( obj.test ); //依然是：&#x27;change value&#x27;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>提示：一旦使用<code>Object.defineProperty</code>给对象添加属性，那么如果不设置属性的特性，那么<code>configurable</code>、<code>enumerable</code>、<code>writable</code>这些值都为默认的<code>false</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">//定义的新属性后，这个属性的特性中configurable，enumerable，writable都为默认的值false</span><br><span class="line">//这就导致了neykey这个是不能重写、不能枚举、不能再次设置特性</span><br><span class="line">//</span><br><span class="line">Object.defineProperty(obj,&#x27;newKey&#x27;,&#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//设置值</span><br><span class="line">obj.newKey = &#x27;hello&#x27;;</span><br><span class="line">console.log(obj.newKey);  //undefined</span><br><span class="line"></span><br><span class="line">//枚举</span><br><span class="line">for( var attr in obj )&#123;</span><br><span class="line">    console.log(attr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>设置的特性总结</strong></p>
+<ul>
+<li><code>value</code>: 设置属性的值</li>
+<li><code>writable</code>: 值是否可以重写。<code>true</code> | <code>false</code></li>
+<li><code>enumerable</code>: 目标属性是否可以被枚举。<code>true</code> | <code>false</code></li>
+<li><code>configurable</code>: 目标属性是否可以被删除或是否可以再次修改特性 <code>true</code> | <code>false</code></li>
+</ul>
+<h3 id="2-3-存取器描述"><a href="#2-3-存取器描述" class="headerlink" title="2.3 存取器描述"></a>2.3 存取器描述</h3><h4 id="2-3-1-定义"><a href="#2-3-1-定义" class="headerlink" title="2.3.1 定义"></a>2.3.1 定义</h4><blockquote>
+<p>当使用存取器描述属性的特性的时候，允许设置以下特性属性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    get:function ()&#123;&#125; | undefined,</span><br><span class="line">    set:function (value)&#123;&#125; | undefined</span><br><span class="line">    configurable: true | false</span><br><span class="line">    enumerable: true | false</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：当使用了<code>getter</code>或<code>setter</code>方法，不允许使用<code>writable</code>和<code>value</code>这两个属性</p>
+</blockquote>
+<h4 id="2-3-2-getter-x2F-setter"><a href="#2-3-2-getter-x2F-setter" class="headerlink" title="2.3.2 getter&#x2F;setter"></a>2.3.2 getter&#x2F;setter</h4><blockquote>
+<p>当设置或获取对象的某个属性的值的时候，可以提供<code>getter/setter</code>方法。</p>
+</blockquote>
+<ul>
+<li><code>getter</code> 是一种获得属性值的方法</li>
+<li><code>setter</code>是一种设置属性值的方法</li>
+</ul>
+<blockquote>
+<p>在特性中使用<code>get/set</code>属性来定义对应的方法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var initValue = &#x27;hello&#x27;;</span><br><span class="line">Object.defineProperty(obj,&quot;newKey&quot;,&#123;</span><br><span class="line">    get:function ()&#123;</span><br><span class="line">        //当获取值的时候触发的函数</span><br><span class="line">        return initValue;    </span><br><span class="line">    &#125;,</span><br><span class="line">    set:function (value)&#123;</span><br><span class="line">        //当设置值的时候触发的函数,设置的新值通过参数value拿到</span><br><span class="line">        initValue = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//获取值</span><br><span class="line">console.log( obj.newKey );  //hello</span><br><span class="line"></span><br><span class="line">//设置值</span><br><span class="line">obj.newKey = &#x27;change value&#x27;;</span><br><span class="line"></span><br><span class="line">console.log( obj.newKey ); //change value</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：get或set不是必须成对出现，任写其一就可以。如果不设置方法，则<code>get</code>和<code>set</code>的默认值为<code>undefined</code></p>
+</blockquote>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/框架/">框架</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/vue/">vue</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>

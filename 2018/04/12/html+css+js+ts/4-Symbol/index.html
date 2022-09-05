@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8" />
+  
+  <title>ES6 Symbol | Hexo</title>
+  <meta name="author" content="John Doe" />
+
+  
+  <meta name="description" content="一、简介
+ES6新加入了一种原始数据类型Symbol，表示独一无二的值，这是js的第七种数据类型，前六种是：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）
+
+
+对象的属性名现在可以有两种类型，一种是原来就有的字符串，另一种就" />
+  
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+  <meta property="og:title" content="ES6 Symbol" />
+  <meta property="og:site_name" content="Hexo" />
+
+  
+  
+
+  
+    <meta property="og:image" content="" />
+  
+
+  
+  <link href="/css/images/favicon.ico" rel="icon" />
+  
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+
+
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">Hexo</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2018-04-12T13:42:25.000Z"><a href="/2018/04/12/html+css+js+ts/4-Symbol/">2018-04-12</a></time>
+      
+      
+  
+    <h1 class="title">ES6 Symbol</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><blockquote>
+<p><code>ES6</code>新加入了一种原始数据类型<code>Symbol</code>，表示独一无二的值，这是<code>js</code>的第七种数据类型，前六种是：<code>Undefined</code>、<code>Null</code>、布尔值（<code>Boolean</code>）、字符串（<code>String</code>）、数值（<code>Number</code>）、对象（<code>Object</code>）</p>
+</blockquote>
+<ul>
+<li>对象的属性名现在可以有两种类型，一种是原来就有的字符串，另一种就是新增的<code>Symbol</code>类型。凡是属性名属于<code>Symbol</code>类型，就都是独一无二的，可以保证不会与其他属性名产生冲突</li>
+</ul>
+<h3 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Symbol([description])</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数 <code>description</code> 是一个可选参数，是一个字符串，可以用于调试，但不能访问<code>Symbol</code> 自身</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var sym1 = Symbol();</span><br><span class="line">var sym2 = Symbol(&#x27;foo&#x27;);</span><br><span class="line">var sym3 = Symbol(&#x27;foo&#x27;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-值唯一性"><a href="#1-2-值唯一性" class="headerlink" title="1.2 值唯一性"></a>1.2 值唯一性</h3><blockquote>
+<p>每一个 <code>Symbol()</code>返回的值都是唯一的。一个<code>Symbol</code> 值能作为对象属性的标识符，这是改数据类型仅有的目的</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Symbol(&quot;yuan&quot;) === Symbol(&quot;yuan&quot;); // false</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-不可以使用-new-操作符"><a href="#1-3-不可以使用-new-操作符" class="headerlink" title="1.3 不可以使用 new 操作符"></a>1.3 不可以使用 new 操作符</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var sym = new Symbol(); // TypeError报错</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-结合-Object-函数"><a href="#1-4-结合-Object-函数" class="headerlink" title="1.4 结合 Object() 函数"></a>1.4 结合 Object() 函数</h3><blockquote>
+<p>结合 <code>Object()</code> 函数，创建一个 <code>Symbol</code> 包装器对象</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var sym = Symbol();</span><br><span class="line">typeof sym;  // &quot;symbol“”</span><br><span class="line">var symobj = Object(sym);</span><br><span class="line">typeof symobj; // &quot;object&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-5-全局共享-Symbol"><a href="#1-5-全局共享-Symbol" class="headerlink" title="1.5 全局共享 Symbol"></a>1.5 全局共享 Symbol</h3><blockquote>
+<p>使用<code>Symbol.for()</code> 方法会根据给定的键 <code>key</code>，来从运行时的 <code>symbol</code> 注册表中找到对应的 <code>symbol</code>，如果找到了，则返回它，否则，新建一个与该键关联的 <code>symbol</code>，并放入全局 <code>symbol</code> 注册表中</p>
+</blockquote>
+<h3 id="1-6-在对象中查找-Symbol-属性"><a href="#1-6-在对象中查找-Symbol-属性" class="headerlink" title="1.6 在对象中查找 Symbol 属性"></a>1.6 在对象中查找 Symbol 属性</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">var a = Symbol(&quot;a&quot;);</span><br><span class="line">var b = Symbol.for(&quot;b&quot;);</span><br><span class="line"></span><br><span class="line">obj[a] = &quot;localSymbol&quot;;</span><br><span class="line">obj[b] = &quot;globalSymbol&quot;;</span><br><span class="line"></span><br><span class="line">var objectSymbols = Object.getOwnPropertySymbols(obj);</span><br><span class="line"></span><br><span class="line">console.log(objectSymbols)         // [Symbol(a), Symbol(b)]</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、静态属性"><a href="#二、静态属性" class="headerlink" title="二、静态属性"></a>二、静态属性</h2><h3 id="2-1-length-属性"><a href="#2-1-length-属性" class="headerlink" title="2.1 length 属性"></a>2.1 length 属性</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// Symbol 的长度属性值为0.</span><br><span class="line">Symbol.length // 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-迭代-Symbols"><a href="#2-2-迭代-Symbols" class="headerlink" title="2.2 迭代 Symbols"></a>2.2 迭代 Symbols</h3><blockquote>
+<p><code>Symbol.iterator</code> 该方法为每一个对象定义了默认的迭代器。该迭代器可以被 <code>for.. of</code> 循环使用。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 自定义迭代器</span><br><span class="line">var myIterator = &#123;&#125;;</span><br><span class="line">myIterator[Symbol.iterator] = function* () &#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">    yield 3;</span><br><span class="line">&#125;;</span><br><span class="line">[...myIterator] // [1, 2, 3]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>Symbols</code> 与 <code>for... in</code> 迭代</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;;</span><br><span class="line">obj[Symbol(&quot;a&quot;)] = &quot;a&quot;;</span><br><span class="line">obj[Symbol.for(&quot;b&quot;)] = &quot;b&quot;;</span><br><span class="line">obj[&quot;c&quot;] = &quot;c&quot;;</span><br><span class="line">obj.d = &quot;d&quot;;</span><br><span class="line"></span><br><span class="line">for (var i in obj) &#123;</span><br><span class="line">   console.log(i); </span><br><span class="line">&#125;</span><br><span class="line">// &quot;c&quot;</span><br><span class="line">// &quot;d&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-Symbol的正则表达式"><a href="#2-3-Symbol的正则表达式" class="headerlink" title="2.3 Symbol的正则表达式"></a>2.3 Symbol的正则表达式</h3><blockquote>
+<p>用于标识对象是否具有正则表达式的行为。<code>Symbol.match</code>:对象是否具有指定的匹配的正则表达式</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;/bar/&quot;.startsWith(/bar/); </span><br><span class="line">// Throws TypeError, 因为 /bar/ 是一个正则表达式</span><br><span class="line">// 且 Symbol.match 没有修改。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果你将 <code>Symbol.match</code> 置为 <code>false</code>，使用 <code>match</code> 属性的表达式检查会认为该象不是正则表达式对象。<code>startsWith</code> 和 <code>endsWith</code> 方法将不会抛出 <code>TypeError</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var re = /foo/;</span><br><span class="line">re[Symbol.match] = false;</span><br><span class="line"></span><br><span class="line">&quot;/foo/&quot;.startsWith(re); // true</span><br><span class="line">&quot;/baz/&quot;.endsWith(re);   // false</span><br></pre></td></tr></table></figure>
+
+<p><strong>Symbol.replace</strong></p>
+<blockquote>
+<p>这个属性指定了当一个字符串替换所匹配字符串时所调用的方法。<code>String.prototype.replace()</code> 方法会调用此方法。</p>
+</blockquote>
+<p><strong>Symbol.search</strong></p>
+<blockquote>
+<p>指定了一个搜索方法，这个方法接受用户输入的正则表达式，返回该正则表达式在字符串中匹配到的下标，这个方法由以下的方法来调用 <code>String.prototype.search()</code></p>
+</blockquote>
+<p><strong>Symbol.split</strong></p>
+<blockquote>
+<p>指向 一个正则表达式的索引处分割字符串的方法。 这个方法通过<code>String.prototype.split()</code> 调用</p>
+</blockquote>
+<h3 id="2-4-其他属性"><a href="#2-4-其他属性" class="headerlink" title="2.4 其他属性"></a>2.4 其他属性</h3><p><strong>Symbol.hasInstance</strong></p>
+<blockquote>
+<p>一个确定一个构造器对象识别的对象是否为它的实例的方法</p>
+</blockquote>
+<p><strong>Symbol.toStringTag</strong></p>
+<blockquote>
+<p>用于对象的默认描述的字符串值。使用<code>Object.prototype.toString().</code></p>
+</blockquote>
+<h2 id="三、静态方法"><a href="#三、静态方法" class="headerlink" title="三、静态方法"></a>三、静态方法</h2><h3 id="3-1-Symbol-for-key"><a href="#3-1-Symbol-for-key" class="headerlink" title="3.1 Symbol.for(key)"></a>3.1 Symbol.for(key)</h3><blockquote>
+<p>根据给定的键 <code>key</code>， 从运行时的 <code>symbol</code> 注册表中找到对应的 <code>symbol</code>，如果找到了，则返回它，否则，新建一个与该键关联的 <code>symbol</code>，并放入全局 <code>symbol</code> 注册表</p>
+</blockquote>
+<ul>
+<li>这里的参数<code>key</code>，是一个字符串，作为 <code>symbol</code> 注册表中与某 <code>symbol</code> 关联的键</li>
+<li>和 <code>Symbol()</code> 不同的是，用<code>Symbol.for()</code> 方法创建的 <code>symbol</code> 会被放入一个全局 symbol 注册表中</li>
+<li><code>Symbol.for()</code> 并不是每次都会创建一个新的 symbol，它会首先检查给定的 <code>key</code> 是否已经在注册表中了，如果是，则会直接返回上次存储的那个。否则，会再新建一个</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Symbol.for(&quot;foo&quot;); // 创建一个 symbol 并放入 symbol 注册表中，键为 &quot;foo&quot;</span><br><span class="line">Symbol.for(&quot;foo&quot;); // 从 symbol 注册表中读取键为&quot;foo&quot;的 symbol</span><br><span class="line"></span><br><span class="line">Symbol.for(&quot;bar&quot;) === Symbol.for(&quot;bar&quot;); // true，证明了上面说的</span><br><span class="line">Symbol(&quot;bar&quot;) === Symbol(&quot;bar&quot;); // false，Symbol() 函数每次都会返回新的一个 symbol</span><br><span class="line"></span><br><span class="line">var sym = Symbol.for(&quot;mario&quot;);</span><br><span class="line">sym.toString(); </span><br><span class="line">// &quot;Symbol(mario)&quot;，mario 既是该 symbol 在 symbol 注册表中的键名，又是该 symbol 自身的描述字符串</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-Symbol-keyFor-sym"><a href="#3-2-Symbol-keyFor-sym" class="headerlink" title="3.2 Symbol.keyFor(sym)"></a>3.2 Symbol.keyFor(sym)</h3><ul>
+<li>该方法用来获取 <code>symbol</code> 注册表中与某个 <code>symbol</code> 关联的键。</li>
+<li>参数 <code>sym</code> 是指存储在 <code>symbol</code> 注册表中的某个 <code>symbol</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个 symbol 并放入 Symbol 注册表，key 为 &quot;foo&quot;</span><br><span class="line">var globalSym = Symbol.for(&quot;foo&quot;); </span><br><span class="line">Symbol.keyFor(globalSym); // &quot;foo&quot;</span><br><span class="line"></span><br><span class="line">// 创建一个 symbol，但不放入 symbol 注册表中</span><br><span class="line">var localSym = Symbol(); </span><br><span class="line">Symbol.keyFor(localSym); // undefined，所以是找不到 key 的</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、遍历"><a href="#四、遍历" class="headerlink" title="四、遍历"></a>四、遍历</h2><blockquote>
+<p><code>Symbol</code>定义的属性不会出现在下面循环中</p>
+</blockquote>
+<ul>
+<li><code>for in</code>:可获取原型属性，不可获取不可枚举属性</li>
+<li><code>for of</code>:不可遍历对象，可遍历数组</li>
+<li><code>Object.keys</code>：原型属性和不可枚举属性都不能获取</li>
+<li><code>Object.getOwnPropertyByNames</code>：不可获取原型属性，可获取不可枚举属性</li>
+<li><code>JSON.stringify</code>：原型属性和不可枚举属性都不能获取</li>
+<li><code>Reflect.ownKeys</code>：可获取不可枚举和<code>Symbol</code>，不可获取原型</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var p = &#123;w:2&#125;;</span><br><span class="line">var obj = Object.create(p);</span><br><span class="line">obj.a = 1;</span><br><span class="line">Object.defineProperty(obj,&quot;b&quot;,&#123;</span><br><span class="line">    value:123</span><br><span class="line">&#125;)</span><br><span class="line">var a = Symbol(&#x27;a&#x27;);</span><br><span class="line">var b = Symbol(&#x27;b&#x27;);</span><br><span class="line"></span><br><span class="line">obj[a] = &#x27;Hello&#x27;;</span><br><span class="line">obj[b] = &#x27;World&#x27;;</span><br><span class="line"></span><br><span class="line">Reflect.ownKeys(obj);// [Symbol(a), Symbol(b)]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>或者使用<code>Object.getOwnPropertySymbols(obj)</code>遍历</p>
+</blockquote>
+
+      
+    </div>
+    
+    <footer>
+        <div class="alignright">
+          
+          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
+        </div>
+        
+  
+  <div class="categories">
+    <a href="/categories/前端/">前端</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/es6/">es6</a>
+  </div>
+
+        <!-- partial('post/share') -->
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:example.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">Categories</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/React/">React</a><small>4</small></li>
+  
+    <li><a href="/categories/http/">http</a><small>12</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/">前端</a><small>39</small></li>
+  
+    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
+  
+    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
+  
+    <li><a href="/categories/后端/">后端</a><small>9</small></li>
+  
+    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/categories/工具/">工具</a><small>15</small></li>
+  
+    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
+  
+    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
+  
+    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
+  
+    <li><a href="/categories/框架/">框架</a><small>55</small></li>
+  
+    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
+  
+    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
+  
+    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
+  
+    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
+  
+    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
+      </li>
+    
+      <li>
+        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
+      </li>
+    
+      <li>
+        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
+      </li>
+    
+      <li>
+        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Tags</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
+  
+    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
+  
+    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
+  
+    <li><a href="/tags/React/">React</a><small>20</small></li>
+  
+    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
+  
+    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
+  
+    <li><a href="/tags/css/">css</a><small>3</small></li>
+  
+    <li><a href="/tags/echart/">echart</a><small>1</small></li>
+  
+    <li><a href="/tags/es6/">es6</a><small>7</small></li>
+  
+    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
+  
+    <li><a href="/tags/git/">git</a><small>11</small></li>
+  
+    <li><a href="/tags/glup/">glup</a><small>2</small></li>
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/html/">html</a><small>7</small></li>
+  
+    <li><a href="/tags/http/">http</a><small>12</small></li>
+  
+    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
+  
+    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
+  
+    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
+  
+    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
+  
+    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>2</small></li>
+  
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
+    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
+  
+    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
+  
+    <li><a href="/tags/vue/">vue</a><small>37</small></li>
+  
+    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
+  
+    <li><a href="/tags/xml/">xml</a><small>1</small></li>
+  
+    <li><a href="/tags/优化/">优化</a><small>6</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
+  
+    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
+  
+    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
+  
+    <li><a href="/tags/算法/">算法</a><small>1</small></li>
+  
+    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">Tag Cloud</h3>
+  <div class="entry">
+    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+  </div>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  <p>
+  
+  &copy; 2022 John Doe
+  
+  All rights reserved.</p>
+  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</div>
+<div class="clearfix"></div>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id='bg'></div>
+</body>
+</html>
