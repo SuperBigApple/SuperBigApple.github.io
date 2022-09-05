@@ -1,208 +1,1888 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <title> Hexo</title>
-  
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/webclip/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/webclip/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/webclip/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/webclip/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/webclip/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/webclip/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/webclip/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/webclip/apple-touch-icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/images/webclip/apple-touch-icon-167x167.png">
-  
-  
-    <link rel="shortcut icon" href="/images/favicon.ico">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="John Doe">
+    
+    
+    
+    
+    
+    
+    <title>Hexo</title>
+    <!-- inject:style -->
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
 
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: 'Loading';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
 <meta name="generator" content="Hexo 6.2.0"></head>
-
 <body>
-  <main class="main">
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/archives">归档</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-categories" aria-hidden="true"></i>
+            <a href="/categories">分类</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-tags" aria-hidden="true"></i>
+            <a href="/tags">标签</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-about" aria-hidden="true"></i>
+            <a href="/about-me">关于我</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">Open Lyrics</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">Top</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" http://cube-1252774894.cosgz.myqcloud.com/background.png " alt="头部背景图片">
     
-	<header id="header" class="header header-absolute">
-
-	<div class="container">
-		<nav class="navbar d-flex align-items-center">
-			<a class="brand" href="/">
-				<img class="logo lazyload" data-src="/images/brand.svg" alt="Hexo" role="img">
-			</a>
-			<ul class="main-nav">
-  
+    <div class="cube-type">
+        <span class="cube-typed-title">senrenbankaの部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
     
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/">首页</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/gallery">画廊</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/stories">案例</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/archives">新闻</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/about">关于</a>
-  </li>
-  
-</ul>
-		</nav>
-		<a id="mobile-nav-toggle">
-			<span class="mobile-nav-toggle-bar"></span>
-			<span class="mobile-nav-toggle-bar"></span>
-			<span class="mobile-nav-toggle-bar"></span>
-		</a>
-	</div>
 </header>
 
-    <section>
-      <!-- Index -->
-
-<div class="hero">
-	<figure class="hero-figure">
-		<img class="hero-figure-img" src="/images/banner/banner.jpg" alt="Hexo">
-		<figcaption>
-			<div class="container">
-				<div class="figure-inset">
-					<h2 class="h1">焕然一新</h2>
-					<p>Acorn 是一颗适用于中小企业的 Hexo 主题</p>
-				</div>
-			</div>
-		</figcaption>
-		<div class="learn-more">
-			<a class="anchor" href="#landingpage">
-				<img id="landingpage" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='white' viewBox='0 0 16 16'><path d='M8 3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm4 8a4 4 0 0 1-8 0V5a4 4 0 1 1 8 0v6zM8 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5z'/></svg>" alt="">
-			</a>
-		</div>
-	</figure>
-</div>
-
-
-<section class="section py-5 bg-light">
-  <div class="container">
-    <!-- 
-  Data Files: source/_data/culture.yml
--->
-<div class="row">
-  
-</div>
-  </div>
-</section>
-
-
-
-    </section>
-    <footer class="footer pt-5 mt-5">
-  <div class="container">
-    <div class="py-3">
-      <div class="row justify-content-between">
-        <div class="col-6">
-          <img class="filter-gray mb-3 lazyload" height="40" data-src="/images/brand.svg" alt="Hexo" role="img">
-          <p class="mb-4"></p>
-          <ul class="list-inline">
-            
-          </ul>
-        </div>
-        <div class="col-4">
-          <h5>友情链接</h5>
-          <ul class="list-inline">
-            
-          </ul>
-        </div>
-      </div>
-    </div>
-    <hr class="hr" style="opacity: .25;">
-    <div class="pt-3 pb-5">
-      <ul class="list-inline mb-0 text-center">
-        <li class="list-inline-item">&copy; 2022 Hexo</li>
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
         
-        <li class="list-inline-item">Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-        <li class="list-inline-item">Designer <a href="https://acorn.imaging.xin/" target="_blank">John Doe</a></li>
-      </ul>
-    </div>
-  </div>
-</footer>
-  </main>
-  <div id="mobile-nav-dimmer"></div>
-<div id="mobile-nav">
-	<div id="mobile-nav-inner">
-		<ul class="mobile-nav">
-  
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('http://cube-1252774894.cosgz.myqcloud.com/background.png');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">senrenbankaの部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
     
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/">首页</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/gallery">画廊</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/stories">案例</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/archives">新闻</a>
-  </li>
-  
-    
-  <li class="nav-item ">
-    <a class="nav-item-link" href="/about">关于</a>
-  </li>
-  
+    <div class="cube-content">
+        <div class="cube-left">
+            
+<div class="cube-excerpt" id="cube-excerpt-git rebase 和 git merge">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/">git rebase 和 git merge</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-26
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>在使用 <code>git</code> 进行版本管理的项目中，当完成一个特性的开发并将其合并到 <code>master</code> 分支时，会有两种方式：</p>
+<ul>
+<li>git merge</li>
+<li>git rebase</li>
 </ul>
-		
-	</div>
+<p><code>git rebase</code> 与 <code>git merge</code>都有相同的作用，都是将一个分支的提交合并到另一分支上，但是在原理上却不相同</p>
+<p>用法上两者也十分的简单：</p>
+<h3 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h3><p>将当前分支合并到指定分支，命令用法如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a>git rebase</h3><p>将当前分支移植到指定分支或指定<code>commit</code>之上，用法如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase -i &lt;commit&gt;</span><br></pre></td></tr></table></figure>
+
+<p>常见的参数有<code>--continue</code>，用于解决冲突之后，继续执行<code>rebase</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase --continue</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、分析"><a href="#二、分析" class="headerlink" title="二、分析"></a>二、分析</h2><h3 id="git-merge-1"><a href="#git-merge-1" class="headerlink" title="git merge"></a>git merge</h3><p>通过<code>git merge</code>将当前分支与<code>xxx</code>分支合并，产生的新的<code>commit</code>对象有两个父节点</p>
+<p>如果“指定分支”本身是当前分支的一个直接子节点，则会产生快照合并</p>
+<p>举个例子，<code>bugfix</code>分支是从<code>maste</code>r分支分叉出来的，如下所示：</p>
+<p><img src="https://static.vue-js.com/88410a30-fdd4-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>合并<code>bugfix</code>分支到<code>master</code>分支时，如果<code>master</code>分支的状态没有被更改过，即 <code>bugfix</code>分支的历史记录包含<code>master</code>分支所有的历史记录</p>
+<p>所以通过把<code>master</code>分支的位置移动到<code>bugfix</code>的最新分支上，就完成合并</p>
+<p>如果<code>master</code>分支的历史记录在创建<code>bugfix</code>分支后又有新的提交，如下情况：</p>
+<p><img src="https://static.vue-js.com/929eb220-fdd4-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>这时候使用<code>git merge</code>的时候，会生成一个新的提交，并且<code>master</code>分支的<code>HEAD</code>会移动到新的分支上，如下：</p>
+<p><img src="https://static.vue-js.com/9fdfa3e0-fdd4-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>从上面可以看到，会把两个分支的最新快照以及二者最近的共同祖先进行三方合并，合并的结果是生成一个新的快照</p>
+<h3 id="git-rebase-1"><a href="#git-rebase-1" class="headerlink" title="git rebase"></a>git rebase</h3><p>同样，<code>master</code>分支的历史记录在创建<code>bugfix</code>分支后又有新的提交，如下情况：</p>
+<p><img src="https://static.vue-js.com/ab2d5120-fdd4-11eb-bc6f-3f06e1491664.png" alt="img"></p>
+<p>通过<code>git rebase</code>，会变成如下情况：</p>
+<p><img src="https://static.vue-js.com/b72aed70-fdd4-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>在移交过程中，如果发生冲突，需要修改各自的冲突，如下：</p>
+<p><img src="https://static.vue-js.com/c9ba0e80-fdd4-11eb-bc6f-3f06e1491664.png" alt="img"></p>
+<p><code>rebase</code>之后，<code>master</code>的<code>HEAD</code>位置不变。因此，要合并<code>master</code>分支和<code>bugfix</code>分支</p>
+<p><img src="https://static.vue-js.com/dc660660-fdd4-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>从上面可以看到，<code>rebase</code>会找到不同的分支的最近共同祖先，如上图的<code>B</code></p>
+<p>然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件（老的提交<code>X</code>和<code>Y</code>也没有被销毁，只是简单地不能再被访问或者使用）</p>
+<p>然后将当前分支指向目标最新位置<code>D</code>, 然后将之前另存为临时文件的修改依序应用</p>
+<h2 id="三、区别"><a href="#三、区别" class="headerlink" title="三、区别"></a>三、区别</h2><p>从上面可以看到，<code>merge</code>和<code>rebasea</code>都是合并历史记录，但是各自特性不同：</p>
+<h3 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h3><p>通过<code>merge</code>合并分支会新增一个<code>merge commit</code>，然后将两个分支的历史联系起来</p>
+<p>其实是一种非破坏性的操作，对现有分支不会以任何方式被更改，但是会导致历史记录相对复杂</p>
+<h3 id="rebase"><a href="#rebase" class="headerlink" title="rebase"></a>rebase</h3><p><code>rebase</code>会将整个分支移动到另一个分支上，有效地整合了所有分支上的提交</p>
+<p>主要的好处是历史记录更加清晰，是在原有提交的基础上将差异内容反映进去，消除了 <code>git merge</code>所需的不必要的合并提交</p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/26/%E5%B7%A5%E5%85%B7/git%20rebase%20%E5%92%8C%20git%20merge/">Read More</a>
+    </footer>
 </div>
 
-  <script src="/libs/feather/feather.min.js"></script>
-<script src="/libs/lazysizes/lazysizes.min.js"></script>
+<div class="cube-excerpt" id="cube-excerpt-git pull 和 git fetch">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/">git pull 和 git fetch</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-23
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>先回顾两个命令的定义</p>
+<ul>
+<li>git fetch 命令用于从另一个存储库下载对象和引用</li>
+<li>git pull 命令用于从另一个存储库或本地分支获取并集成(整合)</li>
+</ul>
+<p>再来看一次<code>git</code>的工作流程图，如下所示：</p>
+<p><img src="https://static.vue-js.com/d523ba60-fac2-11eb-991d-334fd31f0201.png" alt="img"></p>
+<p>可以看到，<code>git fetch</code>是将远程主机的最新内容拉到本地，用户在检查了以后决定是否合并到工作本机分支中</p>
+<p>而<code>git pull</code> 则是将远程主机的最新内容拉下来后直接合并，即：<code>git pull = git fetch + git merge</code>，这样可能会产生冲突，需要手动解决</p>
+<p>在我们本地的<code>git</code>文件中对应也存储了<code>git</code>本地仓库分支的<code>commit ID</code>和 跟踪的远程分支的<code>commit ID</code>，对应文件如下：</p>
+<ul>
+<li>.git&#x2F;refs&#x2F;head&#x2F;[本地分支]</li>
+<li>.git&#x2F;refs&#x2F;remotes&#x2F;[正在跟踪的分支]</li>
+</ul>
+<p>使用 <code>git fetch</code>更新代码，本地的库中<code>master</code>的<code>commitID</code>不变</p>
+<p>但是与<code>git</code>上面关联的那个<code>orign/master</code>的<code>commit ID</code>发生改变</p>
+<p>这时候我们本地相当于存储了两个代码的版本号，我们还要通过<code>merge</code>去合并这两个不同的代码版本</p>
+<p><img src="https://static.vue-js.com/fd23ff70-fb12-11eb-bc6f-3f06e1491664.png" alt="img"></p>
+<p>也就是<code>fetch</code>的时候本地的<code>master</code>没有变化，但是与远程仓关联的那个版本号被更新了，接下来就是在本地<code>merge</code>合并这两个版本号的代码</p>
+<p>相比之下，使用<code>git pull</code>就更加简单粗暴，会将本地的代码更新至远程仓库里面最新的代码版本，如下图：</p>
+<p><img src="https://static.vue-js.com/091b8140-fb13-11eb-bc6f-3f06e1491664.png" alt="img"></p>
+<h2 id="二、用法"><a href="#二、用法" class="headerlink" title="二、用法"></a>二、用法</h2><p>一般远端仓库里有新的内容更新，当我们需要把新内容下载的时候，就使用到<code>git pull</code>或者<code>git fetch</code>命令</p>
+<h3 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h3><p>用法如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
 
-	<script src="/libs/tocbot/tocbot.min.js"></script>
-	<script>
-    tocbot.init({
-      // Where to render the table of contents.
-      tocSelector: '.js-toc',
-      // Where to grab the headings to build the table of contents.
-      contentSelector: '.js-toc-content',
-      // Which headings to grab inside of the contentSelector element.
-      headingSelector: 'h2, h3',
-      // For headings inside relative or absolute positioned containers within content.
-      hasInnerContainers: true,
-    });
-	</script>
+<p>例如从远程的<code>origin</code>仓库的<code>master</code>分支下载代码到本地并新建一个<code>temp</code>分支</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin master:temp</span><br></pre></td></tr></table></figure>
+
+<p>如果上述没有冒号，则表示将远程<code>origin</code>仓库的<code>master</code>分支拉取下来到本地当前分支</p>
+<p>这里<code>git fetch</code>不会进行合并，执行后需要手动执行<code>git merge</code>合并，如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge temp</span><br></pre></td></tr></table></figure>
+
+<h3 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h3><p>两者的用法十分相似，<code>pull</code>用法如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p>例如将远程主机<code>origin</code>的<code>master</code>分支拉取过来，与本地的<code>branchtest</code>分支合并，命令如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master:branchtest</span><br></pre></td></tr></table></figure>
+
+<p>同样如果上述没有冒号，则表示将远程<code>origin</code>仓库的<code>master</code>分支拉取下来与本地当前分支合并</p>
+<h2 id="三、区别"><a href="#三、区别" class="headerlink" title="三、区别"></a>三、区别</h2><p>相同点：</p>
+<ul>
+<li>在作用上他们的功能是大致相同的，都是起到了更新代码的作用</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>git pull是相当于从远程仓库获取最新版本，然后再与本地分支merge，即git pull &#x3D; git fetch + git merge</li>
+<li>相比起来，git fetch 更安全也更符合实际要求，在 merge 前，我们可以查看更新情况，根据实际情况再决定是否合并</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/23/%E5%B7%A5%E5%85%B7/git%20pull%20%E5%92%8C%20git%20fetch/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-git总结">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/">git总结</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-18
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、Git简介"><a href="#一、Git简介" class="headerlink" title="一、Git简介"></a>一、Git简介</h2><pre><code>Git是一个免费的、开源的分布式版本控制系统，可以快速高效地处理从小型到大型的各种项目
+Git易于学习，占地面积小，性能极快。它具有廉价的本地库，方便的缓存区域和多个工作流分支等特性。其特性由于
+Subversion、CVS、Perforce和ClearCase等版本版本控制工具。
+在公司里用Git来管理代码，因此只要需要写代码就会用到git来管理代码
+</code></pre>
+<hr>
+<pre><code>==========Git========================
+Git介绍  分布式版本控制工具 VS 集中式版本控制工具
+Git安装  基于官网发布的最新版本2.31.1安装讲解
+Git命令  基于开发案例  详细讲解了gt的常用命令
+Git分支  分支特性  分支创建  分支转换  分支合并  代码合并冲突解决
+Idea  集成Git
+==========GitHub========================
+创建远程库
+代码推送Push
+代码拉取Pull
+代码克隆Clone
+SSH免密登录
+Idea集成GitHub
+==========Gitee码云========================
+码云创建远程库
+Idea集成Gitee码云
+码云连接GitHub进行代码的复制和迁移
+==========GitLab========================
+GitLab服务器的搭建和部署
+Idea集成GitLab
+课程目标：五小时熟练掌握Git GitHub GitLab Gitee码云的使用
+</code></pre>
+<h4 id="1-1-项目的版本管理"><a href="#1-1-项目的版本管理" class="headerlink" title="1.1 项目的版本管理"></a>1.1 项目的版本管理</h4><blockquote>
+<p>在项目开发过程中，项目没开发到一个节点就会对当前项目进行备份，这个备份就是项目的一个版本；当我们继续开发一个阶段后，再次进行备份，就生成新的版本——多个版本的集合就是项目的版本库</p>
+</blockquote>
+<p>在项目版本管理中，我们可以使用手动进行管理，但是存在一些问题：</p>
+<ul>
+<li>需要手动维护版本的更新日志，记录每个版本的变化</li>
+<li>需要手动查找历史版本，当历史版本比较多的时候，查找工作很繁琐</li>
+<li>当我们需要回退到某个版本时，只能够手动的通过IDE工具手动打开</li>
+</ul>
+<h4 id="1-2-团队协同开发"><a href="#1-2-团队协同开发" class="headerlink" title="1.2 团队协同开发"></a>1.2 团队协同开发</h4><p><img src="http://hghqz.vip/Git//1616032657017.png" alt="1616032657017"></p>
+<h4 id="1-3-版本管理工具—Git"><a href="#1-3-版本管理工具—Git" class="headerlink" title="1.3 版本管理工具—Git"></a>1.3 版本管理工具—Git</h4><blockquote>
+<p>Git是一个开源的分布式版本控制系统，用于敏捷高效的处理任何大小项目的版本管理。</p>
+</blockquote>
+<p>核心功能：</p>
+<ul>
+<li>项目的版本管理</li>
+<li>团队协同开发</li>
+</ul>
+<h2 id="二、Git下载及安装"><a href="#二、Git下载及安装" class="headerlink" title="二、Git下载及安装"></a>二、Git下载及安装</h2><h4 id="2-1-下载Git"><a href="#2-1-下载Git" class="headerlink" title="2.1 下载Git"></a>2.1 下载Git</h4><table>
+<thead>
+<tr>
+<th><a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com/</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616033012417.png" alt="1616033012417"></td>
+</tr>
+</tbody></table>
+<h4 id="2-2-安装Git"><a href="#2-2-安装Git" class="headerlink" title="2.2 安装Git"></a>2.2 安装Git</h4><blockquote>
+<p>除了选择安装位置以外，其他都傻瓜式安装</p>
+</blockquote>
+<h4 id="2-3-检查"><a href="#2-3-检查" class="headerlink" title="2.3 检查"></a>2.3 检查</h4><ul>
+<li>win + r</li>
+<li>输入cmd</li>
+<li>输入 <code>git --version</code></li>
+</ul>
+<h2 id="三、Git架构"><a href="#三、Git架构" class="headerlink" title="三、Git架构"></a>三、Git架构</h2><p><img src="http://hghqz.vip/Git//1616034871080.png" alt="1616034871080"></p>
+<h2 id="四、Git基本使用"><a href="#四、Git基本使用" class="headerlink" title="四、Git基本使用"></a>四、Git基本使用</h2><h4 id="4-1-创建版本库"><a href="#4-1-创建版本库" class="headerlink" title="4.1 创建版本库"></a>4.1 创建版本库</h4><ul>
+<li><p>在工作空间的目录中，右键“Git Bash Here”打开git终端</p>
+</li>
+<li><p>在Git终端中输入<code>git init</code>指令，创建版本库（就是一个.git目录）</p>
+<p><img src="http://hghqz.vip/Git//1616036472274.png" alt="1616036472274"></p>
+</li>
+</ul>
+<h4 id="4-2-查看版本库状态"><a href="#4-2-查看版本库状态" class="headerlink" title="4.2 查看版本库状态"></a>4.2 查看版本库状态</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-3-将工作空间的修改添加到暂存区"><a href="#4-3-将工作空间的修改添加到暂存区" class="headerlink" title="4.3 将工作空间的修改添加到暂存区"></a>4.3 将工作空间的修改添加到暂存区</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add a.txt   ## 只将工作空间中的某个文件add到暂存区</span><br><span class="line">git add . ## 将工作空间中所有文件都add暂存区</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-4-将暂存区内容提交到版本库（仓库）"><a href="#4-4-将暂存区内容提交到版本库（仓库）" class="headerlink" title="4.4 将暂存区内容提交到版本库（仓库）"></a>4.4 将暂存区内容提交到版本库（仓库）</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;版本说明&#x27;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-5-查看版本库中的历史版本"><a href="#4-5-查看版本库中的历史版本" class="headerlink" title="4.5 查看版本库中的历史版本"></a>4.5 查看版本库中的历史版本</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git log --oneline  ## 每个版本信息只显示一行</span><br><span class="line">get log  ## 显示每个版本的详细信息</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-6-设置用户信息"><a href="#4-6-设置用户信息" class="headerlink" title="4.6 设置用户信息"></a>4.6 设置用户信息</h4><blockquote>
+<p>因为我们将暂存区的内容提交到版本时，会记录当前版本的提交的用户信息，因此在版本提交之前需要先绑定用户信息</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &#x27;ergou&#x27;</span><br><span class="line">git config --global user.email &#x27;haha@hehe.com&#x27;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-7-同步历史版本到工作空间"><a href="#4-7-同步历史版本到工作空间" class="headerlink" title="4.7 同步历史版本到工作空间"></a>4.7 同步历史版本到工作空间</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 版本号</span><br></pre></td></tr></table></figure>
+
+<h2 id="五、远程仓库"><a href="#五、远程仓库" class="headerlink" title="五、远程仓库"></a>五、远程仓库</h2><h4 id="5-1-远程仓库"><a href="#5-1-远程仓库" class="headerlink" title="5.1 远程仓库"></a>5.1 远程仓库</h4><blockquote>
+<p>远程仓库，远程版本库；实现版本库的远程存储，以实现团队的协同开发</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>远程仓库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616038980419.png" alt="1616038980419"></td>
+</tr>
+</tbody></table>
+<h4 id="5-2-如何获得远程仓库"><a href="#5-2-如何获得远程仓库" class="headerlink" title="5.2 如何获得远程仓库"></a>5.2 如何获得远程仓库</h4><ul>
+<li>使用GitLab搭建私服</li>
+<li>远程仓库提供商<ul>
+<li>GitHub  <a target="_blank" rel="noopener" href="https://gitbub.com/">https://gitbub.com</a></li>
+<li>Gitee（码云） <a target="_blank" rel="noopener" href="https://gitee.com/">https://gitee.com</a></li>
+<li>Coding</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-3-创建远程仓库（码云）"><a href="#5-3-创建远程仓库（码云）" class="headerlink" title="5.3 创建远程仓库（码云）"></a>5.3 创建远程仓库（码云）</h4><ul>
+<li><p>注册账号</p>
+<ul>
+<li>366274379  &#x2F; admin123</li>
+</ul>
+<p><img src="http://hghqz.vip/Git//1616039783023.png" alt="1616039783023"></p>
+</li>
+<li><p>创建远程仓库：<a target="_blank" rel="noopener" href="https://gitee.com/qfytao/j2010.git">https://gitee.com/qfytao/j2010.git</a></p>
+</li>
+<li><p>远程仓库管理（添加开发人员）</p>
+<p><img src="http://hghqz.vip/Git//1616040201202.png" alt="1616040201202"></p>
+</li>
+</ul>
+<h2 id="六、远程仓库操作"><a href="#六、远程仓库操作" class="headerlink" title="六、远程仓库操作"></a>六、远程仓库操作</h2><h4 id="6-1-push本地仓库到远程仓库"><a href="#6-1-push本地仓库到远程仓库" class="headerlink" title="6.1 push本地仓库到远程仓库"></a>6.1 push本地仓库到远程仓库</h4><h6 id="6-1-1-准备工作"><a href="#6-1-1-准备工作" class="headerlink" title="6.1.1 准备工作"></a>6.1.1 准备工作</h6><ol>
+<li><p>创建本地工作空间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">D:\fmwy</span><br><span class="line">	src</span><br><span class="line">		main</span><br><span class="line">			java</span><br><span class="line">			resources</span><br><span class="line">		test</span><br><span class="line">			java</span><br><span class="line">	pom.xml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化本地仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将工作空间搭建的项目结构add到暂存区</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将暂存区文件提交到版本库，生成第一个版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &#x27;创建项目&#x27;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为当前项目创建一个远程仓库</p>
+<p><a target="_blank" rel="noopener" href="https://gitee.com/qfytao/fmwy.git">https://gitee.com/qfytao/fmwy.git</a></p>
+</li>
+</ol>
+<h6 id="6-1-2-本地仓库关联远程仓库"><a href="#6-1-2-本地仓库关联远程仓库" class="headerlink" title="6.1.2 本地仓库关联远程仓库"></a>6.1.2 本地仓库关联远程仓库</h6><blockquote>
+<p>建立D:\fmwy中的本地仓库 和 远程仓库<a target="_blank" rel="noopener" href="https://gitee.com/qfytao/fmwy.git%E7%9A%84%E5%85%B3%E8%81%94">https://gitee.com/qfytao/fmwy.git的关联</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://gitee.com/qfytao/fmwy.git</span><br></pre></td></tr></table></figure>
+
+<h6 id="6-1-3-查看远程仓库状态"><a href="#6-1-3-查看远程仓库状态" class="headerlink" title="6.1.3 查看远程仓库状态"></a>6.1.3 查看远程仓库状态</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+
+<h6 id="6-1-4-将本地仓库push到远程仓库"><a href="#6-1-4-将本地仓库push到远程仓库" class="headerlink" title="6.1.4 将本地仓库push到远程仓库"></a>6.1.4 将本地仓库push到远程仓库</h6><blockquote>
+<p>push到远程仓库需要gitee的帐号和密码</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hghqz.vip/Git//1616049675765.png" alt="1616049675765"></p>
+<h4 id="6-2-其他开发者pull远程仓库到本地"><a href="#6-2-其他开发者pull远程仓库到本地" class="headerlink" title="6.2 其他开发者pull远程仓库到本地"></a>6.2 其他开发者pull远程仓库到本地</h4><blockquote>
+<p>其他开发者：<a target="_blank" rel="noopener" href="http://www.1114325587@qq.com/">www.1114325587@qq.com</a>    *****</p>
+</blockquote>
+<h6 id="6-2-1-先创建本地仓库"><a href="#6-2-1-先创建本地仓库" class="headerlink" title="6.2.1 先创建本地仓库"></a>6.2.1 先创建本地仓库</h6><ul>
+<li><p>在E盘创建ws目录(空目录)，进入ws目录，打开Git客户端</p>
+</li>
+<li><p>创建本地版本库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="6-2-2-拉取远程仓库到本地"><a href="#6-2-2-拉取远程仓库到本地" class="headerlink" title="6.2.2 拉取远程仓库到本地"></a>6.2.2 拉取远程仓库到本地</h6><ul>
+<li><p>拉取远程仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git pull 远程仓库地址 master</span><br><span class="line">git pull https://gitee.com/qfytao/fmwy2.git master</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="6-3-解决协同开发冲突问题"><a href="#6-3-解决协同开发冲突问题" class="headerlink" title="6.3 解决协同开发冲突问题"></a>6.3 解决协同开发冲突问题</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">场景:    Helloworld.java  [bbb]</span><br><span class="line"></span><br><span class="line">开发者1：涛哥                              开发者2：小乔</span><br><span class="line">-------------------------------------------------------------------------------------------</span><br><span class="line">git pull fmwy2 master                    git pull fmwy2 master							</span><br><span class="line">									     在Hellworld.java中新增内容 “bbb”</span><br><span class="line">在Hellworld.java中新增内容 “aaa”</span><br><span class="line">									     git add .</span><br><span class="line">									     git commit -m &#x27;&#x27;</span><br><span class="line">									     git push fmwy2 master</span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;&#x27;</span><br><span class="line">git push fmwy2 master【会失败！！！----在我pull之后，push之前被其他开发人员push过】</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">问题：我该如何操作？</span><br><span class="line">git pull fmwy2 master 【将小乔修改的内容拉取到我本地】</span><br><span class="line"></span><br><span class="line">对文件进行冲突合并</span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m &#x27;&#x27;</span><br><span class="line">git push fmwy2 maste</span><br></pre></td></tr></table></figure>
+
+<p>HelloWorld.java</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;HEAD</span><br><span class="line">aaa</span><br><span class="line">=================</span><br><span class="line">bbb</span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; sikdfhjkasdfhjasdfhjk</span><br></pre></td></tr></table></figure>
+
+<h2 id="七、分支管理"><a href="#七、分支管理" class="headerlink" title="七、分支管理"></a>七、分支管理</h2><h4 id="7-1-什么是分支"><a href="#7-1-什么是分支" class="headerlink" title="7.1 什么是分支"></a>7.1 什么是分支</h4><blockquote>
+<p>分支就是版本库中记录版本位置（支线），分支之间项目会影响，使用分支可以对项目起到保护作用</p>
+<p>分支就是一条时间线，每次提交就在这条时间线上形成一个版本</p>
+</blockquote>
+<h4 id="7-2-分支特性"><a href="#7-2-分支特性" class="headerlink" title="7.2 分支特性"></a>7.2 分支特性</h4><ul>
+<li>创建一个新的版本库，默认创建一个主分支—master分支</li>
+<li>每个分支可以进行单独管理（常规分支、保护分支、只读分支）</li>
+<li>分支是可以合并的</li>
+</ul>
+<h4 id="7-3-分支操作"><a href="#7-3-分支操作" class="headerlink" title="7.3 分支操作"></a>7.3 分支操作</h4><h6 id="7-3-1-创建分支"><a href="#7-3-1-创建分支" class="headerlink" title="7.3.1 创建分支"></a>7.3.1 创建分支</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch branch_name</span><br></pre></td></tr></table></figure>
+
+<h6 id="7-3-2-查看分支"><a href="#7-3-2-查看分支" class="headerlink" title="7.3.2 查看分支"></a>7.3.2 查看分支</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
+
+<h6 id="7-3-3-切换分支"><a href="#7-3-3-切换分支" class="headerlink" title="7.3.3 切换分支"></a>7.3.3 切换分支</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch branch_name  # 切换到指定分支上的最新版本</span><br></pre></td></tr></table></figure>
+
+<h6 id="7-3-4-检出分支"><a href="#7-3-4-检出分支" class="headerlink" title="7.3.4 检出分支"></a>7.3.4 检出分支</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout 历史版本 -b branch_name  # 签出指定的历史版本创建新分支</span><br></pre></td></tr></table></figure>
+
+<h6 id="7-3-5-分支合并"><a href="#7-3-5-分支合并" class="headerlink" title="7.3.5 分支合并"></a>7.3.5 分支合并</h6><ul>
+<li>三方合并</li>
+<li>快速合并</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在master分支执行 git merge dev   表示将dev分支合并merge</span></span><br><span class="line">git merge breanch_name</span><br></pre></td></tr></table></figure>
+
+<h2 id="八、Idea整合Git使用"><a href="#八、Idea整合Git使用" class="headerlink" title="八、Idea整合Git使用"></a>八、Idea整合Git使用</h2><blockquote>
+<p>作为Java开发工程，我们代码的编写工作都是在IDE工具（idea）中完成，因此我们需要了解和掌握直接使用IDE工具完成Git的操作</p>
+</blockquote>
+<h4 id="8-1-IDEA关联Git"><a href="#8-1-IDEA关联Git" class="headerlink" title="8.1 IDEA关联Git"></a>8.1 IDEA关联Git</h4><p><img src="http://hghqz.vip/Git//1616118889055.png" alt="1616118889055"></p>
+<h4 id="8-2-IDEA中Git版本管理"><a href="#8-2-IDEA中Git版本管理" class="headerlink" title="8.2 IDEA中Git版本管理"></a>8.2 IDEA中Git版本管理</h4><blockquote>
+<p>准备工作：打开IDEA新建一个web工程</p>
+</blockquote>
+<h6 id="8-2-1-创建本地版本库"><a href="#8-2-1-创建本地版本库" class="headerlink" title="8.2.1 创建本地版本库"></a>8.2.1 创建本地版本库</h6><table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616119511804.png" alt="1616119511804"></td>
+</tr>
+<tr>
+<td><img src="http://hghqz.vip/Git//1616119549533.png" alt="1616119549533"></td>
+</tr>
+</tbody></table>
+<h6 id="8-2-2-设置忽略文件"><a href="#8-2-2-设置忽略文件" class="headerlink" title="8.2.2 设置忽略文件"></a>8.2.2 设置忽略文件</h6><blockquote>
+<p>在工作空间中有些文件是不需要记录到版本库中的（例如.idea、target、.iml文件），可以通过设置忽略提交来实现</p>
+</blockquote>
+<ul>
+<li><p>在工作空间的根目录（项目的根目录）中创建一个名为<code>.gitignore</code>文件</p>
+</li>
+<li><p>在<code>.gitignore</code>文件配置忽略过滤条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.idea</span><br><span class="line">target</span><br><span class="line">*.iml</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h6 id="8-2-3-将工作空间add到暂存区"><a href="#8-2-3-将工作空间add到暂存区" class="headerlink" title="8.2.3 将工作空间add到暂存区"></a>8.2.3 将工作空间add到暂存区</h6><ul>
+<li><p>选择项目&#x2F;文件—右键—Git—Add（添加到暂存区的文件–绿色）</p>
+</li>
+<li><p>如果一个文件创建好之后还没有添加到暂存区–棕红色</p>
+</li>
+<li><p>添加到暂存区的操作可以设置默认添加</p>
+<p><img src="http://hghqz.vip/Git//1616120607480.png" alt="1616120607480"></p>
+</li>
+</ul>
+<h6 id="8-2-4-将暂存区提交到版本库"><a href="#8-2-4-将暂存区提交到版本库" class="headerlink" title="8.2.4 将暂存区提交到版本库"></a>8.2.4 将暂存区提交到版本库</h6><ul>
+<li><p>选择项目&#x2F;文件—右键—Git–Commit（记录到版本库的文件–黑色）</p>
+</li>
+<li><p>如果对记录到 版本库的文件进行了修改，也就是说工作空间和版本库不一致–蓝色</p>
+</li>
+</ul>
+<h4 id="8-3-IDEA中Git分支管理"><a href="#8-3-IDEA中Git分支管理" class="headerlink" title="8.3 IDEA中Git分支管理"></a>8.3 IDEA中Git分支管理</h4><h6 id="8-3-1-创建分支"><a href="#8-3-1-创建分支" class="headerlink" title="8.3.1 创建分支"></a>8.3.1 创建分支</h6><ul>
+<li>点击IDEA右下角<code>Git</code></li>
+<li>在弹窗中点击<code>New Branch</code></li>
+<li>输入新分支的名称</li>
+</ul>
+<h6 id="8-3-2-切换分支"><a href="#8-3-2-切换分支" class="headerlink" title="8.3.2 切换分支"></a>8.3.2 切换分支</h6><ul>
+<li>点击IDEA右下角<code>Git</code></li>
+<li>点击非当前分支右边的箭头</li>
+<li>在选项卡点击<code>checkout</code></li>
+</ul>
+<h6 id="8-3-3-删除分支"><a href="#8-3-3-删除分支" class="headerlink" title="8.3.3 删除分支"></a>8.3.3 删除分支</h6><table>
+<thead>
+<tr>
+<th>点击右小角git</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616123528818.png" alt="1616123528818"></td>
+</tr>
+</tbody></table>
+<h6 id="8-3-4-合并分支"><a href="#8-3-4-合并分支" class="headerlink" title="8.3.4 合并分支"></a>8.3.4 合并分支</h6><blockquote>
+<p>例如：将dev合并到master</p>
+</blockquote>
+<ul>
+<li>切换到master分支</li>
+<li>点击dev分支右面的箭头，在展开的菜单中选择<code>Merge into current</code></li>
+</ul>
+<h4 id="8-4-IDEA中使用Git进行团队协同开发"><a href="#8-4-IDEA中使用Git进行团队协同开发" class="headerlink" title="8.4 IDEA中使用Git进行团队协同开发"></a>8.4 IDEA中使用Git进行团队协同开发</h4><h6 id="8-4-1-项目管理者"><a href="#8-4-1-项目管理者" class="headerlink" title="8.4.1 项目管理者"></a>8.4.1 项目管理者</h6><ol>
+<li><p>完成项目搭建</p>
+<ul>
+<li>略</li>
+</ul>
+</li>
+<li><p>为当前项目创建本地版本库</p>
+</li>
+<li><p>将搭建好的项目提交到本地版本库</p>
+<ul>
+<li>add到暂存区</li>
+<li>commit到版本库</li>
+</ul>
+</li>
+<li><p>创建远程版本库（远程仓库）</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gitee.com/qfytao/git-jd.git">https://gitee.com/qfytao/git-jd.git</a></li>
+<li>管理—添加开发者</li>
+</ul>
+</li>
+<li><p>将本地仓库push到远程仓库（master分支——master分支）</p>
+<table>
+<thead>
+<tr>
+<th><img src="http://hghqz.vip/Git//1616124645208.png" alt="1616124645208"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616124765710.png" alt="1616124765710"></td>
+</tr>
+<tr>
+<td><img src="http://hghqz.vip/Git//1616124999737.png" alt="1616124999737"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>在本地创建dev分支</p>
+<blockquote>
+<p>在远程仓库<code>checkout as</code> 新建本地<code>dev</code>分支（master需要进行保护）</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><img src="http://hghqz.vip/Git//1616125230163.png" alt="1616125230163"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616125375770.png" alt="1616125375770"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>将本地dev分支push到远程仓库，新建远程仓库的dev分支</p>
+<p><img src="http://hghqz.vip/Git//1616125529083.png" alt="1616125529083"></p>
+</li>
+<li><p>设置远程仓库中master分支为保护分支</p>
+<p><img src="http://hghqz.vip/Git//1616125664648.png" alt="1616125664648"></p>
+</li>
+</ol>
+<h6 id="8-4-2-项目开发者"><a href="#8-4-2-项目开发者" class="headerlink" title="8.4.2 项目开发者"></a>8.4.2 项目开发者</h6><ol>
+<li><p>从管理员提供的远程仓库pull项目到本地</p>
+<ul>
+<li>远程仓库 <a target="_blank" rel="noopener" href="https://gitee.com/qfytao/git-jd.git">https://gitee.com/qfytao/git-jd.git</a></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><img src="http://hghqz.vip/Git//1616126055257.png" alt="1616126055257"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="http://hghqz.vip/Git//1616126193999.png" alt="1616126193999"></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>打开项目（此时本地工作空间的项目和远程仓库是同步的）</p>
+</li>
+<li><p>开发步骤：</p>
+<ul>
+<li>选择要修改的文件–pull</li>
+<li>进行修改操作</li>
+<li>测试本地修改</li>
+<li>add到暂存区</li>
+<li>commit到本地版本库</li>
+<li>push到远程仓库（dev）</li>
+</ul>
+</li>
+</ol>
+<h4 id="8-5-解决团队协同开发的冲突问题"><a href="#8-5-解决团队协同开发的冲突问题" class="headerlink" title="8.5 解决团队协同开发的冲突问题"></a>8.5 解决团队协同开发的冲突问题</h4><blockquote>
+<p>冲突：在pull之后，push之前被其他开发者这push成功</p>
+</blockquote>
+<ul>
+<li>选择产生冲突的文件—pull</li>
+<li>弹出弹窗提示：accpet yours | accept theirs | Merge<ul>
+<li>accpet yours  保留自己的版本（提交时会覆盖其他开发者代码）</li>
+<li>accpet theirs 保留远程仓库上的版本（会导致自己修改的代码丢失）</li>
+<li><code>Merge</code> 手动合并（和其他开发者沟通合并方案）</li>
+</ul>
+</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/18/%E5%B7%A5%E5%85%B7/git%E6%80%BB%E7%BB%93/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-版本管理是什么">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/">版本管理是什么</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-13
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/git/" class="cube-excerpt-tag-link">#git</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>版本控制（Version control），是维护工程蓝图的标准作法，能追踪工程蓝图从诞生一直到定案的过程。此外，版本控制也是一种软件工程技巧，借此能在软件开发的过程中，确保由不同人所编辑的同一程序文件都得到同步</p>
+<p>透过文档控制，能记录任何工程项目内各个模块的改动历程，并为每次改动编上序号</p>
+<p>一种简单的版本控制形式如下：赋给图的初版一个版本等级“A”。当做了第一次改变后，版本等级改为“B”，以此类推</p>
+<p>版本控制能提供项目的设计者，将设计恢复到之前任一状态的选择权</p>
+<p>简言之，你的修改只要提到到版本控制系统，基本都可以找回，版本控制系统就像一台时光机器，可以让你回到任何一个时间点</p>
+<h2 id="二、有哪些"><a href="#二、有哪些" class="headerlink" title="二、有哪些"></a>二、有哪些</h2><p>版本控制系统在当今的软件开发中，被认为是理所当然的配备工具之一，根据类别可以分成：</p>
+<ul>
+<li>本地版本控制系统</li>
+<li>集中式版本控制系统</li>
+<li>分布式版本控制系统</li>
+</ul>
+<h3 id="本地版本控制系统"><a href="#本地版本控制系统" class="headerlink" title="本地版本控制系统"></a>本地版本控制系统</h3><p>结构如下图所示：</p>
+<p><img src="https://static.vue-js.com/c545ded0-f5ad-11eb-ab90-d9ae814b240d.png" alt="img"></p>
+<p>优点：</p>
+<ul>
+<li>简单，很多系统中都有内置</li>
+<li>适合管理文本，如系统配置</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>其不支持远程操作，因此并不适合多人版本开发</li>
+</ul>
+<h3 id="集中式版本控制系统"><a href="#集中式版本控制系统" class="headerlink" title="集中式版本控制系统"></a>集中式版本控制系统</h3><p>结构如下图所示：</p>
+<p><img src="https://static.vue-js.com/8b4b3040-f5ad-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>优点：</p>
+<ul>
+<li>适合多人团队协作开发</li>
+<li>代码集中化管理</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>单点故障</li>
+<li>必须联网，无法单机工作</li>
+</ul>
+<p>代表工具有<code>SVN</code>、<code>CVS</code>：</p>
+<h3 id="SVN"><a href="#SVN" class="headerlink" title="SVN"></a>SVN</h3><p><code>TortoiseSVN</code>是一款非常易于使用的跨平台的 版本控制&#x2F;版本控制&#x2F;源代码控制软件</p>
+<h3 id="CVS"><a href="#CVS" class="headerlink" title="CVS"></a>CVS</h3><p><code>CVS</code>是版本控制系统，是源配置管理（SCM）的重要组成部分。使用它，您可以记录源文件和文档的历史记录</p>
+<p>老牌的版本控制系统，它是基于客户端&#x2F;服务器的行为使得其可容纳多用户，构成网络也很方便</p>
+<p>这一特性使得<code>CVS</code>成为位于不同地点的人同时处理数据文件（特别是程序的源代码）时的首选</p>
+<h4 id="分布式版本控制系统"><a href="#分布式版本控制系统" class="headerlink" title="分布式版本控制系统"></a>分布式版本控制系统</h4><p>结构如下图：</p>
+<p><img src="https://static.vue-js.com/4301a260-f5ad-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
+<p>优点：</p>
+<ul>
+<li>适合多人团队协作开发</li>
+<li>代码集中化管理</li>
+<li>可以离线工作</li>
+<li>每个计算机都是一个完整仓库</li>
+</ul>
+<p>分布式版本管理系统每个计算机都有一个完整的仓库，可本地提交，可以做到离线工作，则不用像集中管理那样因为断网情况而无法工作</p>
+<p>代表工具为<code>Git</code>、<code>HG</code>：</p>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p><code>Git</code>是目前世界上最先进的分布式版本控制系统，旨在快速高效地处理从小型到大型项目的所有事务</p>
+<p>特性：易于学习，占用内存小，具有闪电般快速的性能</p>
+<p>使用<code>Git</code>和<code>Gitlab</code>搭建版本控制环境是现在互联网公司最流行的版本控制方式</p>
+<h3 id="HG"><a href="#HG" class="headerlink" title="HG"></a>HG</h3><p><code>Mercurial</code>是一个免费的分布式源代码管理工具。它可以有效地处理任何规模的项目，并提供简单直观的界面</p>
+<p><code>Mercurial</code>是一种轻量级分布式版本控制系统，采用 <code>Python</code>语言实现，易于学习和使用，扩展性强</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>版本控制系统的优点如下：</p>
+<ul>
+<li>记录文件所有历史变化，这是版本控制系统的基本能力</li>
+<li>随时恢复到任意时间点，历史记录功能使我们不怕改错代码了</li>
+<li>支持多功能并行开发，通常版本控制系统都支持分支，保证了并行开发的可行</li>
+<li>多人协作并行开发，对于多人协作项目，支持多人协作开发的版本管理将事半功倍</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/13/%E5%B7%A5%E5%85%B7/%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-eslint配置">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/">eslint配置</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-09
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/eslint/" class="cube-excerpt-tag-link">#eslint</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <blockquote>
+<p><code>ESLint</code>是一个<code>Javascript</code>静态检查工具，它可以帮你养成良好的编程习惯</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 环境定义了预定义的全局变量。</span><br><span class="line">    &quot;env&quot;: &#123;</span><br><span class="line">        //环境定义了预定义的全局变量。更多在官网查看</span><br><span class="line">        &quot;browser&quot;: true,</span><br><span class="line">        &quot;node&quot;: true,</span><br><span class="line">        &quot;commonjs&quot;: true,</span><br><span class="line">        &quot;amd&quot;: true,</span><br><span class="line">        &quot;es6&quot;: true,</span><br><span class="line">        &quot;mocha&quot;: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // JavaScript 语言选项</span><br><span class="line">    &quot;parserOptions&quot;: &#123;</span><br><span class="line">        // ECMAScript 版本</span><br><span class="line">        &quot;ecmaVersion&quot;: 6,</span><br><span class="line">        &quot;sourceType&quot;: &quot;module&quot;, //设置为 &quot;script&quot; (默认) 或 &quot;module&quot;（如果你的代码是 ECMAScript 模块)。</span><br><span class="line">        //想使用的额外的语言特性:</span><br><span class="line">        &quot;ecmaFeatures&quot;: &#123;</span><br><span class="line">            // 允许在全局作用域下使用 return 语句</span><br><span class="line">            &quot;globalReturn&quot;: true,</span><br><span class="line">            // impliedStric</span><br><span class="line">            &quot;impliedStrict&quot;: true,</span><br><span class="line">            // 启用 JSX</span><br><span class="line">            &quot;jsx&quot;: true,</span><br><span class="line">            &quot;modules&quot;: true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    //-----让eslint支持 JSX start</span><br><span class="line">    &quot;plugins&quot;: [</span><br><span class="line">        &quot;react&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;extends&quot;: [</span><br><span class="line">        &quot;eslint:recommended&quot;,</span><br><span class="line">        &quot;plugin:react/recommended&quot;</span><br><span class="line">    ],</span><br><span class="line">    //-----让eslint支持 JSX end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * &quot;off&quot; 或 0 - 关闭规则</span><br><span class="line">     * &quot;warn&quot; 或 1 - 开启规则，使用警告级别的错误：warn (不会导致程序退出),</span><br><span class="line">     * &quot;error&quot; 或 2 - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)</span><br><span class="line">     */</span><br><span class="line">    &quot;rules&quot;: &#123;</span><br><span class="line"></span><br><span class="line">        ////////////////</span><br><span class="line">        // 可能的错误 //</span><br><span class="line">        ////////////////</span><br><span class="line"></span><br><span class="line">        // 禁止条件表达式中出现赋值操作符</span><br><span class="line">        &quot;no-cond-assign&quot;: 2,</span><br><span class="line">        // 禁用 console</span><br><span class="line">        &quot;no-console&quot;: 0,</span><br><span class="line">        // 禁止在条件中使用常量表达式</span><br><span class="line">        // if (false) &#123;</span><br><span class="line">        // doSomethingUnfinished();</span><br><span class="line">        // &#125; //cuowu</span><br><span class="line">        &quot;no-constant-condition&quot;: 2,</span><br><span class="line">        // 禁止在正则表达式中使用控制字符 ：new RegExp(&quot;\x1f&quot;)</span><br><span class="line">        &quot;no-control-regex&quot;: 2,</span><br><span class="line">        // 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号，</span><br><span class="line">        // always-multiline：多行模式必须带逗号，单行模式不能带逗号</span><br><span class="line">        &quot;comma-dangle&quot;: [1, &quot;never&quot;],</span><br><span class="line">        // 禁用 debugger</span><br><span class="line">        &quot;no-debugger&quot;: 2,</span><br><span class="line">        // 禁止 function 定义中出现重名参数</span><br><span class="line">        &quot;no-dupe-args&quot;: 2,</span><br><span class="line">        // 禁止对象字面量中出现重复的 key</span><br><span class="line">        &quot;no-dupe-keys&quot;: 2,</span><br><span class="line">        // 禁止重复的 case 标签</span><br><span class="line">        &quot;no-duplicate-case&quot;: 2,</span><br><span class="line">        // 禁止空语句块</span><br><span class="line">        &quot;no-empty&quot;: 2,</span><br><span class="line">        // 禁止在正则表达式中使用空字符集 (/^abc[]/)</span><br><span class="line">        &quot;no-empty-character-class&quot;: 2,</span><br><span class="line">        // 禁止对 catch 子句的参数重新赋值</span><br><span class="line">        &quot;no-ex-assign&quot;: 2,</span><br><span class="line">        // 禁止不必要的布尔转换</span><br><span class="line">        &quot;no-extra-boolean-cast&quot;: 2,</span><br><span class="line">        // 禁止不必要的括号 //(a * b) + c;//报错</span><br><span class="line">        &quot;no-extra-parens&quot;: 0,</span><br><span class="line">        // 禁止不必要的分号</span><br><span class="line">        &quot;no-extra-semi&quot;: 2,</span><br><span class="line">        // 禁止对 function 声明重新赋值</span><br><span class="line">        &quot;no-func-assign&quot;: 2,</span><br><span class="line">        // 禁止在嵌套的块中出现 function 或 var 声明</span><br><span class="line">        &quot;no-inner-declarations&quot;: [2, &quot;functions&quot;],</span><br><span class="line">        // 禁止 RegExp 构造函数中无效的正则表达式字符串</span><br><span class="line">        &quot;no-invalid-regexp&quot;: 2,</span><br><span class="line">        // 禁止在字符串和注释之外不规则的空白</span><br><span class="line">        &quot;no-irregular-whitespace&quot;: 2,</span><br><span class="line">        // 禁止在 in 表达式中出现否定的左操作数</span><br><span class="line">        &quot;no-negated-in-lhs&quot;: 2,</span><br><span class="line">        // 禁止把全局对象 (Math 和 JSON) 作为函数调用 错误：var math = Math();</span><br><span class="line">        &quot;no-obj-calls&quot;: 2,</span><br><span class="line">        // 禁止直接使用 Object.prototypes 的内置属性</span><br><span class="line">        &quot;no-prototype-builtins&quot;: 0,</span><br><span class="line">        // 禁止正则表达式字面量中出现多个空格</span><br><span class="line">        &quot;no-regex-spaces&quot;: 2,</span><br><span class="line">        // 禁用稀疏数组</span><br><span class="line">        &quot;no-sparse-arrays&quot;: 2,</span><br><span class="line">        // 禁止出现令人困惑的多行表达式</span><br><span class="line">        &quot;no-unexpected-multiline&quot;: 2,</span><br><span class="line">        // 禁止在return、throw、continue 和 break语句之后出现不可达代码</span><br><span class="line">        &quot;no-unreachable&quot;: 2,</span><br><span class="line">        // 要求使用 isNaN() 检查 NaN</span><br><span class="line">        &quot;use-isnan&quot;: 2,</span><br><span class="line">        // 强制使用有效的 JSDoc 注释</span><br><span class="line">        &quot;valid-jsdoc&quot;: 1,</span><br><span class="line">        // 强制 typeof 表达式与有效的字符串进行比较</span><br><span class="line">        // typeof foo === &quot;undefimed&quot; 错误</span><br><span class="line">        &quot;valid-typeof&quot;: 2,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 最佳实践 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 定义对象的set存取器属性时，强制定义get</span><br><span class="line">        &quot;accessor-pairs&quot;: 2,</span><br><span class="line">        // 强制数组方法的回调函数中有 return 语句</span><br><span class="line">        &quot;array-callback-return&quot;: 0,</span><br><span class="line">        // 强制把变量的使用限制在其定义的作用域范围内</span><br><span class="line">        &quot;block-scoped-var&quot;: 0,</span><br><span class="line">        // 限制圈复杂度，也就是类似if else能连续接多少个</span><br><span class="line">        &quot;complexity&quot;: [2, 9],</span><br><span class="line">        // 要求 return 语句要么总是指定返回的值，要么不指定</span><br><span class="line">        &quot;consistent-return&quot;: 0,</span><br><span class="line">        // 强制所有控制语句使用一致的括号风格</span><br><span class="line">        &quot;curly&quot;: [2, &quot;all&quot;],</span><br><span class="line">        // switch 语句强制 default 分支，也可添加 // no default 注释取消此次警告</span><br><span class="line">        &quot;default-case&quot;: 2,</span><br><span class="line">        // 强制object.key 中 . 的位置，参数:</span><br><span class="line">        // property，&#x27;.&#x27;号应与属性在同一行</span><br><span class="line">        // object, &#x27;.&#x27; 号应与对象名在同一行</span><br><span class="line">        &quot;dot-location&quot;: [2, &quot;property&quot;],</span><br><span class="line">        // 强制使用.号取属性</span><br><span class="line">        // 参数： allowKeywords：true 使用保留字做属性名时，只能使用.方式取属性</span><br><span class="line">        // false 使用保留字做属性名时, 只能使用[]方式取属性 e.g [2, &#123;&quot;allowKeywords&quot;: false&#125;]</span><br><span class="line">        // allowPattern: 当属性名匹配提供的正则表达式时，允许使用[]方式取值,否则只能用.号取值 e.g [2, &#123;&quot;allowPattern&quot;: &quot;^[a-z]+(_[a-z]+)+$&quot;&#125;]</span><br><span class="line">        &quot;dot-notation&quot;: [2, &#123;</span><br><span class="line">            &quot;allowKeywords&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 使用 === 替代 == allow-null允许null和undefined==</span><br><span class="line">        &quot;eqeqeq&quot;: [2, &quot;allow-null&quot;],</span><br><span class="line">        // 要求 for-in 循环中有一个 if 语句</span><br><span class="line">        &quot;guard-for-in&quot;: 2,</span><br><span class="line">        // 禁用 alert、confirm 和 prompt</span><br><span class="line">        &quot;no-alert&quot;: 0,</span><br><span class="line">        // 禁用 arguments.caller 或 arguments.callee</span><br><span class="line">        &quot;no-caller&quot;: 2,</span><br><span class="line">        // 不允许在 case 子句中使用词法声明</span><br><span class="line">        &quot;no-case-declarations&quot;: 2,</span><br><span class="line">        // 禁止除法操作符显式的出现在正则表达式开始的位置</span><br><span class="line">        &quot;no-div-regex&quot;: 2,</span><br><span class="line">        // 禁止 if 语句中有 return 之后有 else</span><br><span class="line">        &quot;no-else-return&quot;: 0,</span><br><span class="line">        // 禁止出现空函数.如果一个函数包含了一条注释，它将不会被认为有问题。</span><br><span class="line">        &quot;no-empty-function&quot;: 2,</span><br><span class="line">        // 禁止使用空解构模式no-empty-pattern</span><br><span class="line">        &quot;no-empty-pattern&quot;: 2,</span><br><span class="line">        // 禁止在没有类型检查操作符的情况下与 null 进行比较</span><br><span class="line">        &quot;no-eq-null&quot;: 1,</span><br><span class="line">        // 禁用 eval()</span><br><span class="line">        &quot;no-eval&quot;: 2,</span><br><span class="line">        // 禁止扩展原生类型</span><br><span class="line">        &quot;no-extend-native&quot;: 2,</span><br><span class="line">        // 禁止不必要的 .bind() 调用</span><br><span class="line">        &quot;no-extra-bind&quot;: 2,</span><br><span class="line">        // 禁用不必要的标签</span><br><span class="line">        &quot;no-extra-label:&quot;: 0,</span><br><span class="line">        // 禁止 case 语句落空</span><br><span class="line">        &quot;no-fallthrough&quot;: 2,</span><br><span class="line">        // 禁止数字字面量中使用前导和末尾小数点</span><br><span class="line">        &quot;no-floating-decimal&quot;: 2,</span><br><span class="line">        // 禁止使用短符号进行类型转换(!!fOO)</span><br><span class="line">        &quot;no-implicit-coercion&quot;: 0,</span><br><span class="line">        // 禁止在全局范围内使用 var 和命名的 function 声明</span><br><span class="line">        &quot;no-implicit-globals&quot;: 1,</span><br><span class="line">        // 禁止使用类似 eval() 的方法</span><br><span class="line">        &quot;no-implied-eval&quot;: 2,</span><br><span class="line">        // 禁止 this 关键字出现在类和类对象之外</span><br><span class="line">        &quot;no-invalid-this&quot;: 0,</span><br><span class="line">        // 禁用 __iterator__ 属性</span><br><span class="line">        &quot;no-iterator&quot;: 2,</span><br><span class="line">        // 禁用标签语句</span><br><span class="line">        &quot;no-labels&quot;: 2,</span><br><span class="line">        // 禁用不必要的嵌套块</span><br><span class="line">        &quot;no-lone-blocks&quot;: 2,</span><br><span class="line">        // 禁止在循环中出现 function 声明和表达式</span><br><span class="line">        &quot;no-loop-func&quot;: 1,</span><br><span class="line">        // 禁用魔术数字(3.14什么的用常量代替)</span><br><span class="line">        &quot;no-magic-numbers&quot;: [1, &#123;</span><br><span class="line">            &quot;ignore&quot;: [0, -1, 1]</span><br><span class="line">        &#125;],</span><br><span class="line">        // 禁止使用多个空格</span><br><span class="line">        &quot;no-multi-spaces&quot;: 2,</span><br><span class="line">        // 禁止使用多行字符串，在 JavaScript 中，可以在新行之前使用斜线创建多行字符串</span><br><span class="line">        &quot;no-multi-str&quot;: 2,</span><br><span class="line">        // 禁止对原生对象赋值</span><br><span class="line">        &quot;no-native-reassign&quot;: 2,</span><br><span class="line">        // 禁止在非赋值或条件语句中使用 new 操作符</span><br><span class="line">        &quot;no-new&quot;: 2,</span><br><span class="line">        // 禁止对 Function 对象使用 new 操作符</span><br><span class="line">        &quot;no-new-func&quot;: 0,</span><br><span class="line">        // 禁止对 String，Number 和 Boolean 使用 new 操作符</span><br><span class="line">        &quot;no-new-wrappers&quot;: 2,</span><br><span class="line">        // 禁用八进制字面量</span><br><span class="line">        &quot;no-octal&quot;: 2,</span><br><span class="line">        // 禁止在字符串中使用八进制转义序列</span><br><span class="line">        &quot;no-octal-escape&quot;: 2,</span><br><span class="line">        // 不允许对 function 的参数进行重新赋值</span><br><span class="line">        &quot;no-param-reassign&quot;: 0,</span><br><span class="line">        // 禁用 __proto__ 属性</span><br><span class="line">        &quot;no-proto&quot;: 2,</span><br><span class="line">        // 禁止使用 var 多次声明同一变量</span><br><span class="line">        &quot;no-redeclare&quot;: 2,</span><br><span class="line">        // 禁用指定的通过 require 加载的模块</span><br><span class="line">        &quot;no-return-assign&quot;: 0,</span><br><span class="line">        // 禁止使用 javascript: url</span><br><span class="line">        &quot;no-script-url&quot;: 0,</span><br><span class="line">        // 禁止自我赋值</span><br><span class="line">        &quot;no-self-assign&quot;: 2,</span><br><span class="line">        // 禁止自身比较</span><br><span class="line">        &quot;no-self-compare&quot;: 2,</span><br><span class="line">        // 禁用逗号操作符</span><br><span class="line">        &quot;no-sequences&quot;: 2,</span><br><span class="line">        // 禁止抛出非异常字面量</span><br><span class="line">        &quot;no-throw-literal&quot;: 2,</span><br><span class="line">        // 禁用一成不变的循环条件</span><br><span class="line">        &quot;no-unmodified-loop-condition&quot;: 2,</span><br><span class="line">        // 禁止出现未使用过的表达式</span><br><span class="line">        &quot;no-unused-expressions&quot;: 0,</span><br><span class="line">        // 禁用未使用过的标签</span><br><span class="line">        &quot;no-unused-labels&quot;: 2,</span><br><span class="line">        // 禁止不必要的 .call() 和 .apply()</span><br><span class="line">        &quot;no-useless-call&quot;: 2,</span><br><span class="line">        // 禁止不必要的字符串字面量或模板字面量的连接</span><br><span class="line">        &quot;no-useless-concat&quot;: 2,</span><br><span class="line">        // 禁用不必要的转义字符</span><br><span class="line">        &quot;no-useless-escape&quot;: 0,</span><br><span class="line">        // 禁用 void 操作符</span><br><span class="line">        &quot;no-void&quot;: 0,</span><br><span class="line">        // 禁止在注释中使用特定的警告术语</span><br><span class="line">        &quot;no-warning-comments&quot;: 0,</span><br><span class="line">        // 禁用 with 语句</span><br><span class="line">        &quot;no-with&quot;: 2,</span><br><span class="line">        // 强制在parseInt()使用基数参数</span><br><span class="line">        &quot;radix&quot;: 2,</span><br><span class="line">        // 要求所有的 var 声明出现在它们所在的作用域顶部</span><br><span class="line">        &quot;vars-on-top&quot;: 0,</span><br><span class="line">        // 要求 IIFE 使用括号括起来</span><br><span class="line">        &quot;wrap-iife&quot;: [2, &quot;any&quot;],</span><br><span class="line">        // 要求或禁止 “Yoda” 条件</span><br><span class="line">        &quot;yoda&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 要求或禁止使用严格模式指令</span><br><span class="line">        &quot;strict&quot;: 0,</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 变量声明 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 要求或禁止 var 声明中的初始化(初值)</span><br><span class="line">        &quot;init-declarations&quot;: 0,</span><br><span class="line">        // 不允许 catch 子句的参数与外层作用域中的变量同名</span><br><span class="line">        &quot;no-catch-shadow&quot;: 0,</span><br><span class="line">        // 禁止删除变量</span><br><span class="line">        &quot;no-delete-var&quot;: 2,</span><br><span class="line">        // 不允许标签与变量同名</span><br><span class="line">        &quot;no-label-var&quot;: 2,</span><br><span class="line">        // 禁用特定的全局变量</span><br><span class="line">        &quot;no-restricted-globals&quot;: 0,</span><br><span class="line">        // 禁止 var 声明 与外层作用域的变量同名</span><br><span class="line">        &quot;no-shadow&quot;: 0,</span><br><span class="line">        // 禁止覆盖受限制的标识符</span><br><span class="line">        &quot;no-shadow-restricted-names&quot;: 2,</span><br><span class="line">        // 禁用未声明的变量，除非它们在 /*global */ 注释中被提到</span><br><span class="line">        &quot;no-undef&quot;: 2,</span><br><span class="line">        // 禁止将变量初始化为 undefined</span><br><span class="line">        &quot;no-undef-init&quot;: 2,</span><br><span class="line">        // 禁止将 undefined 作为标识符</span><br><span class="line">        &quot;no-undefined&quot;: 0,</span><br><span class="line">        // 禁止出现未使用过的变量</span><br><span class="line">        &quot;no-unused-vars&quot;: [2, &#123;</span><br><span class="line">            &quot;vars&quot;: &quot;all&quot;,</span><br><span class="line">            &quot;args&quot;: &quot;none&quot;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 不允许在变量定义之前使用它们</span><br><span class="line">        &quot;no-use-before-define&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////////////////</span><br><span class="line">        // Node.js and CommonJS //</span><br><span class="line">        //////////////////////////</span><br><span class="line"></span><br><span class="line">        // require return statements after callbacks</span><br><span class="line">        &quot;callback-return&quot;: 0,</span><br><span class="line">        // 要求 require() 出现在顶层模块作用域中</span><br><span class="line">        &quot;global-require&quot;: 1,</span><br><span class="line">        // 要求回调函数中有容错处理</span><br><span class="line">        &quot;handle-callback-err&quot;: [2, &quot;^(err|error)$&quot;],</span><br><span class="line">        // 禁止混合常规 var 声明和 require 调用</span><br><span class="line">        &quot;no-mixed-requires&quot;: 0,</span><br><span class="line">        // 禁止调用 require 时使用 new 操作符</span><br><span class="line">        &quot;no-new-require&quot;: 2,</span><br><span class="line">        // 禁止对 __dirname 和 __filename进行字符串连接</span><br><span class="line">        &quot;no-path-concat&quot;: 0,</span><br><span class="line">        // 禁用 process.env</span><br><span class="line">        &quot;no-process-env&quot;: 0,</span><br><span class="line">        // 禁用 process.exit()</span><br><span class="line">        &quot;no-process-exit&quot;: 0,</span><br><span class="line">        // 禁用同步方法</span><br><span class="line">        &quot;no-sync&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // 风格指南 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 指定数组的元素之间要以空格隔开(, 后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格</span><br><span class="line">        &quot;array-bracket-spacing&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 禁止或强制在单行代码块中使用空格(禁用)</span><br><span class="line">        &quot;block-spacing&quot;: [1, &quot;never&quot;],</span><br><span class="line">        //强制使用一致的缩进 第二个参数为 &quot;tab&quot; 时，会使用tab，</span><br><span class="line">        // if while function 后面的&#123;必须与if在同一行，java风格。</span><br><span class="line">        &quot;brace-style&quot;: [2, &quot;1tbs&quot;, &#123;</span><br><span class="line">            &quot;allowSingleLine&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 双峰驼命名格式</span><br><span class="line">        &quot;camelcase&quot;: 2,</span><br><span class="line">        // 控制逗号前后的空格</span><br><span class="line">        &quot;comma-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: false,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 控制逗号在行尾出现还是在行首出现 (默认行尾)</span><br><span class="line">        // http://eslint.org/docs/rules/comma-style</span><br><span class="line">        &quot;comma-style&quot;: [2, &quot;last&quot;],</span><br><span class="line">        //&quot;SwitchCase&quot; (默认：0) 强制 switch 语句中的 case 子句的缩进水平</span><br><span class="line">        // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always</span><br><span class="line">        &quot;computed-property-spacing&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 用于指统一在回调函数中指向this的变量名，箭头函数中的this已经可以指向外层调用者，应该没卵用了</span><br><span class="line">        // e.g [0,&quot;that&quot;] 指定只能 var that = this. that不能指向其他任何值，this也不能赋值给that以外的其他值</span><br><span class="line">        &quot;consistent-this&quot;: [1, &quot;that&quot;],</span><br><span class="line">        // 强制使用命名的 function 表达式</span><br><span class="line">        &quot;func-names&quot;: 0,</span><br><span class="line">        // 文件末尾强制换行</span><br><span class="line">        &quot;eol-last&quot;: 2,</span><br><span class="line">        &quot;indent&quot;: [2, 4, &#123;</span><br><span class="line">            &quot;SwitchCase&quot;: 1</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在对象字面量的属性中键和值之间使用一致的间距</span><br><span class="line">        &quot;key-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;beforeColon&quot;: false,</span><br><span class="line">            &quot;afterColon&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制使用一致的换行风格</span><br><span class="line">        &quot;linebreak-style&quot;: [1, &quot;unix&quot;],</span><br><span class="line">        // 要求在注释周围有空行 ( 要求在块级注释之前有一空行)</span><br><span class="line">        &quot;lines-around-comment&quot;: [1, &#123;</span><br><span class="line">            &quot;beforeBlockComment&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制一致地使用函数声明或函数表达式，方法定义风格，参数：</span><br><span class="line">        // declaration: 强制使用方法声明的方式，function f()&#123;&#125; e.g [2, &quot;declaration&quot;]</span><br><span class="line">        // expression：强制使用方法表达式的方式，var f = function() &#123;&#125; e.g [2, &quot;expression&quot;]</span><br><span class="line">        // allowArrowFunctions: declaration风格中允许箭头函数。 e.g [2, &quot;declaration&quot;, &#123; &quot;allowArrowFunctions&quot;: true &#125;]</span><br><span class="line">        &quot;func-style&quot;: 0,</span><br><span class="line">        // 强制回调函数最大嵌套深度 5层</span><br><span class="line">        &quot;max-nested-callbacks&quot;: [1, 5],</span><br><span class="line">        // 禁止使用指定的标识符</span><br><span class="line">        &quot;id-blacklist&quot;: 0,</span><br><span class="line">        // 强制标识符的最新和最大长度</span><br><span class="line">        &quot;id-length&quot;: 0,</span><br><span class="line">        // 要求标识符匹配一个指定的正则表达式</span><br><span class="line">        &quot;id-match&quot;: 0,</span><br><span class="line">        // 强制在 JSX 属性中一致地使用双引号或单引号</span><br><span class="line">        &quot;jsx-quotes&quot;: 0,</span><br><span class="line">        // 强制在关键字前后使用一致的空格 (前后腰需要)</span><br><span class="line">        &quot;keyword-spacing&quot;: 2,</span><br><span class="line">        // 强制一行的最大长度</span><br><span class="line">        &quot;max-len&quot;: [1, 200],</span><br><span class="line">        // 强制最大行数</span><br><span class="line">        &quot;max-lines&quot;: 0,</span><br><span class="line">        // 强制 function 定义中最多允许的参数数量</span><br><span class="line">        &quot;max-params&quot;: [1, 7],</span><br><span class="line">        // 强制 function 块最多允许的的语句数量</span><br><span class="line">        &quot;max-statements&quot;: [1, 200],</span><br><span class="line">        // 强制每一行中所允许的最大语句数量</span><br><span class="line">        &quot;max-statements-per-line&quot;: 0,</span><br><span class="line">        // 要求构造函数首字母大写 （要求调用 new 操作符时有首字母大小的函数，允许调用首字母大写的函数时没有 new 操作符。）</span><br><span class="line">        &quot;new-cap&quot;: [2, &#123;</span><br><span class="line">            &quot;newIsCap&quot;: true,</span><br><span class="line">            &quot;capIsNew&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求调用无参构造函数时有圆括号</span><br><span class="line">        &quot;new-parens&quot;: 2,</span><br><span class="line">        // 要求或禁止 var 声明语句后有一行空行</span><br><span class="line">        &quot;newline-after-var&quot;: 0,</span><br><span class="line">        // 禁止使用 Array 构造函数</span><br><span class="line">        &quot;no-array-constructor&quot;: 2,</span><br><span class="line">        // 禁用按位运算符</span><br><span class="line">        &quot;no-bitwise&quot;: 0,</span><br><span class="line">        // 要求 return 语句之前有一空行</span><br><span class="line">        &quot;newline-before-return&quot;: 0,</span><br><span class="line">        // 要求方法链中每个调用都有一个换行符</span><br><span class="line">        &quot;newline-per-chained-call&quot;: 1,</span><br><span class="line">        // 禁用 continue 语句</span><br><span class="line">        &quot;no-continue&quot;: 0,</span><br><span class="line">        // 禁止在代码行后使用内联注释</span><br><span class="line">        &quot;no-inline-comments&quot;: 0,</span><br><span class="line">        // 禁止 if 作为唯一的语句出现在 else 语句中</span><br><span class="line">        &quot;no-lonely-if&quot;: 0,</span><br><span class="line">        // 禁止混合使用不同的操作符</span><br><span class="line">        &quot;no-mixed-operators&quot;: 0,</span><br><span class="line">        // 不允许空格和 tab 混合缩进</span><br><span class="line">        &quot;no-mixed-spaces-and-tabs&quot;: 2,</span><br><span class="line">        // 不允许多个空行</span><br><span class="line">        &quot;no-multiple-empty-lines&quot;: [2, &#123;</span><br><span class="line">            &quot;max&quot;: 2</span><br><span class="line">        &#125;],</span><br><span class="line">        // 不允许否定的表达式</span><br><span class="line">        &quot;no-negated-condition&quot;: 0,</span><br><span class="line">        // 不允许使用嵌套的三元表达式</span><br><span class="line">        &quot;no-nested-ternary&quot;: 0,</span><br><span class="line">        // 禁止使用 Object 的构造函数</span><br><span class="line">        &quot;no-new-object&quot;: 2,</span><br><span class="line">        // 禁止使用一元操作符 ++ 和 --</span><br><span class="line">        &quot;no-plusplus&quot;: 0,</span><br><span class="line">        // 禁止使用特定的语法</span><br><span class="line">        &quot;no-restricted-syntax&quot;: 0,</span><br><span class="line">        // 禁止 function 标识符和括号之间出现空格</span><br><span class="line">        &quot;no-spaced-func&quot;: 2,</span><br><span class="line">        // 不允许使用三元操作符</span><br><span class="line">        &quot;no-ternary&quot;: 0,</span><br><span class="line">        // 禁用行尾空格</span><br><span class="line">        &quot;no-trailing-spaces&quot;: 2,</span><br><span class="line">        // 禁止标识符中有悬空下划线_bar</span><br><span class="line">        &quot;no-underscore-dangle&quot;: 0,</span><br><span class="line">        // 禁止可以在有更简单的可替代的表达式时使用三元操作符</span><br><span class="line">        &quot;no-unneeded-ternary&quot;: 2,</span><br><span class="line">        // 禁止属性前有空白</span><br><span class="line">        &quot;no-whitespace-before-property&quot;: 0,</span><br><span class="line">        // 强制花括号内换行符的一致性</span><br><span class="line">        &quot;object-curly-newline&quot;: 0,</span><br><span class="line">        // 强制在花括号中使用一致的空格</span><br><span class="line">        &quot;object-curly-spacing&quot;: 0,</span><br><span class="line">        // 强制将对象的属性放在不同的行上</span><br><span class="line">        &quot;object-property-newline&quot;: 0,</span><br><span class="line">        // 强制函数中的变量要么一起声明要么分开声明</span><br><span class="line">        &quot;one-var&quot;: [2, &#123;</span><br><span class="line">            &quot;initialized&quot;: &quot;never&quot;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止在 var 声明周围换行</span><br><span class="line">        &quot;one-var-declaration-per-line&quot;: 0,</span><br><span class="line">        // 要求或禁止在可能的情况下要求使用简化的赋值操作符</span><br><span class="line">        &quot;operator-assignment&quot;: 0,</span><br><span class="line">        // 强制操作符使用一致的换行符</span><br><span class="line">        &quot;operator-linebreak&quot;: [2, &quot;after&quot;, &#123;</span><br><span class="line">            &quot;overrides&quot;: &#123;</span><br><span class="line">                &quot;?&quot;: &quot;before&quot;,</span><br><span class="line">                &quot;:&quot;: &quot;before&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止块内填充</span><br><span class="line">        &quot;padded-blocks&quot;: 0,</span><br><span class="line">        // 要求对象字面量属性名称用引号括起来</span><br><span class="line">        &quot;quote-props&quot;: 0,</span><br><span class="line">        // 强制使用一致的反勾号、双引号或单引号</span><br><span class="line">        &quot;quotes&quot;: [2, &quot;double&quot;, &quot;avoid-escape&quot;],</span><br><span class="line">        // 要求使用 JSDoc 注释</span><br><span class="line">        &quot;require-jsdoc&quot;: 1,</span><br><span class="line">        // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）</span><br><span class="line">        &quot;semi&quot;: [2, &quot;always&quot;],</span><br><span class="line">        // 强制分号之前和之后使用一致的空格</span><br><span class="line">        &quot;semi-spacing&quot;: 0,</span><br><span class="line">        // 要求同一个声明块中的变量按顺序排列</span><br><span class="line">        &quot;sort-vars&quot;: 0,</span><br><span class="line">        // 强制在块之前使用一致的空格</span><br><span class="line">        &quot;space-before-blocks&quot;: [2, &quot;always&quot;],</span><br><span class="line">        // 强制在 function的左括号之前使用一致的空格</span><br><span class="line">        &quot;space-before-function-paren&quot;: [0, &quot;always&quot;],</span><br><span class="line">        // 强制在圆括号内使用一致的空格</span><br><span class="line">        &quot;space-in-parens&quot;: [2, &quot;never&quot;],</span><br><span class="line">        // 要求操作符周围有空格</span><br><span class="line">        &quot;space-infix-ops&quot;: 2,</span><br><span class="line">        // 强制在一元操作符前后使用一致的空格</span><br><span class="line">        &quot;space-unary-ops&quot;: [2, &#123;</span><br><span class="line">            &quot;words&quot;: true,</span><br><span class="line">            &quot;nonwords&quot;: false</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在注释中 // 或 /* 使用一致的空格</span><br><span class="line">        &quot;spaced-comment&quot;: [2, &quot;always&quot;, &#123;</span><br><span class="line">            &quot;markers&quot;: [&quot;global&quot;, &quot;globals&quot;, &quot;eslint&quot;, &quot;eslint-disable&quot;, &quot;*package&quot;, &quot;!&quot;]</span><br><span class="line">        &#125;],</span><br><span class="line">        // 要求或禁止 Unicode BOM</span><br><span class="line">        &quot;unicode-bom&quot;: 0,</span><br><span class="line">        // 要求正则表达式被括号括起来</span><br><span class="line">        &quot;wrap-regex&quot;: 0,</span><br><span class="line"></span><br><span class="line">        //////////////</span><br><span class="line">        // ES6.相关 //</span><br><span class="line">        //////////////</span><br><span class="line"></span><br><span class="line">        // 要求箭头函数体使用大括号</span><br><span class="line">        &quot;arrow-body-style&quot;: 2,</span><br><span class="line">        // 要求箭头函数的参数使用圆括号</span><br><span class="line">        &quot;arrow-parens&quot;: 2,</span><br><span class="line">        &quot;arrow-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: true,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 强制在子类构造函数中用super()调用父类构造函数，TypeScrip的编译器也会提示</span><br><span class="line">        &quot;constructor-super&quot;: 0,</span><br><span class="line">        // 强制 generator 函数中 * 号周围使用一致的空格</span><br><span class="line">        &quot;generator-star-spacing&quot;: [2, &#123;</span><br><span class="line">            &quot;before&quot;: true,</span><br><span class="line">            &quot;after&quot;: true</span><br><span class="line">        &#125;],</span><br><span class="line">        // 禁止修改类声明的变量</span><br><span class="line">        &quot;no-class-assign&quot;: 2,</span><br><span class="line">        // 不允许箭头功能，在那里他们可以混淆的比较</span><br><span class="line">        &quot;no-confusing-arrow&quot;: 0,</span><br><span class="line">        // 禁止修改 const 声明的变量</span><br><span class="line">        &quot;no-const-assign&quot;: 2,</span><br><span class="line">        // 禁止类成员中出现重复的名称</span><br><span class="line">        &quot;no-dupe-class-members&quot;: 2,</span><br><span class="line">        // 不允许复制模块的进口</span><br><span class="line">        &quot;no-duplicate-imports&quot;: 0,</span><br><span class="line">        // 禁止 Symbol 的构造函数</span><br><span class="line">        &quot;no-new-symbol&quot;: 2,</span><br><span class="line">        // 允许指定模块加载时的进口</span><br><span class="line">        &quot;no-restricted-imports&quot;: 0,</span><br><span class="line">        // 禁止在构造函数中，在调用 super() 之前使用 this 或 super</span><br><span class="line">        &quot;no-this-before-super&quot;: 2,</span><br><span class="line">        // 禁止不必要的计算性能键对象的文字</span><br><span class="line">        &quot;no-useless-computed-key&quot;: 0,</span><br><span class="line">        // 要求使用 let 或 const 而不是 var</span><br><span class="line">        &quot;no-var&quot;: 0,</span><br><span class="line">        // 要求或禁止对象字面量中方法和属性使用简写语法</span><br><span class="line">        &quot;object-shorthand&quot;: 0,</span><br><span class="line">        // 要求使用箭头函数作为回调</span><br><span class="line">        &quot;prefer-arrow-callback&quot;: 0,</span><br><span class="line">        // 要求使用 const 声明那些声明后不再被修改的变量</span><br><span class="line">        &quot;prefer-const&quot;: 0,</span><br><span class="line">        // 要求在合适的地方使用 Reflect 方法</span><br><span class="line">        &quot;prefer-reflect&quot;: 0,</span><br><span class="line">        // 要求使用扩展运算符而非 .apply()</span><br><span class="line">        &quot;prefer-spread&quot;: 0,</span><br><span class="line">        // 要求使用模板字面量而非字符串连接</span><br><span class="line">        &quot;prefer-template&quot;: 0,</span><br><span class="line">        // Suggest using the rest parameters instead of arguments</span><br><span class="line">        &quot;prefer-rest-params&quot;: 0,</span><br><span class="line">        // 要求generator 函数内有 yield</span><br><span class="line">        &quot;require-yield&quot;: 0,</span><br><span class="line">        // enforce spacing between rest and spread operators and their expressions</span><br><span class="line">        &quot;rest-spread-spacing&quot;: 0,</span><br><span class="line">        // 强制模块内的 import 排序</span><br><span class="line">        &quot;sort-imports&quot;: 0,</span><br><span class="line">        // 要求或禁止模板字符串中的嵌入表达式周围空格的使用</span><br><span class="line">        &quot;template-curly-spacing&quot;: 1,</span><br><span class="line">        // 强制在 yield* 表达式中 * 周围使用空格</span><br><span class="line">        &quot;yield-star-spacing&quot;: 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭段落校验</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* eslint-disable */</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭当前行校验</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">some code // eslint-disable-line</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭下一行校验</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// eslint-disable-next-line</span><br><span class="line">some code</span><br></pre></td></tr></table></figure>
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/09/%E5%B7%A5%E5%85%B7/eslint%E9%85%8D%E7%BD%AE/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-小程序应用速度提升">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/">小程序应用速度提升</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-11-02
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>小程序启动会常常遇到如下图场景：</p>
+<p><img src="https://static.vue-js.com/03941230-3279-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>这是因为，小程序首次启动前，微信会在小程序启动前为小程序准备好通用的运行环境，如运行中的县城和一些基础库的初始化</p>
+<p>然后才开始进入启动状态，展示一个固定的启动界面，界面内包含小程序的图标、名称和加载提示图标。此时，微信会在背后完成几项工作：</p>
+<ul>
+<li>下载小程序代码包</li>
+<li>加载小程序代码包</li>
+<li>初始化小程序首页</li>
+</ul>
+<p>下载到的小程序代码包不是小程序的源代码，而是编译、压缩、打包之后的代码包</p>
+<p>整体流程如下图：</p>
+<p><img src="https://static.vue-js.com/11c0ea90-3279-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<h2 id="二、手段"><a href="#二、手段" class="headerlink" title="二、手段"></a>二、手段</h2><p>围绕上图小程序的启动流程， 我们可以从加载、渲染两个纬度进行切入：</p>
+<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p>提升体验最直接的方法是控制小程序包的大小，常见手段有如下：</p>
+<ul>
+<li>代码包的体积压缩可以通过勾选开发者工具中“上传代码时，压缩代码”选项</li>
+<li>及时清理无用的代码和资源文件</li>
+<li>减少资源包中的图片等资源的数量和大小（理论上除了小icon，其他图片资源从网络下载），图片资源压缩率有限</li>
+</ul>
+<p>并且可以采取分包加载的操作，将用户访问率高的页面放在主包里，将访问率低的页面放入子包里，按需加载</p>
+<p>当用户点击到子包的目录时，还是有一个代码包下载的过程，这会感觉到明显的卡顿，所以子包也不建议拆的太大，当然我们可以采用子包预加载技术，并不需要等到用户点击到子包页面后在下载子包</p>
+<p><img src="https://static.vue-js.com/2034de10-3279-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<h3 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h3><p>关于微信小程序首屏渲染优化的手段如下：</p>
+<ul>
+<li>请求可以在页面onLoad就加载，不需要等页面ready后在异步请求数据</li>
+<li>尽量减少不必要的https请求，可使用 getStorageSync() 及 setStorageSync() 方法将数据存储在本地</li>
+<li>可以在前置页面将一些有用的字段带到当前页，进行首次渲染（列表页的某些数据–&gt; 详情页），没有数据的模块可以进行骨架屏的占位</li>
+</ul>
+<p>在微信小程序中，提高页面的多次渲染效率主要在于正确使用<code>setData</code>：</p>
+<ul>
+<li>不要过于频繁调用setData，应考虑将多次setData合并成一次setData调用</li>
+<li>数据通信的性能与数据量正相关，因而如果有一些数据字段不在界面中展示且数据结构比较复杂或包含长字符串，则不应使用<code>setData</code>来设置这些数据</li>
+<li>与界面渲染无关的数据最好不要设置在data中，可以考虑设置在page对象的其他字段下</li>
+</ul>
+<p>除此之外，对于一些独立的模块我们尽可能抽离出来，这是因为自定义组件的更新并不会影响页面上其他元素的更新</p>
+<p>各个组件也将具有各自独立的逻辑空间。每个组件都分别拥有自己的独立的数据、<code>setData</code>调用</p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p><strong>小程序启动加载性能</strong>：</p>
+<ul>
+<li>控制代码包的大小</li>
+<li>分包加载</li>
+<li>首屏体验（预请求，利用缓存，避免白屏，及时反馈</li>
+</ul>
+<p><strong>小程序渲染性能</strong>：</p>
+<ul>
+<li>避免不当的使用setData</li>
+<li>使用自定义组件</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/11/02/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%80%9F%E5%BA%A6%E6%8F%90%E5%8D%87/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-小程序支付流程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/">小程序支付流程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-25
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>微信小程序为电商类小程序，提供了非常完善、优秀、安全的支付功能</p>
+<p>在小程序内可调用微信的<code>API</code>完成支付功能，方便、快捷</p>
+<p>场景如下图所示：</p>
+<p><img src="https://static.vue-js.com/6e0cff40-34a0-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p><img src="https://static.vue-js.com/34864830-34a0-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<ul>
+<li>用户通过分享或扫描二维码进入商户小程序，用户选择购买，完成选购流程</li>
+<li>调起微信支付控件，用户开始输入支付密码</li>
+<li>密码验证通过，支付成功。商户后台得到支付成功的通知</li>
+<li>返回商户小程序，显示购买成功</li>
+<li>微信支付公众号下发支付凭证</li>
+</ul>
+<h2 id="二、流程"><a href="#二、流程" class="headerlink" title="二、流程"></a>二、流程</h2><p>以电商小程序为例</p>
+<p>支付流程图如下所示：</p>
+<p><img src="https://static.vue-js.com/76b66780-34a0-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>具体的做法：</p>
+<ul>
+<li>打开某小程序，点击直接下单</li>
+<li>wx.login获取用户临时登录凭证code，发送到后端服务器换取openId</li>
+<li>在下单时，小程序需要将购买的商品Id，商品数量，以及用户的openId传送到服务器</li>
+<li>服务器在接收到商品Id、商品数量、openId后，生成服务期订单数据，同时经过一定的签名算法，向微信支付发送请求，获取预付单信息(prepay_id)，同时将获取的数据再次进行相应规则的签名，向小程序端响应必要的信息</li>
+<li>小程序端在获取对应的参数后，调用wx.requestPayment()发起微信支付，唤醒支付工作台，进行支付</li>
+<li>接下来的一些列操作都是由用户来操作的包括了微信支付密码，指纹等验证，确认支付之后执行鉴权调起支付</li>
+<li>鉴权调起支付：在微信后台进行鉴权，微信后台直接返回给前端支付的结果，前端收到返回数据后对支付结果进行展示</li>
+<li>推送支付结果：微信后台在给前端返回支付的结果后，也会向后台也返回一个支付结果，后台通过这个支付结果来更新订单的状态</li>
+</ul>
+<p>其中后端响应数据必要的信息则是<code>wx.requestPayment</code>方法所需要的参数，大致如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">wx.<span class="title function_">requestPayment</span>(&#123;</span><br><span class="line">  <span class="comment">// 时间戳</span></span><br><span class="line">  <span class="attr">timeStamp</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 随机字符串</span></span><br><span class="line">  <span class="attr">nonceStr</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 统一下单接口返回的 prepay_id 参数值</span></span><br><span class="line">  <span class="attr">package</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 签名类型</span></span><br><span class="line">  <span class="attr">signType</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 签名</span></span><br><span class="line">  <span class="attr">paySign</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="comment">// 调用成功回调</span></span><br><span class="line">  success () &#123;&#125;,</span><br><span class="line">  <span class="comment">// 失败回调</span></span><br><span class="line">  fail () &#123;&#125;,</span><br><span class="line">  <span class="comment">// 接口调用结束回调</span></span><br><span class="line">  complete () &#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>参数表如下所示：</p>
+<p><img src="https://files.mdnice.com/user/155/48efed1f-d67f-45a7-ab2c-89a6424fafa0.png" alt="img"></p>
+<h2 id="三、结束"><a href="#三、结束" class="headerlink" title="三、结束"></a>三、结束</h2><p>小程序支付和以往的网页、APP微信支付大同小异，可以说小程序的支付变得更加简洁，不需要设置支付目录、域名授权等操作</p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%94%AF%E4%BB%98%E6%B5%81%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-小程序发布流程">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">小程序发布流程</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-17
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>在中大型的公司里，人员的分工非常仔细，一般会有不同岗位角色的员工同时参与同一个小程序项目。为此，小程序平台设计了不同的权限管理使得项目管理者可以更加高效管理整个团队的协同工作</p>
+<p><img src="https://static.vue-js.com/e76aff50-3652-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>以往我们在开发完网页之后，需要把网页的代码和资源放在服务器上，让用户通过互联网来访问</p>
+<p>在小程序的平台里，开发者完成开发之后，需要在开发者工具提交小程序的代码包，然后在小程序后台发布小程序</p>
+<p><img src="https://static.vue-js.com/fe5da190-3652-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<h2 id="二、流程"><a href="#二、流程" class="headerlink" title="二、流程"></a>二、流程</h2><p>关于发布的流程，主要分成了三个部分：</p>
+<ul>
+<li>上传代码</li>
+<li>提交审核</li>
+<li>发布版本</li>
+</ul>
+<h3 id="上传代码"><a href="#上传代码" class="headerlink" title="上传代码"></a>上传代码</h3><p>在开发者工具中，可以点击代码上传功能：</p>
+<p><img src="https://static.vue-js.com/08f19bc0-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p>然后就可以填写版本信息：</p>
+<p><img src="https://static.vue-js.com/1d02c8f0-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p>然后点击上传，编译器则会提示上传代码成功</p>
+<h3 id="提交审核"><a href="#提交审核" class="headerlink" title="提交审核"></a>提交审核</h3><p>代码上传完毕，就可以登陆微信公众号的官网首页，点击【开发管理】，查看应用详情：</p>
+<p><img src="https://static.vue-js.com/281038e0-3653-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>提交审核过程需要填写审核信息，如下图：</p>
+<p><img src="https://static.vue-js.com/33d97ec0-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<p>提交审核成功之后如下图：</p>
+<p><img src="https://static.vue-js.com/3e4c3550-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<h3 id="发布版本"><a href="#发布版本" class="headerlink" title="发布版本"></a>发布版本</h3><p>当审核通过之后，即可提交发布</p>
+<p><img src="https://static.vue-js.com/495140d0-3653-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>发布成功之后则如下：</p>
+<p><img src="https://static.vue-js.com/5293b4c0-3653-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<h2 id="三、扩展"><a href="#三、扩展" class="headerlink" title="三、扩展"></a>三、扩展</h2><p>上述是最简单的小程序代码发布的流程，通常的流程如下：</p>
+<ul>
+<li>代码管理服务器上新建分支</li>
+<li>开发测试新需求</li>
+<li>测试完成后，将本地分支合并到 master 分支</li>
+<li>拉取 master 分支最新代码，执行 build 命令生成小程序可执行文件</li>
+<li>开发者工具点击“上传”</li>
+<li>提审</li>
+<li>发布</li>
+</ul>
+<p>但是面对多人协调开发的时候，有可能出现已经上线的代码还没合并到<code>master</code>的情况</p>
+<p>因此可以考虑自动化构建部署，就是将从开发到部署的一系列流程变成自动化，衔接连贯，在构建失败时能够告知开发者，构建成功后能够告知测试和实施人员，可参考如下流程图：</p>
+<p><img src="https://static.vue-js.com/602d9bf0-3653-11ec-a752-75723a64e8f5.png" alt="img"></p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-小程序生命周期">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">小程序生命周期</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-13
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>跟<code>vue</code>、<code>react</code>框架一样，微信小程序框架也存在生命周期，实质也是一堆会在特定时期执行的函数</p>
+<p>小程序中，生命周期主要分成了三部分：</p>
+<ul>
+<li>应用的生命周期</li>
+<li>页面的生命周期</li>
+<li>组件的生命周期</li>
+</ul>
+<h3 id="应用的生命周期"><a href="#应用的生命周期" class="headerlink" title="应用的生命周期"></a>应用的生命周期</h3><p>小程序的生命周期函数是在<code>app.js</code>里面调用的，通过<code>App(Object)</code>函数用来注册一个小程序，指定其小程序的生命周期回调</p>
+<h3 id="页面的生命周期"><a href="#页面的生命周期" class="headerlink" title="页面的生命周期"></a>页面的生命周期</h3><p>页面生命周期函数就是当你每进入&#x2F;切换到一个新的页面的时候，就会调用的生命周期函数，同样通过<code>App(Object)</code>函数用来注册一个页面</p>
+<h3 id="组件的生命周期"><a href="#组件的生命周期" class="headerlink" title="组件的生命周期"></a>组件的生命周期</h3><p>组件的生命周期，指的是组件自身的一些函数，这些函数在特殊的时间点或遇到一些特殊的框架事件时被自动触发，通过<code>Component(Object)</code>进行注册组件</p>
+<h2 id="二、有哪些"><a href="#二、有哪些" class="headerlink" title="二、有哪些"></a>二、有哪些</h2><h3 id="应用的生命周期-1"><a href="#应用的生命周期-1" class="headerlink" title="应用的生命周期"></a>应用的生命周期</h3><table>
+<thead>
+<tr>
+<th>生命周期</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onLaunch</td>
+<td>小程序初始化完成时触发，全局只触发一次</td>
+</tr>
+<tr>
+<td>onShow</td>
+<td>小程序启动，或从后台进入前台显示时触发</td>
+</tr>
+<tr>
+<td>onHide</td>
+<td>小程序从前台进入后台时触发</td>
+</tr>
+<tr>
+<td>onError</td>
+<td>小程序发生脚本错误或 API 调用报错时触发</td>
+</tr>
+<tr>
+<td>onPageNotFound</td>
+<td>小程序要打开的页面不存在时触发</td>
+</tr>
+<tr>
+<td>onUnhandledRejection()</td>
+<td>小程序有未处理的 Promise 拒绝时触发</td>
+</tr>
+<tr>
+<td>onThemeChange</td>
+<td>系统切换主题时触发</td>
+</tr>
+</tbody></table>
+<h3 id="页面的生命周期-1"><a href="#页面的生命周期-1" class="headerlink" title="页面的生命周期"></a>页面的生命周期</h3><table>
+<thead>
+<tr>
+<th>生命周期</th>
+<th>说明</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>onLoad</td>
+<td>生命周期回调—监听页面加载</td>
+<td>发送请求获取数据</td>
+</tr>
+<tr>
+<td>onShow</td>
+<td>生命周期回调—监听页面显示</td>
+<td>请求数据</td>
+</tr>
+<tr>
+<td>onReady</td>
+<td>生命周期回调—监听页面初次渲染完成</td>
+<td>获取页面元素（少用）</td>
+</tr>
+<tr>
+<td>onHide</td>
+<td>生命周期回调—监听页面隐藏</td>
+<td>终止任务，如定时器或者播放音乐</td>
+</tr>
+<tr>
+<td>onUnload</td>
+<td>生命周期回调—监听页面卸载</td>
+<td>终止任务</td>
+</tr>
+</tbody></table>
+<h3 id="组件的生命周期-1"><a href="#组件的生命周期-1" class="headerlink" title="组件的生命周期"></a>组件的生命周期</h3><table>
+<thead>
+<tr>
+<th>生命周期</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>created</td>
+<td>生命周期回调—监听页面加载</td>
+</tr>
+<tr>
+<td>attached</td>
+<td>生命周期回调—监听页面显示</td>
+</tr>
+<tr>
+<td>ready</td>
+<td>生命周期回调—监听页面初次渲染完成</td>
+</tr>
+<tr>
+<td>moved</td>
+<td>生命周期回调—监听页面隐藏</td>
+</tr>
+<tr>
+<td>detached</td>
+<td>生命周期回调—监听页面卸载</td>
+</tr>
+<tr>
+<td>error</td>
+<td>每当组件方法抛出错误时执行</td>
+</tr>
+</tbody></table>
+<p>注意的是：</p>
+<ul>
+<li>组件实例刚刚被创建好时， created 生命周期被触发，此时，组件数据 this.data 就是在 Component 构造器中定义的数据 data ， 此时不能调用 setData</li>
+<li>在组件完全初始化完毕、进入页面节点树后， attached 生命周期被触发。此时， this.data 已被初始化为组件的当前值。这个生命周期很有用，绝大多数初始化工作可以在这个时机进行</li>
+<li>在组件离开页面节点树后， detached 生命周期被触发。退出一个页面时，如果组件还在页面节点树中，则 detached 会被触发</li>
+</ul>
+<p>还有一些特殊的生命周期，它们并非与组件有很强的关联，但有时组件需要获知，以便组件内部处理，这样的生命周期称为“组件所在页面的生命周期”，在 <code>pageLifetimes</code> 定义段中定义，如下：</p>
+<table>
+<thead>
+<tr>
+<th>生命周期</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>show</td>
+<td>组件所在的页面被展示时执行</td>
+</tr>
+<tr>
+<td>hide</td>
+<td>组件所在的页面被隐藏时执行</td>
+</tr>
+</tbody></table>
+<p>代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Component</span>(&#123;</span><br><span class="line">  <span class="attr">pageLifetimes</span>: &#123;</span><br><span class="line">    <span class="attr">show</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="comment">// 页面被展示</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">hide</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="comment">// 页面被隐藏</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、执行过程"><a href="#三、执行过程" class="headerlink" title="三、执行过程"></a>三、执行过程</h2><h3 id="应⽤的⽣命周期执行过程："><a href="#应⽤的⽣命周期执行过程：" class="headerlink" title="应⽤的⽣命周期执行过程："></a>应⽤的⽣命周期执行过程：</h3><ul>
+<li>⽤户⾸次打开⼩程序，触发 onLaunch（全局只触发⼀次）</li>
+<li>⼩程序初始化完成后，触发onShow⽅法，监听⼩程序显示</li>
+<li>⼩程序从前台进⼊后台，触发 onHide⽅法</li>
+<li>⼩程序从后台进⼊前台显示，触发 onShow⽅法</li>
+<li>⼩程序后台运⾏⼀定时间，或系统资源占⽤过⾼，会被销毁</li>
+</ul>
+<h3 id="⻚⾯⽣命周期的执行过程："><a href="#⻚⾯⽣命周期的执行过程：" class="headerlink" title="⻚⾯⽣命周期的执行过程："></a>⻚⾯⽣命周期的执行过程：</h3><ul>
+<li>⼩程序注册完成后，加载⻚⾯，触发onLoad⽅法</li>
+<li>⻚⾯载⼊后触发onShow⽅法，显示⻚⾯</li>
+<li>⾸次显示⻚⾯，会触发onReady⽅法，渲染⻚⾯元素和样式，⼀个⻚⾯只会调⽤⼀次</li>
+<li>当⼩程序后台运⾏或跳转到其他⻚⾯时，触发onHide⽅法</li>
+<li>当⼩程序有后台进⼊到前台运⾏或重新进⼊⻚⾯时，触发onShow⽅法</li>
+<li>当使⽤重定向⽅法 wx.redirectTo() 或关闭当前⻚返回上⼀⻚wx.navigateBack()，触发onUnload</li>
+</ul>
+<p>当存在也应用生命周期和页面周期的时候，相关的执行顺序如下：</p>
+<ul>
+<li>打开小程序：(App)onLaunch –&gt; (App)onShow –&gt; (Pages)onLoad –&gt; (Pages)onShow –&gt; (pages)onRead</li>
+<li>进入下一个页面：(Pages)onHide –&gt; (Next)onLoad –&gt; (Next)onShow –&gt; (Next)onReady</li>
+<li>返回上一个页面：(curr)onUnload –&gt; (pre)onShow</li>
+<li>离开小程序：(App)onHide</li>
+<li>再次进入：小程序未销毁 –&gt; (App)onShow(执行上面的顺序），小程序被销毁，（App)onLaunch重新开始执行</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/13/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-小程序路由跳转">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/">小程序路由跳转</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-10-09
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="cube-excerpt-tag-link">#小程序</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p>微信小程序拥有<code>web</code>网页和<code>Application</code>共同的特征，我们的页面都不是孤立存在的，而是通过和其他页面进行交互，来共同完成系统的功能</p>
+<p>在微信小程序中，每个页面可以看成是一个<code>pageModel</code>，<code>pageModel</code>全部以栈的形式进行管理</p>
+<h2 id="二、有哪些"><a href="#二、有哪些" class="headerlink" title="二、有哪些"></a>二、有哪些</h2><p>常见的微信小程序页面跳转方式有如下：</p>
+<ul>
+<li>wx.navigateTo(Object)</li>
+<li>wx.redirectTo(Object)</li>
+<li>wx.switchTab(Object)</li>
+<li>wx.navigateBack(Object)</li>
+<li>wx.reLaunch(Object)</li>
+</ul>
+<h3 id="wx-navigateTo-Object"><a href="#wx-navigateTo-Object" class="headerlink" title="wx.navigateTo(Object)"></a>wx.navigateTo(Object)</h3><p><code>wx.navigateTo()</code>用于保留当前页面、跳转到应用内的某个页面，使用 <code>wx.navigateBack</code>可以返回到原页面</p>
+<p>对于页面不是特别多的小程序，通常推荐使用 <code>wx.navigateTo</code>进行跳转， 以便返回原页面，以提高加载速度。当页面特别多时，则不推荐使用</p>
+<p>参数表如下所示：</p>
+<p><img src="https://static.vue-js.com/5e524ea0-31a5-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>流程图如下：</p>
+<p><img src="https://static.vue-js.com/68f033e0-31a5-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<h3 id="wx-redirectTo-Object"><a href="#wx-redirectTo-Object" class="headerlink" title="wx.redirectTo(Object)"></a>wx.redirectTo(Object)</h3><p>重定向，当页面过多时，被保留页面会挤占微信分配给小程序的内存，或是达到微信所限制的 10 层页面栈的情况下，我们应该考虑选择 <code>wx.redirectTo</code></p>
+<p><code>wx.redirectTo()</code>用于关闭当前页面，跳转到应用内的某个页面</p>
+<p>这样的跳转，可以避免跳转前页面占据运行内存，但返回时页面需要重新加载，增加了返回页面的显示时间</p>
+<p>参数表如下所示：</p>
+<p><img src="https://static.vue-js.com/76066c20-31a5-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>流程图如下所示：</p>
+<p><img src="https://static.vue-js.com/828c4b40-31a5-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<h3 id="wx-switchTab-Object"><a href="#wx-switchTab-Object" class="headerlink" title="wx.switchTab(Object)"></a>wx.switchTab(Object)</h3><p>跳转到 <code>tabBar</code>页面，并关闭其他所有非 <code>tabBar</code> 页面</p>
+<p>参数表如下所示：</p>
+<p><img src="https://static.vue-js.com/968869d0-31a5-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<h3 id="wx-navigateBack-Object"><a href="#wx-navigateBack-Object" class="headerlink" title="wx.navigateBack(Object)"></a>wx.navigateBack(Object)</h3><p><code>wx.navigateBack()</code> 用于关闭当前页面，并返回上一页面或多级页面，开发者可通过 <code>getCurrentPages()</code> 获取当前的页面栈，决定需要返回几层则设置对象的<code>delta</code>属性即可</p>
+<p>参数表如下：</p>
+<p><img src="https://static.vue-js.com/a28d8030-31a5-11ec-a752-75723a64e8f5.png" alt="img"></p>
+<h3 id="wx-reLaunch-Object"><a href="#wx-reLaunch-Object" class="headerlink" title="wx.reLaunch(Object)"></a>wx.reLaunch(Object)</h3><p>关闭所有页面，打开到应用内的某个页面，返回的时候跳到首页</p>
+<p>流程图如下所示：</p>
+<p><img src="https://static.vue-js.com/accca3a0-31a5-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<p>参数表如下所示：</p>
+<p><img src="https://static.vue-js.com/b98c7e80-31a5-11ec-8e64-91fdec0f05a1.png" alt="img"></p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>关于上述五种跳转方式，做下总结：</p>
+<ul>
+<li>navigateTo 保留当前页面，跳转到应用内的某个页面，使用 wx.navigateBack 可以返回到原页</li>
+<li>redirectTo 关闭当前页面，跳转到应用内的某个页面</li>
+<li>switchTab 跳转到 tabBar 页面，同时关闭其他非 tabBar 页面</li>
+<li>navigateBack 返回上一页面</li>
+<li>reLanch 关闭所有页面，打开到应用内的某个页面</li>
+</ul>
+<p>其中关于它们的页面栈的关系如下：</p>
+<ul>
+<li>avigateTo 新页面入栈</li>
+<li>redirectTo 当前页面出栈，新页面入栈</li>
+<li>navigateBack 页面不断出栈，直到目标返回页，新页面入栈</li>
+<li>switchTab 页面全部出栈，只留下新的 Tab 页面</li>
+<li>reLanch 页面全部出栈，只留下新的页面</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/10/09/%E5%B0%8F%E7%A8%8B%E5%BA%8F+uniapp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B7%AF%E7%94%B1%E8%B7%B3%E8%BD%AC/">Read More</a>
+    </footer>
+</div>
 
 
 
+<ul class="cube-pagination cube-pagination-9">
+    
+    <li class="cube-pagination-prev">
+        <a href="/page/12/">« Prev</a>
+    </li>
+    
+    
+        
+                <li class="cube-pagination-index">
+                    <a href="/">1</a>
+                </li>
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/12">12</a>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index disabled">
+                    <span>13</span>
+                </li>
+                
+            
+                
+                <li class="cube-pagination-index">
+                    <a href="/page/14">14</a>
+                </li>
+                
+            
+                <li class="cube-pagination-ellipses">
+                    <span>...</span>
+                </li>
+                <li class="cube-pagination-index">
+                    <a href="/page/19">19</a>
+                </li>
+        
+    
+
+    
+    <li class="cube-pagination-next">
+        <a href="/page/14/">Next »</a>
+    </li>
+    
+</ul>
+
+<!--其他组件后续添加-->
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="Search" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/content.json'
+        window.searchModule.rootUrl = '/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="Search" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
 
 
-<script src="/js/mobile-nav.js"></script>
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>John Doe</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>186</span>Article</a>
+        <a class="count tags"><span>35</span>Tags</a>
+        <a class="count categories"><span>23</span>Categories</a>
+    </div>
+</div>
 
 
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: 'Open Lyrics',
+            close: 'Close Lyrics'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>Recent Posts</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/08/25/Js%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="变量类型">变量类型</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/06/09/html+css+js+ts/3-js%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B/" title="js-常用代码操作实例">js-常用代码操作实例</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/05/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" title="html-原生音视频">html-原生音视频</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/25/http/DNS%E5%8D%8F%E8%AE%AE/" title="DNS协议">DNS协议</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/2022/04/17/html+css+js+ts/4-%E8%A3%85%E9%A5%B0%E5%99%A8/" title="ES6 装饰器">ES6 装饰器</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/categories">Categories</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/">#架构模式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%9E%B6%E6%9E%84%E6%A8%A1%E5%BC%8F/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96/">#数据可视化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%9F%B3%E8%A7%86%E9%A2%91/">#音视频</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/categories/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF/%E9%97%AE%E9%A2%98/">#问题</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/">#后端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E6%A1%86%E6%9E%B6/">#框架</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%90%8E%E7%AB%AF/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">#前端工程化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#前端性能优化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E5%B7%A5%E5%85%B7/">#工具</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">#数据库</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/liunx/">#liunx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/tags">Tagcloud</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/http/">#http</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue/">#vue</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/React/">#React</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Redux/">#Redux</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/vue3/">#vue3</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/react/">#react</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/echart/">#echart</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/html/">#html</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/xml/">#xml</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/">#移动端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/css/">#css</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/javascript/">#javascript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Promise/">#Promise</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/es6/">#es6</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/typescript/">#typescript</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/async-await/">#async/await</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nodejs/">#nodejs</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/python/">#python</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/glup/">#glup</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/webpack/">#webpack</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E5%89%8D%E7%AB%AF/">#前端</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">#小程序</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/%E4%BC%98%E5%8C%96/">#优化</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/git/">#git</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/RESTful/">#RESTful</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/Mock/">#Mock</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/eslint/">#eslint</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/hexo/">#hexo</a>
+        </div>
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/tags/vs-code/">#vs code</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">#正则表达式</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/mongodb/">#mongodb</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/nginx/">#nginx</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/mysql/">#mysql</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">#设计模式</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/GitHub.png">
+            
+            <a href="https://github.com/ZEROKISEKI" target="_blank">GitHub</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/Coding.png">
+            
+            <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/SF.png">
+            
+            <a href="https://segmentfault.com/u/aonosora" target="_blank">SF社区</a>
+        </li>
+        
+        <li>
+            
+            
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/links/开发者头条.png">
+            
+            <a href="https://toutiao.io/u/148070" target="_blank">开发者头条</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>Friend Links</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/micblo.png">
+            <a href="https://blog.micblo.com/" target="_blank">罗大佬</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="http://cube-1252774894.cosgz.myqcloud.com/friend_links/DIYgod.jpg">
+            <a href="https://www.anotherhome.net/" target="_blank">DIYgod</a>
+        </li>
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/images/friend_links.jpg ">
+            <a href="https://aonosora.com/" target="_blank">咪西西の部落格</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 John Doe
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
 <script src="/js/script.js"></script>
-
-
+<!-- endinject -->
+<div class="cube-loading out"></div>
 </body>
 </html>
