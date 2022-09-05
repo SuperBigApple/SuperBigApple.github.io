@@ -1,86 +1,114 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  
-  <title>vue-路由 | Hexo</title>
-  <meta name="author" content="John Doe" />
-
-  
-  <meta name="description" content="一、路由基础介绍1.1 什么是前端路由
-路由是根据不同的url地址展示不同的内容或页面
-前端路由就是把不同的路由对应不同的内容或页面的任务交给前端来做，之前是通过服务端根据url的不同返回不同的页面实现的
-
-1.2 什么时候使用前端路由
-在单页面应用，大部分结构不变，只改变内容的使用
-
-1.3 前端" />
-  
-
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-  <meta property="og:title" content="vue-路由" />
-  <meta property="og:site_name" content="Hexo" />
-
+  <meta charset="utf-8">
   
   
-
   
-    <meta property="og:image" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>vue-路由 |  Hexo</title>
   
-
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/webclip/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/webclip/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/webclip/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/webclip/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/webclip/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/webclip/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/webclip/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/webclip/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/images/webclip/apple-touch-icon-167x167.png">
   
-  <link href="/css/images/favicon.ico" rel="icon" />
   
-
-  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="shortcut icon" href="/images/favicon.ico">
   
-
-
-  <!-- baidu webmaster push -->
-  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
 <meta name="generator" content="Hexo 6.2.0"></head>
 
-
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Hexo</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
+  <main class="main">
     
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+	<header class="header">
+
+	<div class="container">
+		<nav class="navbar d-flex align-items-center">
+			<a class="brand" href="/">
+				<img class="logo lazyload" data-src="/images/brand.svg" alt="Hexo" role="img">
+			</a>
+			<ul class="main-nav">
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2018-08-05T08:27:15.000Z"><a href="/2018/08/05/Vue/vue-路由/">2018-08-05</a></time>
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/">首页</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/gallery">画廊</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/stories">案例</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/archives">新闻</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/about">关于</a>
+  </li>
+  
+</ul>
+		</nav>
+		<a id="mobile-nav-toggle">
+			<span class="mobile-nav-toggle-bar"></span>
+			<span class="mobile-nav-toggle-bar"></span>
+			<span class="mobile-nav-toggle-bar"></span>
+		</a>
+	</div>
+</header>
+
+    <section>
+      <div class="container">
+  <article id="post-Vue/vue-路由" class="article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  
+  <div class="artcle-cover mb-5">
+    
+  </div>
+  
+  <div class="article-inner">
+    
+    <header class="article-header">
       
       
   
-    <h1 class="title">vue-路由</h1>
+    <h1 class="article-title" itemprop="name">
+      vue-路由
+    </h1>
   
 
-    </header>
-    <div class="entry">
+      <div class="article-meta">
+        <time class="text-gray" datetime="2018-08-05T08:27:15.000Z" itemprop="datePublished">
+  2018-08-05
+</time>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+      </div>
       
-        <h2 id="一、路由基础介绍"><a href="#一、路由基础介绍" class="headerlink" title="一、路由基础介绍"></a>一、路由基础介绍</h2><h3 id="1-1-什么是前端路由"><a href="#1-1-什么是前端路由" class="headerlink" title="1.1 什么是前端路由"></a>1.1 什么是前端路由</h3><ul>
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      <h2 id="一、路由基础介绍"><a href="#一、路由基础介绍" class="headerlink" title="一、路由基础介绍"></a>一、路由基础介绍</h2><h3 id="1-1-什么是前端路由"><a href="#1-1-什么是前端路由" class="headerlink" title="1.1 什么是前端路由"></a>1.1 什么是前端路由</h3><ul>
 <li>路由是根据不同的<code>url</code>地址展示不同的内容或页面</li>
 <li>前端路由就是把不同的路由对应不同的内容或页面的任务交给前端来做，之前是通过服务端根据<code>url</code>的不同返回不同的页面实现的</li>
 </ul>
@@ -262,241 +290,132 @@
 <li><strong>注意</strong>，<code>params</code>传参时，如果没有在路由中定义参数，也是可以传过去的，同时也能接收到，但是一旦刷新页面，这个参数就不存在了。这对于需要依赖参数进行某些操作的行为是行不通的</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 定义的路由中，只定义一个id参数</span><br><span class="line">&#123;</span><br><span class="line">    path: &#x27;detail/:id&#x27;,</span><br><span class="line">    name: &#x27;Detail&#x27;,</span><br><span class="line">    components: Detail</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// template中的路由传参，</span><br><span class="line">// 传了一个id参数和一个token参数</span><br><span class="line">// id是在路由中已经定义的参数，而token没有定义</span><br><span class="line">&lt;router-link :to=&quot;&#123;name: &#x27;Detail&#x27;, params: &#123; id: 1, token: &#x27;123456&#x27; &#125;&#125;&quot;&gt;前往Detail页面&lt;/router-link&gt;</span><br><span class="line"></span><br><span class="line">// 在详情页接收</span><br><span class="line">created () &#123;</span><br><span class="line">    // 以下都可以正常获取到</span><br><span class="line">    // 但是页面刷新后，id依然可以获取，而token此时就不存在了</span><br><span class="line">    const id = this.$route.params.id;</span><br><span class="line">    const token = this.$route.params.token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
     </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/框架/">框架</a>
-  </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/vue/">vue</a>
-  </div>
-
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
     </footer>
   </div>
+  
+  
+    
+<nav class="article-nav pt-4 mt-3" id="article-nav">
+  
+    <a href="/2018/08/10/Vue/vue-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vue-权限管理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/02/Vue/vue-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%9B%91%E5%90%AC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">vue-计算属性与数据监听</div>
+    </a>
+  
+</nav>
+
+
+  
 </article>
-
-
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:example.com">
-  </form>
 </div>
-
-  
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React/">React</a><small>4</small></li>
-  
-    <li><a href="/categories/http/">http</a><small>12</small></li>
-  
-    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
-  
-    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
-  
-    <li><a href="/categories/前端/">前端</a><small>39</small></li>
-  
-    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
-  
-    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
-  
-    <li><a href="/categories/后端/">后端</a><small>9</small></li>
-  
-    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
-  
-    <li><a href="/categories/工具/">工具</a><small>15</small></li>
-  
-    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
-  
-    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
-  
-    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
-  
-    <li><a href="/categories/框架/">框架</a><small>55</small></li>
-  
-    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
-  
-    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
-  
-    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
-  
-    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
-  
-    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/categories/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
-  
-    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
-  
-    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
-      </li>
-    
-      <li>
-        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
-      </li>
-    
-      <li>
-        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
-      </li>
-    
-      <li>
-        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
-      </li>
-    
-      <li>
-        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
-      </li>
-    
-  </ul>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
-  
-    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
-  
-    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
-  
-    <li><a href="/tags/React/">React</a><small>20</small></li>
-  
-    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
-  
-    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
-  
-    <li><a href="/tags/css/">css</a><small>3</small></li>
-  
-    <li><a href="/tags/echart/">echart</a><small>1</small></li>
-  
-    <li><a href="/tags/es6/">es6</a><small>7</small></li>
-  
-    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
-  
-    <li><a href="/tags/git/">git</a><small>11</small></li>
-  
-    <li><a href="/tags/glup/">glup</a><small>2</small></li>
-  
-    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
-  
-    <li><a href="/tags/html/">html</a><small>7</small></li>
-  
-    <li><a href="/tags/http/">http</a><small>12</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
-  
-    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
-  
-    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
-  
-    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
-  
-    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
-  
-    <li><a href="/tags/python/">python</a><small>2</small></li>
-  
-    <li><a href="/tags/react/">react</a><small>1</small></li>
-  
-    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
-  
-    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
-  
-    <li><a href="/tags/vue/">vue</a><small>37</small></li>
-  
-    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
-  
-    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
-  
-    <li><a href="/tags/xml/">xml</a><small>1</small></li>
-  
-    <li><a href="/tags/优化/">优化</a><small>6</small></li>
-  
-    <li><a href="/tags/前端/">前端</a><small>2</small></li>
-  
-    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
-  
-    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
-  
-    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
-  
-    <li><a href="/tags/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
-  
-  </ul>
-</div>
-
-
-  
-<div class="widget tagcloud">
-  <h3 class="title">Tag Cloud</h3>
-  <div class="entry">
-    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+    </section>
+    <footer class="footer pt-5 mt-5">
+  <div class="container">
+    <div class="py-3">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <img class="filter-gray mb-3 lazyload" height="40" data-src="/images/brand.svg" alt="Hexo" role="img">
+          <p class="mb-4"></p>
+          <ul class="list-inline">
+            
+          </ul>
+        </div>
+        <div class="col-4">
+          <h5>友情链接</h5>
+          <ul class="list-inline">
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="hr" style="opacity: .25;">
+    <div class="pt-3 pb-5">
+      <ul class="list-inline mb-0 text-center">
+        <li class="list-inline-item">&copy; 2022 Hexo</li>
+        
+        <li class="list-inline-item">Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+        <li class="list-inline-item">Designer <a href="https://acorn.imaging.xin/" target="_blank">John Doe</a></li>
+      </ul>
+    </div>
   </div>
+</footer>
+  </main>
+  <div id="mobile-nav-dimmer"></div>
+<div id="mobile-nav">
+	<div id="mobile-nav-inner">
+		<ul class="mobile-nav">
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/">首页</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/gallery">画廊</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/stories">案例</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/archives">新闻</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/about">关于</a>
+  </li>
+  
+</ul>
+		
+	</div>
 </div>
 
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  <p>
-  
-  &copy; 2022 John Doe
-  
-  All rights reserved.</p>
-  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
-</div>
-<div class="clearfix"></div>
+  <script src="/libs/feather/feather.min.js"></script>
+<script src="/libs/lazysizes/lazysizes.min.js"></script>
 
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
-</script>
+	<script src="/libs/tocbot/tocbot.min.js"></script>
+	<script>
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.js-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.js-toc-content',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h2, h3',
+      // For headings inside relative or absolute positioned containers within content.
+      hasInnerContainers: true,
+    });
+	</script>
 
 
-<div id='bg'></div>
+
+
+
+<script src="/js/mobile-nav.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
 </body>
 </html>

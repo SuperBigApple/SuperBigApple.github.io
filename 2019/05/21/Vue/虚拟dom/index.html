@@ -1,80 +1,114 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  
-  <title>vue-虚拟DOM | Hexo</title>
-  <meta name="author" content="John Doe" />
-
-  
-  <meta name="description" content="一、什么是虚拟DOM虚拟 DOM （Virtual DOM ）这个概念相信大家都不陌生，从 React 到 Vue ，虚拟 DOM 为这两个框架都带来了跨平台的能力（React-Native 和 Weex）
-实际上它只是一层对真实DOM的抽象，以JavaScript 对象 (VNode 节点) 作为" />
-  
-
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-  <meta property="og:title" content="vue-虚拟DOM" />
-  <meta property="og:site_name" content="Hexo" />
-
+  <meta charset="utf-8">
   
   
-
   
-    <meta property="og:image" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <title>vue-虚拟DOM |  Hexo</title>
   
-
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/webclip/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/webclip/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/webclip/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/webclip/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/webclip/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/webclip/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/webclip/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/webclip/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/images/webclip/apple-touch-icon-167x167.png">
   
-  <link href="/css/images/favicon.ico" rel="icon" />
   
-
-  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="shortcut icon" href="/images/favicon.ico">
   
-
-
-  <!-- baidu webmaster push -->
-  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+  
+  
+<link rel="stylesheet" href="/css/style.css">
 
 <meta name="generator" content="Hexo 6.2.0"></head>
 
-
 <body>
-  <header id="header" class="inner"><div class="alignleft">
-  <h1><a href="/">Hexo</a></h1>
-  <h2><a href="/"></a></h2>
-</div>
-<nav id="main-nav" class="alignright">
-  <ul>
+  <main class="main">
     
-      <li><a href="/">Home</a></li>
-    
-      <li><a href="/archives">Archives</a></li>
-    
-  </ul>
-  <div class="clearfix"></div>
-</nav>
-<div class="clearfix"></div></header>
-  <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+	<header class="header">
+
+	<div class="container">
+		<nav class="navbar d-flex align-items-center">
+			<a class="brand" href="/">
+				<img class="logo lazyload" data-src="/images/brand.svg" alt="Hexo" role="img">
+			</a>
+			<ul class="main-nav">
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2019-05-21T03:29:35.000Z"><a href="/2019/05/21/Vue/虚拟dom/">2019-05-21</a></time>
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/">首页</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/gallery">画廊</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/stories">案例</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/archives">新闻</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/about">关于</a>
+  </li>
+  
+</ul>
+		</nav>
+		<a id="mobile-nav-toggle">
+			<span class="mobile-nav-toggle-bar"></span>
+			<span class="mobile-nav-toggle-bar"></span>
+			<span class="mobile-nav-toggle-bar"></span>
+		</a>
+	</div>
+</header>
+
+    <section>
+      <div class="container">
+  <article id="post-Vue/虚拟dom" class="article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+  
+  <div class="artcle-cover mb-5">
+    
+  </div>
+  
+  <div class="article-inner">
+    
+    <header class="article-header">
       
       
   
-    <h1 class="title">vue-虚拟DOM</h1>
+    <h1 class="article-title" itemprop="name">
+      vue-虚拟DOM
+    </h1>
   
 
-    </header>
-    <div class="entry">
+      <div class="article-meta">
+        <time class="text-gray" datetime="2019-05-21T03:29:35.000Z" itemprop="datePublished">
+  2019-05-21
+</time>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+      </div>
       
-        <h2 id="一、什么是虚拟DOM"><a href="#一、什么是虚拟DOM" class="headerlink" title="一、什么是虚拟DOM"></a>一、什么是虚拟DOM</h2><p>虚拟 DOM （<code>Virtual DOM</code> ）这个概念相信大家都不陌生，从 <code>React</code> 到 <code>Vue</code> ，虚拟 <code>DOM</code> 为这两个框架都带来了跨平台的能力（<code>React-Native</code> 和 <code>Weex</code>）</p>
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      <h2 id="一、什么是虚拟DOM"><a href="#一、什么是虚拟DOM" class="headerlink" title="一、什么是虚拟DOM"></a>一、什么是虚拟DOM</h2><p>虚拟 DOM （<code>Virtual DOM</code> ）这个概念相信大家都不陌生，从 <code>React</code> 到 <code>Vue</code> ，虚拟 <code>DOM</code> 为这两个框架都带来了跨平台的能力（<code>React-Native</code> 和 <code>Weex</code>）</p>
 <p>实际上它只是一层对真实<code>DOM</code>的抽象，以<code>JavaScript</code> 对象 (<code>VNode</code> 节点) 作为基础的树，用对象的属性来描述节点，最终可以通过一系列操作使这棵树映射到真实环境上</p>
 <p>在<code>Javascript</code>对象中，虚拟<code>DOM</code> 表现为一个 <code>Object</code>对象。并且最少包含标签名 (<code>tag</code>)、属性 (<code>attrs</code>) 和子元素对象 (<code>children</code>) 三个属性，不同框架对这三个属性的名命可能会有差别</p>
 <p>创建虚拟<code>DOM</code>就是为了更好将虚拟的节点渲染到页面视图中，所以虚拟<code>DOM</code>对象的节点与真实<code>DOM</code>的属性一一照应</p>
@@ -151,241 +185,132 @@
 </ul>
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><code>createElement</code> 创建 <code>VNode</code> 的过程，每个 <code>VNode</code> 有 <code>children</code>，<code>children</code> 每个元素也是一个<code>VNode</code>，这样就形成了一个虚拟树结构，用于描述真实的<code>DOM</code>树结构</p>
 
-      
     </div>
-    
-    <footer>
-        <div class="alignright">
-          
-          <a href='javascript:void(0)' class="share-link bdsharebuttonbox" data-cmd="more">分享</a>
-        </div>
-        
-  
-  <div class="categories">
-    <a href="/categories/框架/">框架</a>
-  </div>
+    <footer class="article-footer">
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
 
-        
-  
-  <div class="tags">
-    <a href="/tags/vue/">vue</a>
-  </div>
-
-        <!-- partial('post/share') -->
-      <div class="clearfix"></div>
     </footer>
   </div>
+  
+  
+    
+<nav class="article-nav pt-4 mt-3" id="article-nav">
+  
+    <a href="/2019/05/23/http/%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5%20URL%20%E6%95%B2%E4%B8%8B%E5%9B%9E%E8%BD%A6%E5%90%8E%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          地址栏输入 URL 敲下回车后发生了什么
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/20/http/WebSocket/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">WebSocket</div>
+    </a>
+  
+</nav>
+
+
+  
 </article>
-
-
-
-</div></div>
-    <aside id="sidebar" class="alignright">
-  <div class="search">
-  <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Search">
-    <input type="hidden" name="q" value="site:example.com">
-  </form>
 </div>
-
-  
-<div class="widget tag">
-  <h3 class="title">Categories</h3>
-  <ul class="entry">
-  
-    <li><a href="/categories/React/">React</a><small>4</small></li>
-  
-    <li><a href="/categories/http/">http</a><small>12</small></li>
-  
-    <li><a href="/categories/javascript/">javascript</a><small>2</small></li>
-  
-    <li><a href="/categories/liunx/">liunx</a><small>2</small></li>
-  
-    <li><a href="/categories/前端/">前端</a><small>39</small></li>
-  
-    <li><a href="/categories/前端工程化/">前端工程化</a><small>22</small></li>
-  
-    <li><a href="/categories/前端性能优化/">前端性能优化</a><small>6</small></li>
-  
-    <li><a href="/categories/后端/">后端</a><small>9</small></li>
-  
-    <li><a href="/categories/小程序/">小程序</a><small>8</small></li>
-  
-    <li><a href="/categories/工具/">工具</a><small>15</small></li>
-  
-    <li><a href="/categories/数据可视化/">数据可视化</a><small>1</small></li>
-  
-    <li><a href="/categories/数据库/">数据库</a><small>2</small></li>
-  
-    <li><a href="/categories/架构模式/">架构模式</a><small>2</small></li>
-  
-    <li><a href="/categories/框架/">框架</a><small>55</small></li>
-  
-    <li><a href="/categories/架构模式/框架/">框架</a><small>1</small></li>
-  
-    <li><a href="/categories/后端/框架/">框架</a><small>2</small></li>
-  
-    <li><a href="/categories/正则表达式/">正则表达式</a><small>1</small></li>
-  
-    <li><a href="/categories/前端/移动端/">移动端</a><small>2</small></li>
-  
-    <li><a href="/categories/后端/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/categories/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/categories/设计模式/">设计模式</a><small>2</small></li>
-  
-    <li><a href="/categories/前端/问题/">问题</a><small>1</small></li>
-  
-    <li><a href="/categories/前端/音视频/">音视频</a><small>1</small></li>
-  
-  </ul>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Recent Posts</h3>
-  <ul class="entry">
-    
-      <li>
-        <a href="/2022/08/25/Js基本数据类型/">变量类型</a>
-      </li>
-    
-      <li>
-        <a href="/2022/06/09/html+css+js+ts/3-js常用代码操作实例/">js-常用代码操作实例</a>
-      </li>
-    
-      <li>
-        <a href="/2022/05/28/html+css+js+ts/1-音视频/">html-原生音视频</a>
-      </li>
-    
-      <li>
-        <a href="/2022/04/25/http/DNS协议/">DNS协议</a>
-      </li>
-    
-      <li>
-        <a href="/2022/04/17/html+css+js+ts/4-装饰器/">ES6 装饰器</a>
-      </li>
-    
-  </ul>
-</div>
-
-
-  
-<div class="widget tag">
-  <h3 class="title">Tags</h3>
-  <ul class="entry">
-  
-    <li><a href="/tags/Mock/">Mock</a><small>1</small></li>
-  
-    <li><a href="/tags/Promise/">Promise</a><small>1</small></li>
-  
-    <li><a href="/tags/RESTful/">RESTful</a><small>1</small></li>
-  
-    <li><a href="/tags/React/">React</a><small>20</small></li>
-  
-    <li><a href="/tags/Redux/">Redux</a><small>3</small></li>
-  
-    <li><a href="/tags/async-await/">async/await</a><small>1</small></li>
-  
-    <li><a href="/tags/css/">css</a><small>3</small></li>
-  
-    <li><a href="/tags/echart/">echart</a><small>1</small></li>
-  
-    <li><a href="/tags/es6/">es6</a><small>7</small></li>
-  
-    <li><a href="/tags/eslint/">eslint</a><small>1</small></li>
-  
-    <li><a href="/tags/git/">git</a><small>11</small></li>
-  
-    <li><a href="/tags/glup/">glup</a><small>2</small></li>
-  
-    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
-  
-    <li><a href="/tags/html/">html</a><small>7</small></li>
-  
-    <li><a href="/tags/http/">http</a><small>12</small></li>
-  
-    <li><a href="/tags/javascript/">javascript</a><small>18</small></li>
-  
-    <li><a href="/tags/mongodb/">mongodb</a><small>1</small></li>
-  
-    <li><a href="/tags/mysql/">mysql</a><small>1</small></li>
-  
-    <li><a href="/tags/nginx/">nginx</a><small>2</small></li>
-  
-    <li><a href="/tags/nodejs/">nodejs</a><small>5</small></li>
-  
-    <li><a href="/tags/python/">python</a><small>2</small></li>
-  
-    <li><a href="/tags/react/">react</a><small>1</small></li>
-  
-    <li><a href="/tags/typescript/">typescript</a><small>4</small></li>
-  
-    <li><a href="/tags/vs-code/">vs code</a><small>3</small></li>
-  
-    <li><a href="/tags/vue/">vue</a><small>37</small></li>
-  
-    <li><a href="/tags/vue3/">vue3</a><small>1</small></li>
-  
-    <li><a href="/tags/webpack/">webpack</a><small>20</small></li>
-  
-    <li><a href="/tags/xml/">xml</a><small>1</small></li>
-  
-    <li><a href="/tags/优化/">优化</a><small>6</small></li>
-  
-    <li><a href="/tags/前端/">前端</a><small>2</small></li>
-  
-    <li><a href="/tags/小程序/">小程序</a><small>8</small></li>
-  
-    <li><a href="/tags/正则表达式/">正则表达式</a><small>1</small></li>
-  
-    <li><a href="/tags/移动端/">移动端</a><small>2</small></li>
-  
-    <li><a href="/tags/算法/">算法</a><small>1</small></li>
-  
-    <li><a href="/tags/设计模式/">设计模式</a><small>2</small></li>
-  
-  </ul>
-</div>
-
-
-  
-<div class="widget tagcloud">
-  <h3 class="title">Tag Cloud</h3>
-  <div class="entry">
-    <a href="/tags/Mock/" style="font-size: 10px;">Mock</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/RESTful/" style="font-size: 10px;">RESTful</a> <a href="/tags/React/" style="font-size: 19.17px;">React</a> <a href="/tags/Redux/" style="font-size: 11.67px;">Redux</a> <a href="/tags/async-await/" style="font-size: 10px;">async/await</a> <a href="/tags/css/" style="font-size: 11.67px;">css</a> <a href="/tags/echart/" style="font-size: 10px;">echart</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/eslint/" style="font-size: 10px;">eslint</a> <a href="/tags/git/" style="font-size: 16.67px;">git</a> <a href="/tags/glup/" style="font-size: 10.83px;">glup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 17.5px;">http</a> <a href="/tags/javascript/" style="font-size: 18.33px;">javascript</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10.83px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.33px;">nodejs</a> <a href="/tags/python/" style="font-size: 10.83px;">python</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/typescript/" style="font-size: 12.5px;">typescript</a> <a href="/tags/vs-code/" style="font-size: 11.67px;">vs code</a> <a href="/tags/vue/" style="font-size: 20px;">vue</a> <a href="/tags/vue3/" style="font-size: 10px;">vue3</a> <a href="/tags/webpack/" style="font-size: 19.17px;">webpack</a> <a href="/tags/xml/" style="font-size: 10px;">xml</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 14.17px;">优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10.83px;">前端</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 15.83px;">小程序</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF/" style="font-size: 10.83px;">移动端</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10.83px;">设计模式</a>
+    </section>
+    <footer class="footer pt-5 mt-5">
+  <div class="container">
+    <div class="py-3">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <img class="filter-gray mb-3 lazyload" height="40" data-src="/images/brand.svg" alt="Hexo" role="img">
+          <p class="mb-4"></p>
+          <ul class="list-inline">
+            
+          </ul>
+        </div>
+        <div class="col-4">
+          <h5>友情链接</h5>
+          <ul class="list-inline">
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="hr" style="opacity: .25;">
+    <div class="pt-3 pb-5">
+      <ul class="list-inline mb-0 text-center">
+        <li class="list-inline-item">&copy; 2022 Hexo</li>
+        
+        <li class="list-inline-item">Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+        <li class="list-inline-item">Designer <a href="https://acorn.imaging.xin/" target="_blank">John Doe</a></li>
+      </ul>
+    </div>
   </div>
+</footer>
+  </main>
+  <div id="mobile-nav-dimmer"></div>
+<div id="mobile-nav">
+	<div id="mobile-nav-inner">
+		<ul class="mobile-nav">
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/">首页</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/gallery">画廊</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/stories">案例</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/archives">新闻</a>
+  </li>
+  
+    
+  <li class="nav-item ">
+    <a class="nav-item-link" href="/about">关于</a>
+  </li>
+  
+</ul>
+		
+	</div>
 </div>
 
-</aside>
-    <div class="clearfix"></div>
-  </div>
-  <footer id="footer" class="inner"><div class="alignleft">
-  <p>
-  
-  &copy; 2022 John Doe
-  
-  All rights reserved.</p>
-  <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
-</div>
-<div class="clearfix"></div>
+  <script src="/libs/feather/feather.min.js"></script>
+<script src="/libs/lazysizes/lazysizes.min.js"></script>
 
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script></footer>
-  <script src="/js/jquery.imagesloaded.min.js"></script>
-<script src="/js/gallery.js"></script>
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-(function($){
-  $('.fancybox').fancybox();
-})(jQuery);
-</script>
+	<script src="/libs/tocbot/tocbot.min.js"></script>
+	<script>
+    tocbot.init({
+      // Where to render the table of contents.
+      tocSelector: '.js-toc',
+      // Where to grab the headings to build the table of contents.
+      contentSelector: '.js-toc-content',
+      // Which headings to grab inside of the contentSelector element.
+      headingSelector: 'h2, h3',
+      // For headings inside relative or absolute positioned containers within content.
+      hasInnerContainers: true,
+    });
+	</script>
 
 
-<div id='bg'></div>
+
+
+
+<script src="/js/mobile-nav.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
 </body>
 </html>
