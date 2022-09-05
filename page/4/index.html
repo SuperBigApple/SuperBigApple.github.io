@@ -71,6 +71,323 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-webpack/webpack模块联邦" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" class="article-date">
+  <time class="dt-published" datetime="2020-12-07T07:24:58.000Z" itemprop="datePublished">2020-12-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/">webpack模块联邦</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>多个独立的构建可以组成一个应用程序，这些独立的构建之间不应该存在依赖关系，因此可以单独开发和部署它们。<br>这通常被称作微前端，但并不仅限于此。<br>Webpack5 模块联邦可以让 Webpack 达到了线上 Runtime 的效果，让代码直接在项目间利用 CDN 直接共享，不再需要本地安装 Npm 包、构建再发布了！<br>我们知道 Webpack 可以通过 DLL 或者 Externals 做代码共享时 Common Chunk，但不同应用和项目间这个任务就变得困难了，我们几乎无法在项目之间做到按需热插拔。</p>
+<p>早期NPM方式共享模块   代码的共享是将依赖作为library安装到我们的项目里进行webpack打包并且构建上线<br>对于项目 Home 与 Search，需要共享一个模块时，最常见的办法就是将其抽成通用依赖并分别安装在各自项目中。虽然 Monorepo 可以一定程度解决重复安装和修改困难的问题，但依然需要走本地编译。</p>
+<p>真正 Runtime 的方式可能是 UMD 方式共享代码模块，即将模块用 Webpack UMD模式打包，并输出到其他项目中。这是非常普遍的模块共享方式：<br>对于项目 Home 与 Search，直接利用 UMD 包复用一个模块。但这种技术方案问题也很明显，就是包体积无法达到本地编译时的优化效果，且库之间容易冲突。</p>
+<p>微前端：micro-frontends (MFE) 也是最近比较火的模块共享管理方式，微前端就是要解决多项目并存问题，多项目并存的最大问题就是模块共享，模块之间是不能有冲突。  对于微前端我们还要考虑样式冲突，声明周期管理冲突等问题，我们先不考虑这些   想把问题聚焦在资源加载的方式上   微前端一般有两种打包方式：1.子应用独立打包，模块实现解耦，但这种方式无法抽取公共的依赖，2.整体应用打一个打包 很好的解决我们上面第一种方式的问题，但是打包效率速度实在是太慢了。不具备水平的扩展能力。<br>由于微前端还要考虑样式冲突、生命周期管理，所以本文只聚焦在资源加载方式上。微前端一般有两种打包方式：</p>
+<ol>
+<li>子应用独立打包，模块更解耦，但无法抽取公共依赖等。</li>
+<li>整体应用一起打包，很好解决上面的问题，但打包速度实在是太慢了，不具备水平扩展能力。</li>
+</ol>
+<p>终于提到本文的主角了，模块联邦方式作为 Webpack5 内置核心特性之一的 FederatedModule：<br>这个方案是直接将一个应用的包应用于另一个应用，同时具备整体应用一起打包的公共依赖抽取能力。  比如：我们直接可以在Search应用里直接使用已经发布到线上的Home应用的组件。</p>
+<p><strong>应用案例</strong><br>本案例模拟三个应用： Nav 、 Search 及 Home 。每个应用都是独立的，又通过模块邦联系到了一起。<br>比如Home需要使用Nav组件共享出来的header，Search可能要使用Header和Home组件构建出来的HomeList。<br>模块联邦将他们共享的模块暴露出来进行引用。<br>1、Nav 导航<br>src&#x2F;header.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const Header = () =&gt; &#123;</span><br><span class="line"> const header = document.createElement(&#x27;h1&#x27;)</span><br><span class="line"> header.textContent = &#x27;公共头部内容&#x27;</span><br><span class="line"> return header</span><br><span class="line">&#125;</span><br><span class="line">export default Header</span><br></pre></td></tr></table></figure>
+<p>src&#x2F;index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import Header from &#x27;./Header&#x27;</span><br><span class="line">const div = document.createElement(&#x27;div&#x27;)</span><br><span class="line">div.appendChild(Header())</span><br><span class="line">document.body.appendChild(div)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   // 模块联邦名字</span><br><span class="line">   name: &#x27;nav&#x27;,</span><br><span class="line">   // 外部访问的资源名字</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   // 引用的外部资源列表</span><br><span class="line">   remotes: &#123;&#125;,</span><br><span class="line">   // 暴露给外部资源列表</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./Header&#x27;: &#x27;./src/Header.js&#x27;,   // 暴露 Header组件  key：可以定义成./Header 这个./Header并不代表是我当前引用下的某个路径   而是将来在别人用的时候基于这个路径来拼接url，值是正真的我们本地项目的应用</span><br><span class="line">  &#125;,</span><br><span class="line">   // 共享模块，如lodash</span><br><span class="line">   shared: &#123;&#125;,   // 如果我们的 header模块里有共享的第三方模块比如：lodash等，我们可以把他放到这里在打包的时候可以把第三方的共享的模块打到单独的一个包里。</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3003</span><br></pre></td></tr></table></figure>
+
+<p>2、Home 首页<br>src&#x2F;HomeList</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const HomeList = (num) =&gt; &#123;</span><br><span class="line"> let str = &#x27;&lt;ul&gt;&#x27;</span><br><span class="line"> for (let i = 0; i &lt; num; i++) &#123;</span><br><span class="line">  str += &#x27;&lt;li&gt;item &#x27; + i + &#x27;&lt;/li&gt;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"> str += &#x27;&lt;/ul&gt;&#x27;</span><br><span class="line"> return str</span><br><span class="line">&#125;</span><br><span class="line">export default HomeList</span><br></pre></td></tr></table></figure>
+<p>src&#x2F;index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import HomeList from &#x27;./HomeList&#x27;</span><br><span class="line">remotes: &#123;</span><br><span class="line">    nav</span><br><span class="line">	(&#x27;nav/Header&#x27;)：remotes: &#123; nav &#125;Header    exposes: &#123;./Header&#x27;:&#x27;&#x27;&#125;</span><br><span class="line">import(&#x27;nav/Header&#x27;).then((Header) =&gt; &#123;  //引用模块联邦的组件  这样导入别人组件的时候需要通过异步的方式因为 网络共享或者是模块载入 是由延迟的，所以要通过promise的方式（异步模块加载的形式）去引用它。</span><br><span class="line"> const body = document.createElement(&#x27;div&#x27;)</span><br><span class="line"> body.appendChild(Header.default())</span><br><span class="line"> document.body.appendChild(body)</span><br><span class="line"> document.body.innerHTML += HomeList(5)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &quot;home&quot;,</span><br><span class="line">   filename: &quot;remoteEntry.js&quot;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,    // 引用第三方或别人写好的应用的路径。远端的服务路径</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;</span><br><span class="line">    &#x27;./HomeList&#x27;: &#x27;./src/HomeList.js&#x27;,</span><br><span class="line">  &#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3001</span><br></pre></td></tr></table></figure>
+
+<p>3、search 搜索<br>src&#x2F;index</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Promise.all([import(&#x27;nav/Header&#x27;), import(&#x27;home/HomeList&#x27;)])</span><br><span class="line">.then(([&#123;</span><br><span class="line">  default: Header</span><br><span class="line">&#125;, &#123;</span><br><span class="line">  default: HomeList</span><br><span class="line">&#125;]) =&gt; &#123;</span><br><span class="line">  document.body.appendChild(Header())</span><br><span class="line">  document.body.innerHTML += HomeList(4)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;)</span><br><span class="line">const &#123;</span><br><span class="line"> ModuleFederationPlugin</span><br><span class="line">&#125; = require(&#x27;webpack&#x27;).container</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode: &#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(),</span><br><span class="line">  new ModuleFederationPlugin(&#123;</span><br><span class="line">   name: &#x27;search&#x27;,</span><br><span class="line">   filename: &#x27;remoteEntry.js&#x27;,</span><br><span class="line">   remotes: &#123;</span><br><span class="line">    nav: &quot;nav@http://localhost:3003/remoteEntry.js&quot;,</span><br><span class="line">    home: &quot;home@http://localhost:3001/remoteEntry.js&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">   exposes: &#123;&#125;,</span><br><span class="line">   shared: &#123;&#125;,</span><br><span class="line"> &#125;),</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用 webpack 运行服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[felix] nav $ npx webpack serve --port 3002</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/07/webpack/webpack%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6/" data-id="cl7icg7a900vrugun6uvy3cqo" data-title="webpack模块联邦" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpack/webpack面试题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/12/03/webpack/webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2020-12-03T12:08:31.000Z" itemprop="datePublished">2020-12-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/12/03/webpack/webpack%E9%9D%A2%E8%AF%95%E9%A2%98/">webpack面试题总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>webpack 面试题</p>
+<h1 id="一、-概念"><a href="#一、-概念" class="headerlink" title="一、 概念"></a>一、 概念</h1><h2 id="1-什么是webpack，谈谈你对它的理解？"><a href="#1-什么是webpack，谈谈你对它的理解？" class="headerlink" title="1. 什么是webpack，谈谈你对它的理解？"></a>1. 什么是webpack，谈谈你对它的理解？</h2><p>是一个模块化打包工具，将不同的资源和文件，进行打包，合并在一个文件里。<br>概念+打包流程+前端模块化<br>1、依赖管理：方便引用第三方模块，让模块更容易复用、避免全局注入导致的冲突、、避免重复加载或者加载不必要的模块<br>2、合并代码：把各个分散的模块集中打包成大文件，减少HTTP的链接的请求次数，配合uglify.js可以减少、优化代码的体积<br>3、各种插件：babel把ES6+转化为ES5-，eslint可以检查编译时的各种错误</p>
+<p>(30条消息) 前端模块化理解<em>perwhy_wang的博客-CSDN博客</em>前端模块化的理解</p>
+<h2 id="2-webpack的工作原理"><a href="#2-webpack的工作原理" class="headerlink" title="2. webpack的工作原理?"></a>2. webpack的工作原理?</h2><h3 id="工作原理概括"><a href="#工作原理概括" class="headerlink" title="工作原理概括"></a>工作原理概括</h3><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>在了解webpack原理前，需要掌握以下几个核心概念，以方便后面的理解：</p>
+<ol>
+<li><p>Entry:入口指示webpack以哪个文件为入口起点开始打包，分析构建内部依赖图</p>
+</li>
+<li><p>output:输出指示webpack的打包后的资源bundles输出到哪里去，以及如何命名</p>
+</li>
+<li><p>Loader:让webpack能够去处理哪些非JavaScrip文件（webpack自身只理解javaScript)</p>
+</li>
+<li><p>plugin:插件可以用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量等</p>
+</li>
+<li><p>mode:模式指示webpack使用相应模式的配置</p>
+<h3 id="流程概括"><a href="#流程概括" class="headerlink" title="流程概括"></a>流程概括</h3><p>webpack的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：</p>
+</li>
+<li><p>初始化参数：从配置文件和Shell语句中读取与合并参数，得出最终的参数；</p>
+</li>
+<li><p>开始编译： 用上一步得到的参数初始化Complier对象，加载所有配置的插件，执行对象的run方法开始执行编译；</p>
+</li>
+<li><p>确定入口： 根据配置中的entry找出所有入口文件；</p>
+</li>
+<li><p>编译模块：从入口文件出发，调用所有配置的Loader对模块进行翻译，再找出该模块依赖的模块，再递归本步骤知道所有入口依赖的文件都经过了本步骤的处理；</p>
+</li>
+<li><p>完成模块编译： 在经过第4步使用Loader翻译完所有模块后，得到了每个模块被翻译后的最终内容以及他们之间的依赖关系；</p>
+</li>
+<li><p>输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的Chunk，再把每个Chunk转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会；</p>
+</li>
+<li><p>输出完成： 在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。</p>
+<p>在以上过程中，webpack会在特定的时间点广播出特定的时间，插件在监听到感兴趣的时间后会执行特定的逻辑，并且插件可以调用Webpack提供的API改变Webpack的运行结果。</p>
+<h3 id="流程细节"><a href="#流程细节" class="headerlink" title="流程细节"></a>流程细节</h3><p>Webpack的构建流程可以分为以下三个阶段：</p>
+</li>
+<li><p>初始化：启动构建，读取与合并配置参数，加载Plugin，实例化Complier.</p>
+</li>
+<li><p>编译：从Entry出发，针对每个Module串行调用对应的Loader去翻译文件内容，再找到该Module依赖的Module，递归地进行编译处理。</p>
+</li>
+<li><p>输出： 对编译后的Module组合成Chunk，把Chunk转换成文件，输出到文件系统。<br>如果只执行一次构建，以上阶段将会按照顺序各执行一次。但在开启监听模式下，流程将变为如下：</p>
+</li>
+</ol>
+<h2 id="3-webpack4和webpack5的区别？"><a href="#3-webpack4和webpack5的区别？" class="headerlink" title="3. webpack4和webpack5的区别？"></a>3. webpack4和webpack5的区别？</h2><p>更快的构建速度<br>更高的版本要求<br>更灵活的模块组合<br>更智能的缓存优化<br>更小的体积<br>webpack4 上需要下载安装 terser-webpack-plugin 插件<br>webpack5 内部本身就自带 js 压缩功能，他内置了 terser-webpack-plugin 插件，我们不用再下载安装。而且在 mode&#x3D;“production” 的时候会自动开启 js 压缩功能。<br>webpack4 缓存配置<br>● npm install hard-source-webpack-plugin -D<br>webpack5 缓存配置<br>● webpack5 内部内置了 cache 缓存机制。直接配置即可。<br>● cache 会在开发模式下被设置成 type： memory 而且会在生产模式把cache 给禁用掉。<br>webpack4 启动服务<br>● 通过 webpack-dev-server 启动服务<br>webpack5 启动服务<br>● 内置使用 webpack serve 启动，但是他的日志不是很好，所以一般都加都喜欢用 webpack-dev-server 优化。<br>devtool的区别<br>● sourceMap需要在 webpack.config.js里面直接配置 devtool 就可以实现了。而 devtool有很多个选项值，不同的选项值，不同的选项产生的 .map 文件不同，打包速度不同。<br>● 一般情况下，我们一般在开发环境配置用“cheap-eval-module-source-map”，在生产环境用‘none’。<br>v4: devtool: ‘cheap-eval-module-source-map’<br>v5: devtool: ‘eval-cheap-module-source-map’<br>打包：<br>● webpack4打包:即使后续没有使用到num1的函数，依然会将代码打包进去<br>● webpack5打包:后续没有使用到num1的函数，不会将代码打包进去<br>输出代码：<br>● webpack4只能输出es5的代码<br>● webpack5新增属性output.ecmaVersion，可以生成ES5和ES6的代码</p>
+<h2 id="4-前端代码为何要进行构建和打包？"><a href="#4-前端代码为何要进行构建和打包？" class="headerlink" title="4. 前端代码为何要进行构建和打包？"></a>4. 前端代码为何要进行构建和打包？</h2><ol>
+<li><p>代码方面体积更小，加载更快（tree-shaking，压缩合并）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i. 编译高级语言和语法（ts，es6，模块化） ii. 兼容性和错误提示（polyfill，postcss，eslint）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>研发流程统一、高效的开发环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i. 统一的构建流程和产出标准 ii. 集成公司构建规范（提测，上线）</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>打包之后许多零碎的文件打包成一个整体，页面只需请求一次，js文件中使用模块化互相引用，这样能在一定程度上提供页面渲染效率，打包的同时会进行编译，将es6，sass等高级语法进行转换编译，以兼容高版本的浏览器</p>
+<h2 id="5-webpack的优缺点？"><a href="#5-webpack的优缺点？" class="headerlink" title="5. webpack的优缺点？"></a>5. webpack的优缺点？</h2><p>优点：<br>（1） webpack 是以 commonJS 的形式来书写脚本滴，但对 AMD&#x2F;CMD 的支持也很全面，方便旧项目进行代码迁移。<br>（2）能被模块化的不仅仅是 JS 了。<br>（3） 开发便捷，能替代部分 grunt&#x2F;gulp 的工作，比如打包、压缩混淆、图片转base64等。<br>（4）扩展性强，插件机制完善<br>缺点：<br>● 配置复杂<br>● 不分包bundle.js体积庞大<br>● 只能用于采用模块化开发的项目<br>● 打包慢<br>● ES模块除Module外全用babel转换，但是一部分ES2015 语法的 firefox 与 chrome 浏览器中能直接跑的代码，无法用 webpack 编译</p>
+<h2 id="6-什么是bundle，什么是chunk，什么是module"><a href="#6-什么是bundle，什么是chunk，什么是module" class="headerlink" title="6. 什么是bundle，什么是chunk，什么是module"></a>6. 什么是bundle，什么是chunk，什么是module</h2><p>bundle： 是由webpack打包出来的文件<br>chunk： 是指webpack在进行模块依赖分析的时候，代码分割出来的代码块<br>module： 是开发中的单个模块</p>
+<h1 id="二、-loader"><a href="#二、-loader" class="headerlink" title="二、 loader"></a>二、 loader</h1><h2 id="1-Loader机制的作用是什么？"><a href="#1-Loader机制的作用是什么？" class="headerlink" title="1. Loader机制的作用是什么？"></a>1. Loader机制的作用是什么？</h2><p>webpack 本身只能处理 JavaScript 和 JSON 文件，而 loader 为 webpack 添加了处理其他类型文件的能力。<br>webpack默认只能打包js文件，配置里的module.rules数组配置了一组规则，告诉 Webpack 在遇到哪些文件时使用哪些 Loader 去加载和转换打包成js。<br>注意：use属性的值需要是一个由 Loader 名称组成的数组，Loader 的执行顺序是由后到前的；每一个 Loader 都可以通过 URL querystring 的方式传入参数，例如css-loader?minimize中的minimize告诉css-loader要开启 CSS 压缩。</p>
+<h2 id="2-有哪些常见的Loader？他们是解决什么问题的？"><a href="#2-有哪些常见的Loader？他们是解决什么问题的？" class="headerlink" title="2. 有哪些常见的Loader？他们是解决什么问题的？"></a>2. 有哪些常见的Loader？他们是解决什么问题的？</h2><p>● file-loader：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件<br>● url-loader：和 file-loader 类似，但是能在文件很小的情况下以 base64 的方式把文件内容注入到代码中去<br>● source-map-loader：加载额外的 Source Map 文件，以方便断点调试<br>● image-loader：加载并且压缩图片文件<br>● babel-loader：把 ES6 转换成 ES5<br>● css-loader：加载 CSS，支持模块化、压缩、文件导入等特性<br>● style-loader：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS。<br>● eslint-loader：通过 ESLint 检查 JavaScript 代码</p>
+<h2 id="3-Webpack-的-Loader-是什么？"><a href="#3-Webpack-的-Loader-是什么？" class="headerlink" title="3. Webpack 的 Loader 是什么？"></a>3. Webpack 的 Loader 是什么？</h2><p>Webpack 只能理解 JavaScript 和 JSON 文件，这是 Webpack 开箱可用的自带能力。loader 可以让 Webpack 能够去处理其他类型的文件，比如 .scss 和 .ts，并将它们转换为有效的功能离散的 chunk 文件以供应用程序使用，以及被添加到依赖图中，也可将内联图像转换为 data URL。简单来说，loader 可以将一段代码转换成另一端代码，通常用来将一段特殊代码转换成一段浏览器可识别的代码。<br>loader从下到上地取值(evaluate)&#x2F;执行(execute)，也就是是从后往前执行。在下面的示例中，从 ts-loader开始执行，然后继续执行 css-loader，最后以 raw-loader 为结束。loader 有两个属性：test，正则表达式，用于识别出哪些文件会被转换，use 定义在进行转换时应该使用哪个 loader，可以是字符串、数组和对象。</p>
+<h1 id="三、-plugin"><a href="#三、-plugin" class="headerlink" title="三、 plugin"></a>三、 plugin</h1><h2 id="1-Plugin（插件）的作用是什么？"><a href="#1-Plugin（插件）的作用是什么？" class="headerlink" title="1. Plugin（插件）的作用是什么？"></a>1. Plugin（插件）的作用是什么？</h2><p>通过安装和配置第三方的插件，可以拓展 webpack 的能力，从而让 webpack 用起来更方便。最常用的webpack 插件有如下两个：<br>① webpack-dev-server<br>类似于 node.js 阶段用到的 nodemon 工具<br>每当修改了源代码，webpack 会自动进行项目的打包和构建<br>② html-webpack-plugin<br>webpack 中的 HTML 插件（类似于一个模板引擎插件）<br>可以通过此插件自定制 index.html 页面的内容<br>webpack-dev-server 可以让 webpack 监听项目源代码的变化，从而进行自动打包构建。<br>运行如下的命令，即可在项目中安装webpack插件：<br>npm install webpack-dev-<a href="mailto:server@3.11.0">server@3.11.0</a> -D</p>
+<p>下面进行webpack-dev-server配置，修改package.json -&gt; scripts中的dev命令：<br>“scripts”:{<br>“dev”：”webpack serve”，&#x2F;&#x2F; script 节点下的脚本,可以通过 npm run 执行<br>}</p>
+<p>再次运行npm run dev 命令，重新进行项目的打包，在浏览器中访问<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> 地址，查看自动打包效果，注意webpack-dev-server 会启动一个实时打包的http 服务器。</p>
+<h2 id="2-有哪些常见的Plugin？他们是解决什么问题的？"><a href="#2-有哪些常见的Plugin？他们是解决什么问题的？" class="headerlink" title="2. 有哪些常见的Plugin？他们是解决什么问题的？"></a>2. 有哪些常见的Plugin？他们是解决什么问题的？</h2><p>● define-plugin：定义环境变量<br>● commons-chunk-plugin：提取公共代码<br>● uglifyjs-webpack-plugin：通过UglifyES压缩ES6代码<br>● purgecss-webpack-plugin：擦除无用css<br>● happypack：多线程处理打包<br>● webpack-bundle-analyzer：打包分析<br>● speed-measure-webpack-plugin：构建速度分析<br>● html-webpack-plugin：<br>● 为html文件中引入的外部资源如script、link动态添加每次compile后的hash，防止引用缓存的外部文件问题</p>
+<h2 id="3-是否写过Loader和Plugin？描述一下编写loader或plugin的思路？"><a href="#3-是否写过Loader和Plugin？描述一下编写loader或plugin的思路？" class="headerlink" title="3. 是否写过Loader和Plugin？描述一下编写loader或plugin的思路？"></a>3. 是否写过Loader和Plugin？描述一下编写loader或plugin的思路？</h2><p>Loader像一个”翻译官”把读到的源文件内容转义成新的文件内容，并且每个Loader通过链式操作，将源文件一步步翻译成想要的样子。<br>编写Loader时要遵循单一原则，每个Loader只做一种”转义”工作。 每个Loader的拿到的是源文件内容（source），可以通过返回值的方式将处理后的内容输出，也可以调用this.callback()方法，将内容返回给webpack。 还可以通过 this.async()生成一个callback函数，再用这个callback将处理后的内容输出出去。 此外webpack还为开发者准备了开发loader的工具函数集——loader-utils。<br>相对于Loader而言，Plugin的编写就灵活了许多。 webpack在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。</p>
+<h2 id="4-Webpack-的-Plugin-是什么？"><a href="#4-Webpack-的-Plugin-是什么？" class="headerlink" title="4. Webpack 的 Plugin 是什么？"></a>4. Webpack 的 Plugin 是什么？</h2><p>plugin是插件的意思，通常是用于对某个现有的架构进行扩展。<br>webpack中的插件，就是对webpack现有功能的各种扩展，比如打包优化，文 件压缩等等。</p>
+<h2 id="5-Loader和Plugin的不同？"><a href="#5-Loader和Plugin的不同？" class="headerlink" title="5. Loader和Plugin的不同？"></a>5. Loader和Plugin的不同？</h2><p>不同的作用<br>● Loader直译为”加载器”。Webpack将一切文件视为模块，但是webpack原生是只能解析js文件，如果想将其他文件也打包的话，就会用到loader。 所以Loader的作用是让webpack拥有了加载和解析非JavaScript文件的能力。<br>● Plugin直译为”插件”。Plugin可以扩展webpack的功能，让webpack具有更多的灵活性。 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。<br>不同的用法</p>
+<ol>
+<li><p>Loader在module.rules中配置，也就是说他作为模块的解析规则而存在。 类型为数组，每一项都是一个Object，里面描述了对于什么类型的文件（test），使用什么加载(loader)和使用的参数（options）</p>
+</li>
+<li><p>Plugin在plugins中单独配置。 类型为数组，每一项是一个plugin的实例，参数都通过构造函数传入。</p>
+<h2 id="6-是否写过Loader和Plugin？描述一下编写loader或plugin的思路？"><a href="#6-是否写过Loader和Plugin？描述一下编写loader或plugin的思路？" class="headerlink" title="6. 是否写过Loader和Plugin？描述一下编写loader或plugin的思路？"></a>6. 是否写过Loader和Plugin？描述一下编写loader或plugin的思路？</h2><p>Loader像一个”翻译官”把读到的源文件内容转义成新的文件内容，并且每个Loader通过链式操作，将源文件一步步翻译成想要的样子。</p>
+<p>编写Loader时要遵循单一原则，每个Loader只做一种”转义”工作。 每个Loader的拿到的是源文件内容（source），可以通过返回值的方式将处理后的内容输出，也可以调用this.callback()方法，将内容返回给webpack。 还可以通过 this.async()生成一个callback函数，再用这个callback将处理后的内容输出出去。 此外webpack还为开发者准备了开发loader的工具函数集——loader-utils。</p>
+<p>相对于Loader而言，Plugin的编写就灵活了许多。 webpack在运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。</p>
+</li>
+</ol>
+<h1 id="四、-优化"><a href="#四、-优化" class="headerlink" title="四、 优化"></a>四、 优化</h1><h2 id="1、-如何提高webpack的构建速度？"><a href="#1、-如何提高webpack的构建速度？" class="headerlink" title="1、 如何提高webpack的构建速度？"></a>1、 如何提高webpack的构建速度？</h2><ol>
+<li>多入口情况下，使用CommonsChunkPlugin来提取公共代码</li>
+<li>通过externals配置来提取常用库<br>利用DllPlugin和DllReferencePlugin预编译资源模块 通过DllPlugin来对那些我们引用但是绝对不会修改的npm包来进行预编译，再通过DllReferencePlugin将预编译的模块加载进来。</li>
+<li>使用Happypack 实现多线程加速编译</li>
+<li>使用webpack-uglify-parallel来提升uglifyPlugin的压缩速度。 原理上webpack-uglify-parallel采用了多核并行压缩来提升压缩速度</li>
+<li>使用Tree-shaking和Scope Hoisting来剔除多余代码</li>
+</ol>
+<h2 id="2、-如何利用webpack来优化前端性能？（提高性能和体验）"><a href="#2、-如何利用webpack来优化前端性能？（提高性能和体验）" class="headerlink" title="2、 如何利用webpack来优化前端性能？（提高性能和体验）!"></a>2、 如何利用webpack来优化前端性能？（提高性能和体验）!</h2><p>前端性能优化方案都有哪些？ - 知乎 (zhihu.com)<br>(30条消息) 前端性能优化的方法_万般皆是你的博客-CSDN博客<br>用webpack优化前端性能是指优化webpack的输出结果，让打包的最终结果在浏览器运行快速高效。<br>● 压缩代码。删除多余的代码、注释、简化代码的写法等等方式。可以利用webpack的UglifyJsPlugin和ParallelUglifyPlugin来压缩JS文件， 利用cssnano（css-loader?minimize）来压缩css<br>● 利用CDN加速。在构建过程中，将引用的静态资源路径修改为CDN上对应的路径。可以利用webpack对于output参数和各loader的publicPath参数来修改资源路径<br>● 删除死代码（Tree Shaking）。将代码中永远不会走到的片段删除掉。可以通过在启动webpack时追加参数–optimize-minimize来实现<br>● 提取公共代码。<br>● 异步组件<br>● 异步图片<br>● 配置webpack对小图片打包成base64字符 减少io请求</p>
+<h2 id="3、-怎么配置单页应用？怎么配置多页应用？"><a href="#3、-怎么配置单页应用？怎么配置多页应用？" class="headerlink" title="3、 怎么配置单页应用？怎么配置多页应用？"></a>3、 怎么配置单页应用？怎么配置多页应用？</h2><p>单页应用可以理解为webpack的标准模式，直接在entry中指定单页应用的入口即可，这里不再赘述<br>多页应用的话，可以使用webpack的 AutoWebPlugin来完成简单自动化的构建，但是前提是项目的目录结构必须遵守他预设的规范。</p>
+<h2 id="4、-如何提升webpack的运行速度-开发环境-有哪些策略？"><a href="#4、-如何提升webpack的运行速度-开发环境-有哪些策略？" class="headerlink" title="4、 如何提升webpack的运行速度(开发环境) ,有哪些策略？"></a>4、 如何提升webpack的运行速度(开发环境) ,有哪些策略？</h2><p>多入口情况下，使用CommonsChunkPlugin来提取公共代码<br>通过externals配置来提取常用库<br>利用DllPlugin和DllReferencePlugin预编译资源模块 通过DllPlugin来对那些我们引用但是绝对不会修改的npm包来进行预编译，再通过DllReferencePlugin将预编译的模块加载进来。<br>使用Happypack 实现多线程加速编译<br>使用webpack-uglify-parallel来提升uglifyPlugin的压缩速度。 原理上webpack-uglify-parallel采用了多核并行压缩来提升压缩速度<br>使用Tree-shaking和Scope Hoisting来剔除多余代码<br>● JS代码压缩<br>● terser是一个JavaScript的解释、绞肉机、压缩机的工具集，可以帮助我们压缩、丑化我们的代码，让bundle更小。在production模式下，webpack 默认就是使用 TerserPlugin 来处理我们的代码的。如果想要自定义配置它，配置方法如下。<br>● TerserPlugin常用的属性如下： - extractComments：默认值为true，表示会将注释抽取到一个单独的文件中，开发阶段，我们可设置为 false ，不保留注释 - parallel：使用多进程并发运行提高构建的速度，默认值是true，并发运行的默认数量： os.cpus().length - 1 - terserOptions：设置我们的terser相关的配置： compress：设置压缩相关的选项，mangle：设置丑化相关的选项，可以直接设置为true mangle：设置丑化相关的选项，可以直接设置为true toplevel：底层变量是否进行转换keep_classnames：保留类的名称 keep_fnames：保留函数的名称<br>● 代码压缩<br>● cssCSS压缩通常用于去除无用的空格等，不过因为很难去修改选择器、属性的名称、值等，所以我们可以使用另外一个插件：css-minimizer-webpack-plugin<br>● Html文件代码压缩<br>● 文件大小压缩<br>● 对文件的大小进行压缩，可以有效减少http传输过程中宽带的损耗，文件压缩需要用到 compression-webpack-plugin插件<br>● 图片压缩<br>● 如果我们对bundle包进行分析，会发现图片等多媒体文件的大小是远远要比 js、css 文件要大的，所以图片压缩在打包方面也是很重要的</p>
+<p>● Tree Shaking<br>● Tree Shaking 是一个术语，在计算机中表示消除死代码，依赖于ES Module的静态语法分析。在webpack实现Trss shaking有两种不同的方案： - usedExports：通过标记某些函数是否被使用，之后通过Terser来进行优化的 - sideEffects：跳过整个模块&#x2F;文件，直接查看该文件是否有副作用<br>● usedExports的配置方法很简单，只需要将usedExports设为true即可，如下。而sideEffects则用于告知webpack compiler在编译时哪些模块有副作用，配置方法是在package.json中设置sideEffects属性。如果sideEffects设置为false，就是告知webpack可以安全的删除未用到的exports，如果有些文件需要保留，可以设置为数组的形式。<br>● 代码分离<br>■ 默认情况下，所有的JavaScript代码（业务代码、第三方依赖、暂时没有用到的模块）在首页全部都加载，就会影响首页的加载速度。如果可以分出出更小的bundle，以及控制资源加载优先级，从而优化加载性能。<br>■ 代码分离可以通过splitChunksPlugin来实现，该插件webpack已经默认安装和集成，只需要配置即可。<br>■ splitChunks有如下几个属性： - Chunks：对同步代码还是异步代码进行处理 - minSize： 拆分包的大小, 至少为minSize，如何包的大小不超过minSize，这个包不会拆分 - maxSize： 将大于maxSize的包，拆分为不小于minSize的包 - minChunks：被引入的次数，默认是1<br>● 内联 chunk<br>■ 可以通过InlineChunkHtmlPlugin插件将一些chunk的模块内联到html，如runtime的代码（对模块进行解析、加载、模块信息相关的代码），代码量并不大但是必须加载的，比如：总结一下，Webpack对前端性能的优化，主要是通过文件体积大小入手，主要的措施有分包、减少Http请求次数等。</p>
+<p>用webpack优化前端性能是指优化webpack的输出结果，让打包的最终结果在浏览器运行快速高效。<br>1、压缩代码:删除多余的代码、注释、简化代码的写法等等方式。可以利用webpack的 UglifyJsPlugin 和 ParallelUglifyPlugin 来压缩JS文件， 利用 cssnano （css-loader? minimize）来压缩css<br>2、利用CDN加速: 在构建过程中，将引用的静态资源路径修改为CDN上对应的路径。可以利用 webpack对于 output 参数和各loader的 publicPath 参数来修改资源路径<br>3、Tree Shaking: 将代码中永远不会走到的片段删除掉。可以通过在启动webpack时追加参数 — optimize-minimize 来实现<br>4、Code Splitting: 将代码按路由维度或者组件分块(chunk),这样做到按需加载,同时可以充分利用浏览 器缓存<br>5、提取公共第三方库: SplitChunksPlugin插件来进行公共模块抽取,利用浏览器缓存可以长期缓存这 些无需频繁变动的公共代码</p>
+<h2 id="5、-npm打包时需要注意哪些？如何利用webpack来更好的构建？"><a href="#5、-npm打包时需要注意哪些？如何利用webpack来更好的构建？" class="headerlink" title="5、 npm打包时需要注意哪些？如何利用webpack来更好的构建？"></a>5、 npm打包时需要注意哪些？如何利用webpack来更好的构建？</h2><p>● Npm是目前最大的 JavaScript 模块仓库，里面有来自全世界开发者上传的可复用模块。你可能只是JS模块的使用者，但是有些情况你也会去选择上传自己开发的模块。关于NPM模块上传的方法可以去官网上进行学习，这里只讲解如何利用webpack来构建。<br>● NPM模块需要注意以下问题：要支持CommonJS模块化规范，所以要求打包后的最后结果也遵守该规则。Npm模块使用者的环境是不确定的，很有可能并不支持ES6，所以打包的最后结果应该是采用ES5编写的。并且如果ES5是经过转换的，请最好连同SourceMap一同上传。Npm包大小应该是尽量小（有些仓库会限制包大小）发布的模块不能将依赖的模块也一同打包，应该让用户选择性的去自行安装。这样可以避免模块应用者再次打包时出现底层模块被重复打包的情况。UI组件类的模块应该将依赖的其它资源文件，例如.css文件也需要包含在发布的模块里。</p>
+<h2 id="6、-什么是长缓存？在webpack中如何做到长缓存优化？"><a href="#6、-什么是长缓存？在webpack中如何做到长缓存优化？" class="headerlink" title="6、 什么是长缓存？在webpack中如何做到长缓存优化？"></a>6、 什么是长缓存？在webpack中如何做到长缓存优化？</h2><p>● 浏览器在用户访问页面的时候，为了加快加载速度，会对用户访问的静态资源进行存储，但是每一次代码升级或者更新，都需要浏览器去下载新的代码，最方便和最简单的更新方式就是引入新的文件名称。<br>● 在webpack中，可以在output给出输出的文件制定chunkhash，并且分离经常更新的代码和框架代码，通过NameModulesPlugin或者HashedModulesPlugin使再次打包文件名不变。</p>
+<h2 id="7、-在项目中tree-shaking摇树不是很干净，有什么解决方案？"><a href="#7、-在项目中tree-shaking摇树不是很干净，有什么解决方案？" class="headerlink" title="7、 在项目中tree-shaking摇树不是很干净，有什么解决方案？"></a>7、 在项目中tree-shaking摇树不是很干净，有什么解决方案？</h2><p>在webpack.config.js中通过<br>来进行tree-shaking 但是单单指定这一个配置 不是很干净<br>有些模块导入，只要被引入，<br>就会对应用程序产生重要的影响。一个很好的例子就是全局样式表，或者设置全局配<br>置的JavaScript 文件。<br>如何告诉 Webpack 你的代码无副作用，可以通过 package.json 有一个特殊的属性<br>sideEffects，就是为此而存在的。<br>它有三个可能的值：<br>● true：如果不指定其他值的话。这意味着所有的文件都有副作用，也就是没有一个文件<br>可以 tree-shaking。<br>● false： 告诉 Webpack 没有文件有副作用，所有文件都可以 tree-shaking。<br>● 数组[…]：是文件路径数组。它告诉 webpack，除了数组中包含的文件外，你的任何文件<br>都没有副作用。因此，除了指定的文件之外，其他文件都可以安全地进行 tree-shaking。</p>
+<h2 id="8、-怎么提高webpack的打包效率？"><a href="#8、-怎么提高webpack的打包效率？" class="headerlink" title="8、 怎么提高webpack的打包效率？"></a>8、 怎么提高webpack的打包效率？</h2><p>(29条消息) 提高webpack的打包速度方法<em>孙德海想进阿里的博客-CSDN博客</em>提升webpack打包速度<br>如何提高webpack的构建速度 - 简书 (jianshu.com)<br>开发环境优化</p>
+<ol>
+<li><p>开启热模块替换（HMR）</p>
+</li>
+<li><p>使用 source-map 进行源代码映射</p>
+</li>
+<li><p>将只需要被loader执行一次的规则放到 oneOf 里面去<br>生产环境优化</p>
+</li>
+<li><p>对资源进行缓存</p>
+</li>
+<li><p>使用tree shaking（树摇）</p>
+</li>
+<li><p>使用code split 进行代码分割</p>
+</li>
+<li><p>文件懒加载和预加载</p>
+</li>
+<li><p>多进程打包</p>
+</li>
+<li><p>使用PWA（离线加载）</p>
+</li>
+<li><p>使用externals 忽略某些包，然后通过cdn引入</p>
+</li>
+<li><p>使用dll 技术对某些库（第三方库）进行单独打包</p>
+<h2 id="9、-按需加载的原理"><a href="#9、-按需加载的原理" class="headerlink" title="9、 按需加载的原理"></a>9、 按需加载的原理</h2><p>● 使用符合 ECMAScript 提案 的 import() 语法</p>
+<p>● 使用 webpack 特定的 require.ensure</p>
+<h2 id="10、-预获取-x2F-预加载模块"><a href="#10、-预获取-x2F-预加载模块" class="headerlink" title="10、 预获取&#x2F;预加载模块"></a>10、 预获取&#x2F;预加载模块</h2><p>Webpack v4.6.0+ 增加了对预获取和预加载的支持。</p>
+<p>在声明 import 时，使用下面这些内置指令，可以让 webpack 输出 “resource hint(资源提示)”，来告知浏览器</p>
+<p>● prefetch(预获取)：将来某些导航下可能需要的资源</p>
+<p>● preload(预加载)：当前导航下可能需要资源</p>
+<p>添加第二句魔法注释： webpackPrefetch: true</p>
+<p>告诉 webpack 执行预获取。这会生成 <link rel="prefetch" href="math.js"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">并追加到页面头部，指示着浏览器在闲置时间预取 math.js 文件。</span><br></pre></td></tr></table></figure>
+
+<h2 id="11、-懒加载"><a href="#11、-懒加载" class="headerlink" title="11、 懒加载"></a>11、 懒加载</h2><p>懒加载或者按需加载，是一种很好的优化网页或应用的方式。这种方式实际上是先把</p>
+<p>你的代码在一些逻辑断点处分离开，然后在一些代码块中完成某些操作后，立即引用</p>
+<p>或即将引用另外一些新的代码块。这样加快了应用的初始加载速度，减轻了它的总体</p>
+<p>体积，因为某些代码块可能永远不会被加载。</p>
+<p>创建一个 math.js 文件，在主页面中通过点击按钮调用其中的函数：</p>
+<p>button.addEventListener(‘click’, () &#x3D;&gt; {</p>
+<p>import(&#x2F;</p>
+<p> webpackChunkName: ‘math’ </p>
+<p>&#x2F; ‘.&#x2F;math.js’).then(({ add</p>
+<p>}) &#x3D;&gt; {</p>
+<p>console.log(add(4, 5))</p>
+<p>})</p>
+<p>})</p>
+</li>
+</ol>
+<p>这里有句注释，我们把它称为 webpack 魔法注释： webpackChunkName: ‘math’ ,告诉webpack打包生成的文件名为 math 。<br>第一次加载完页面， math.bundle.js 不会加载，当点击按钮后，才加载<br>math.bundle.js 文件。</p>
+<ol>
+<li>什么是Tree-sharking?<br>Tree是树，sharking是摇晃的意思。那么树摇晃的时候，肯定会’摇’下来一些无用的叶子。从编程的角度思考，如果假设我们的代码是一棵树（Tree），那么摇下来的无用的的叶子是什么呢？当然是无用的代码啦，他有个专业的术语，叫做dead-code（死码）<br>指打包中去除那些引入了但在代码中没用到的死代码。在wepack中js treeshaking通过UglifyJsPlugin来进行，css中通过purify-CSS来进行。</li>
+</ol>
+<h1 id="五、-构建流程"><a href="#五、-构建流程" class="headerlink" title="五、 构建流程"></a>五、 构建流程</h1><h2 id="1-webpack的构建流程是什么-从读取配置到输出文件这个过程尽量说全"><a href="#1-webpack的构建流程是什么-从读取配置到输出文件这个过程尽量说全" class="headerlink" title="1. webpack的构建流程是什么?从读取配置到输出文件这个过程尽量说全"></a>1. webpack的构建流程是什么?从读取配置到输出文件这个过程尽量说全</h2><p>Webpack 的运行流程是一个串行的过程，从启动到结束会依次执行以下流程：</p>
+<ol>
+<li>初始化参数：从配置文件和 Shell 语句中读取与合并参数，得出最终的参数；</li>
+<li>开始编译：用上一步得到的参数初始化 Compiler 对象，加载所有配置的插件，执行对象的 run 方法开始执行编译；</li>
+<li>确定入口：根据配置中的 entry 找出所有的入口文件；</li>
+<li>编译模块：从入口文件出发，调用所有配置的 Loader 对模块进行翻译，再找出该模块依赖的模块，再递归本步骤直到所有入口依赖的文件都经过了本步骤的处理；</li>
+<li>完成模块编译：在经过第4步使用 Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系；</li>
+<li>输出资源：根据入口和模块之间的依赖关系，组装成一个个包含多个模块的 Chunk，再把每个 Chunk 转换成一个单独的文件加入到输出列表，这步是可以修改输出内容的最后机会；</li>
+<li>输出完成：在确定好输出内容后，根据配置确定输出的路径和文件名，把文件内容写入到文件系统。<br>在以上过程中，Webpack 会在特定的时间点广播出特定的事件，插件在监听到感兴趣的事件后会执行特定的逻辑，并且插件可以调用 Webpack 提供的 API 改变 Webpack 的运行结果。</li>
+</ol>
+<h2 id="2-解决ESLint报错常用的五种方案"><a href="#2-解决ESLint报错常用的五种方案" class="headerlink" title="2. 解决ESLint报错常用的五种方案"></a>2. 解决ESLint报错常用的五种方案</h2><p>（1）Strings must use singlequote quotes<br>表示变量使用了双引号，把表示变量的双引号改为单引号即可。<br>（2）Expected to be enclosed by double quotes (vue&#x2F;html-quotes)<br>这个报错代表让你要将单引号改为双引号<br>（3）Trailing spaces not allowed no-trailing-spaces<br>代表有的地方空格多余，比如标签结尾处，只要删除多余空格即可<br>（4）Unexpected tab character’<br>面意思理解呢就是意想不到的制表符，当时出现的时候就是我习惯的使用Tab键去打空格，但是eslint默认不认可Tab，所以解决方法很简单：<br>在eslint的配置文件中（.eslintrc）rules项中添加一行：“no-tabs”:“off”。如下：<br>（5）‘expected indentation of 2 spaces but found 1 tab’<br>字面意思就是预期缩进2个空格，但找到1个Tab。说实话，我一开始找了半天，没发现原因，后来想到可能是eslint不认可tab开头，因此我找到了我使用的编辑器VSCord的设置，添加了相应的文字：</p>
+<p>大概的意思就是在格式话保存的时候按照1tab&#x3D;2space的计算量将tab替换成space，这样就不会有问题了。<br>（6）Unexpected trailing comma. (comma-dangle)<br>字面意思是尾随了一个多余的逗号<br>（7）There should be no space before this paren space-in-parens<br>结尾有多余的空格，去掉就好。</p>
+<h2 id="3-什么是模块热更新？有什么优点？"><a href="#3-什么是模块热更新？有什么优点？" class="headerlink" title="3. 什么是模块热更新？有什么优点？"></a>3. 什么是模块热更新？有什么优点？</h2><p>HMR即Hot Module Replacement是指当你对代码修改并保存后，webpack将会对代码进行重新打包，并将改动的模块发送到浏览器端，浏览器用新的模块替换掉旧的模块，去实现局部更新页面而非整体刷新页面。<br>借助webpack.HotModuleReplacementPlugin()，devServer开启hot<br>场景1：实现只刷新css，不影响js场景2：js中实现热更新，只更新指定js模块<br>优点：<br>在开发阶段，可以提高开发效率，不用手动重新编译即可看到最新效果，webpack服务会通知页面驱动试图进行更新，不用在浏览器手动进行刷新页面</p>
+<h2 id="4-Webpack-Proxy工作原理"><a href="#4-Webpack-Proxy工作原理" class="headerlink" title="4. Webpack Proxy工作原理"></a>4. Webpack Proxy工作原理</h2><p>4.1 代理<br>在项目开发中不可避免会遇到跨越问题，Webpack中的Proxy就是解决前端跨域的方法之一。所谓代理，指的是在接收客户端发送的请求后转发给其他服务器的行为，webpack中提供服务器的工具为webpack-dev-server。<br>4.1.1 webpack-dev-server<br>webpack-dev-server是 webpack 官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能全部集成在了一起。同时，为了提高开发者日常的开发效率，只适用在开发阶段。在webpack配置对象属性中配置代理的代码如下：<br>&#x2F;&#x2F; .&#x2F;webpack.config.js<br>const path &#x3D; require(‘path’)</p>
+<p>module.exports &#x3D; {<br>&#x2F;&#x2F; …<br>devServer: {<br>contentBase: path.join(__dirname, ‘dist’),<br>compress: true,<br>port: 9000,<br>proxy: {<br>‘&#x2F;api’: {<br>target: ‘<a target="_blank" rel="noopener" href="https://api.github.com/">https://api.github.com</a>‘<br>}<br>}<br>&#x2F;&#x2F; …<br>}<br>}</p>
+<p>其中，devServetr里面proxy则是关于代理的配置，该属性为对象的形式，对象中每一个属性就是一个代理的规则匹配。<br>属性的名称是需要被代理的请求路径前缀，一般为了辨别都会设置前缀为 &#x2F;api，值为对应的代理匹配规则，对应如下： - target：表示的是代理到的目标地址。 - pathRewrite：默认情况下，我们的 &#x2F;api-hy 也会被写入到URL中，如果希望删除，可以使用pathRewrite。 - secure：默认情况下不接收转发到https的服务器上，如果希望支持，可以设置为false。 - changeOrigin：它表示是否更新代理后请求的 headers 中host地址。<br>4.2 原理<br>proxy工作原理实质上是利用http-proxy-middleware 这个http代理中间件，实现请求转发给其他服务器。比如下面的例子：<br>const express &#x3D; require(‘express’);<br>const proxy &#x3D; require(‘http-proxy-middleware’);<br>const app &#x3D; express();<br>app.use(‘&#x2F;api’, proxy({target: ‘<a target="_blank" rel="noopener" href="http://www.example.org/">http://www.example.org</a>‘, changeOrigin: true}));<br>app.listen(3000);<br>&#x2F;&#x2F; <a target="_blank" rel="noopener" href="http://localhost:3000/api/foo/bar">http://localhost:3000/api/foo/bar</a> -&gt; <a target="_blank" rel="noopener" href="http://www.example.org/api/foo/bar">http://www.example.org/api/foo/bar</a></p>
+<p>在上面的例子中，本地地址为<a href="http://localhost:3000，该浏览器发送一个前缀带有/api标识的请求到服务端获取数据，但响应这个请求的服务器只是将请求转发到另一台服务器中。">http://localhost:3000，该浏览器发送一个前缀带有/api标识的请求到服务端获取数据，但响应这个请求的服务器只是将请求转发到另一台服务器中。</a><br>4.3 跨域<br>在开发阶段， webpack-dev-server 会启动一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 localhost 的一个端口上，而后端服务又是运行在另外一个地址上。所以在开发阶段中，由于浏览器同源策略的原因，当本地访问后端就会出现跨域请求的问题。<br>解决这种问题时，只需要设置webpack proxy代理即可。当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终再由代理服务器将数据响应给本地，原理图如下：</p>
+<p>在代理服务器传递数据给本地浏览器的过程中，两者同源，并不存在跨域行为，这时候浏览器就能</p>
+<h2 id="5-webpack-dev-server-和-http服务器的区别"><a href="#5-webpack-dev-server-和-http服务器的区别" class="headerlink" title="5. webpack-dev-server 和 http服务器的区别"></a>5. webpack-dev-server 和 http服务器的区别</h2><p>webpack-dev-server使用内存来存储webpack开发环境下的打包文件，并且可以使用模块热更新，比传统的http服务对开发更加有效。提高Webpack的构建速度</p>
+<h2 id="6-webpack的热更新原理是怎样的？"><a href="#6-webpack的热更新原理是怎样的？" class="headerlink" title="6. webpack的热更新原理是怎样的？"></a>6. webpack的热更新原理是怎样的？</h2><ol>
+<li>Webpack 通过 Watch 模式可以侦听文件的变化，当文件发生改变时，会根据配置进行重新编译（Compile），并将编译后的代码保存在内存中。</li>
+<li>webpack-dev-server 也会对文件变化进行监控（需要配置 devServer.watchContentBase &#x3D; true），但不会进行重新编译，而是监听这些配置文件中静态文件的变化，变化后会通知浏览器进行直接刷新，而不是 HMR。</li>
+<li>在浏览器和服务端之间有一个通过 SocketJs 建立的 websocket 长连接。webpack-dev-server 会将 Webpack 编译打包时的各个阶段的状态信息和 hash 值一并告知 webpack-dev-server&#x2F;client（位于浏览器端）。</li>
+<li>但是 webpack-dev-server&#x2F;client 并不能够请求更新的代码，而是把这些工作交给了 webpack&#x2F;hot&#x2F;dev-server，webpack&#x2F;hot&#x2F;dev-server 的工作就是根据 webpack-dev-server&#x2F;client 传来的信息以及 dev-server 的配置决定是刷新浏览器还是 HMR。</li>
+<li>HotModuleReplacement.runtime 是客户端 HMR 的中枢，它接收到 webpack&#x2F;hot&#x2F;dev-server 传递的新模块的 hash 值，通过 JsonpMainTemplate.runtime 向 webpack-dev-server 发送 Ajax 请求获取到返回的 Json，该 Json 包含了所有要更新的模块的 hash 值，之后通过 Jsonp 请求，获取到最新的模块代码。</li>
+<li>接下来，HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用。</li>
+<li>如果 HMR 失败，则通过刷新浏览器来获取最新打包代码。</li>
+</ol>
+<h1 id="六、-基本配置"><a href="#六、-基本配置" class="headerlink" title="六、 基本配置"></a>六、 基本配置</h1><h2 id="1-entry的值有几种数据类型？"><a href="#1-entry的值有几种数据类型？" class="headerlink" title="1. entry的值有几种数据类型？"></a>1. entry的值有几种数据类型？</h2><p>字符串（单入口）<br>数组（多入口）<br>object(object中的key在webpack里相当于此入口的name)</p>
+<h2 id="2-webpack如何配置多入口文件？"><a href="#2-webpack如何配置多入口文件？" class="headerlink" title="2. webpack如何配置多入口文件？"></a>2. webpack如何配置多入口文件？</h2><p>● 配置多入口entry<br>○<br>● 配置出口output<br>○ filename 中的 [name] 对应入口的文件名；<br>○ contentHash 会命中缓存，提高性能；<br>○<br>● 配置插件htmlWebpackPlugin，生成多页面<br>○ htmlWebpackPlugin 插件会生成页面。<br>○ chunk 为代码块，默认引入 entry 中所有文件。<br>○</p>
+<h2 id="3-webpack-config-js能不能做拆分？"><a href="#3-webpack-config-js能不能做拆分？" class="headerlink" title="3. webpack.config.js能不能做拆分？"></a>3. webpack.config.js能不能做拆分？</h2><p>可以<br>将webpack.config.js 配置文件进行分开。分成三个配置文件，如下：</p>
+<ol>
+<li><p>webpack.base.config.js：两个环境公共的部分</p>
+</li>
+<li><p>webpack.dev.config.js：开发环境独有的配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack.prod.config.js`：生产环境独有的配置</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>output的对象中的常见属性有哪些?</p>
+<p>output 是一个 object 对象，其中包含一系列的配置项，其中比较重要的是 filename 和 path。</p>
+<p>● output.filename：配置输出文件的名称，指定一个 string 类型的值。如果只有一个输出文件，则可以把它写成静态不变的。</p>
+<p>● output.path ：配置输出文件存放在本地的目录，是一个 string 类型的绝对路径。通常通过 Node.js 的 path 模块去获取绝对路径。</p>
+<p>在 webpack.config.js 配置文件中，一个 entry 对应一个 output。</p>
+<h1 id="七、-区别"><a href="#七、-区别" class="headerlink" title="七、 区别"></a>七、 区别</h1><h2 id="1-babel-runtime和babel-polyfill的区别"><a href="#1-babel-runtime和babel-polyfill的区别" class="headerlink" title="1. babel-runtime和babel-polyfill的区别"></a>1. babel-runtime和babel-polyfill的区别</h2><p>● babel-polyfill</p>
+<p>○ 原理是当运行环境中并没有实现的一些方法，babel-polyfill 会给其做兼容。 但是这样做也有一个缺点，就是会污染全局变量，而且项目打包以后体积会增大很多，因为把整个依赖包也搭了进去。所以并不推荐在一些方法类库中去使用。</p>
+<p>○ babel-polyfill 可以用来转码，因为 babel-polyfill 是直接在原型链上增加方法。</p>
+<p>● babel-runtime</p>
+<p>○ 为了不污染全局对象和内置的对象原型，但是又想体验使用新鲜语法的快感。就可以配合使用babel-runtime和babel-plugin-transform-runtime。 比如当前运行环境不支持promise，可以通过引入babel-runtime&#x2F;core-js&#x2F;promise来获取promise， 或者通过babel-plugin-transform-runtime自动重写你的promise。也许有人会奇怪，为什么会有两个runtime插件，其实是有历史原因的：刚开始开始只有babel-runtime插件，但是用起来很不方便，在代码中直接引入helper 函数，意味着不能共享，造成最终打包出来的文件里有很多重复的helper代码。所以，Babel又开发了babel-plugin-transform-runtime，这个模块会将我们的代码重写，如将Promise重写成_Promise（只是打比方），然后引入_Promise helper函数。这样就避免了重复打包代码和手动引入模块的痛苦。</p>
+<p>○ babel-runtime 不能转码实例方法</p>
+</li>
+</ol>
+<h2 id="2-除了Webpack外，你还了解哪些模块管理工具"><a href="#2-除了Webpack外，你还了解哪些模块管理工具" class="headerlink" title="2. 除了Webpack外，你还了解哪些模块管理工具"></a>2. 除了Webpack外，你还了解哪些模块管理工具</h2><p>webpack:<br>就目前而言，webpack已是最常用的打包工具，webpack是基于入口的。webpack会自动地递归解析入口所需要加载的所有资源文件，然后用不同的Loader来处理不同的文件，用Plugin来扩展webpack功能。<br>gulp：<br>gulp是一个前端自动化构建工具，强调的是前端开发的工作流程，可以通过配置一系列的task，第一task处理的事情（如代码压缩，合并，编译以及浏览器实时更新等）。然后定义这些执行顺序，来让glup执行这些task，从而构建项目的整个开发流程。自动化构建工具并不能把所有的模块打包到一起，也不能构建不同模块之间的依赖关系。</p>
+<p>grunt：<br>是基于任务和流（Task、Stream）的。类似jQuery，找到一个（或一类）文件，对其做一系列链式操作，更新流上的数据， 整条链式操作构成了一个任务，多个任务就构成了整个web的构建流程。<br>Rollup</p>
+<ol>
+<li>Rollup 是一款 ES Modules 打包器， 从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup要小巧的多<br>现在很多我们熟知的库都都使用它进行打包，比如：Vue、React和three.js等<br>Parcel<br>Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序<br>Parcel 跟 Webpack 一样都支持以任意类型文件作为打包入口，但建议使用 HTML文件作为入口，该HTML文件像平时一样正常编写代码、引用资源。<br>模块化是一种处理复杂系统分解为更好的可管理模块的方式。可以用来分割、组织和打包应用。每个模块完成一个特定的子功能，所有的模块按某种方法组装起来，成为一个整体。<br>在前端领域中，除了Webpack外，比较流行的模块打包工具还包括Rollup、Parcel、snowpack和最近风靡的Vite。<br>2.1. Rollup<br>Rollup 是一款 ES Modules 打包器，可以将小块代码编译成大块复杂的代码，例如 library 或应用程序。从作用上来看，Rollup 与 Webpack 非常类似。不过相比于 Webpack，Rollup 要小巧的多。现在很多苦都使用它进行打包，比如：Vue、React和three.js等。<br>使用之前，可以使用npm install —global rollup 命令进行安装。Rollup 可以通过命令行接口(command line interface)配合可选配置文件(optional configuration file)来调用，或者可以通过 JavaScript API来调用。运行 rollup —help 可以查看可用的选项和参数。<br>2.2. Parcel<br>Parcel ，是一款完全零配置的前端打包器，它提供了 “傻瓜式” 的使用体验，只需了解简单的命令，就能构建前端应用程序。<br>2.3. Vite<br>Vite是Vue的作者尤雨溪开发的Web开发构建工具，它是一个基于浏览器原生ES模块导入的开发服务器，在开发环境下，利用浏览器去解析import，在服务器端按需编译返回，完全跳过了打包这个概念，服务器随启随用。同时不仅对Vue文件提供了支持，还支持热更新，而且热更新的速度不会随着模块增多而变慢。<br>Vite具有以下特点： - 快速的冷启动 - 即时热模块更新（HMR，Hot Module Replacement） - 真正按需编译<br>Vite由两部分组成： - 一个开发服务器，它基于 原生 ES 模块 提供了丰富的内建功能，如速度快到惊人的 [模块热更新HMR。 - 一套构建指令，它使用 Rollup打包你的代码，并且它是预配置的，可以输出用于生产环境的优化过的静态资源。<br>Vite在开发阶段可以直接启动开发服务器，不需要进行打包操作，也就意味着不需要分析模块的依赖、不需要编译，因此启动速度非常快。当浏览器请求某个模块的时候，根据需要对模块的内容进行编译，大大缩短了编译时间。工作原理如下图所示。<br>在热模块HMR方面，当修改一个模块的时候，仅需让浏览器重新请求该模块即可，无须像Webpack那样需要把该模块的相关依赖模块全部编译一次，因此效率也更高。</li>
+<li>webpack，rollup，parcel优劣？(了解)<br>对比<br>Webpack<br>Rollup<br>Parcel<br>功能</li>
+</ol>
+<p>为处理资源管理和分割代码而生，可以用来处理任何类型的文件，灵活，插件多。<br>用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>用标准化的格式（es6）来写代码，通过减少死代码尽可能地缩小包体积。<br>配置<br>webpack需要配config文件，指明entry, output, plugin，transformations。<br>rollup需要配config文件，指明entry, output, plugin，transformations。rollup 有对import&#x2F;export所做的node polyfills，webpack没有。rollup支持相对路径，而webpack没有，所以得使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parcel则是完全开箱可用的，不用配置。</span><br></pre></td></tr></table></figure>
+
+<p>入口文件<br>webpack只支持js文件作为入口文件，如果要以其他格式的文件作为入口，比如html文件为入口，如要加第三方Plugin。<br>rollup可以用html作为入口文件，但也需要plugin，比如rollup-plugin-html-entry。<br>parcel可以用index.html作为入口文件，而且它会通过看index.html的script tag里包含的什么自己找到要打包生成哪些js文件。<br>transformations<br>transformations指的是把其他文件转化成js文件的过程，需要经过transformation才能够被打包。webpack使用Loaders来处理。<br>rollup使用plugins来处理。<br>parcel会自动去转换，当找到配置文件比如.babelrc, .postcssrc后就会自动转。<br>摇树优化<br>摇树优化是webpack的一大特性。需要1，用import&#x2F;export语法，2，在package.json中加副作用的入口，3，加上支持去除死代码的缩小器（uglifyjsplugin）。<br>rollup会统计引入的代码并排除掉那些没有被用到的。这使您可以在现有工具和模块的基础上构建，而无需添加额外的依赖项或膨胀项目的大小。<br>parcel不支持摇树优化。<br>dev server<br>webpack用webpack-dev-server。</p>
+<p>rollup用rollup-plugin-serve和rollup-plugin-livereload共同作用。<br>parcel内置的有dev server<br>热更新<br>webpack的 wepack-dev-server支持hot模式。<br>rollup不支持hmr。<br>parcel有内置的hmr。<br>代码分割<br>webpack通过在entry中手动设置，使用CommonsChunkPlugin，和模块内的内联函数动态引入来做代码分割。<br>rollup有实验性的代码分割特性。它是用es模块在浏览器中的模块加载机制本身来分割代码的。需要把experimentalCodeSplitting 和 experimentalDynamicImport 设为true。<br>parcel支持0配置的代码分割。主要是通过动态improt。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/12/03/webpack/webpack%E9%9D%A2%E8%AF%95%E9%A2%98/" data-id="cl7icg7ab00w0ugunb653eemk" data-title="webpack面试题总结" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-html+css+js+ts/1-音视频" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/11/28/html+css+js+ts/1-%E9%9F%B3%E8%A7%86%E9%A2%91/" class="article-date">
@@ -917,6 +1234,202 @@ var Music = new Audio("test.mp3");
 
 
   
+    <article id="post-Vue/vue-组件化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/11/Vue/vue-%E7%BB%84%E4%BB%B6%E5%8C%96/" class="article-date">
+  <time class="dt-published" datetime="2020-11-11T14:41:28.000Z" itemprop="datePublished">2020-11-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/11/11/Vue/vue-%E7%BB%84%E4%BB%B6%E5%8C%96/">vue-组件化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h2><blockquote>
+<p>vue组件系统提供了一种抽象，让我们可以使用独立可复用的组件来构建大型应用，任意类型的应用界 面都可以抽象为一个组件树。组件化能提高开发效率，方便重复使用，简化调试步骤，提升项目可维护 性，便于多人协同开发。</p>
+</blockquote>
+<p><img src="https://blog.poetries.top/img/static/images/20210313133919.png" alt="img"></p>
+<h2 id="组件通信常用方式"><a href="#组件通信常用方式" class="headerlink" title="组件通信常用方式"></a>组件通信常用方式</h2><h3 id="1-props"><a href="#1-props" class="headerlink" title="1. props"></a><strong>1. props</strong></h3><blockquote>
+<p>父给子传值</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// child</span><br><span class="line">props: &#123; msg: String &#125;</span><br><span class="line">// parent</span><br><span class="line">&lt;HelloWorld msg=&quot;Welcome to Your Vue.js App&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-自定义事件"><a href="#2-自定义事件" class="headerlink" title="2. 自定义事件"></a>2. 自定义事件</h3><blockquote>
+<p>子给父传值</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// child this.$emit(&#x27;add&#x27;, good)</span><br><span class="line">// parent</span><br><span class="line">&lt;Cart @add=&quot;cartAdd($event)&quot;&gt;&lt;/Cart&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-事件总线"><a href="#3-事件总线" class="headerlink" title="3. 事件总线"></a>3. 事件总线</h3><blockquote>
+<p>任意两个组件之间传值常用事件总线 或 vuex的方式。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  // Bus:事件派发、监听和回调管理 class Bus &#123;</span><br><span class="line">constructor()&#123; this.callbacks = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  $on(name, fn)&#123;</span><br><span class="line">this.callbacks[name] = this.callbacks[name] || []</span><br><span class="line">this.callbacks[name].push(fn) &#125;</span><br><span class="line">$emit(name, args)&#123; if(this.callbacks[name])&#123;</span><br><span class="line">this.callbacks[name].forEach(cb =&gt; cb(args)) &#125;</span><br><span class="line">&#125; &#125;</span><br><span class="line">// main.js</span><br><span class="line">Vue.prototype.$bus = new Bus()</span><br><span class="line">// child1</span><br><span class="line">this.$bus.$on(&#x27;foo&#x27;, handle) // child2 this.$bus.$emit(&#x27;foo&#x27;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>实践中通常用Vue代替Bus，因为Vue已经实现了相应接口</p>
+</blockquote>
+<h3 id="4-vuex"><a href="#4-vuex" class="headerlink" title="4. vuex"></a><strong>4. vuex</strong></h3><blockquote>
+<p>创建唯一的全局数据管理者store，通过它管理数据并通知组件状态变更。</p>
+</blockquote>
+<h3 id="5-parent-x2F-root"><a href="#5-parent-x2F-root" class="headerlink" title="5. $parent&#x2F;$root"></a>5. <strong>$parent&#x2F;$root</strong></h3><blockquote>
+<p>兄弟组件之间通信可通过共同祖辈搭桥，<code>$parent</code>或<code>$root</code>。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// brother1</span><br><span class="line">this.$parent.$on(&#x27;foo&#x27;, handle)</span><br><span class="line">// brother2 </span><br><span class="line">this.$parent.$emit(&#x27;foo&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-children"><a href="#6-children" class="headerlink" title="6. $children"></a>6. <strong>$children</strong></h3><blockquote>
+<p>父组件可以通过<code>$children</code>访问子组件实现父子通信。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// parent </span><br><span class="line">this.$children[0].xx = &#x27;xxx&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-attrs-x2F-listeners"><a href="#7-attrs-x2F-listeners" class="headerlink" title="7. $attrs&#x2F;$listeners"></a>7. <strong>$attrs&#x2F;$listeners</strong></h3><blockquote>
+<p>包含了父作用域中不作为 <strong>prop</strong> 被识别 (且获取) 的特性绑定 ( class 和 style 除外)。当一个组件没有 声明任何 prop 时，这里会包含所有父作用域的绑定 ( class 和 style 除外)，并且可以通过 <code>v- bind=&quot;$attrs&quot;</code> 传入内部组件——在创建高级别的组件时非常有用。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// child:并未在props中声明foo </span><br><span class="line">&lt;p&gt;&#123;&#123;$attrs.foo&#125;&#125;&lt;/p&gt;</span><br><span class="line">// parent</span><br><span class="line">&lt;HelloWorld foo=&quot;foo&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-refs"><a href="#8-refs" class="headerlink" title="8. refs"></a>8. <strong>refs</strong></h3><blockquote>
+<p>获取子节点引用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// parent</span><br><span class="line">&lt;HelloWorld ref=&quot;hw&quot;/&gt;</span><br><span class="line">mounted() &#123; </span><br><span class="line">  this.$refs.hw.xx = &#x27;xxx&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-provide-x2F-inject"><a href="#9-provide-x2F-inject" class="headerlink" title="9. provide&#x2F;inject"></a>9. <strong>provide&#x2F;inject</strong></h3><blockquote>
+<p>能够实现祖先和后代之间传值</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// ancestor</span><br><span class="line">provide() &#123;</span><br><span class="line">  return &#123;foo: &#x27;foo&#x27;&#125;</span><br><span class="line">&#125;</span><br><span class="line">// descendant</span><br><span class="line">inject: [&#x27;foo&#x27;]</span><br></pre></td></tr></table></figure>
+
+<p>实例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">// index.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;组件通信&lt;/h2&gt;</span><br><span class="line">    &lt;!-- props, 自定义事件 --&gt;</span><br><span class="line">    &lt;Child1 msg=&quot;some msg from parent&quot; @some-event=&quot;onSomeEvent&quot;&gt;&lt;/Child1&gt;</span><br><span class="line">    &lt;!-- 事件总线 --&gt;</span><br><span class="line">    &lt;Child2 msg=&quot;other msg&quot;&gt;&lt;/Child2&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import Child1 from &#x27;@/components/communication/Child1.vue&#x27;</span><br><span class="line">  import Child2 from &#x27;@/components/communication/Child2.vue&#x27;</span><br><span class="line">  </span><br><span class="line">  export default &#123;</span><br><span class="line">    components: &#123;</span><br><span class="line">      Child1, Child2,</span><br><span class="line">      // Child3: () =&gt; import(&#x27;./Child3.vue&#x27;)</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      onSomeEvent(msg) &#123;</span><br><span class="line">        console.log(&#x27;Communition:&#x27;, msg);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted () &#123;</span><br><span class="line">      // $children持有所有自定义组件</span><br><span class="line">      // 它不保证顺序</span><br><span class="line">      console.log(this.$children);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line">// child1.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div @click=&quot;$emit(&#x27;some-event&#x27;, &#x27;msg from child1&#x27;)&quot;&gt;</span><br><span class="line">    &lt;h3&gt;child1&lt;/h3&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    props: &#123;</span><br><span class="line">      msg: &#123;</span><br><span class="line">        type: String,</span><br><span class="line">        default: &#x27;&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted () &#123;</span><br><span class="line">      // this.$bus.$on(&#x27;event-from-child2&#x27;, msg =&gt; &#123;</span><br><span class="line">      //   console.log(&#x27;Child1:&#x27;, msg);</span><br><span class="line">      // &#125;);</span><br><span class="line">      this.$parent.$on(&#x27;event-from-child2&#x27;, msg =&gt; &#123;</span><br><span class="line">        console.log(&#x27;Child1:&#x27;, msg);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line">// child2.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;!-- 展开$attrs对象 --&gt;</span><br><span class="line">    &lt;h3 v-bind=&quot;$attrs&quot;&gt;child2&lt;/h3&gt;</span><br><span class="line">    &lt;button @click=&quot;sendToChild1&quot;&gt;给child1发送消息&lt;/button&gt;</span><br><span class="line">    &lt;!-- $attrs --&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123;$attrs.msg&#125;&#125;&lt;/p&gt;</span><br><span class="line">    &lt;!-- inject --&gt;</span><br><span class="line">    &lt;p&gt;&#123;&#123;foo&#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    inheritAttrs: false,</span><br><span class="line">    inject: [&#x27;foo&#x27;],</span><br><span class="line">    methods: &#123;</span><br><span class="line">      sendToChild1() &#123;</span><br><span class="line">        // 利用事件总线发送事件</span><br><span class="line">        // this.$bus.$emit(&#x27;event-from-child2&#x27;, &#x27;some msg from child2&#x27;)</span><br><span class="line">        this.$parent.$emit(&#x27;event-from-child2&#x27;, &#x27;some msg from child2&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h2><blockquote>
+<p>插槽语法是Vue 实现的内容分发 API，用于复合组件开发。该技术在通用组件库开发中有大量应用</p>
+</blockquote>
+<h3 id="1-匿名插槽"><a href="#1-匿名插槽" class="headerlink" title="1. 匿名插槽"></a>1. 匿名插槽</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// comp1</span><br><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">// parent</span><br><span class="line">&lt;comp&gt;hello&lt;/comp&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-具名插槽"><a href="#2-具名插槽" class="headerlink" title="2. 具名插槽"></a>2. 具名插槽</h3><blockquote>
+<p>将内容分发到子组件指定位置</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// comp2</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">&lt;slot name=&quot;content&quot;&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">// parent</span><br><span class="line">&lt;Comp2&gt;</span><br><span class="line">&lt;!-- 默认插槽用default做参数 --&gt;</span><br><span class="line">&lt;template v-slot:default&gt;具名插槽&lt;/template&gt; &lt;!-- 具名插槽用插槽名做参数 --&gt;</span><br><span class="line">&lt;template v-slot:content&gt;内容...&lt;/template&gt;</span><br><span class="line">&lt;/Comp2&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-作用域插槽"><a href="#3-作用域插槽" class="headerlink" title="3. 作用域插槽"></a>3. 作用域插槽</h3><blockquote>
+<p>分发内容要用到子组件中的数据</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// comp3</span><br><span class="line">&lt;div&gt;</span><br><span class="line">&lt;slot :foo=&quot;foo&quot;&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">// parent</span><br><span class="line">&lt;Comp3&gt;</span><br><span class="line">&lt;!-- 把v-slot的值指定为作用域上下文对象 --&gt; &lt;template v-slot:default=&quot;slotProps&quot;&gt; 来自子组件数据:&#123;&#123;slotProps.foo&#125;&#125; &lt;/template&gt;</span><br><span class="line">&lt;/Comp3&gt;</span><br></pre></td></tr></table></figure>
+
+<p>范例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">// 子组件 Layout.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;div class=&quot;header&quot;&gt;</span><br><span class="line">      &lt;slot name=&quot;header&quot;&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;body&quot;&gt;</span><br><span class="line">      &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;footer&quot;&gt;</span><br><span class="line">      &lt;slot name=&quot;footer&quot; :fc=&quot;footerContent&quot;&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        remark: [</span><br><span class="line">          &#x27;好好学习，天天向上&#x27;,</span><br><span class="line">          &#x27;学习永远不晚&#x27;,</span><br><span class="line">          &#x27;学习知识要善于思考,思考,再思考&#x27;,</span><br><span class="line">          &#x27;学习的敌人是自己的满足,要认真学习一点东西,必须从不自满开始&#x27;,</span><br><span class="line">          &#x27;构成我们学习最大障碍的是已知的东西,而不是未知的东西&#x27;,</span><br><span class="line">          &#x27;在今天和明天之间,有一段很长的时间;趁你还有精神的时候,学习迅速办事&#x27;,</span><br><span class="line">          &#x27;三人行必有我师焉；择其善者而从之，其不善者而改之&#x27;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    computed: &#123;</span><br><span class="line">      footerContent() &#123;</span><br><span class="line">        return this.remark[new Date().getDay() - 1] </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.header &#123;</span><br><span class="line">  background-color: rgb(252, 175, 175);</span><br><span class="line">&#125;</span><br><span class="line">.body &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  background-color: rgb(144, 250, 134);</span><br><span class="line">  min-height: 100px;</span><br><span class="line">  align-items: center;</span><br><span class="line">  justify-content: center;</span><br><span class="line">&#125;</span><br><span class="line">.footer &#123;</span><br><span class="line">  background-color: rgb(114, 116, 255);</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">//父组件 index.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h2&gt;插槽&lt;/h2&gt;</span><br><span class="line">    &lt;!-- 插槽 --&gt;</span><br><span class="line">    &lt;Layout&gt;</span><br><span class="line">      &lt;!-- 具名插槽 --&gt;</span><br><span class="line">      &lt;template v-slot:header&gt;全栈工程师&lt;/template&gt;</span><br><span class="line">      &lt;!-- 匿名插槽 --&gt;</span><br><span class="line">      &lt;template&gt;content...&lt;/template&gt;</span><br><span class="line">      &lt;!-- 作用域插槽 --&gt;</span><br><span class="line">      &lt;template v-slot:footer=&quot;&#123;fc&#125;&quot;&gt;&#123;&#123;fc&#125;&#125;&lt;/template&gt;</span><br><span class="line">    &lt;/Layout&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import Layout from &#x27;@/components/slots/Layout.vue&#x27;</span><br><span class="line">  </span><br><span class="line">  export default &#123;</span><br><span class="line">    components: &#123;</span><br><span class="line">      Layout</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="组件化实战"><a href="#组件化实战" class="headerlink" title="组件化实战"></a>组件化实战</h2><h3 id="通用表单组件"><a href="#通用表单组件" class="headerlink" title="通用表单组件"></a>通用表单组件</h3><blockquote>
+<p>收集数据、校验数据并提交。</p>
+</blockquote>
+<ul>
+<li>实现KForm 指定数据、校验规则</li>
+<li>KformItem<ul>
+<li>label标签添加</li>
+<li>执行校验</li>
+<li>显示错误信息</li>
+</ul>
+</li>
+<li>KInput<ul>
+<li>维护数据</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-form :model=&quot;userInfo&quot; :rules=&quot;rules&quot; ref=&quot;loginForm&quot;&gt;</span><br><span class="line">    &lt;el-form-item label=&quot;用户名&quot; prop=&quot;name&quot;&gt;</span><br><span class="line">      &lt;el-input v-model=&quot;userInfo.name&quot;&gt;&lt;/el-input&gt;</span><br><span class="line">    &lt;/el-form-item&gt;</span><br><span class="line">    &lt;el-form-item label=&quot;密码&quot; prop=&quot;password&quot;&gt;</span><br><span class="line">      &lt;el-input v-model=&quot;userInfo.password&quot; type=&quot;password&quot;&gt;&lt;/el-input&gt;</span><br><span class="line">    &lt;/el-form-item&gt;</span><br><span class="line">    &lt;el-form-item&gt;</span><br><span class="line">      &lt;el-button @click=&quot;login&quot;&gt;登录&lt;/el-button&gt;</span><br><span class="line">    &lt;/el-form-item&gt;</span><br><span class="line">  &lt;/el-form&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      userInfo: &#123;</span><br><span class="line">        username: &quot;&quot;,</span><br><span class="line">        password: &quot;&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      rules: &#123;</span><br><span class="line">        username: [&#123; required: true, message: &quot;请输入用户名称&quot; &#125;],</span><br><span class="line">        password: [&#123; required: true, message: &quot;请输入密码&quot; &#125;]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    login() &#123;</span><br><span class="line">      this.$refs[&quot;loginForm&quot;].validate(valid =&gt; &#123;</span><br><span class="line">        if (valid) &#123;</span><br><span class="line">          alert(&quot;submit&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          console.log(&quot;error submit!&quot;);</span><br><span class="line">          return false;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.</strong> KInput</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">// 创建components/form/KInput.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;!-- 管理数据：实现双绑 --&gt;</span><br><span class="line">    &lt;!-- :value, @input --&gt;</span><br><span class="line">    &lt;input :type=&quot;type&quot; :value=&quot;value&quot; @input=&quot;onInput&quot;</span><br><span class="line">      v-bind=&quot;$attrs&quot;&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    inheritAttrs: false , // 关闭特性继承</span><br><span class="line">    props: &#123;</span><br><span class="line">      value: &#123;</span><br><span class="line">        type: String,</span><br><span class="line">        default: &#x27;&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      type: &#123;</span><br><span class="line">        type: String,</span><br><span class="line">        default: &#x27;text&#x27;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      onInput(e) &#123;</span><br><span class="line">        this.$emit(&#x27;input&#x27;, e.target.value)</span><br><span class="line"></span><br><span class="line">        // 值发生变化的时候就是需要校验的时候</span><br><span class="line">        this.$parent.$emit(&#x27;validate&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用<strong>KInput</strong></li>
+</ol>
+<p>创建components&#x2F;form&#x2F;index.vue，添加如下代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">&lt;h3&gt;KForm表单&lt;/h3&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;k-input v-model=&quot;model.username&quot;&gt;&lt;/k-input&gt;</span><br><span class="line">&lt;k-input type=&quot;password&quot; v-model=&quot;model.password&quot;&gt;&lt;/k-input&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">  KInput</span><br><span class="line">&#125;, </span><br><span class="line">  data() &#123;</span><br><span class="line">   return &#123;</span><br><span class="line">      model: &#123; username: &quot;tom&quot;, password: &quot;&quot; &#125;,</span><br><span class="line">    &#125;; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>实现<strong>KFormItem</strong></li>
+</ol>
+<p>创建components&#x2F;form&#x2F;KFormItem.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;!-- label标签 --&gt;</span><br><span class="line">    &lt;label v-if=&quot;label&quot;&gt;&#123;&#123;label&#125;&#125;&lt;/label&gt;</span><br><span class="line">    &lt;!-- 容器，放插槽 --&gt;</span><br><span class="line">    &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;!-- 错误信息展示 --&gt;</span><br><span class="line">    &lt;p v-if=&quot;error&quot; class=&quot;error&quot;&gt;&#123;&#123;error&#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">  import Schema from &#x27;async-validator&#x27;</span><br><span class="line"></span><br><span class="line">  export default &#123;</span><br><span class="line">    inject: [&#x27;form&#x27;],</span><br><span class="line">    data() &#123;</span><br><span class="line">      return &#123;</span><br><span class="line">        error: &#x27;&#x27;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    props: &#123;</span><br><span class="line">      label: &#123;</span><br><span class="line">        type: String,</span><br><span class="line">        default: &#x27;&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      prop: &#123;</span><br><span class="line">        type: String,</span><br><span class="line">        default: &#x27;&#x27;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    mounted () &#123;</span><br><span class="line">      // 监听校验事件</span><br><span class="line">      this.$on(&#x27;validate&#x27;, () =&gt; &#123;</span><br><span class="line">        this.validate()</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      validate() &#123;</span><br><span class="line">        // 执行校验</span><br><span class="line">        // 1.获取值和校验规则</span><br><span class="line">        const rules = this.form.rules[this.prop]</span><br><span class="line">        const value = this.form.model[this.prop]</span><br><span class="line"></span><br><span class="line">        // 2.执行校验：使用官方也使用的async-validator</span><br><span class="line">        // 创建描述对象</span><br><span class="line">        const descriptor = &#123;[this.prop]:rules&#125;</span><br><span class="line">        // 创建校验器</span><br><span class="line">        const validator = new Schema(descriptor)</span><br><span class="line">        // 执行校验</span><br><span class="line">        return validator.validate(&#123;[this.prop]:value&#125;, errors =&gt; &#123;</span><br><span class="line">          // 如果errors存在，则说明校验失败</span><br><span class="line">          if (errors) &#123;</span><br><span class="line">            this.error = errors[0].message</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            this.error = &#x27;&#x27;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.error&#123;</span><br><span class="line">  color: red</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用<strong>KFormItem</strong></li>
+</ol>
+<p>components&#x2F;form&#x2F;index.vue，添加基础代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">&lt;h3&gt;KForm表单&lt;/h3&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;k-form-item label=&quot;用户名&quot; prop=&quot;username&quot;&gt;</span><br><span class="line">&lt;k-input v-model=&quot;model.username&quot;&gt;&lt;/k-input&gt; &lt;/k-form-item&gt;</span><br><span class="line">&lt;k-form-item label=&quot;确认密码&quot; prop=&quot;password&quot;&gt;</span><br><span class="line">&lt;k-input type=&quot;password&quot; v-model=&quot;model.password&quot;&gt;&lt;/k-input&gt;</span><br><span class="line">&lt;/k-form-item&gt; &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>实现<strong>KForm</strong></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;!-- 容器：存放所有表单项 --&gt;</span><br><span class="line">    &lt;!-- 存储值载体：保存大家数据和校验规则 --&gt;</span><br><span class="line">    &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// 我们平时写的组件是一个组件配置对象</span><br><span class="line">export default &#123;</span><br><span class="line">  provide() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      // 直接把当前组件实例传递下去</span><br><span class="line">      // 传递下去的对象是响应式的则还可以响应式</span><br><span class="line">      form: this</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    // 数据模型</span><br><span class="line">    model: &#123;</span><br><span class="line">      type: Object,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    rules: Object</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    validate(cb) &#123;</span><br><span class="line">      // 遍历肚子里面的所有FormItem，执行他们的validate方法</span><br><span class="line">      // 全部通过才算通过</span><br><span class="line">      // tasks是校验结果的Promise组成的数组</span><br><span class="line">      const tasks = this.$children</span><br><span class="line">        .filter(item =&gt; item.prop)</span><br><span class="line">        .map(item =&gt; item.validate());</span><br><span class="line">      // 统一判断</span><br><span class="line">      Promise.all(tasks)</span><br><span class="line">        .then(() =&gt; cb(true))</span><br><span class="line">        .catch(() =&gt; cb(false));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用<strong>KForm</strong></li>
+</ol>
+<p>components&#x2F;form&#x2F;index.vue，添加基础代码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt; template &gt; &lt;div &gt; &lt;h3 &gt; KForm表单 &lt; /h3&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;k-form :model=&quot;model&quot; :rules=&quot;rules&quot; ref=&quot;loginForm&quot;&gt;</span><br><span class="line">...</span><br><span class="line">&lt;/k - form &gt; &lt;/div&gt;</span><br><span class="line">&lt;/template &gt; &lt;script &gt; import KForm from &quot;./KForm&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">        components:</span><br><span class="line">        &#123;</span><br><span class="line">            KForm,</span><br><span class="line">        &#125;,</span><br><span class="line">        data() &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                rules: &#123;</span><br><span class="line">                    username: [&#123;</span><br><span class="line">                        required: true,</span><br><span class="line">                        message: &quot;请输入用户名&quot;</span><br><span class="line">                    &#125;],</span><br><span class="line">                    password: [&#123;</span><br><span class="line">                        required: true,</span><br><span class="line">                        message: &quot;请输入密码&quot;</span><br><span class="line">                    &#125;]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            submitForm() &#123;</span><br><span class="line">                this.$refs[&#x27;loginForm&#x27;].validate(valid = &gt;&#123;</span><br><span class="line">                    if (valid) &#123;</span><br><span class="line">                        alert(&quot;请求登录!&quot;);</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        alert(&quot;校验失败!&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;; &lt; /script&gt;/</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>数据校验</li>
+</ol>
+<p>Input通知校验</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">onInput(e) &#123; // ...</span><br><span class="line">    // $parent指FormItem</span><br><span class="line">    this.$parent.$emit(&#x27;validate&#x27;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>FormItem监听校验通知，获取规则并执行校验</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">inject: [&#x27;form&#x27;],</span><br><span class="line">// 注入 mounted()&#123;// 监听校验事件</span><br><span class="line">this.$on(&#x27;validate&#x27;, () = &gt;&#123;</span><br><span class="line">    this.validate()</span><br><span class="line">&#125;)</span><br><span class="line">&#125;,</span><br><span class="line">methods: &#123;</span><br><span class="line">    validate() &#123;</span><br><span class="line">        // 获取对应FormItem校验规则 console.log(this.form.rules[this.prop]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">import Schema from &quot;async-validator&quot;;</span><br><span class="line"></span><br><span class="line">validate() &#123;</span><br><span class="line">    // 获取对应FormItem校验规则</span><br><span class="line">    const rules = this.form.rules[this.prop];</span><br><span class="line">    // 获取校验值</span><br><span class="line">    const value = this.form.model[this.prop];</span><br><span class="line">    // 校验</span><br><span class="line">    const schema = new Schema(descriptor);</span><br><span class="line">    // 返回Promise，没有触发catch就说明验证通过</span><br><span class="line">    return schema.validate(&#123; [this.prop] : value</span><br><span class="line">    &#125;,</span><br><span class="line">    errors = &gt;&#123;</span><br><span class="line">        if (errors) &#123;</span><br><span class="line">            // 将错误信息显示</span><br><span class="line">            this.error = errors[0].message;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 校验通过 this.error = &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>表单全局验证，为<code>Form</code>提供<code>validate</code>方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">validate(cb) &#123;</span><br><span class="line">    // 调用所有含有prop属性的子组件的validate方法并得到Promise数组 const tasks = this.$children</span><br><span class="line">    .filter(item = &gt;item.prop).map(item = &gt;item.validate());</span><br><span class="line">    // 所有任务必须全部成功才算校验通过，任一失败则校验失败</span><br><span class="line">    Promise.all(tasks).then(() = &gt;cb(true)).catch(() = &gt;cb(false))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现弹窗组件"><a href="#实现弹窗组件" class="headerlink" title="实现弹窗组件"></a>实现弹窗组件</h3><blockquote>
+<p>弹窗这类组件的特点是它们在当前<strong>vue</strong>实例之外独立存在，通常挂载于body;它们是通过JS动态创建的，不需要在任何组件中声明。常⻅使用姿势</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">this.$create(Notice, &#123;</span><br><span class="line">    title: &#x27;喊你来搬砖&#x27;,</span><br><span class="line">    message: &#x27;提示信息&#x27;,</span><br><span class="line">    duration: 1000</span><br><span class="line">&#125;).show();</span><br></pre></td></tr></table></figure>
+
+<p>create函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &quot;vue&quot;;</span><br><span class="line">// 创建函数接收要创建组件定义</span><br><span class="line">function create(Component, props) &#123;</span><br><span class="line">    // 创建一个Vue新实例 const vm = new Vue(&#123;</span><br><span class="line">    render(h) &#123;</span><br><span class="line">        // render函数将传入组件配置对象转换为虚拟dom console.log(h(Component, &#123; props &#125;)); return h(Component, &#123; props &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).$mount(); //执行挂载函数，但未指定挂载目标，表示只执行初始化工作</span><br><span class="line"></span><br><span class="line">  // 将生成dom元素追加至</span><br><span class="line">  body document.body.appendChild(vm.$el);</span><br><span class="line"></span><br><span class="line">  // 给组件实例添加销毁方法</span><br><span class="line">  const comp = vm.$children[0];</span><br><span class="line">  comp.remove = () = &gt;&#123;</span><br><span class="line">      document.body.removeChild(vm.$el);</span><br><span class="line">      vm.$destroy();</span><br><span class="line">  &#125;;</span><br><span class="line">  return comp;</span><br><span class="line">&#125;</span><br><span class="line">// 暴露调用接口</span><br><span class="line">export default create</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>另一种创建组件实例的方式: <code>Vue.extend(Component)</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const Ctor = Vue.extend(Component) </span><br><span class="line">const comp = new Ctor(&#123;</span><br><span class="line">    propsData: props</span><br><span class="line">&#125;) </span><br><span class="line">comp.$mount();</span><br><span class="line"></span><br><span class="line">document.body.appendChild(comp.$el) </span><br><span class="line"></span><br><span class="line">comp.remove = () = &gt;&#123;</span><br><span class="line">    // 移除dom document.body.removeChild(comp.$el) // 销毁组件</span><br><span class="line">    comp.$destroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通知组件"><a href="#通知组件" class="headerlink" title="通知组件"></a>通知组件</h3><p>建通知组件，Notice.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;box&quot; v-if=&quot;isShow&quot;&gt;</span><br><span class="line">    &lt;h3&gt;&#123;&#123;title&#125;&#125;&lt;/h3&gt;</span><br><span class="line">    &lt;p class=&quot;box-content&quot;&gt;&#123;&#123;message&#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    title: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &quot;&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    message: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      default: &quot;&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    duration: &#123;</span><br><span class="line">      type: Number,</span><br><span class="line">      default: 2000</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isShow: false</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    show() &#123;</span><br><span class="line">      this.isShow = true;</span><br><span class="line">      setTimeout(this.hide, this.duration);</span><br><span class="line">    &#125;,</span><br><span class="line">    hide() &#123;</span><br><span class="line">      this.isShow = false;</span><br><span class="line">      this.remove();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">.box &#123;</span><br><span class="line">  position: fixed;</span><br><span class="line">  width: 100%;</span><br><span class="line">  top: 16px;</span><br><span class="line">  left: 0;</span><br><span class="line">  text-align: center;</span><br><span class="line">  pointer-events: none;</span><br><span class="line">  background-color: #fff;</span><br><span class="line">  border: grey 3px solid;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">&#125;</span><br><span class="line">.box-content &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  margin: 10px auto;</span><br><span class="line">  font-size: 14px;  </span><br><span class="line">  padding: 8px 16px;</span><br><span class="line">  background: #fff;</span><br><span class="line">  border-radius: 3px;</span><br><span class="line">  margin-bottom: 8px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用插件进一步封装便于使用，<code>create.js</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import Notice from &#x27;@/components/Notice.vue&#x27; //...</span><br><span class="line">export default &#123;</span><br><span class="line">  install(Vue) &#123;</span><br><span class="line">      Vue.prototype.$notice = function(options) &#123;</span><br><span class="line">          return create(Notice, options)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/11/Vue/vue-%E7%BB%84%E4%BB%B6%E5%8C%96/" data-id="cl7icg7df011nugundxwe575y" data-title="vue-组件化" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-webpack/webpack多页面应用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2020/11/09/webpack/webpack%E5%A4%9A%E9%A1%B5%E9%9D%A2%E5%BA%94%E7%94%A8/" class="article-date">
@@ -979,14 +1492,14 @@ var Music = new Audio("test.mp3");
 
 
   
-    <article id="post-webpack/webpack的理解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-Vue/vue-修饰符" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
-  <time class="dt-published" datetime="2020-11-01T02:06:57.000Z" itemprop="datePublished">2020-11-01</time>
+    <a href="/2020/11/02/Vue/vue-%E4%BF%AE%E9%A5%B0%E7%AC%A6/" class="article-date">
+  <time class="dt-published" datetime="2020-11-02T03:15:12.000Z" itemprop="datePublished">2020-11-02</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
+    <a class="article-category-link" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a>
   </div>
 
   </div>
@@ -997,7 +1510,7 @@ var Music = new Audio("test.mp3");
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/">webpack的理解</a>
+      <a class="p-name article-title" href="/2020/11/02/Vue/vue-%E4%BF%AE%E9%A5%B0%E7%AC%A6/">vue-修饰符</a>
     </h1>
   
 
@@ -1005,327 +1518,139 @@ var Music = new Audio("test.mp3");
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p><code>Webpack</code> 最初的目标是实现前端项目的模块化，旨在更高效地管理和维护项目中的每一个资源</p>
-<h4 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h4><p>最早的时候，我们会通过文件划分的形式实现模块化，也就是将每个功能及其相关状态数据各自单独放到不同的<code>JS</code> 文件中</p>
-<p>约定每个文件是一个独立的模块，然后再将这些<code>js</code>文件引入到页面，一个<code>script</code>标签对应一个模块，然后调用模块化的成员</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;module-a.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;module-b.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但这种模块弊端十分的明显，模块都是在全局中工作，大量模块成员污染了环境，模块与模块之间并没有依赖关系、维护困难、没有私有空间等问题</p>
-<p>项目一旦变大，上述问题会尤其明显</p>
-<p>随后，就出现了命名空间方式，规定每个模块只暴露一个全局对象，然后模块的内容都挂载到这个对象中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">moduleA</span> = &#123;</span><br><span class="line">  <span class="attr">method1</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;moduleA#method1&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这种方式也并没有解决第一种方式的依赖等问题</p>
-<p>再后来，我们使用立即执行函数为模块提供私有空间，通过参数的形式作为依赖声明，如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// module-a.js</span></span><br><span class="line">(<span class="keyword">function</span> (<span class="params">$</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">&#x27;module-a&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">method1</span> () &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(name + <span class="string">&#x27;#method1&#x27;</span>)</span><br><span class="line">    $(<span class="string">&#x27;body&#x27;</span>).<span class="title function_">animate</span>(&#123; <span class="attr">margin</span>: <span class="string">&#x27;200px&#x27;</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">window</span>.<span class="property">moduleA</span> = &#123;</span><br><span class="line">    <span class="attr">method1</span>: method1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)(jQuery)</span><br></pre></td></tr></table></figure>
-
-<p>上述的方式都是早期解决模块的方式，但是仍然存在一些没有解决的问题。例如，我们是用过<code>script</code>标签在页面引入这些模块的，这些模块的加载并不受代码的控制，时间一久维护起来也十分的麻烦</p>
-<p>理想的解决方式是，在页面中引入一个<code>JS</code>入口文件，其余用到的模块可以通过代码控制，按需加载进来</p>
-<p>除了模块加载的问题以外，还需要规定模块化的规范，如今流行的则是<code>CommonJS</code>、<code>ES Modules</code></p>
-<h2 id="二、问题"><a href="#二、问题" class="headerlink" title="二、问题"></a>二、问题</h2><p>从后端渲染的<code>JSP</code>、<code>PHP</code>，到前端原生<code>JavaScript</code>，再到<code>jQuery</code>开发，再到目前的三大框架<code>Vue</code>、<code>React</code>、<code>Angular</code></p>
-<p>开发方式，也从<code>javascript</code>到后面的<code>es5</code>、<code>es6、7、8、9、10</code>，再到<code>typescript</code>，包括编写<code>CSS</code>的预处理器<code>less</code>、<code>scss</code>等</p>
-<p>现代前端开发已经变得十分的复杂，所以我们开发过程中会遇到如下的问题：</p>
+        <h2 id="一、修饰符是什么"><a href="#一、修饰符是什么" class="headerlink" title="一、修饰符是什么"></a>一、修饰符是什么</h2><p>在程序世界里，修饰符是用于限定类型以及类型成员的声明的一种符号</p>
+<p>在<code>Vue</code>中，修饰符处理了许多<code>DOM</code>事件的细节，让我们不再需要花大量的时间去处理这些烦恼的事情，而能有更多的精力专注于程序的逻辑处理</p>
+<p><code>vue</code>中修饰符分为以下五种：</p>
 <ul>
-<li>需要通过模块化的方式来开发</li>
-<li>使用一些高级的特性来加快我们的开发效率或者安全性，比如通过ES6+、TypeScript开发脚本逻辑，通过sass、less等方式来编写css样式代码</li>
-<li>监听文件的变化来并且反映到浏览器上，提高开发的效率</li>
-<li>JavaScript 代码需要模块化，HTML 和 CSS 这些资源文件也会面临需要被模块化的问题</li>
-<li>开发完成后我们还需要将代码进行压缩、合并以及其他相关的优化</li>
+<li>表单修饰符</li>
+<li>事件修饰符</li>
+<li>鼠标按键修饰符</li>
+<li>键值修饰符</li>
+<li>v-bind修饰符</li>
 </ul>
-<p>而<code>webpack</code>恰巧可以解决以上问题</p>
-<h2 id="三、是什么"><a href="#三、是什么" class="headerlink" title="三、是什么"></a>三、是什么</h2><p><code>webpack</code> 是一个用于现代<code>JavaScript</code>应用程序的静态模块打包工具</p>
+<h2 id="二、修饰符的作用"><a href="#二、修饰符的作用" class="headerlink" title="二、修饰符的作用"></a>二、修饰符的作用</h2><h3 id="表单修饰符"><a href="#表单修饰符" class="headerlink" title="表单修饰符"></a>表单修饰符</h3><p>在我们填写表单的时候用得最多的是<code>input</code>标签，指令用得最多的是<code>v-model</code></p>
+<p>关于表单的修饰符有如下：</p>
 <ul>
-<li>静态模块</li>
+<li>lazy</li>
+<li>trim</li>
+<li>number</li>
 </ul>
-<p>这里的静态模块指的是开发阶段，可以被 <code>webpack</code> 直接引用的资源（可以直接被获取打包进<code>bundle.js</code>的资源）</p>
-<p>当 <code>webpack</code>处理应用程序时，它会在内部构建一个依赖图，此依赖图对应映射到项目所需的每个模块（不再局限<code>js</code>文件），并生成一个或多个 <code>bundle</code></p>
-<p><img src="https://static.vue-js.com/9ce194a0-a578-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<h4 id="webpack的能力："><a href="#webpack的能力：" class="headerlink" title="webpack的能力："></a><code>webpack</code>的能力：</h4><p><strong>编译代码能力</strong>，提高效率，解决浏览器兼容问题 <img src="https://static.vue-js.com/c5c2d360-a592-11eb-ab90-d9ae814b240d.png" alt="img"><strong>模块整合能力</strong>，提高性能，可维护性，解决浏览器频繁请求文件的问题 <img src="https://static.vue-js.com/d306d260-a592-11eb-ab90-d9ae814b240d.png" alt="img"><strong>万物皆可模块能力</strong>，项目维护性增强，支持不同种类的前端模块类型，统一的模块化方案，所有资源文件的加载都可以通过代码控制 <img src="https://static.vue-js.com/e3c5a040-a592-11eb-ab90-d9ae814b240d.png" alt="img"></p>
+<h4 id="lazy"><a href="#lazy" class="headerlink" title="lazy"></a>lazy</h4><p>在我们填完信息，光标离开标签的时候，才会将值赋予给<code>value</code>，也就是在<code>change</code>事件之后再进行信息同步</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">&quot;text&quot;</span> v-model.<span class="property">lazy</span>=<span class="string">&quot;value&quot;</span>&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123;value&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/11/01/webpack/webpack%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="cl7icg7aa00vuugun0f2k9soq" data-title="webpack的理解" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
+<h4 id="trim"><a href="#trim" class="headerlink" title="trim"></a>trim</h4><p>自动过滤用户输入的首空格字符，而中间的空格不会过滤</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">&quot;text&quot;</span> v-model.<span class="property">trim</span>=<span class="string">&quot;value&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
 
 
 
-  
-    <article id="post-webpack/webpack创建library" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/" class="article-date">
-  <time class="dt-published" datetime="2020-10-31T06:21:26.000Z" itemprop="datePublished">2020-10-31</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
+<h4 id="number"><a href="#number" class="headerlink" title="number"></a>number</h4><p>自动将用户的输入值转为数值类型，但如果这个值无法被<code>parseFloat</code>解析，则会返回原来的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input v-model.<span class="property">number</span>=<span class="string">&quot;age&quot;</span> type=<span class="string">&quot;number&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/">webpack创建library</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>除了打包应用程序，webpack 还可以用于打包 JavaScript library。<br>例如：当我们想要自己开发一个组件库工具或者框架的时候也就是说我们自己造一个轮子给别人用的时候我们免不了要开发很多的模块，最终都可以请webpack来帮我们打包。</p>
-<p><strong>创建一个 library</strong><br>假设我们正在编写一个名为 webpack-numbers 的小的 library，可以将数字 1 到 5转换为文本表示，反之亦然，例如将 2 转换为 ‘two’。<br>使用 npm 初始化项目，然后安装 webpack ， webpack-cli 和 lodash ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli lodash -D</span><br></pre></td></tr></table></figure>
-<p>我们将 lodash 安装为 devDependencies 而不是 dependencies ，因为我们不需要将其打包到我们的库中，否则我们的库体积很容易变大。</p>
-<p>src&#x2F;ref.json</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 1,</span><br><span class="line">  &quot;word&quot;: &quot;One&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 2,</span><br><span class="line">  &quot;word&quot;: &quot;Two&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 3,</span><br><span class="line">  &quot;word&quot;: &quot;Three&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 4,</span><br><span class="line">  &quot;word&quot;: &quot;Four&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 5,</span><br><span class="line">  &quot;word&quot;: &quot;Five&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;num&quot;: 0,</span><br><span class="line">  &quot;word&quot;: &quot;Zero&quot;</span><br><span class="line">&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>src&#x2F;index.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import _ from &#x27;lodash&#x27;;</span><br><span class="line">import numRef from &#x27;./ref.json&#x27;;</span><br><span class="line">export function numToWord(num) &#123;</span><br><span class="line"> return _.reduce(</span><br><span class="line">  numRef,</span><br><span class="line"> (accum, ref) =&gt; &#123;</span><br><span class="line">   return ref.num === num ? ref.word : accum;</span><br><span class="line"> &#125;,</span><br><span class="line">  &#x27;&#x27;</span><br><span class="line">);</span><br><span class="line">&#125;</span><br><span class="line">export function wordToNum(word) &#123;</span><br><span class="line"> return _.reduce(</span><br><span class="line">  numRef,</span><br><span class="line"> (accum, ref) =&gt; &#123;</span><br><span class="line">   return ref.word === word &amp;&amp; word.toLowerCase() ? ref.num :</span><br><span class="line">accum;</span><br><span class="line"> &#125;,</span><br><span class="line">  -1</span><br><span class="line">);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> mode:&#x27;production&#x27;,</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> output: &#123;</span><br><span class="line">  path: path.resolve(__dirname, &#x27;dist&#x27;),</span><br><span class="line">  filename: &#x27;webpack-numbers.js&#x27;,</span><br><span class="line">  library:&#123;</span><br><span class="line">    name:&#x27;webpackNumbers&#x27;,</span><br><span class="line">	type&#x27;umd&#x27;</span><br><span class="line">  &#125;,</span><br><span class="line">  globalObject:&#x27;globalThis&#x27;</span><br><span class="line">&#125;,</span><br><span class="line"> externals:&#123;</span><br><span class="line"> 	lodash:&#123;   lodash  引入包的名字</span><br><span class="line">		commonjs:&#x27;lodash&#x27;,   //  兼容引入形式</span><br><span class="line">		commonjs2:&#x27;lodash&#x27;,</span><br><span class="line">		amd:&#x27;lodash&#x27;,</span><br><span class="line">		root:&#x27;_&#x27;</span><br><span class="line">	&#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>发布到线上</strong><br>拥有npm账号<br>npm config get registry   &#x2F;&#x2F; 一定要保证本地的registry的地址是<a target="_blank" rel="noopener" href="https://registry.npmjs.org/">https://registry.npmjs.org/</a>    因为这样的话才是真正的连接到npm官网的地址上   有些人可能是淘宝  那么就访问不上去了<br>npm adduser  &#x2F;&#x2F;添加用户   输入用户名密码<br>包的名字必须是全球唯一的。   npm publish    上传时package.json中的main入口必须对应：dist&#x2F;文件名   因为别人通过 require去载入包的时候  会读取 这个main这是的暴露的包的名字<br>npm install 包名就可以下载了</p>
-<p><strong>Webpack 配置</strong></p>
-<p>webpack.config.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output:&#123;</span><br><span class="line">	path:&#x27;&#x27;,</span><br><span class="line">	filname:&#x27;&#x27;,</span><br><span class="line">	library:&#x27;&#x27;,    //我们只是定义了导出 并且没有使用它  所以webpack认为这个代码是没有用的。   如何让他作为一个library来进行一个对外的打包   让代码不被 Webpack Tree shaking   配置 library:&#x27;包的名字&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>到目前为止，一切都应该与打包应用程序一样，这里是不同的部分 - 我们需要通过output.library 配置项暴露从入口导出的内容。<br>我们暴露了 webpackNumbers ，以便用户可以通过 script 标签使用。	</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://example.org/webpack-numbers.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line"> window.webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p>然而它只能通过被 script 标签引用而发挥作用，它不能运行在 CommonJS、AMD、Node.js 等环境中。<br>作为一个库作者，我们希望它能够兼容不同的环境，也就是说，用户应该能够通过以下方式使用打包后的库：<br>CommonJS module require:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const webpackNumbers = require(&#x27;webpack-numbers&#x27;);</span><br><span class="line">// ...</span><br><span class="line">webpackNumbers.wordToNum(&#x27;Two&#x27;);</span><br></pre></td></tr></table></figure>
-<p>AMD module require:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">require([&#x27;webpackNumbers&#x27;], function (webpackNumbers) &#123;</span><br><span class="line"> // ...</span><br><span class="line"> webpackNumbers.wordToNum(&#x27;Two&#x27;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>script tag:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">...</span><br><span class="line"> &lt;script src=&quot;https://example.org/webpack-numbers.js&quot;&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"> &lt;script&gt;</span><br><span class="line">  // ...</span><br><span class="line">  // Global variable</span><br><span class="line">  webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">  // Property in the window object</span><br><span class="line">  window.webpackNumbers.wordToNum(&#x27;Five&#x27;);</span><br><span class="line">  // ...</span><br><span class="line"> &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>我们更新 output.library 配置项，将其 type 设置为 ‘umd’ ：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&#x27;path&#x27;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> entry: &#x27;./src/index.js&#x27;,</span><br><span class="line"> output: &#123;</span><br><span class="line">  path: path.resolve(__dirname, &#x27;dist&#x27;),</span><br><span class="line">  filename: &#x27;webpack-numbers.js&#x27;,</span><br><span class="line">  library: &#123;</span><br><span class="line">   name: &#x27;webpackNumbers&#x27;,</span><br><span class="line">   type: &#x27;umd&#x27;,   //  window&#x27;(es module)   &#x27;commonjs&#x27;   &#x27;module&#x27; 它在experiments:&#123;outputModule:true&#125;才能使用，他是一个实验性的功能，就不需要这个name了。&lt;script type=&quot;module&quot;&gt;    &#x27;umd&#x27;支持所有的类型。  esmodule 有问题</span><br><span class="line">  &#125;,</span><br><span class="line">  globalObject:&#x27;globalThis&#x27;    //需要全局的this来去  代替self   否则浏览器会self  undefined报错</span><br><span class="line"> &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>现在 webpack 将打包一个库，其可以与 CommonJS、AMD 以及 script 标签使用</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/31/webpack/webpack%E5%88%9B%E5%BB%BAlibrary/" data-id="cl7icg7a400vcugun8wvi8ivl" data-title="webpack创建library" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpack-proxy工作原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
-  <time class="dt-published" datetime="2020-10-26T01:57:46.000Z" itemprop="datePublished">2020-10-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">webpack proxy工作原理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="一、是什么"><a href="#一、是什么" class="headerlink" title="一、是什么"></a>一、是什么</h2><p><code>webpack proxy</code>，即<code>webpack</code>提供的代理服务</p>
-<p>基本行为就是接收客户端发送的请求后转发给其他服务器</p>
-<p>其目的是为了便于开发者在开发模式下解决跨域问题（浏览器安全策略限制）</p>
-<p>想要实现代理首先需要一个中间服务器，<code>webpack</code>中提供服务器的工具为<code>webpack-dev-server</code></p>
-<h4 id="webpack-dev-server"><a href="#webpack-dev-server" class="headerlink" title="webpack-dev-server"></a>webpack-dev-server</h4><p><code>webpack-dev-server</code>是 <code>webpack</code> 官方推出的一款开发工具，将自动编译和自动刷新浏览器等一系列对开发友好的功能全部集成在了一起</p>
-<p>目的是为了提高开发者日常的开发效率，<strong>只适用在开发阶段</strong></p>
-<p>关于配置方面，在<code>webpack</code>配置对象属性中通过<code>devServer</code>属性提供，如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">devServer</span>: &#123;</span><br><span class="line">        <span class="attr">contentBase</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">        <span class="attr">compress</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">port</span>: <span class="number">9000</span>,</span><br><span class="line">        <span class="attr">proxy</span>: &#123;</span><br><span class="line">            <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">                <span class="attr">target</span>: <span class="string">&#x27;https://api.github.com&#x27;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>devServetr</code>里面<code>proxy</code>则是关于代理的配置，该属性为对象的形式，对象中每一个属性就是一个代理的规则匹配</p>
-<p>属性的名称是需要被代理的请求路径前缀，一般为了辨别都会设置前缀为<code>/api</code>，值为对应的代理匹配规则，对应如下：</p>
+<h3 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h3><p>事件修饰符是对事件捕获以及目标进行了处理，有如下修饰符：</p>
 <ul>
-<li>target：表示的是代理到的目标地址</li>
-<li>pathRewrite：默认情况下，我们的 &#x2F;api-hy 也会被写入到URL中，如果希望删除，可以使用pathRewrite</li>
-<li>secure：默认情况下不接收转发到https的服务器上，如果希望支持，可以设置为false</li>
-<li>changeOrigin：它表示是否更新代理后请求的 headers 中host地址</li>
+<li>stop</li>
+<li>prevent</li>
+<li>self</li>
+<li>once</li>
+<li>capture</li>
+<li>passive</li>
+<li>native</li>
 </ul>
-<h2 id="二、工作原理"><a href="#二、工作原理" class="headerlink" title="二、工作原理"></a>二、工作原理</h2><p><code>proxy</code>工作原理实质上是利用<code>http-proxy-middleware</code> 这个<code>http</code>代理中间件，实现请求转发给其他服务器</p>
-<p>举个例子：</p>
-<p>在开发阶段，本地地址为<code>http://localhost:3000</code>，该浏览器发送一个前缀带有<code>/api</code>标识的请求到服务端获取数据，但响应这个请求的服务器只是将请求转发到另一台服务器中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="built_in">require</span>(<span class="string">&#x27;http-proxy-middleware&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="string">&#x27;/api&#x27;</span>, <span class="title function_">proxy</span>(&#123;<span class="attr">target</span>: <span class="string">&#x27;http://www.example.org&#x27;</span>, <span class="attr">changeOrigin</span>: <span class="literal">true</span>&#125;));</span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://localhost:3000/api/foo/bar -&gt; http://www.example.org/api/foo/bar</span></span><br></pre></td></tr></table></figure>
+<h4 id="stop"><a href="#stop" class="headerlink" title="stop"></a>stop</h4><p>阻止了事件冒泡，相当于调用了<code>event.stopPropagation</code>方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div @click=<span class="string">&quot;shout(2)&quot;</span>&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click.stop</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;</span>ok<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"><span class="comment">//只输出1</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="三、跨域"><a href="#三、跨域" class="headerlink" title="三、跨域"></a>三、跨域</h2><p>在开发阶段， <code>webpack-dev-server</code> 会启动一个本地开发服务器，所以我们的应用在开发阶段是独立运行在 <code>localhost</code>的一个端口上，而后端服务又是运行在另外一个地址上</p>
-<p>所以在开发阶段中，由于浏览器同源策略的原因，当本地访问后端就会出现跨域请求的问题</p>
-<p>通过设置<code>webpack proxy</code>实现代理请求后，相当于浏览器与服务端中添加一个代理者</p>
-<p>当本地发送请求的时候，代理服务器响应该请求，并将请求转发到目标服务器，目标服务器响应数据后再将数据返回给代理服务器，最终再由代理服务器将数据响应给本地</p>
-<p><img src="https://static.vue-js.com/65b5e5c0-ace5-11eb-85f6-6fac77c0c9b3.png" alt="img"></p>
-<p>在代理服务器传递数据给本地浏览器的过程中，两者同源，并不存在跨域行为，这时候浏览器就能正常接收数据</p>
-<p>注意：<strong>服务器与服务器之间请求数据并不会存在跨域行为，跨域行为是浏览器安全策略限制</strong></p>
+<h4 id="prevent"><a href="#prevent" class="headerlink" title="prevent"></a>prevent</h4><p>阻止了事件的默认行为，相当于调用了<code>event.preventDefault</code>方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form v-<span class="attr">on</span>:submit.<span class="property">prevent</span>=<span class="string">&quot;onSubmit&quot;</span>&gt;&lt;/form&gt;</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/26/webpack/webpack-proxy%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" data-id="cl7icg7a100v0ugun8kde8asd" data-title="webpack proxy工作原理" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-webpack/webpackdll预编译提高webpack打包速度" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" class="article-date">
-  <time class="dt-published" datetime="2020-10-21T03:49:18.000Z" itemprop="datePublished">2020-10-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/">webpackdll预编译提高webpack打包速度</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>博客链接 <a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/11/23/webpack-dll">http://blog.poetries.top/2018/11/23/webpack-dll</a></p>
-</blockquote>
-<h2 id="一、webpack的dll功能"><a href="#一、webpack的dll功能" class="headerlink" title="一、webpack的dll功能"></a>一、webpack的dll功能</h2><blockquote>
-<p>基于<code>webpack3</code>构建</p>
-</blockquote>
-<h3 id="1-1-dll介绍"><a href="#1-1-dll介绍" class="headerlink" title="1.1 dll介绍"></a>1.1 dll介绍</h3><blockquote>
-<p>我们构建前端项目的时候，往往希望第三方库（<code>vendors</code>）和自己写的代码可以分开打包，因为第三方库往往不需要经常打包更新。对此<code>Webpack</code>的文档建议用<code>CommonsChunkPlugin</code>来单独打包第三方库</p>
-</blockquote>
-<ul>
-<li>我们这里的<code>dll.js</code> 是提前打包好了的，而不是在每次<code>build</code>的时候去打包输出的；这样才能做到依赖包一次构建，无限次使用</li>
-<li><code>webpack</code>输出的文件名都带有<code>hash</code>值； 而用<code>dll</code>构建后输出的文件名是固定的</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">  vendor: [&quot;jquery&quot;, &quot;other-lib&quot;],</span><br><span class="line">  app: &quot;./entry&quot;</span><br><span class="line">&#125;</span><br><span class="line">new CommonsChunkPlugin(&#123;</span><br><span class="line">  name: &quot;vendor&quot;,</span><br><span class="line"></span><br><span class="line">  // filename: &quot;vendor.js&quot;</span><br><span class="line">  // (Give the chunk a different name)</span><br><span class="line"></span><br><span class="line">  minChunks: Infinity,</span><br><span class="line">  // (with more entries, this ensures that no other module</span><br><span class="line">  //  goes into the vendor chunk)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="self"><a href="#self" class="headerlink" title="self"></a>self</h4><p>只当在 <code>event.target</code> 是当前元素自身时触发处理函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-<span class="attr">on</span>:click.<span class="property">self</span>=<span class="string">&quot;doThat&quot;</span>&gt;...&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>通常为了对抗缓存，我们会给售出文件的文件名中加入<code>hash</code>的后缀——但是——我们编辑了<code>app</code>部分的代码后，重新打包，发现<code>vendor</code>的<code>hash</code>也变化了</p>
+<p>使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 <code>v-on:click.prevent.self</code>会阻止<strong>所有的点击</strong>，而 <code>v-on:click.self.prevent</code> 只会阻止对元素自身的点击</p>
 </blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/639.png" alt="img"></p>
-<blockquote>
-<p>这么一来，意味着每次发布版本的时候，vendor代码都要刷新，即使我并没有修改其中的代码。这样并不符合我们分开打包的初衷</p>
-</blockquote>
-<ul>
-<li><code>Dll</code>是<code>Webpack</code>最近新加的功能</li>
-<li><code>Dll</code>这个概念应该是借鉴了<code>Windows</code>系统的<code>dll</code>。一个<code>dll</code>包，就是一个纯纯的依赖库，它本身不能运行，是用来给你的<code>app</code>引用的</li>
-<li>打包<code>dll</code>的时候，<code>Webpack</code>会将所有包含的库做一个索引，写在一个<code>manifest</code>文件中，而引用<code>dll</code>的代码（<code>dll user</code>）在打包的时候，只需要读取这个<code>manifest</code>文件，就可以了。</li>
-</ul>
-<p><strong>优势</strong></p>
-<ul>
-<li><code>Dll</code>打包以后是独立存在的，只要其包含的库没有增减、升级，<code>hash</code>也不会变化，因此线上的<code>dll</code>代码不需要随着版本发布频繁更新</li>
-<li><code>App</code>部分代码修改后，只需要编译<code>app</code>部分的代码，<code>dll</code>部分，只要包含的库没有增减、升级，就不需要重新打包。这样也大大提高了每次编译的速度</li>
-<li>假设你有多个项目，使用了相同的一些依赖库，它们就可以共用一个<code>dll</code></li>
-</ul>
-<h3 id="1-2-dll使用"><a href="#1-2-dll使用" class="headerlink" title="1.2 dll使用"></a>1.2 dll使用</h3><blockquote>
-<p>首先要先建立一个<code>dll</code>的配置文件，<code>entry</code>只包含第三方库</p>
-</blockquote>
-<p><strong>第一步：新建webpack.dll.conf.js</strong></p>
-<ul>
-<li><code>webpack.DllPlugin</code>的选项中，<code>path</code>是<code>manifest</code>文件的输出路径；<code>name</code>是<code>dll</code>暴露的对象名，要跟<code>output.library</code>保持一致</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.dll.conf.js</span><br><span class="line"></span><br><span class="line">const path = require(&#x27;path&#x27;)</span><br><span class="line">const webpack = require(&#x27;webpack&#x27;)</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    // 把这些资源打包成dll，提高编译速度</span><br><span class="line">    react: [&#x27;react&#x27;,&#x27;react-router-dom&#x27;,&#x27;redux&#x27;,&#x27;redux-immutable&#x27;,&#x27;immutable&#x27;,&#x27;react-redux&#x27;,&#x27;react-router&#x27;,&#x27;redux-logger&#x27;,&#x27;redux-thunk&#x27;,&#x27;styled-components&#x27;],</span><br><span class="line">    ui: [&#x27;antd-mobile&#x27;,&#x27;antd&#x27;],</span><br><span class="line">    others: [&#x27;react-icons&#x27;,&#x27;axios&#x27;,&#x27;clipboard&#x27;,&#x27;humps&#x27;,&#x27;lodash&#x27;,&#x27;md5&#x27;,&#x27;moment&#x27;,&#x27;normalizr&#x27;]</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, &quot;../dist/static/js&quot;),</span><br><span class="line">    filename: `[name].dll.js`,</span><br><span class="line">    library: &#x27;[name]_library&#x27;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line"> ...Object.keys([&#x27;react&#x27;,&#x27;ui&#x27;,&#x27;others&#x27;]).map(name =&gt; &#123;</span><br><span class="line">      return new webpack.DllReferencePlugin(&#123;</span><br><span class="line">        context: &#x27;.&#x27;,</span><br><span class="line">        manifest: require(`../static/$&#123;name&#125;.manifest.json`),</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.optimize.UglifyJsPlugin()</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="once"><a href="#once" class="headerlink" title="once"></a>once</h4><p>绑定了事件以后只能触发一次，第二次就不会触发</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button @click.<span class="property">once</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;ok&lt;/button&gt;</span><br></pre></td></tr></table></figure>
 
-<p><strong>第二步：加一个命令</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;dll&quot;: &quot;webpack --config config/webpack.dll.conf.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="capture"><a href="#capture" class="headerlink" title="capture"></a>capture</h4><p>使事件触发从包含这个元素的顶层开始往下触发</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div @click.<span class="property">capture</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;</span><br><span class="line">    obj1</span><br><span class="line">&lt;div @click.<span class="property">capture</span>=<span class="string">&quot;shout(2)&quot;</span>&gt;</span><br><span class="line">    obj2</span><br><span class="line">&lt;div @click=<span class="string">&quot;shout(3)&quot;</span>&gt;</span><br><span class="line">    obj3</span><br><span class="line">&lt;div @click=<span class="string">&quot;shout(4)&quot;</span>&gt;</span><br><span class="line">    obj4</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"><span class="comment">// 输出结构: 1 2 4 3 </span></span><br></pre></td></tr></table></figure>
+
+<h4 id="passive"><a href="#passive" class="headerlink" title="passive"></a>passive</h4><p>在移动端，当我们在监听元素滚动事件的时候，会一直触发<code>onscroll</code>事件会让我们的网页变卡，因此我们使用这个修饰符的时候，相当于给<code>onscroll</code>事件整了一个<code>.lazy</code>修饰符</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 --&gt;</span><br><span class="line">&lt;!-- 而不会等待 <span class="string">`onScroll`</span> 完成  --&gt;</span><br><span class="line">&lt;!-- 这其中包含 <span class="string">`event.preventDefault()`</span> 的情况 --&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:scroll.passive</span>=<span class="string">&quot;onScroll&quot;</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>执行<code>npm run dll</code></p>
+<p>不要把 <code>.passive</code> 和 <code>.prevent</code> 一起使用,因为 <code>.prevent</code> 将会被忽略，同时浏览器可能会向你展示一个警告。</p>
+<p><code>passive</code> 会告诉浏览器你不想阻止事件的默认行为</p>
 </blockquote>
+<h4 id="native"><a href="#native" class="headerlink" title="native"></a>native</h4><p>让组件变成像<code>html</code>内置标签那样监听根元素的原生事件，否则组件上使用 <code>v-on</code> 只会监听自定义事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-component v-<span class="attr">on</span>:click.<span class="property">native</span>=<span class="string">&quot;doSomething&quot;</span>&gt;&lt;/my-component&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用.native修饰符来操作普通HTML标签是会令事件失效的</p>
+</blockquote>
+<h3 id="鼠标按钮修饰符"><a href="#鼠标按钮修饰符" class="headerlink" title="鼠标按钮修饰符"></a>鼠标按钮修饰符</h3><p>鼠标按钮修饰符针对的就是左键、右键、中键点击，有如下：</p>
 <ul>
-<li>运行<code>Webpack</code>，会输出两个文件一个是打包好的<code>vendor.js</code>，一个就是<code>manifest.json</code>，长这样</li>
+<li>left 左键点击</li>
+<li>right 右键点击</li>
+<li>middle 中键点击</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;vendor_ac51ba426d4f259b8b18&quot;,</span><br><span class="line">  &quot;content&quot;: &#123;</span><br><span class="line">    &quot;./node_modules/antd/dist/antd.js&quot;: 1,</span><br><span class="line">    &quot;./node_modules/react/react.js&quot;: 2,</span><br><span class="line">    &quot;./node_modules/react/lib/React.js&quot;: 3,</span><br><span class="line">    &quot;./node_modules/react/node_modules/object-assign/index.js&quot;: 4,</span><br><span class="line">    &quot;./node_modules/react/lib/ReactChildren.js&quot;: 5,</span><br><span class="line">    &quot;./node_modules/react/lib/PooledClass.js&quot;: 6,</span><br><span class="line">    &quot;./node_modules/react/lib/reactProdInvariant.js&quot;: 7,</span><br><span class="line">    &quot;./node_modules/fbjs/lib/invariant.js&quot;: 8,</span><br><span class="line">    &quot;./node_modules/react/lib/ReactElement.js&quot;: 9,</span><br><span class="line">    </span><br><span class="line">    ............</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;button @click.<span class="property">left</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;ok&lt;/button&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click.right</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;</span>ok<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click.middle</span>=<span class="string">&quot;shout(1)&quot;</span>&gt;</span>ok<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p><code>Webpack</code>将每个库都进行了编号索引，之后的<code>dll user</code>可以读取这个文件，直接用<code>id</code>来引用</p>
-</blockquote>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/640.png" alt="img"></p>
-<p><strong>第三步： 在plugins中增加配置</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.prod.conf.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">   plugins: [</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/react-manifest.json&#x27;)</span><br><span class="line">        &#125;),</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/ui-manifest.json&#x27;)</span><br><span class="line">        &#125;),</span><br><span class="line">        new webpack.DllReferencePlugin(&#123;</span><br><span class="line">          manifest: require(&#x27;../dll/others-manifest.json&#x27;)</span><br><span class="line">        &#125;)</span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>再次执行<code>npm run build</code></p>
-</blockquote>
-<p>之前<br><img src="https://poetries1.gitee.io/img-repo/2019/10/641.png" alt="img"></p>
-<p>之后<br><img src="https://poetries1.gitee.io/img-repo/2019/10/642.png" alt="img"></p>
-<h2 id="二、happypack-多线程打包"><a href="#二、happypack-多线程打包" class="headerlink" title="二、happypack 多线程打包"></a>二、happypack 多线程打包</h2><blockquote>
-<p>一般情况下，js是单线程执行的，但<code>node</code>不是。利用<code>node</code>提供的多线程环境，<code>happypack</code>是可以多线程打包的。基本上打开官网看了一下readme就可以配置了，特别是我只针对js的编译进行优化，配置还是比较简单的。</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/happypack">https://www.npmjs.com/package/happypack</a></p>
+<h3 id="键盘修饰符"><a href="#键盘修饰符" class="headerlink" title="键盘修饰符"></a>键盘修饰符</h3><p>键盘修饰符是用来修饰键盘事件（<code>onkeyup</code>，<code>onkeydown</code>）的，有如下：</p>
+<p><code>keyCode</code>存在很多，但<code>vue</code>为我们提供了别名，分为以下两种：</p>
 <ul>
-<li><code>happyPack</code>把所有串行的东西并行处理,使得<code>loader</code>并行处理，较少文件处理时间</li>
+<li>普通键（enter、tab、delete、space、esc、up…）</li>
+<li>系统修饰键（ctrl、alt、meta、shift…）</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// build/webpack.prod.conf.js</span><br><span class="line"></span><br><span class="line">// @file: webpack.config.js</span><br><span class="line">const HappyPack = require(&#x27;happypack&#x27;);</span><br><span class="line"> </span><br><span class="line">exports.module = &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: /.js$/,</span><br><span class="line">      // 1) replace your original list of loaders with &quot;happypack/loader&quot;:</span><br><span class="line">      // loaders: [ &#x27;babel-loader?presets[]=es2015&#x27; ],</span><br><span class="line">      use: &#x27;happypack/loader&#x27;,</span><br><span class="line">      include: [ /* ... */ ],</span><br><span class="line">      exclude: [ /* ... */ ]</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  plugins: [</span><br><span class="line">     // 2) create the plugin:</span><br><span class="line">    new HappyPack(&#123;</span><br><span class="line">        // 3) re-add the loaders you replaced above in #1:</span><br><span class="line">        loaders: [ &#x27;babel-loader?presets[]=es2015&#x27; ]</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 只有按键为keyCode的时候才触发</span></span><br><span class="line">&lt;input type=<span class="string">&quot;text&quot;</span> @keyup.<span class="property">keyCode</span>=<span class="string">&quot;shout()&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
 
-<p>这时的编译时间也减小了一些</p>
-<p><img src="https://poetries1.gitee.io/img-repo/2019/10/643.png" alt="img"></p>
-<blockquote>
-<p>更多详情 <a target="_blank" rel="noopener" href="http://blog.poetries.top/2018/11/21/webpack-review/#6-1-%E5%88%86%E6%9E%90%E6%89%93%E5%8C%85%E7%BB%93%E6%9E%9C">http://blog.poetries.top/2018/11/21/webpack-review/#6-1-%E5%88%86%E6%9E%90%E6%89%93%E5%8C%85%E7%BB%93%E6%9E%9C</a></p>
-</blockquote>
-<h2 id="三、更多参考"><a href="#三、更多参考" class="headerlink" title="三、更多参考"></a>三、更多参考</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://www.jeffjade.com/2017/08/06/124-webpack-packge-optimization-for-volume/">Webpack 打包优化之体积篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jeffjade.com/2017/08/12/125-webpack-package-optimization-for-speed/">Webpack 打包优化之速度篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007104372">预打包Dll，实现webpack音速编译</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5a4f031b518825733e6040c0">利用DllPlugin分割你的第三方库</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/p2227/p2227.github.io/issues/21">提高webpack的打包速度：happypack和dll打包</a></li>
+<p>还可以通过以下方式自定义一些全局的键盘码别名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">keyCodes</span>.<span class="property">f2</span> = <span class="number">113</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="v-bind修饰符"><a href="#v-bind修饰符" class="headerlink" title="v-bind修饰符"></a>v-bind修饰符</h3><p>v-bind修饰符主要是为属性进行操作，用来分别有如下：</p>
+<ul>
+<li>async</li>
+<li>prop</li>
+<li>camel</li>
+</ul>
+<h4 id="async"><a href="#async" class="headerlink" title="async"></a>async</h4><p>能对<code>props</code>进行一个双向绑定</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父组件</span></span><br><span class="line">&lt;comp :myMessage.<span class="property">sync</span>=<span class="string">&quot;bar&quot;</span>&gt;&lt;/comp&gt; </span><br><span class="line"><span class="comment">//子组件</span></span><br><span class="line"><span class="variable language_">this</span>.$emit(<span class="string">&#x27;update:myMessage&#x27;</span>,params);</span><br></pre></td></tr></table></figure>
+
+<p>以上这种方法相当于以下的简写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父亲组件</span></span><br><span class="line">&lt;comp :myMessage=<span class="string">&quot;bar&quot;</span> @<span class="attr">update</span>:myMessage=<span class="string">&quot;func&quot;</span>&gt;&lt;/comp&gt;</span><br><span class="line"><span class="title function_">func</span>(<span class="params">e</span>)&#123;</span><br><span class="line"> <span class="variable language_">this</span>.<span class="property">bar</span> = e;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//子组件js</span></span><br><span class="line"><span class="title function_">func2</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.$emit(<span class="string">&#x27;update:myMessage&#x27;</span>,params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>async</code>需要注意以下两点：</p>
+<ul>
+<li>使用<code>sync</code>的时候，子组件传递的事件名格式必须为<code>update:value</code>，其中<code>value</code>必须与子组件中<code>props</code>中声明的名称完全一致</li>
+<li>注意带有 <code>.sync</code> 修饰符的 <code>v-bind</code> 不能和表达式一起使用</li>
+<li>将 <code>v-bind.sync</code> 用在一个字面量的对象上，例如 <code>v-bind.sync=”&#123; title: doc.title &#125;”</code>，是无法正常工作的</li>
+</ul>
+<h4 id="props"><a href="#props" class="headerlink" title="props"></a>props</h4><p>设置自定义标签属性，避免暴露数据，防止污染HTML结构</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=<span class="string">&quot;uid&quot;</span> title=<span class="string">&quot;title1&quot;</span> value=<span class="string">&quot;1&quot;</span> :index.<span class="property">prop</span>=<span class="string">&quot;index&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="camel"><a href="#camel" class="headerlink" title="camel"></a>camel</h4><p>将命名变为驼峰命名法，如将<code>view-Box</code>属性名转换为 <code>viewBox</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg :viewBox=<span class="string">&quot;viewBox&quot;</span>&gt;&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、应用场景"><a href="#三、应用场景" class="headerlink" title="三、应用场景"></a>三、应用场景</h2><p>根据每一个修饰符的功能，我们可以得到以下修饰符的应用场景：</p>
+<ul>
+<li>.stop：阻止事件冒泡</li>
+<li>.native：绑定原生事件</li>
+<li>.once：事件只执行一次</li>
+<li>.self ：将事件绑定在自身身上，相当于阻止事件冒泡</li>
+<li>.prevent：阻止默认事件</li>
+<li>.caption：用于事件捕获</li>
+<li>.once：只触发一次</li>
+<li>.keyCode：监听特定键盘按下</li>
+<li>.right：右键</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/21/webpack/webpackdll%E9%A2%84%E7%BC%96%E8%AF%91%E6%8F%90%E9%AB%98webpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6/" data-id="cl7icg7a200v6ugun6y3yca0l" data-title="webpackdll预编译提高webpack打包速度" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/11/02/Vue/vue-%E4%BF%AE%E9%A5%B0%E7%AC%A6/" data-id="cl7icg7d1010wugunduug4pws" data-title="vue-修饰符" class="article-share-link">Share</a>
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
 
     </footer>
   </div>
@@ -1379,7 +1704,7 @@ var Music = new Audio("test.mp3");
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
     </div>
   </div>
 
